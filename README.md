@@ -7,7 +7,12 @@ SAS Packages Repository
 - Create a folder for your packages, e.g. under Windows OS family `C:/SAS_PACKAGES` or under Linux/UNIX OS family `/home/<username>/SAS_PACKAGES`.
 - Copy the `loadpackage.sas` file into the packages' folder.
 - Copy the `<packageName>.zip` file into the packages' folder.
-
+- Execute:
+```
+filename packages "<directory/containing/packages/>";
+%include packages(loadpackage.sas);
+%loadPackage(packageName)
+```
 ### The Developer:
 
 Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
