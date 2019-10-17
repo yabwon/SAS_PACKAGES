@@ -33,7 +33,7 @@ data _null_;
   call execute ("options " || strip(option) || ";");
 run;
 
-proc delete data = _last_;
+proc delete data = WORK._last_;
 run;
 
 libname dsSQL LIST;

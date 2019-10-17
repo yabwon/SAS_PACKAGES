@@ -580,7 +580,7 @@ data _null_;
 
   /* delete macros and formats */
   put 'proc sql;';
-  put '  create table _%sysfunc(datetime(), hex16.)_ as';
+  put '  create table WORK._%sysfunc(datetime(), hex16.)_ as';
   put '  select memname, objname, objtype';
   put '  from dictionary.catalogs';
   put '  where ';
@@ -626,14 +626,14 @@ data _null_;
 
   put 'data _null_;';
   put '  do until(last.memname);';
-  put '    set _last_;';
+  put '    set WORK._last_;';
   put '    by objtype memname;';
   put '    if first.memname then call execute("proc catalog cat = work." !! strip(memname) !! " force;");';
   put '    call execute("delete " !! strip(objname) !! " /  et =" !! objtype !! "; run;");';
   put '  end;';
   put '  call execute("quit;");';
   put 'run;';
-  put 'proc delete data = _last_;';
+  put 'proc delete data = WORK._last_;';
   put 'run;';
 
   /* delete the link to the formats catalog */
@@ -757,7 +757,7 @@ data _null_;
   put '  else stop;                                                   ';
   put 'run;                                                           ' /;
 
-  put 'data _%sysfunc(datetime(), hex16.)_;                           ';
+  put 'data WORK._%sysfunc(datetime(), hex16.)_;                      ';
   put 'infile cards4 dlm = "/";                                       ';
   put 'input @;                                                       ';
   put 'if 0 then output;                                              ';
@@ -800,7 +800,7 @@ data _null_;
         'put; put '' *> No help info found. Try %helpPackage(packageName,*) to display all.''; put; stop; ' / 
       'end; ';
   put '  do until(EOFDS);                                                                                                  ';
-  put '    set _last_ end = EOFDS nobs = NOBS;                                                                             ';
+  put '    set WORK._last_ end = EOFDS nobs = NOBS;                                                                        ';
   put '    length memberX $ 1024;                                                                                          ';
   put '    memberX = cats("_",folder,".",file);                                                                            ';
   /* inner datastep in call execute to read each embedaded file */
@@ -827,7 +827,7 @@ data _null_;
   put "run; ";
   
   /* cleanup */
-  put "proc delete data = _last_; ";
+  put "proc delete data = WORK._last_; ";
   put "run; ";
   put 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; ' /;
  

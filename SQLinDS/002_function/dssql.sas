@@ -15,7 +15,7 @@
 /*** HELP END ***/
 
 proc fcmp 
-  inlib  = work.&packageName.fcmp
+  /*inlib  = work.&packageName.fcmp*/
   outlib = work.&packageName.fcmp.package
 ;
   function dsSQL(unique_index_2, query $) $ 41;
