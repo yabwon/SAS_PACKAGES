@@ -17,3 +17,9 @@ filename packages "<directory/containing/packages/>";
 
 Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
 
+### Avaliable packages:
+
+- *SQLinDS*, allows to write SQL queries in the datastep
+- *DFA* (Dynamic Function Arrays), contains FCMP implementation of dynamic array, stac, fifo, ordered stack, and priority queue
+- *dynMacroArray*, set of macros (wrappers for a hash table) emulating dynamic array in the datastep
+- *macroArray*, implementation of an array concept in macrolanguage (e.g. `%array(ABC[17] (1:17), macarray=Y); %do i = 1 %to 17; %put %ABC(&i.); %end;`)
