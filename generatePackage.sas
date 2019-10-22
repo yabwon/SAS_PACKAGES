@@ -80,14 +80,15 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
       input;
     
       select;
-        when(upcase(scan(_INFILE_, 1, ":")) = "PACKAGE")    call symputX("packageName",       scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "VERSION")    call symputX("packageVersion",    scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "AUTHOR")     call symputX("packageAuthor",     scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "MAINTAINER") call symputX("packageMaintainer", scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "TITLE")      call symputX("packageTitle",      scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "ENCODING")   call symputX("packageEncoding",   scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "LICENSE")    call symputX("packageLicense",    scan(_INFILE_, 2, ":"),"L");
-        when(upcase(scan(_INFILE_, 1, ":")) = "REQUIRED")   call symputX("packageRequired",   scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "PACKAGE")     call symputX("packageName",        scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "VERSION")     call symputX("packageVersion",     scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "AUTHOR")      call symputX("packageAuthor",      scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "MAINTAINER")  call symputX("packageMaintainer",  scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "TITLE")       call symputX("packageTitle",       scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "ENCODING")    call symputX("packageEncoding",    scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "LICENSE")     call symputX("packageLicense",     scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "REQUIRED")    call symputX("packageRequired",    scan(_INFILE_, 2, ":"),"L");
+        when(upcase(scan(_INFILE_, 1, ":")) = "REQPACKAGES") call symputX("packageReqPackages", scan(_INFILE_, 2, ":"),"L");
 
         /* stop at the begining of description */
         when(upcase(scan(_INFILE_, 1, ":")) = "DESCRIPTION START") stop;
@@ -149,6 +150,19 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
     %put ERROR- The file is required to create package%str(%')s metadata;
     %abort;
   %end;
+
+/* test if version is a number */
+data _null_;
+  version = input("&packageVersion.", ?? best32.);
+  if not (version > 0) then
+    do;
+      put 'ERROR: Packave version should be a positive NUMBER.';
+      put 'ERROR- Current value is: ' "&packageVersion.";
+      put 'ERROR- Try something small, e.g. 0.1';
+      put;
+      abort;
+    end;
+run;
 
 /* create or replace the ZIP file for package  */
 filename &zipReferrence. ZIP "&filesLocation./%lowcase(&packageName.).zip";
@@ -426,12 +440,18 @@ data _null_;
   isFunction = 0;
   isFormat   = 0;
 
-  %if %bquote(&packageRequired.) ne %then
+  %if (%bquote(&packageRequired.) ne ) 
+   or (%bquote(&packageReqPackages.) ne )             
+  %then
     %do;
       put ' data _null_;                                                     ';
       put '  call symputX("packageRequiredErrors", 0, "L");                  ';
       put ' run;                                                             ';
-      put ' %put NOTE- *Testing required SAS components*%sysfunc(dosubl(     ';
+    %end;
+
+  %if %bquote(&packageRequired.) ne %then
+    %do;
+      put ' %put NOTE- *Testing required SAS components*%sysfunc(DoSubL(     '; /* DoSubL() */
       put ' options nonotes nosource %str(;)                                 ';
       put ' options ls=max ps=max %str(;)                                    ';
       put ' /* temporary redirect log */                                     ';
@@ -488,6 +508,26 @@ data _null_;
       put ' filename _stinit_ clear %str(;)                                  ';
       put ' options notes source %str(;)                                     ';
       put ' ))*;                                                             ';
+    %end;
+
+  %if %bquote(&packageReqPackages.) ne %then
+    %do;
+      /*
+      put ' data _null_ ;                                                      ';
+      put '  length req $ 64 ;                                                       ';
+      length packageReqPackages $ 32767; 
+      packageReqPackages = lowcase(symget('packageReqPackages'));
+      put '  do req = ' / packageReqPackages / ' ;                                   ';
+      put '   call execute(''%nrstr(%loadPackage('' || scan(req,1) || ''));'') ;  ';
+      put '  end ;                                                                   ';
+      put 'run;                                                                      ';
+      */
+    %end;
+
+  %if (%bquote(&packageRequired.) ne ) 
+     or (%bquote(&packageReqPackages.) ne )             
+  %then
+    %do;
       put ' data _null_;                                                     ';
       put '  if symget("packageRequiredErrors") = "1" then                   ';
       put '    do;                                                           ';
