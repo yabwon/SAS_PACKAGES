@@ -55,6 +55,7 @@ TODO:
 , path = %sysfunc(pathname(packages)) /* location of a package, by default it looks for location of "packages" library */
 , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
 , source2 = /*source2*/               /* option to print out details, null by default */
+, requiredVersion = .                 /* option to test if loaded package is provided in required version */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp;
@@ -72,6 +73,15 @@ TODO:
     %do;
       %include package(packagemetadata.sas) / &source2.;
       filename package clear;
+
+      /* test if required version of package is "good enough" */
+      %if %sysevalf(&requiredVersion. > &packageVersion.) %then
+        %do;
+          %put ERROR: Required version is &requiredVersion.;
+          %put ERROR- Provided version is &packageVersion.;
+          %ABORT;
+        %end;
+
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
       filename package ZIP 
         "&path./%lowcase(&packageName.).zip" %unquote(&options.)  

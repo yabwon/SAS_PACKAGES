@@ -66,14 +66,15 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
   %do;
     %put NOTE: Creating package%str(%')s metadata; 
 
-    %local packageName       /* name of the package, required */  
-           packageVersion    /* version of the package, required */
-           packageTitle      /* title of the package, required*/
-           packageAuthor     /* required */
-           packageMaintainer /* required */
-           packageEncoding   /* required */
-           packageLicense    /* required */
-           packageRequired   /* optional */
+    %local packageName        /* name of the package, required */  
+           packageVersion     /* version of the package, required */
+           packageTitle       /* title of the package, required*/
+           packageAuthor      /* required */
+           packageMaintainer  /* required */
+           packageEncoding    /* required */
+           packageLicense     /* required */
+           packageRequired    /* optional */
+           packageReqPackages /* optional */
            ;
     data _null_;
       infile &_DESCR_.;
@@ -156,7 +157,7 @@ data _null_;
   version = input("&packageVersion.", ?? best32.);
   if not (version > 0) then
     do;
-      put 'ERROR: Packave version should be a positive NUMBER.';
+      put 'ERROR: Package version should be a positive NUMBER.';
       put 'ERROR- Current value is: ' "&packageVersion.";
       put 'ERROR- Try something small, e.g. 0.1';
       put;
@@ -192,6 +193,9 @@ Author: Firstname1 Lastname1 (xxxxxx1@yyyyy.com), Firstname2 Lastname2 (xxxxxx2@
 Maintainer: Firstname Lastname (xxxxxx@yyyyy.com)
 License: MIT
 Encoding: UTF8                                  
+
+Required: "Base SAS Software"                    :%*optional, COMMA separated, QUOTED list, names of required SAS products, values must be like from proc setinit;run; output *;
+ReqPackages: "macroArray (0.1)", "DFA (0.1)"     :%*optional, COMMA separated, QUOTED list, names of required packages *;
 
 >> **DESCRIPTION** <<
 >> All the text below will be used in help <<
@@ -338,7 +342,7 @@ proc print data = &filesWithCodes.(drop=base);
 run;
 title;
 
-/* packages's description */
+/* packages description */
 data _null_;
   infile &_DESCR_.;
   file &zipReferrence.(description.sas);
@@ -346,7 +350,7 @@ data _null_;
   put _INFILE_;
 run;
 
-/* package's license */
+/* package license */
 %if %sysfunc(fexist(&_LIC_.)) %then 
   %do;
     data _null_;
@@ -386,7 +390,7 @@ run;
     run;
   %end;
 
-/* package's metadata */
+/* package metadata */
 data _null_;
   if 0 then set &filesWithCodes. nobs=NOBS;
   if NOBS = 0 then
@@ -418,7 +422,7 @@ data _null_;
   stop;
 run;
 
-/* loading package's files */
+/* loading package files */
 data _null_;
   if NOBS = 0 then stop;
 
@@ -512,16 +516,52 @@ data _null_;
 
   %if %bquote(&packageReqPackages.) ne %then
     %do;
-      /*
-      put ' data _null_ ;                                                      ';
-      put '  length req $ 64 ;                                                       ';
-      length packageReqPackages $ 32767; 
+      put ' data _null_ ;                                                                                ';
+      put '  length req name $ 64 SYSloadedPackages $ 32767;                                             ';
+      length packageReqPackages $ 32767;
       packageReqPackages = lowcase(symget('packageReqPackages'));
-      put '  do req = ' / packageReqPackages / ' ;                                   ';
-      put '   call execute(''%nrstr(%loadPackage('' || scan(req,1) || ''));'') ;  ';
-      put '  end ;                                                                   ';
-      put 'run;                                                                      ';
-      */
+      put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
+      put '    do;                                                                                       ';
+      put '      do until(EOF);                                                                          ';
+      put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      ';
+      put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     ';
+      put '      end;                                                                                    ';
+      put '      SYSloadedPackages = lowcase(SYSloadedPackages);                                         '; 
+
+      put '      declare hash LP();                                                                      ';
+      put '      LP.defineKey("name");                                                                   ';
+      put '      LP.defineDone();                                                                        ';
+      put '      do _N_ = 1 to countw(SYSloadedPackages);                                                ';
+      put '        name = scan(SYSloadedPackages, _N_);                                                  ';
+      put '        _RC_ = LP.add();                                                                      ';
+      put '      end;                                                                                    ';
+
+      put '      missingPackagr = 0;                                                                     ';
+      put '      do req = ' / packageReqPackages / ' ;                                                   ';
+      put '        name = lowcase(strip(scan(req, 1, " ")));                                             ';
+      put '        vers = lowcase(compress(scan(req,-1, " "), ".", "KD"));                               ';
+      put '        if LP.check() ne 0 then                                                               ';
+      put '         do;                                                                                  ';
+      put '          missingPackagr = 1;                                                                 ';
+      put '          put "ERROR: SAS package " req "is missing! " ;                                      ';
+      put '          put ''ERROR- Try  %loadPackage('' name ", requiredVersion = " vers ") to load it." ;';
+      put '         end ;                                                                                ';
+      put '      end ;                                                                                   ';
+      put '      if missingPackagr then call symputX("packageRequiredErrors", 1, "L");                   ';
+      put '    end;                                                                                      ';
+      put '  else                                                                                        ';
+      put '    do;                                                                                       ';
+      put '      put "ERROR: No package loaded!";                                                        ';
+      put '      call symputX("packageRequiredErrors", 1, "L");                                          ';
+      put '      do req = ' / packageReqPackages / ' ;                                                   ';
+      put '        name = lowcase(strip(scan(req, 1, " ")));                                             ';
+      put '        vers = lowcase(compress(scan(req,-1, " "), ".", "KD"));                               ';
+      put '        put "ERROR: SAS package " req "is missing! " ;                                        ';
+      put '        put ''ERROR- Try  %loadPackage('' name ", requiredVersion = " vers ") to load it." ;  ';
+      put '      end ;                                                                                   ';
+      put '    end;                                                                                      ';
+      put '  stop;                                                                                       ';
+      put 'run;                                                                                          ';
     %end;
 
   %if (%bquote(&packageRequired.) ne ) 
@@ -533,6 +573,7 @@ data _null_;
       put '    do;                                                           ';
       put '      put "ERROR: Loading package &packageName. will be aborted!";';
       put '      put "ERROR- Required SAS components are missing.";          ';
+      put '      put "ERROR- *** STOP ***";                                  ';
       put '      ABORT;                                                      ';
       put '    end;                                                          ';
       put ' run;                                                             ';
@@ -580,6 +621,33 @@ data _null_;
       end;
   end;
 
+  /* update SYSloadedPackages global macrovariable */
+  put ' data _null_ ;                                                                                ';
+  put '  length SYSloadedPackages $ 32767;                                             ';
+  put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
+  put '    do;                                                                                       ';
+  put '      do until(EOF);                                                                          ';
+  put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      ';
+  put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     ';
+  put '      end;                                                                                    ';
+  put '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");      ';
+
+  put "      if INDEX(lowcase(SYSloadedPackages), '#%lowcase(&packageName.)#') = 0 then              ";
+  put '         do;                                                                                  ';
+  put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.');                  ";
+  put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                 ';
+  put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                          ';
+  put '          put "NOTE: " SYSloadedPackages = ;                                                  ';
+  put '         end ;                                                                                ';
+  put '    end;                                                                                      ';
+  put '  else                                                                                        ';
+  put '    do;                                                                                       ';
+  put "      call symputX('SYSloadedPackages', '&packageName.', 'G');                                ";
+  put "      put 'NOTE: SYSloadedPackages = &packageName.';                                          ";
+  put '    end;                                                                                      ';
+  put '  stop;                                                                                       ';
+  put 'run;                                                                                          ' / ;
+
   put '%put NOTE- ;';
   put '%put NOTE: '"Loading package &packageName., version &packageVersion., license &packageLicense.;";
   put '%put NOTE- *** END ***;' /;
@@ -587,7 +655,7 @@ data _null_;
   stop;
 run;
 
-/* unloading package's objects */
+/* unloading package objects */
 data _null_;
   /* break if no data */
   if NOBS = 0 then stop;
@@ -738,6 +806,29 @@ data _null_;
     put 'libname ' fileshort ' clear;';
   end;
   put "run;" /;
+
+  /* update SYSloadedPackages global macrovariable */
+  put ' data _null_ ;                                                                                ';
+  put '  length SYSloadedPackages $ 32767;                                             ';
+  put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
+  put '    do;                                                                                       ';
+  put '      do until(EOF);                                                                          ';
+  put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      ';
+  put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     ';
+  put '      end;                                                                                    ';
+  put '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");      ';
+
+  put "      if INDEX(lowcase(SYSloadedPackages), '#%lowcase(&packageName.)#') > 0 then              ";
+  put '         do;                                                                                  ';
+  put "          SYSloadedPackages = tranwrd(SYSloadedPackages, '#&packageName.#', '##');            ";
+  put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                 ';
+  put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                          ';
+  put '          put "NOTE: " SYSloadedPackages = ;                                                  ';
+  put '         end ;                                                                                ';
+  put '    end;                                                                                      ';
+  put '  stop;                                                                                       ';
+  put 'run;                                                                                          ' / ;
+
  
   put '%put NOTE: '"Unloading package &packageName., version &packageVersion., license &packageLicense.;";
   put '%put NOTE- *** END ***;';
@@ -747,7 +838,7 @@ data _null_;
   stop;
 run;
 
-/* package's help */
+/* package help */
 data _null_;
   /* break if no data */
   if NOBS = 0 then stop;
