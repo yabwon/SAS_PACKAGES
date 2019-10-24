@@ -969,7 +969,7 @@ data _null_;
   stop;
 run;
 
-/* create package's content */
+/* create package content */
 data _null_;
   /* break if no data */
   if NOBS = 0 then stop;
@@ -1022,11 +1022,11 @@ TODO:
 
 - doadc sprawdzanie liczby wywołan procedury fcmp, format i slowa '%macro(' w plikach z kodami
 
-- syspackages - makrozmienna z lista zaladowanych pakietow
+- syspackages - makrozmienna z lista zaladowanych pakietow [v] as SYSloadedPackages
 
-- dodac typ "imp", "ds2", "proto"
+- dodac typ "iml", "ds2", "proto"
 
--lista wymaganych komponentow potrzebnych do działania SASa (na bazie proc SETINIT)
+-lista wymaganych komponentow potrzebnych do działania SASa (na bazie proc SETINIT) [v]
 */
 
 /*
