@@ -13,7 +13,6 @@ License: MIT                                     :/*required, not null, values: 
 Encoding: UTF8                                   :/*required, not null, values: UTF8, WLATIN1, LATIN2, etc. */
 
 Required: "Base SAS Software"                    :/*optional, COMMA separated, QUOTED list, names of required SAS products, values must be like from proc setinit;run; output */
-ReqPackages: "macroArray (0.1)", "DFA (0.1)"     :/*optional, COMMA separated, QUOTED list, names of required packages */
 
 /* **DESCRIPTION** */
 /* All the text below will be used in help */
