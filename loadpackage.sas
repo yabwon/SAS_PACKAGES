@@ -51,11 +51,17 @@ TODO:
 /*** HELP START ***/
 
 %macro loadPackage(
-  packageName                         /* name of a package, e.g. myPackageFile.zip, not null  */
-, path = %sysfunc(pathname(packages)) /* location of a package, by default it looks for location of "packages" library */
+  packageName                         /* name of a package, 
+                                         e.g. myPackageFile.zip, 
+                                         required and not null  */
+, path = %sysfunc(pathname(packages)) /* location of a package, 
+                                         by default it looks for 
+                                         location of "packages" fileref */
 , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
-, source2 = /*source2*/               /* option to print out details, null by default */
-, requiredVersion = .                 /* option to test if loaded package is provided in required version */
+, source2 = /*source2*/               /* option to print out details, 
+                                         null by default */
+, requiredVersion = .                 /* option to test if loaded package 
+                                         is provided in required version */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp;
@@ -99,10 +105,15 @@ TODO:
 /*** HELP START ***/
 
 %macro unloadPackage(
-  packageName                         /* name of a package, e.g. myPackageFile.zip, not null  */
-, path = %sysfunc(pathname(packages)) /* location of a package, by default it looks for location of "packages" library */
+  packageName                         /* name of a package, 
+                                         e.g. myPackageFile.zip, 
+                                         required and not null  */
+, path = %sysfunc(pathname(packages)) /* location of a package, 
+                                         by default it looks for 
+                                         location of "packages" fileref */
 , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
-, source2 = /*source2*/               /* option to print out details, null by default */
+, source2 = /*source2*/               /* option to print out details, 
+                                         null by default */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp;
@@ -137,11 +148,19 @@ TODO:
 /*** HELP START ***/
 
 %macro helpPackage(
-  packageName                         /* name of a package, e.g. myPackageFile.zip, not null  */
-, helpKeyword                         /* phrase to search, * means print all help */
-, path = %sysfunc(pathname(packages)) /* location of a package, by default it looks for location of "packages" library */
+  packageName                         /* name of a package, 
+                                         e.g. myPackageFile.zip, 
+                                         required and not null  */
+, helpKeyword                         /* phrase to search in help,
+                                         when empty prints description 
+                                         "*" means prints all help 
+                                         "license" prints license */
+, path = %sysfunc(pathname(packages)) /* location of a package, 
+                                         by default it looks for 
+                                         location of "packages" fileref */
 , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
-, source2 = /*source2*/               /* option to print out details, null by default */
+, source2 = /*source2*/               /* option to print out details, 
+                                         null by default */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp;

@@ -48,7 +48,8 @@
 
 /*** HELP START ***/
 %macro GeneratePackge(
- filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.) /* place for packages' files */
+ /* location of package files */
+ filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.) 
 )/secure;
 /*** HELP END ***/
 %local zipReferrence filesWithCodes _DESCR_ _LIC_ _RC_;
