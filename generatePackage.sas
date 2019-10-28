@@ -979,9 +979,25 @@ data _null_;
 
   call execute(cat ('filename _IN_ "', catx('/', base, folder, file), '";'));
   call execute(cats("filename _OUT_ ZIP '", base, "/%lowcase(&packageName.).zip' member='_", folder, ".", file, "';") );
+  /* copy code file into the zip */
   call execute('data _null_;');
   call execute('  rc = fcopy("_IN_", "_OUT_");');
   call execute('run;');
+  /* test file content for help tags */
+  call execute('data _null_;');
+  call execute(' retain test .;');
+  call execute(' infile _IN_ lrecl=32767 dlm="0a0d"x end=EOF;');
+  call execute(' input;');
+  call execute(' if strip(_infile_) = cat("/","*** ","HELP START"," ***","/") then test + (+1); ');
+  call execute(' if strip(_infile_) = cat("/","*** ","HELP END",  " ***","/") then test + (-1); ');
+  call execute(' if (test not in (.,0,1)) or (EOF and test) then '); 
+  call execute('   do; '); 
+  call execute('     put "ERR" "OR: unmatching or nested HELP tags!" _N_=; ');
+  call execute('     abort; ');
+  call execute('   end; ');
+  call execute(' if (EOF and test=.) then put "WARN" "ING: no HELP tags in the file." ; ');
+  call execute('run;');
+
   call execute('filename _IN_  clear;');
   call execute('filename _OUT_ clear;');
 run;
@@ -1029,7 +1045,7 @@ TODO:
 
 -lista wymaganych komponentow potrzebnych do działania SASa (na bazie proc SETINIT) [v]
 
--sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [ ]
+-sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [v]
 
 -weryfikacja nadpisywania makr [ ]
 */
