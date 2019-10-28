@@ -4,13 +4,13 @@
  *
  * Main macro which allows to use 
  * SQL's queries in the data step. 
- * Recomnended for SAS 9.3 and higher. 
+ * Recommended for SAS 9.3 and higher. 
  * Based on paper: 
  * "Use the Full Power of SAS in Your Function-Style Macros"
  * by Mike Rhoads, Westat, Rockville, MD
  * https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
  *
- * EXAMPLE 1: simple sql querry
+ * EXAMPLE 1: simple sql query
 
    data class_subset;
      set %SQL(select name, sex, height from sashelp.class where age > 12);
@@ -39,7 +39,7 @@
   %let SYSPBUFF = %substr(&SYSPBUFF, 2, %LENGTH(&SYSPBUFF) - 2); /* remove brackets */
   %let SYSPBUFF = %superq(SYSPBUFF); /* macroquoting */
   %let SYSPBUFF = %sysfunc(quote(&SYSPBUFF)); /* quotes */
-  %put NOTE-***the querry***; /* print out the querry in the log */
+  %put NOTE-***the query***; /* print out the query in the log */
   %put NOTE-&SYSPBUFF.;
   %put NOTE-****************;
 

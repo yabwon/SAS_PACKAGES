@@ -1,5 +1,5 @@
 /* This is the description file for the package.         */
-/* The collon (:) is a field separator and is restricted */
+/* The colon (:) is a field separator and is restricted */
 /* in lines of the header part.                          */
 
 /* **HEADER** */

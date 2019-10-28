@@ -2,7 +2,7 @@
 
 /**############################################################################**/
 /*                                                                              */
-/*  Copyright Bartosz Jablonski, Jully 2019.                                    */
+/*  Copyright Bartosz Jablonski, July 2019.                                    */
 /*                                                                              */
 /*  Code is free and open source. If you want - you can use it.                 */
 /*  I tested it the best I could                                                */
@@ -36,11 +36,11 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to list SAS packages in packsges' folder */
+/* Macros to list SAS packages in packages' folder */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
-   a single load.sas file (also embeaded inside the zip).
+   a single load.sas file (also embedded inside the zip).
 */
 /*
  * Example 1:

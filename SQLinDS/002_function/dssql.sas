@@ -4,7 +4,7 @@
  *
  * Internal function called by %SQL() macro.
  *
- * Recomnended for SAS 9.3 and higher. 
+ * Recommended for SAS 9.3 and higher. 
  * Based on paper: 
  * "Use the Full Power of SAS in Your Function-Style Macros"
  * by Mike Rhoads, Westat, Rockville, MD
@@ -20,7 +20,7 @@ proc fcmp
 ;
   function dsSQL(unique_index_2, query $) $ 41;
     length 
-      query query_arg $ 32000 /* max querry length */
+      query query_arg $ 32000 /* max query length */
       viewname $ 41
     ;
     query_arg = dequote(query);

@@ -2,7 +2,7 @@
 
 /**############################################################################**/
 /*                                                                              */
-/*  Copyright Bartosz Jablonski, Jully 2019.                                    */
+/*  Copyright Bartosz Jablonski, July 2019.                                    */
 /*                                                                              */
 /*  Code is free and open source. If you want - you can use it.                 */
 /*  I tested it the best I could                                                */
@@ -40,11 +40,11 @@
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
-   a single load.sas file (also embeaded inside the zip).
+   a single load.sas file (also embedded inside the zip).
 */
 /*
 TODO:
-- makro for testing avaliable packages in the packages' folder [DONE] checkuot: %listPackages()
+- macro for testing available packages in the packages' folder [DONE] checkout: %listPackages()
 */
 /*** HELP END ***/
 
@@ -198,12 +198,12 @@ TODO:
 /* 
  * Filenames references "packages" and "package" are keywords;
  * the first one should be used to point folder with packages;
- * the second is used internaly by macros;
+ * the second is used internally by macros;
 
  * Example 1: 
  * assuming that _THIS_FILE_ and the SQLinDS package (sqlinds.zip file)
  * are located in the "C:/SAS_PACKAGES/" folder 
- * coppy the following code into autoexec.sas
+ * copy the following code into autoexec.sas
  * or run it in your SAS session
 **/
 /*

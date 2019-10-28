@@ -4,7 +4,7 @@
  *
  * Internal macro called by dsSQL() function. 
  *  
- * Recomnended for SAS 9.3 and higher. 
+ * Recommended for SAS 9.3 and higher. 
  * Based on paper: 
  * "Use the Full Power of SAS in Your Function-Style Macros"
  * by Mike Rhoads, Westat, Rockville, MD

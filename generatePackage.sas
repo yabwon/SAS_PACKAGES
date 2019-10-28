@@ -36,11 +36,11 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to generte SAS packages */
+/* Macros to generate SAS packages */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
-   a single load.sas file (also embeaded inside the zip).
+   a single load.sas file (also embedded inside the zip).
 */
 
 /*** HELP END ***/
@@ -92,7 +92,7 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
         when(upcase(scan(_INFILE_, 1, ":")) = "REQUIRED")    call symputX("packageRequired",    scan(_INFILE_, 2, ":"),"L");
         when(upcase(scan(_INFILE_, 1, ":")) = "REQPACKAGES") call symputX("packageReqPackages", scan(_INFILE_, 2, ":"),"L");
 
-        /* stop at the begining of description */
+        /* stop at the beginning of description */
         when(upcase(scan(_INFILE_, 1, ":")) = "DESCRIPTION START") stop;
         otherwise;
       end;
@@ -125,7 +125,7 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
       %do;
         %put ERROR: Package name is more than 24 characters long.;
         %put ERROR- The name is used for functions%str(%') dataset name;
-        %put ERROR- and for formats%str(%') catalog name (with sufix).;
+        %put ERROR- and for formats%str(%') cataloge name (with suffix).;
         %put ERROR- The length is %sysfunc(lengthn(&packageName.)). Try something shorter.;
         %abort;
       %end;
@@ -139,7 +139,7 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
       %do;
         %put ERROR: Package name contains illegal symbols.;
         %put ERROR- The name is used for functions%str(%') dataset name;
-        %put ERROR- and for formats%str(%') catalog name.;
+        %put ERROR- and for formats%str(%') cataloge name.;
         %put ERROR- Only English letters, underscore(_), and digits are allowed.;
         %put ERROR- Try something else. Maybe: %qsysfunc(compress(&packageName.,,KDF)) will do?;
         %abort;
@@ -181,7 +181,7 @@ filename &zipReferrence. ZIP "&filesLocation./%lowcase(&packageName.).zip";
 */
 /*
   Remember to prepare the description.sas file for you package.
-  The collon (:) is a field separator and is restricted 
+  The colon (:) is a field separator and is restricted 
   in lines of the header part.                          
   The file should contain the following obligatory information:
 --------------------------------------------------------------------------------------------
@@ -210,7 +210,7 @@ DESCRIPTION END:
   Name of the 'type' of folder and files.sas inside must be in _low_ case letters.
 
   If order of loading is important, the 'sequential number'
-  can be used to order multiple types in the wey you wish.
+  can be used to order multiple types in the way you wish.
 
   The "tree structure" of the folder could be for example as follows:
 
@@ -250,7 +250,7 @@ DESCRIPTION END:
    |        |
    |        +-<no file, in this case folder may be skipped>
    |
-   +-006_format [if your codes depend eachother you can order them in folders, 
+   +-006_format [if your codes depend each other you can order them in folders, 
    |          |  e.g. code from 003_... will be executed before 006_...]
    |          |
    |          +-abc.sas [a file with a code creating format ABC, 
@@ -605,7 +605,7 @@ data _null_;
     isFunction + (upcase(type)=:'FUNCTION');
     isFormat   + (upcase(type)=:'FORMAT'); 
   
-    /* add the link to the functions' dataset, only for the first occurence */
+    /* add the link to the functions' dataset, only for the first occurrence */
     if 1 = isFunction and (upcase(type)=:'FUNCTION') then
       do;
         put "options APPEND=(cmplib = work.%lowcase(&packageName.fcmp));";
@@ -613,7 +613,7 @@ data _null_;
         put '%put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
       end;
 
-    /* add the link to the formats' catalog, only for the first occurence  */
+    /* add the link to the formats' catalog, only for the first occurrence  */
     if 1 = isFormat and (upcase(type)=:'FORMAT') then
       do;
         put "options INSERT=( fmtsearch = work.%lowcase(&packageName.format) );";
@@ -935,7 +935,7 @@ data _null_;
   put '    set WORK._last_ end = EOFDS nobs = NOBS;                                                                        ';
   put '    length memberX $ 1024;                                                                                          ';
   put '    memberX = cats("_",folder,".",file);                                                                            ';
-  /* inner datastep in call execute to read each embedaded file */
+  /* inner datastep in call execute to read each embedded file */
   put '    call execute("data _null_;                                                                                   ");';
   put '    call execute("infile package(" || strip(memberX) || ") end = EOF;                                            ");';
   put '    call execute("    printer = 0;                                                                               ");';
@@ -1028,6 +1028,10 @@ TODO:
 - dodac typ "iml", "ds2", "proto"
 
 -lista wymaganych komponentow potrzebnych do działania SASa (na bazie proc SETINIT) [v]
+
+-sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [ ]
+
+-weryfikacja nadpisywania makr [ ]
 */
 
 /*
