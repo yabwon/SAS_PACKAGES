@@ -1,4 +1,4 @@
-/*** HELP START ***/     
+/*** HELP START ***/
 
 /**############################################################################**/
 /*                                                                              */
@@ -45,7 +45,6 @@
 /*
 TODO:
 - macro for testing available packages in the packages' folder [DONE] checkout: %listPackages()
-- add MD5(&packageName.) value hash instead "package" word in filenames []
 */
 /*** HELP END ***/
 
@@ -71,17 +70,15 @@ TODO:
   %let notes_tmp  = %sysfunc(getoption(notes));   
   %let source_tmp = %sysfunc(getoption(source));  
   options NOnotes NOsource ls=MAX ps=MAX;
-  %local _PackageFileref_;
-  %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
-  filename &_PackageFileref_. ZIP 
+  filename package ZIP 
   /* put location of package myPackageFile.zip here */
     "&path./%lowcase(&packageName.).zip" %unquote(&options.)
   ;
-  %if %sysfunc(fexist(&_PackageFileref_.)) %then
+  %if %sysfunc(fexist(package)) %then
     %do;
-      %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
-      filename &_PackageFileref_. clear;
+      %include package(packagemetadata.sas) / &source2.;
+      filename package clear;
 
       /* test if required version of package is "good enough" */
       %if %sysevalf(&requiredVersion. > &packageVersion.) %then
@@ -92,16 +89,16 @@ TODO:
         %end;
 
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
-      filename &_PackageFileref_. ZIP 
+      filename package ZIP 
         "&path./%lowcase(&packageName.).zip" %unquote(&options.)  
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %include &_PackageFileref_.(load.sas) / &source2.;
+      %include package(load.sas) / &source2.;
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
-  filename &_PackageFileref_. clear;
+  filename package clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %mend loadPackage;
 
@@ -125,28 +122,26 @@ TODO:
   %let notes_tmp  = %sysfunc(getoption(notes));   
   %let source_tmp = %sysfunc(getoption(source));  
   options NOnotes NOsource ls=MAX ps=MAX;
-  %local _PackageFileref_;
-  %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
-  filename &_PackageFileref_. ZIP 
+  filename package ZIP 
   /* put location of package myPackageFile.zip here */
     "&path./%lowcase(&packageName.).zip" %unquote(&options.)
   ;
-  %if %sysfunc(fexist(&_PackageFileref_.)) %then
+  %if %sysfunc(fexist(package)) %then
     %do;
-      %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
-      filename &_PackageFileref_. clear;
+      %include package(packagemetadata.sas) / &source2.;
+      filename package clear;
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
-      filename &_PackageFileref_. ZIP 
+      filename package ZIP 
         "&path./%lowcase(&packageName.).zip" %unquote(&options.)  
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %include &_PackageFileref_.(unload.sas) / &source2.;
+      %include package(unload.sas) / &source2.;
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
-  filename &_PackageFileref_. clear;
+  filename package clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %mend unloadPackage;
 
@@ -174,28 +169,26 @@ TODO:
   %let notes_tmp  = %sysfunc(getoption(notes));   
   %let source_tmp = %sysfunc(getoption(source));  
   options NOnotes NOsource ls=MAX ps=MAX;
-  %local _PackageFileref_;
-  %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
-  filename &_PackageFileref_. ZIP 
+  filename package ZIP 
   /* put location of package myPackageFile.zip here */
     "&path./%lowcase(&packageName.).zip" %unquote(&options.)
   ;
-  %if %sysfunc(fexist(&_PackageFileref_.)) %then
+  %if %sysfunc(fexist(package)) %then
     %do;
-      %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
-      filename &_PackageFileref_. clear;
+      %include package(packagemetadata.sas) / &source2.;
+      filename package clear;
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
-      filename &_PackageFileref_. ZIP 
+      filename package ZIP 
         "&path./%lowcase(&packageName.).zip" %unquote(&options.) 
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %include &_PackageFileref_.(help.sas) / &source2.;
+      %include package(help.sas) / &source2.;
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
-  filename &_PackageFileref_. clear;
+  filename package clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %mend helpPackage;
 

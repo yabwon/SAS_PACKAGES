@@ -1,4 +1,4 @@
-/*** HELP START ***/               
+/*** HELP START ***/
 
 /**############################################################################**/
 /*                                                                              */
@@ -52,7 +52,7 @@
  filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.) 
 )/secure;
 /*** HELP END ***/
-%local zipReferrence filesWithCodes _DESCR_ _LIC_ _RC_ _PackageFileref_;
+%local zipReferrence filesWithCodes _DESCR_ _LIC_ _RC_;
 %let   zipReferrence = _%sysfunc(datetime(), hex6.)_;
 %let   filesWithCodes = WORK._%sysfunc(datetime(), hex16.)_;
 %let   _DESCR_ = _%sysfunc(datetime(), hex6.)d;
@@ -152,12 +152,6 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
     %put ERROR- The file is required to create package%str(%')s metadata;
     %abort;
   %end;
-
-/* generate package fileref with MD5 to allow 
-   different file reference for each package 
-   while loading package with %loadPackage() macro
-  */
-%let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
 /* test if version is a number */
 data _null_;
@@ -345,7 +339,6 @@ title2 "User: &SYSUSERID., datetime: %qsysfunc(datetime(), datetime21.), SAS ver
 title3 "Package's encoding: '&packageEncoding.', session's encoding: '&SYSENCODING.'.";
 title4 " ______________________________ ";
 title5 "List of files for package: &packageName. (version &packageVersion.), license: &packageLicense.";
-title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
 proc print data = &filesWithCodes.(drop=base);
 run;
 title;
@@ -436,7 +429,7 @@ data _null_;
 
   file &zipReferrence.(load.sas) lrecl=32767;
  
-  put "filename &_PackageFileref_. list;" /;
+  put 'filename package list;' /;
   put ' %put NOTE- ;'; 
   put ' %put NOTE: ' @; put "Loading package &packageName., version &packageVersion., license &packageLicense.; ";
   put ' %put NOTE: ' @; put "*** &packageTitle. ***; ";
@@ -448,7 +441,7 @@ data _null_;
   put ' %put NOTE- ;';
   put ' %put NOTE- *** START ***; ' /;
 
-  put '%include ' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /; /* <- copied also to loadPackage macro */
+  put '%include package(packagemetadata.sas) / nosource2;' /; /* <- copied also to loadPackage macro */
   isFunction = 0;
   isFormat   = 0;
 
@@ -524,44 +517,10 @@ data _null_;
 
   %if %bquote(&packageReqPackages.) ne %then
     %do;
-
+      put ' data _null_ ;                                                                                ';
+      put '  length req name $ 64 SYSloadedPackages $ 32767;                                             ';
       length packageReqPackages $ 32767;
       packageReqPackages = lowcase(symget('packageReqPackages'));
-      /* try to load required packages */
-      put 'data _null_ ;                                                                                 ';
-      put '  length req name $ 64 SYSloadedPackages $ 32767;                                             ';
-      put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
-      put '    do;                                                                                       ';
-      put '      do until(EOF);                                                                          ';
-      put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      ';
-      put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     ';
-      put '      end;                                                                                    ';
-      put '    end;                                                                                      ';
-      put '  SYSloadedPackages = lowcase(SYSloadedPackages);                                             '; 
-
-      put '  declare hash LP();                                                                          ';
-      put '  LP.defineKey("name");                                                                       ';
-      put '  LP.defineDone();                                                                            ';
-      put '  do _N_ = 1 to countw(SYSloadedPackages);                                                    ';
-      put '    name = scan(SYSloadedPackages, _N_);                                                      ';
-      put '    _RC_ = LP.add();                                                                          ';
-      put '  end;                                                                                        ';
-
-      put '  do req = ' / packageReqPackages / ' ;                                                       ';
-      put '    name = lowcase(strip(scan(req, 1, " ")));                                                 ';
-      put '    vers = lowcase(compress(scan(req,-1, " "), ".", "KD"));                                   ';
-      put '    if LP.check() ne 0 then                                                                   ';
-      put '     do;                                                                                      ';
-      put '      put "NOTE: Trying to install required SAS package " req;                                ';
-      put '      call execute(cats(''%nrstr(%loadPackage('', name, ", requiredVersion = ", vers, "))")); ';
-      put '     end ;                                                                                    ';
-      put '  end ;                                                                                       ';
-      put ' stop;                                                                                        ';
-      put 'run;                                                                                          ';
-
-      /* test if required packages are loaded */
-      put 'data _null_ ;                                                                                 ';
-      put '  length req name $ 64 SYSloadedPackages $ 32767;                                             ';
       put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
       put '    do;                                                                                       ';
       put '      do until(EOF);                                                                          ';
@@ -585,8 +544,8 @@ data _null_;
       put '        if LP.check() ne 0 then                                                               ';
       put '         do;                                                                                  ';
       put '          missingPackagr = 1;                                                                 ';
-      put '          put "ERROR: SAS package " req "is missing! Download it and" ;                       ';
-      put '          put ''ERROR- use  %loadPackage('' name ", requiredVersion = " vers ") to load it." ;';
+      put '          put "ERROR: SAS package " req "is missing! " ;                                      ';
+      put '          put ''ERROR- Try  %loadPackage('' name ", requiredVersion = " vers ") to load it." ;';
       put '         end ;                                                                                ';
       put '      end ;                                                                                   ';
       put '      if missingPackagr then call symputX("packageRequiredErrors", 1, "L");                   ';
@@ -598,8 +557,8 @@ data _null_;
       put '      do req = ' / packageReqPackages / ' ;                                                   ';
       put '        name = lowcase(strip(scan(req, 1, " ")));                                             ';
       put '        vers = lowcase(compress(scan(req,-1, " "), ".", "KD"));                               ';
-      put '        put "ERROR: SAS package " req "is missing! Download it and" ;                         ';
-      put '        put ''ERROR- use %loadPackage('' name ", requiredVersion = " vers ") to load it." ;   ';
+      put '        put "ERROR: SAS package " req "is missing! " ;                                        ';
+      put '        put ''ERROR- Try  %loadPackage('' name ", requiredVersion = " vers ") to load it." ;  ';
       put '      end ;                                                                                   ';
       put '    end;                                                                                      ';
       put '  stop;                                                                                       ';
@@ -633,7 +592,7 @@ data _null_;
       put '%put NOTE- Executing the following code: ;';
       put '%put NOTE- *****************************;';
       put 'data _null_;';
-      put "  infile &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') lrecl=32767;';
+      put '  infile package(_' folder +(-1) "." file +(-1) ') lrecl=32767;';
       put '  input;';
       put '  putlog "*> " _infile_;';
       put 'run;' /;
@@ -641,7 +600,7 @@ data _null_;
       put '%put NOTE- ;';
     end;
 
-    put '%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;' /;
+    put '%include package(_' folder +(-1) "." file +(-1) ') / nosource2;' /;
 
     isFunction + (upcase(type)=:'FUNCTION');
     isFormat   + (upcase(type)=:'FORMAT'); 
@@ -704,7 +663,7 @@ data _null_;
 
   file &zipReferrence.(unload.sas);
 
-  put "filename &_PackageFileref_. list;" /;
+  put 'filename package list;' /;
   put '%put NOTE: '"Unloading package &packageName., version &packageVersion., license &packageLicense.;";
   put '%put NOTE- *** START ***;' /;
 
@@ -718,14 +677,14 @@ data _null_;
     put '%put NOTE- Executing the following code: ;';
     put '%put NOTE- *****************************;';
     put 'data _null_;';
-    put "  infile &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') lrecl=32767;';
+    put '  infile package(_' folder +(-1) "." file +(-1) ') lrecl=32767;';
     put '  input;';
     put '  putlog "*> " _infile_;';
     put 'run;' /;
     put '%put NOTE- *****************************;';
     put '%put NOTE- ;' /;
 
-    put '%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;' /;
+    put '%include package(_' folder +(-1) "." file +(-1) ') / nosource2;' /;
   end;
 
   /* delete macros and formats */
@@ -888,7 +847,7 @@ data _null_;
   file &zipReferrence.(help.sas);
   length strX $ 32767;
 
-  put "filename &_PackageFileref_. list;" /;
+  put 'filename package list;' /;
   put ' %put NOTE- ;';
   put ' %put NOTE: '"Help for package &packageName., version &packageVersion., license &packageLicense.;";
   put ' %put NOTE: ' @; put "*** &packageTitle. ***; ";
@@ -905,12 +864,12 @@ data _null_;
   put '%let notes_tmp  = %sysfunc(getoption(notes));      ';
   put '%let source_tmp = %sysfunc(getoption(source));     ';
   put 'options ls = MAX ps = MAX nonotes nosource;        ';
-  put '%include' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /;
+  put '%include package(packagemetadata.sas) / nosource2; ' /;
 
   put 'data _null_;                                                              ';
   put '  if strip(symget("helpKeyword")) = " " then                              ';
   put '    do until (EOF);                                                       ';
-  put "      infile &_PackageFileref_.(description.sas) end = EOF;               ";
+  put '      infile package(description.sas) end = EOF;                          ';
   put '      input;                                                              ';
   put '      if upcase(strip(_infile_)) = "DESCRIPTION END:" then printer = 0;   ';
   put '      if printer then put "*> " _infile_;                                 ';
@@ -923,7 +882,7 @@ data _null_;
   put 'data _null_;                                                   ';
   put '  if upcase(strip(symget("helpKeyword"))) = "LICENSE" then     ';
   put '    do until (EOF);                                            ';
-  put "      infile &_PackageFileref_.(license.sas) end = EOF;        ";
+  put '      infile package(license.sas) end = EOF;                   ';
   put '      input;                                                   ';
   put '      put "*> " _infile_;                                      ';
   put '    end;                                                       ';
@@ -978,7 +937,7 @@ data _null_;
   put '    memberX = cats("_",folder,".",file);                                                                            ';
   /* inner datastep in call execute to read each embedded file */
   put '    call execute("data _null_;                                                                                   ");';
-  put "    call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;                                 ');";
+  put '    call execute("infile package(" || strip(memberX) || ") end = EOF;                                            ");';
   put '    call execute("    printer = 0;                                                                               ");';
   put '    call execute("    do until(EOF);                                                                             ");';
   put '    call execute("      input;                                                                                   ");';
@@ -1089,8 +1048,6 @@ TODO:
 -sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [v]
 
 -weryfikacja nadpisywania makr [ ]
-
--add MD5(&packageName.) value hash instead "package" word in filenames [ ]
 */
 
 /*
