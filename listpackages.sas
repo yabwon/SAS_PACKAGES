@@ -1,4 +1,4 @@
-/*** HELP START ***/
+﻿/*** HELP START ***/
 
 /**############################################################################**/
 /*                                                                              */
@@ -50,7 +50,9 @@
 
 */
 /*** HELP END ***/
-
+/* TODO:
+- add MD5(&packageName.) value hash instead "package" word in filenames []
+*/
 
 %macro listPackages();
 

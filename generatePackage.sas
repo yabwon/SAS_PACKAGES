@@ -1048,6 +1048,8 @@ TODO:
 -sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [v]
 
 -weryfikacja nadpisywania makr [ ]
+
+-add MD5(&packageName.) value hash instead "package" word in filenames [ ]
 */
 
 /*
