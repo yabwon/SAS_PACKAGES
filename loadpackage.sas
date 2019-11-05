@@ -2,7 +2,7 @@
 
 /**############################################################################**/
 /*                                                                              */
-/*  Copyright Bartosz Jablonski, July 2019.                                    */
+/*  Copyright Bartosz Jablonski, July 2019.                                     */
 /*                                                                              */
 /*  Code is free and open source. If you want - you can use it.                 */
 /*  I tested it the best I could                                                */

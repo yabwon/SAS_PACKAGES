@@ -47,7 +47,7 @@
 
 
 /*** HELP START ***/
-%macro GeneratePackge(
+%macro generatePackage(
  /* location of package files */
  filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.) 
 )/secure;
@@ -1047,14 +1047,14 @@ proc sql;
   drop table &filesWithCodes.;
 quit;
 filename &zipReferrence. clear;
-%mend GeneratePackge;
+%mend generatePackage;
 
 
 /*
 
 options mprint;
 ods html;
-%GeneratePackge(
+%generatePackage(
  testowyPackageName
 ,0.01
 ,author
@@ -1098,7 +1098,7 @@ TODO:
 %include "C:\SAS_PACKAGES\generatePackage.sas";
 
 ods html;
-%generatePackge(filesLocation=C:\SAS_PACKAGES\SQLinDS)
+%generatePackage(filesLocation=C:\SAS_PACKAGES\SQLinDS)
 */
 
 /*
