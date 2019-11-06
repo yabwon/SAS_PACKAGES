@@ -45,7 +45,7 @@
 /*
 TODO:
 - macro for testing available packages in the packages' folder [DONE] checkout: %listPackages()
-- add MD5(&packageName.) value hash instead "package" word in filenames []
+- add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
 */
 /*** HELP END ***/
 

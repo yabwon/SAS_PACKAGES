@@ -346,6 +346,15 @@ title3 "Package's encoding: '&packageEncoding.', session's encoding: '&SYSENCODI
 title4 " ______________________________ ";
 title5 "List of files for package: &packageName. (version &packageVersion.), license: &packageLicense.";
 title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
+%if (%bquote(&packageRequired.) ne ) 
+ or (%bquote(&packageReqPackages.) ne )             
+%then
+  %do;
+  title7 "Required SAS licences: %qsysfunc(compress(%bquote(&packageRequired.),   %str(%'%")))" ;   /* ' */
+  title8 "Required SAS packages: %qsysfunc(compress(%bquote(&packageReqPackages.),%str(%'%")))" ;   /* " */
+  %end;
+
+
 proc print data = &filesWithCodes.(drop=base);
 run;
 title;
@@ -849,9 +858,26 @@ data _null_;
   end;
   put "run;" /;
 
+  %if %bquote(&packageReqPackages.) ne %then
+    %do;
+      length packageReqPackages $ 32767;
+      packageReqPackages = lowcase(symget('packageReqPackages'));
+      /* try to load required packages */
+      put 'data _null_ ;                                                                              ';
+      put '  length req name $ 64;                                                                    ';
+      put '  put "NOTE-" / "NOTE: To unload additional required SAS packages execute: " / "NOTE-";    ';
+      put '  do req = ' / packageReqPackages / ' ;                                                    ';
+      put '    name = strip(scan(req, 1, " "));                                                       ';
+      put '    put ''NOTE- %unloadPackage( '' name ")" ;                                              ';
+      put '  end ;                                                                                    ';
+      put ' put "NOTE-" / "NOTE-"; stop;                                                              ';
+      put 'run;                                                                                       ';
+    %end;
+
+
   /* update SYSloadedPackages global macrovariable */
   put ' data _null_ ;                                                                                ';
-  put '  length SYSloadedPackages $ 32767;                                             ';
+  put '  length SYSloadedPackages $ 32767;                                                           ';
   put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
   put '    do;                                                                                       ';
   put '      do until(EOF);                                                                          ';
@@ -1078,7 +1104,7 @@ TODO:
 
 - dodac typ "clear" do czyszczenia po plikach 'exec' [v]
 
-- doadc sprawdzanie liczby wywołan procedury fcmp, format i slowa '%macro(' w plikach z kodami
+- doadc sprawdzanie liczby wywołan procedury fcmp, format i slowa '%macro(' w plikach z kodami [ ]
 
 - syspackages - makrozmienna z lista zaladowanych pakietow [v] as SYSloadedPackages
 
@@ -1090,7 +1116,9 @@ TODO:
 
 -weryfikacja nadpisywania makr [ ]
 
--add MD5(&packageName.) value hash instead "package" word in filenames [ ]
+-add MD5(&packageName.) value hash instead "package" word in filenames [v]
+
+-infolista o required packahes w unloadPackage [ ]
 */
 
 /*

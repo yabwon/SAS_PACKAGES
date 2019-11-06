@@ -1,8 +1,8 @@
-﻿/*** HELP START ***/
+/*** HELP START ***/
 
 /**############################################################################**/
 /*                                                                              */
-/*  Copyright Bartosz Jablonski, July 2019.                                    */
+/*  Copyright Bartosz Jablonski, July 2019.                                     */
 /*                                                                              */
 /*  Code is free and open source. If you want - you can use it.                 */
 /*  I tested it the best I could                                                */
@@ -50,9 +50,7 @@
 
 */
 /*** HELP END ***/
-/* TODO:
-- add MD5(&packageName.) value hash instead "package" word in filenames []
-*/
+
 
 %macro listPackages();
 
