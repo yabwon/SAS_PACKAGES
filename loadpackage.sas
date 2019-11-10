@@ -65,12 +65,14 @@ TODO:
                                          is provided in required version */
 )/secure;
 /*** HELP END ***/
-  %local ls_tmp ps_tmp notes_tmp source_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
   %let notes_tmp  = %sysfunc(getoption(notes));   
-  %let source_tmp = %sysfunc(getoption(source));  
-  options NOnotes NOsource ls=MAX ps=MAX;
+  %let source_tmp = %sysfunc(getoption(source));
+  %let stimer_tmp = %sysfunc(getoption(stimer));
+  %let fullstimer_tmp = %sysfunc(getoption(fullstimer)); 
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer;
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
@@ -102,7 +104,9 @@ TODO:
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
   filename &_PackageFileref_. clear;
-  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
+  options ls = &ls_tmp. ps = &ps_tmp. 
+          &notes_tmp. &source_tmp. 
+          &stimer_tmp. &fullstimer_tmp.;
 %mend loadPackage;
 
 /*** HELP START ***/
