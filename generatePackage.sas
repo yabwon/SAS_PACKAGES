@@ -265,6 +265,15 @@ DESCRIPTION END:
    |            |
    |            +-<no file, in this case folder may be skipped>
    |
+   |
+   +-008_lazydata [one file one dataset]
+   |            |
+   |            +-klm.sas [a file with a code creating dataset klm in library work
+   |                       it will be created only if user request it by using:
+   |                       %loadPackage(packagename, lazyData=klm)
+   |                       multiple elements separated by space are allowed
+   |                       an asterisk(*) means "load all data"] 
+   |
    +-<sequential number>_<type [in lower case]>
    |
    +-...
@@ -642,7 +651,16 @@ data _null_;
 
   do until(eof);
     set &filesWithCodes. end = EOF nobs=NOBS;
-    if (upcase(type)=:'CLEAN') then continue; /* cleaning files are only included in unload.sas */
+    if (upcase(type) in: ('CLEAN' 'LAZYDATA')) then continue; /* cleaning files are only included in unload.sas */
+                                                              /* lazy data are only loaded on demand 
+                                                                 %loadPackage(packagename, lazyData=set1 set2 set3)
+                                                               */
+    /* test for supported types */
+    if not (upcase(type) in: ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' 'FORMAT' 'EXEC' 'CLEAN' 'LAZYDATA')) then 
+      do;
+        putlog 'WARNING: Type ' type 'is not yet supported.';
+        continue;
+      end;
     put '%put NOTE- ;';
     put '%put NOTE- Element of type ' type 'from the file "' file +(-1) '" will be included;' /;
 
@@ -715,6 +733,47 @@ data _null_;
   put "/* load.sas end */" /;
   stop;
 run;
+
+/* to load lazydata */
+data _null_;
+  if NOBS = 0 then stop;
+
+  file &zipReferrence.(lazydata.sas) lrecl=32767;
+ 
+  put "filename &_PackageFileref_. list;" /;
+  put ' %put NOTE- ;'; 
+  put ' %put NOTE: ' @; put "Lazy data for package &packageName., version &packageVersion., license &packageLicense.; ";
+  put ' %put NOTE: ' @; put "*** &packageTitle. ***; ";
+  put ' %put NOTE- ' @; put "Generated: %sysfunc(datetime(), datetime21.); ";
+  put ' %put NOTE- ' @; put "Author(s): &packageAuthor.; ";
+  put ' %put NOTE- ' @; put "Maintainer(s): &packageMaintainer.; ";
+  put ' %put NOTE- ;';
+  put ' %put NOTE- Write %nrstr(%%)helpPackage(' "&packageName." ') for the description;';
+  put ' %put NOTE- ;';
+  put ' %put NOTE- *** START ***; ' /;
+  
+  /*put '%include ' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /;*/ /* <- copied also to loadPackage macro */
+
+  put 'data _null_;';
+  put ' length lazyData $ 32767; lazyData = lowcase(symget("lazyData"));';
+  do until(eof);
+    set &filesWithCodes.(where=( upcase(type) =: 'LAZYDATA' )) end = EOF nobs=NOBS;
+
+    put 'if lazyData="*" OR findw(lazyData, "' fileshort +(-1) '") then';
+    put 'do;';
+    put ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";';
+    put ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');';
+    put 'end;';
+  end;
+  put 'run;';
+
+  put '%put NOTE- ;';
+  put '%put NOTE: '"Lazy data for package &packageName., version &packageVersion., license &packageLicense.;";
+  put '%put NOTE- *** END ***;' /;
+  put "/* lazydata.sas end */" /;
+  stop;
+run;
+
 
 /* unloading package objects */
 data _null_;
@@ -908,7 +967,7 @@ data _null_;
   put 'run;                                                                                                  ' / ;
 
  
-  put '%put NOTE: '"Unloading package &packageName., version &packageVersion., license &packageLicense.;";
+  put '%put NOTE: ' "Unloading package &packageName., version &packageVersion., license &packageLicense.;";
   put '%put NOTE- *** END ***;';
   put '%put NOTE- ;';
  
@@ -954,16 +1013,14 @@ data _null_;
   put '    end;                                                                  ';
   put '  else stop;                                                              ';
 
-  %if %bquote(&packageReqPackages.) ne %then
-  %do;
-    length packageReqPackages $ 32767;
-    packageReqPackages = symget('packageReqPackages');
-    put '  length req $ 64;                                                      ';
-    put '  put ; put "  Required SAS Packages: ";                                ';
-    put '  do req = ' / packageReqPackages / ' ;                                 ';
-    put '    put "    " req;                                                     ';
-    put '  end ;                                                                 ';
-  %end;
+
+  put '  put ; put "  Package contains: "; ';
+  EOFDS = 0;
+  do until(EOFDS);
+    /* content is created during package creation */
+    set &filesWithCodes. end = EOFDS nobs = NOBS curobs = CUROBS;
+    put 'put @5 "' CUROBS +(-1) ')" @10 "' type '" @21 "' fileshort '";';
+  end;
 
   %if %bquote(&packageRequired.) ne %then
   %do;
@@ -972,7 +1029,18 @@ data _null_;
     put '  length req $ 64;                                                      ';
     put '  put ; put "  Required SAS Components: ";                              ';
     put '  do req = ' / packageRequired / ' ;                                    ';
-    put '    put "    " req;                                                     ';
+    put '    put @5 req;                                                         ';
+    put '  end ;                                                                 ';
+  %end;
+
+  %if %bquote(&packageReqPackages.) ne %then
+  %do;
+    length packageReqPackages $ 32767;
+    packageReqPackages = symget('packageReqPackages');
+    put '  length req $ 64;                                                      ';
+    put '  put ; put "  Required SAS Packages: ";                                ';
+    put '  do req = ' / packageReqPackages / ' ;                                 ';
+    put '    put @5 req;                                                         ';
     put '  end ;                                                                 ';
   %end;
 
@@ -1007,12 +1075,12 @@ data _null_;
   EOFDS = 0;
   do until(EOFDS);
     /* content is created during package creation */
-    set &filesWithCodes. end = EOFDS nobs = NOBS;
+    set &filesWithCodes. end = EOFDS;
     select;
-      when (upcase(type) = "DATA")     fileshort2 = fileshort;
-      when (upcase(type) = "MACRO")    fileshort2 = cats('%',fileshort,'()');
-      when (upcase(type) = "FUNCTION") fileshort2 = cats(fileshort,'()');
-      when (upcase(type) = "FORMAT")   fileshort2 = cats('$',fileshort);
+      when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = fileshort;
+      when (upcase(type) = "MACRO")              fileshort2 = cats('%',fileshort,'()');
+      when (upcase(type) = "FUNCTION")           fileshort2 = cats(fileshort,'()');
+      when (upcase(type) = "FORMAT")             fileshort2 = cats('$',fileshort);
       otherwise fileshort2 = fileshort;
     end;
     strX = catx('/', folder, order, type, file, fileshort, fileshort2);

@@ -1,4 +1,4 @@
-/*** HELP START ***/     
+﻿/*** HELP START ***/     
 
 /**############################################################################**/
 /*                                                                              */
@@ -63,7 +63,12 @@ TODO:
                                          null by default */
 , requiredVersion = .                 /* option to test if loaded package 
                                          is provided in required version */
-)/secure;
+, lazyData =                          /* a list of names of a lazy datasets 
+                                         to be loaded, if not null then
+                                         datasets from the list are loaded
+                                         instead of a package, asterisk 
+                                         means "load all datasets" */
+)/secure minoperator;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
@@ -100,7 +105,15 @@ TODO:
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %include &_PackageFileref_.(load.sas) / &source2.;
+      %if %bquote(&lazyData.) = %then
+        %do;
+          %include &_PackageFileref_.(load.sas) / &source2.;
+        %end;
+      %else
+        %do;
+          %include &_PackageFileref_.(lazydata.sas) / &source2.;
+        %end;
+
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
   filename &_PackageFileref_. clear;
