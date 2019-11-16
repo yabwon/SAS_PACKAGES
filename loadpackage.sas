@@ -1,4 +1,4 @@
-﻿/*** HELP START ***/     
+/*** HELP START ***/     
 
 /**############################################################################**/
 /*                                                                              */
@@ -68,7 +68,7 @@ TODO:
                                          datasets from the list are loaded
                                          instead of a package, asterisk 
                                          means "load all datasets" */
-)/secure minoperator;
+)/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
