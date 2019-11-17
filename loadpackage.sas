@@ -1,4 +1,4 @@
-/*** HELP START ***/     
+/*** HELP START ***/      
 
 /**############################################################################**/
 /*                                                                              */
@@ -68,6 +68,13 @@ TODO:
                                          datasets from the list are loaded
                                          instead of a package, asterisk 
                                          means "load all datasets" */
+, zip = zip                           /* standard package is zip (lowcase), 
+                                         e.g. %loadPackage(PiPackage)
+                                         if the zip is not avaliable use a folder
+                                         unpack data to "pipackage.disk" folder
+                                         and use loadPackage in the form: 
+                                         %loadPackage(PiPackage, zip=disk, options=) 
+                                       */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp;
@@ -81,9 +88,9 @@ TODO:
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
-  filename &_PackageFileref_. ZIP 
+  filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
-    "&path./%lowcase(&packageName.).zip" %unquote(&options.)
+    "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
   ;
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
@@ -99,8 +106,8 @@ TODO:
         %end;
 
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
-      filename &_PackageFileref_. ZIP 
-        "&path./%lowcase(&packageName.).zip" %unquote(&options.)  
+      filename &_PackageFileref_. &ZIP. 
+        "&path./%lowcase(&packageName.).&zip." %unquote(&options.)  
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
@@ -115,7 +122,7 @@ TODO:
         %end;
 
     %end;
-  %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
+  %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
@@ -134,6 +141,13 @@ TODO:
 , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
 , source2 = /*source2*/               /* option to print out details, 
                                          null by default */
+, zip = zip                           /* standard package is zip (lowcase), 
+                                         e.g. %unloadPackage(PiPackage)
+                                         if the zip is not avaliable use a folder
+                                         unpack data to "pipackage.disk" folder
+                                         and use unloadPackage in the form: 
+                                         %unloadPackage(PiPackage, zip=disk, options=) 
+                                       */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp;
@@ -145,24 +159,24 @@ TODO:
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
-  filename &_PackageFileref_. ZIP 
+  filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
-    "&path./%lowcase(&packageName.).zip" %unquote(&options.)
+    "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
   ;
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
       %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
       filename &_PackageFileref_. clear;
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
-      filename &_PackageFileref_. ZIP 
-        "&path./%lowcase(&packageName.).zip" %unquote(&options.)  
+      filename &_PackageFileref_. &ZIP. 
+        "&path./%lowcase(&packageName.).&zip." %unquote(&options.)  
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
       %include &_PackageFileref_.(unload.sas) / &source2.;
     %end;
-  %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
+  %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %mend unloadPackage;
@@ -183,6 +197,13 @@ TODO:
 , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
 , source2 = /*source2*/               /* option to print out details, 
                                          null by default */
+, zip = zip                           /* standard package is zip (lowcase), 
+                                         e.g. %helpPackage(PiPackage,*)
+                                         if the zip is not avaliable use a folder
+                                         unpack data to "pipackage.disk" folder
+                                         and use helpPackage in the form: 
+                                         %helpPackage(PiPackage, *, zip=disk, options=) 
+                                       */
 )/secure;
 /*** HELP END ***/
   %local ls_tmp ps_tmp notes_tmp source_tmp;
@@ -194,24 +215,24 @@ TODO:
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
-  filename &_PackageFileref_. ZIP 
+  filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
-    "&path./%lowcase(&packageName.).zip" %unquote(&options.)
+    "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
   ;
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
       %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
       filename &_PackageFileref_. clear;
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
-      filename &_PackageFileref_. ZIP 
-        "&path./%lowcase(&packageName.).zip" %unquote(&options.) 
+      filename &_PackageFileref_. &ZIP. 
+        "&path./%lowcase(&packageName.).&zip." %unquote(&options.) 
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
       %include &_PackageFileref_.(help.sas) / &source2.;
     %end;
-  %else %put ERROR:[&sysmacroname] File "&path./&packageName..zip" does not exist;
+  %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %mend helpPackage;
@@ -232,21 +253,30 @@ TODO:
 **/
 /*
 
-filename packages "C:/SAS_PACKAGES";
-%include packages(loadpackage.sas);
+  filename packages "C:/SAS_PACKAGES";
+  %include packages(loadpackage.sas);
 
-%loadpackage(SQLinDS)
-%helpPackage(SQLinDS)
-%unloadPackage(SQLinDS)
+  %loadpackage(SQLinDS)
+  %helpPackage(SQLinDS)
+  %unloadPackage(SQLinDS)
 
-optional:
+ * optional;
 
-libname packages "C:/SAS_PACKAGES/";
-%include "%sysfunc(pathname(packages))/loadpackage.sas";
+  libname packages "C:/SAS_PACKAGES/";
+  %include "%sysfunc(pathname(packages))/loadpackage.sas";
 
-%loadPackage(SQLinDS)
-%helpPackage(SQLinDS)
-%unloadPackage(SQLinDS)
+  %loadPackage(SQLinDS)
+  %helpPackage(SQLinDS)
+  %unloadPackage(SQLinDS)
+
+ * in case when user SAS session does not support ZIP fileref ;
+ * the following solution could be used,                      ;
+ * unzip packagename.zip content into packagename.disk folder ;
+ * and run macros with following options:                     ;
+
+  %loadPackage(packageName,zip=disk,options=)
+  %helpPackage(packageName,,zip=disk,options=) * mind double comma! ;
+  %unloadPackage(packageName,zip=disk,options=) 
 
 */
 /*** HELP END ***/
