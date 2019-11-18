@@ -1,4 +1,4 @@
-﻿/*** HELP START ***/               
+/*** HELP START ***/               
 
 /**############################################################################**/
 /*                                                                              */
@@ -8,8 +8,8 @@
 /*  I tested it the best I could                                                */
 /*  but it comes with absolutely no warranty whatsoever.                        */
 /*  If you cause any damage or something - it will be your own fault.           */
-/*  You've been warned! You are using it on your own risk.                      */
-/*  However, if you decide to use it don't forget to mention author:            */
+/*  You have been warned! You are using it on your own risk.                    */
+/*  However, if you decide to use it do not forget to mention author:           */
 /*  Bartosz Jablonski (yabwon@gmail.com)                                        */
 /*                                                                              */
 /*  Here is the official version:                                               */
@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to generate SAS packages */
+/* Macros to generate SAS packages, version 20191118 */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -447,6 +447,48 @@ data _null_;
 
   stop;
 run;
+
+/* emergency ICEloadPackage macro to load package when loadPackage() 
+   is unavaliable for some reasons, example of use:
+    1) point to a zip file, 
+    2) include iceloadpackage.sas
+    3) point to package folder, 
+    4) load package
+*//*
+
+  filename packages zip 'C:/SAS_PACKAGES/sqlinds.zip';
+  %include packages(iceloadpackage.sas);
+  filename packages 'C:/SAS_PACKAGES/';
+  %ICEloadpackage(sqlinds)
+
+ */
+data _null_;
+  file &zipReferrence.(iceloadpackage.sas);
+  put " ";
+  put '  /* Temporary replacement of loadPackage() macro. */                      ';
+  put '  %macro ICEloadPackage(                                                   ';
+  put '    packageName                         /* name of a package */            ';
+  put '  , path = %sysfunc(pathname(packages)) /* location of a package */        ';
+  put '  , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP */     ';
+  put '  )/secure;                                                                ';
+  put '    %PUT ** NOTE: Package ' "&packageName." ' loaded in ICE mode **;       ';
+  put '    %local _PackageFileref_;                                               ';
+  put '    %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); ';
+  put '    filename &_PackageFileref_. &ZIP.                                      ';
+  put '      "&path./%lowcase(&packageName.).&zip." %unquote(&options.)           ';
+  put '    ;                                                                      ';
+  put '    %include &_PackageFileref_.(packagemetadata.sas) / &source2.;          ';
+  put '    filename &_PackageFileref_. clear;                                     ';
+  put '    filename &_PackageFileref_. &ZIP.                                      ';
+  put '      "&path./%lowcase(&packageName.).&zip." %unquote(&options.)           ';
+  put '      ENCODING =                                                           ';
+  put '        %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;        ';
+  put '    %include &_PackageFileref_.(load.sas) / &source2.;                     ';
+  put '    filename &_PackageFileref_. clear;                                     ';
+  put '  %mend ICEloadPackage;                                                    ';
+  put " ";
+run;
+
 
 /* loading package files */
 data _null_;
@@ -1178,28 +1220,14 @@ filename &zipReferrence. clear;
 
 
 /*
-
-options mprint;
-ods html;
-%generatePackage(
- testowyPackageName
-,0.01
-,author
-,contact
-,filesLocation=E:\SAS_WORK_5400\testyGeneratePackage
-)
-
-*/
-
-/*
-TODO:
+TODO:  (in Polish)
 - modyfikacja helpa, sprawdzanie kodu danje funkcji/makra/typu [v]
 
 - opcjonalne sortowanie nazw folderow(<numer>_<typ>) [v]
 
 - wewnętrzna nazwaz zmiennej z nazwa pakietu (na potrzeby kompilacji) [v]
 
-- weryfikacja srodaowiska
+- weryfikacja srodaowiska [ ]
 
 - weryfikacja "niepustosci" obowiazkowych argumentow   [v]
 
@@ -1207,62 +1235,30 @@ TODO:
 
 - doadc sprawdzanie liczby wywołan procedury fcmp, format i slowa '%macro(' w plikach z kodami [ ]
 
-- syspackages - makrozmienna z lista zaladowanych pakietow [v] as SYSloadedPackages
+- syspackages - makrozmienna z lista zaladowanych pakietow [v] (as SYSloadedPackages)
 
-- dodac typ "iml", "ds2", "proto"
+- dodac typ "iml", "ds2", "proto" [ ]
 
--lista wymaganych komponentow potrzebnych do działania SASa (na bazie proc SETINIT) [v]
+- lista wymaganych komponentow potrzebnych do działania SASa (na bazie proc SETINIT) [v]
 
--sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [v]
+- sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [v]
 
--weryfikacja nadpisywania makr [ ]
+- weryfikacja nadpisywania makr [ ]
 
--add MD5(&packageName.) value hash instead "package" word in filenames [v]
+- add MD5(&packageName.) value hash instead "package" word in filenames [v]
 
--infolista o required packahes w unloadPackage [ ]
+- infolista o required packahes w unloadPackage [v]
+
+- dodac ICEloadPackage() [ ]
 */
 
+/*** HELP START ***/  
+
+/* Example 1: */
 /*
-
-%include "C:\SAS_PACKAGES\generatePackage.sas";
-
-ods html;
-%generatePackage(filesLocation=C:\SAS_PACKAGES\SQLinDS)
+  %include "C:/SAS_PACKAGES/generatePackage.sas";
+  ods html;
+  %generatePackage(filesLocation=C:/SAS_PACKAGES/SQLinDS)
 */
 
-/*
-*"C:\SAS_PACKAGES\testyGeneratoraPakietow";
-
-libname  packages "E:\SAS_WORK_5400\testyGeneratePackage";
-filename packages "E:\SAS_WORK_5400\testyGeneratePackage";
-
-%include packages(loadpackage.sas);
-
-dm 'log;clear';
-%loadpackage(testowypackagename)
-
-
-*/
-/*
-
-%let helpKeyword=*;
-%helpPackage(testowypackagename)
-%unloadPackage(testowypackagename)
-
-                     
-filename package ZIP "E:\SAS_WORK_5400\testyGeneratePackage\testowypackagename.zip";
-
-%put %sysfunc(pathname(package));
-
-%include package(load.sas);
-%help()???
-%include package(unload.sas);
-
-filename package ZIP "C:\SAS_PACKAGES\testowypackagename.zip";
-%include package(load.sas);
-%include package(unload.sas);
-
-filename package ZIP "C:\SAS_PACKAGES\macroarray.zip";
-%include package(load.sas);
-%include package(unload.sas);
-*/
+/*** HELP END ***/  

@@ -8,8 +8,8 @@
 /*  I tested it the best I could                                                */
 /*  but it comes with absolutely no warranty whatsoever.                        */
 /*  If you cause any damage or something - it will be your own fault.           */
-/*  You've been warned! You are using it on your own risk.                      */
-/*  However, if you decide to use it don't forget to mention author:            */
+/*  You have been warned! You are using it on your own risk.                    */
+/*  However, if you decide to use it do not forget to mention author:           */
 /*  Bartosz Jablonski (yabwon@gmail.com)                                        */
 /*                                                                              */
 /*  Here is the official version:                                               */
@@ -36,17 +36,13 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to load or to unload SAS packages */
-/* A SAS package is a zip file containing a group 
-   of SAS codes (macros, functions, datasteps generating 
+/* Macros to load, to get help, or to unload SAS packages, version 20191118  */
+/* A SAS package is a zip file containing a group of files
+   with SAS code (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
    a single load.sas file (also embedded inside the zip).
 */
-/*
-TODO:
-- macro for testing available packages in the packages' folder [DONE] checkout: %listPackages()
-- add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
-*/
+
 /*** HELP END ***/
 
 /*** HELP START ***/
@@ -237,6 +233,11 @@ TODO:
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %mend helpPackage;
 
+/*
+TODO:
+- macro for testing available packages in the packages folder [DONE] checkout: %listPackages()
+- add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
+*/
 
 /*** HELP START ***/
 
