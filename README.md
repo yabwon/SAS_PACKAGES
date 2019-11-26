@@ -16,7 +16,7 @@ filename packages "<directory/containing/packages/>";
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
 
-### Available packages:
+## Available packages:
 Currently the following packages are available:
 
 - **SQLinDS**, based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the datastep, e.g.
