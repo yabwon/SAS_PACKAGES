@@ -16,6 +16,8 @@ filename packages "<directory/containing/packages/>";
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
 
+#### If you have any questions, sugdestions, or ideas do not hesitate to contact me!
+
 ## Available packages:
 Currently the following packages are available:
 
