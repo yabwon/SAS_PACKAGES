@@ -36,7 +36,7 @@ run;
     %put &i.) %ABC(&i.); 
   %end;
 
-  %let %ABC(13,M=i) = 999;
+  %let %ABC(13,i) = 999; /* i = insert */
 
   %do i = 1 %to 17; 
     %put &i.) %ABC(&i.); 
