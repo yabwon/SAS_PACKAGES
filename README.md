@@ -1,9 +1,17 @@
 # SAS_PACKAGES - a SAS Packages Repository
 
+## Intro:
+
+A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
+
+The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
+
+In this repository we are presenting a *standalone Base SAS framework* which allows to develop and use SAS packages.
+
 ### The User:
 To use a package:
 - Create a folder for your packages, under Windows OS family, e.g. `C:/SAS_PACKAGES` or under Linux/UNIX OS family, e.g. `/home/<username>/SAS_PACKAGES`.
-- Download the `loadpackage.sas` file into the packages folder.
+- Download the `loadpackage.sas` file (user part of the framework) into the packages folder.
 - Download the `<packageName>.zip` file into the packages folder.
 - Execute:
 ```
@@ -15,6 +23,7 @@ filename packages "<directory/containing/packages/>";
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
+- Download and use `generatePackage.sas` file (developer part of the framework).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
