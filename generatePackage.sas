@@ -48,10 +48,12 @@
 
 /*** HELP START ***/
 %macro generatePackage(
- /* location of package files */
+               /* location of package files */
  filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.)
-,testPackage=Y
-,packages= 
+,testPackage=Y   /* indicator if tests should be executed, 
+                    default value Y means "execute tests" */
+,packages=       /* location of other packages if there are
+                    dependencies in loading */
 )/secure;
 /*** HELP END ***/
 %local zipReferrence filesWithCodes _DESCR_ _LIC_ _RC_ _PackageFileref_;
