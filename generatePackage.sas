@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to generate SAS packages, version 20191118 */
+/* Macros to generate SAS packages, version 20191215 */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -49,7 +49,9 @@
 /*** HELP START ***/
 %macro generatePackage(
  /* location of package files */
- filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.) 
+ filesLocation=%sysfunc(pathname(work))/%lowcase(&packageName.)
+,testPackage=Y
+,packages= 
 )/secure;
 /*** HELP END ***/
 %local zipReferrence filesWithCodes _DESCR_ _LIC_ _RC_ _PackageFileref_;
@@ -693,12 +695,13 @@ data _null_;
 
   do until(eof);
     set &filesWithCodes. end = EOF nobs=NOBS;
-    if (upcase(type) in: ('CLEAN' 'LAZYDATA')) then continue; /* cleaning files are only included in unload.sas */
-                                                              /* lazy data are only loaded on demand 
-                                                                 %loadPackage(packagename, lazyData=set1 set2 set3)
-                                                               */
+    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST')) then continue; /* cleaning files are only included in unload.sas */
+                                                                     /* lazy data are only loaded on demand 
+                                                                        %loadPackage(packagename, lazyData=set1 set2 set3)
+                                                                        test files are used only during package generation
+                                                                      */
     /* test for supported types */
-    if not (upcase(type) in: ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' 'FORMAT' 'EXEC' 'CLEAN' 'LAZYDATA')) then 
+    if not (upcase(type) in: ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' 'FORMAT' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
         continue;
@@ -962,7 +965,7 @@ data _null_;
   EOF = 0;
   do until(EOF);
     set &filesWithCodes. end = EOF;
-    if not (upcase(type)=:'LIBNAME') then continue;
+    if not (upcase(type)=:'LIBNAME') then continue; 
     put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be cleared;';
     put '%put NOTE- ;' /;
     put 'libname ' fileshort ' clear;';
@@ -1061,6 +1064,8 @@ data _null_;
   do until(EOFDS);
     /* content is created during package creation */
     set &filesWithCodes. end = EOFDS nobs = NOBS curobs = CUROBS;
+    if upcase(type) in: ('TEST') then continue; /* exclude tests */
+
     put 'put @5 "' CUROBS +(-1) ')" @10 "' type '" @21 "' fileshort '";';
   end;
 
@@ -1118,6 +1123,8 @@ data _null_;
   do until(EOFDS);
     /* content is created during package creation */
     set &filesWithCodes. end = EOFDS;
+    if upcase(type) in: ('TEST') then continue; /* exclude tests */
+
     select;
       when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = fileshort;
       when (upcase(type) = "MACRO")              fileshort2 = cats('%',fileshort,'()');
@@ -1186,6 +1193,7 @@ data _null_;
   if NOBS = 0 then stop;
 
   set &filesWithCodes. nobs = NOBS;
+  if (upcase(type) not in: ('TEST')); /* test files are not to be copied */
 
   call execute(cat ('filename _IN_ "', catx('/', base, folder, file), '";'));
   call execute(cats("filename _OUT_ ZIP '", base, "/%lowcase(&packageName.).zip' member='_", folder, ".", file, "';") );
@@ -1211,11 +1219,227 @@ data _null_;
   call execute('filename _IN_  clear;');
   call execute('filename _OUT_ clear;');
 run;
+/*
+proc sql;
+  drop table &filesWithCodes.;
+quit;
+*/
+filename &zipReferrence. clear;
+
+/* tests of package are executed by default */
+%if %bquote(&testPackage.) ne Y %then 
+  %do;
+    %put WARNING: ** NO TESTING WILL BE EXECUTED **;
+    %GOTO NOTESTING;
+  %end;
+/* check if systask is available  */
+%if %sysfunc(GETOPTION(XCMD)) = NOXCMD %then 
+  %do;
+    %put WARNING: ** NO TESTING WILL BE EXECUTED DUE TO NOXCMD **;
+    %GOTO NOTESTING;
+  %end;
+
+
+/* locate sas binaries */
+filename sasroot "!SASROOT";
+%let SASROOT=%sysfunc(PATHNAME(sasroot));
+filename sasroot;
+%put *&SASROOT.*;
+%let SASEXE=&SASROOT./sas;
+%put *&SASEXE.*;
+%let SASWORK=%sysfunc(GETOPTION(work));
+%put *&SASWORK.*;
+
+options DLCREATEDIR; /* turns-on creation of subdirectories */
+/* temporary location for tests results */
+libname TEST "&SASWORK./test_%lowcase(%sysfunc(datetime(),b8601dt19.))";
+libname TESTWORK "%sysfunc(pathname(TEST))/work";
+
+/* remember location of sessions current directory */
+filename currdir ".";
+filename currdir list;
+
+/* if your package uses any other packages this points to their location */
+/* if no one is provided the filesLocation is used as a repalacement */
+%if %bquote(&packages.)= %then %let packages=&filesLocation.;
+filename packages "&packages.";
+filename packages list;
+
+/* replace current dir with the temporary one for tests */
+%put *NOTE: changing current folder to:*;
+%put *%sysfunc(DLGCDIR(%sysfunc(pathname(TEST))))*;
+
+/* the first test is for loading package, testing help and unloading */
+/*-1-*/
+data _null_;
+  file "./loading.sas";
+
+  put "filename packages '&packages.';" /;
+  put '%include packages(loadpackage.sas);' /;
+  /* load */
+  put '%loadpackage'"(&packageName.,";
+  put " path=&filesLocation.)" /;
+  /* help */
+  put '%helpPackage'"(&packageName.,";
+  put " path=&filesLocation.)" /;
+  put '%helpPackage'"(&packageName.,*,";
+  put " path=&filesLocation.)" /;
+  put '%helpPackage'"(&packageName.,License,";
+  put " path=&filesLocation.)" /;
+  /* unload */
+  put '%unloadPackage'"(&packageName.,";
+  put " path=&filesLocation.)         " /;
+run;
+
+systask kill sas0 wait;
+%local sasstat0 TEST_0 TESTRC_0;;
+%let TEST_0 = loading;
+systask command
+"""&SASEXE.""
+ -sysin ""./&TEST_0..sas""
+ -print ""./&TEST_0..lst""
+   -log ""./&TEST_0..log""
+-config ""&SASROOT./sasv9.cfg""
+  -work ""./work""
+-noterminal"
+taskname=sas0
+status=sasstat0
+WAIT
+;
+%let TESTRC_0 = &SYSRC.;
+%put *&=sasstat0.*&=TESTRC_0.*;
+data _null_;
+  infile "./loading.log" dlm='0a0d'x end=EOF;
+  input;
+  if _N_ > 10; /* due to "Unable to copy SASUSER registry to WORK registry." */
+  if _INFILE_ =: 'WARNING:' then 
+    do;
+      warning+1; 
+      put _N_= _INFILE_;
+    end;
+  if _INFILE_ =: 'ERROR:' then 
+    do;
+      error+1;
+      put _N_= _INFILE_; 
+    end;
+  if EOF then
+    do;
+      put (_ALL_) (=/);
+      call symputX("TESTW_0", warning, "L");
+      call symputX("TESTE_0", error,   "L");
+    end;
+run;
+/*-1-*/
+
+
+/* other tests are provided by the developer */
+%local numberOfTests;
+%let numberOfTests = 0;
+data _null_;
+  /* break if no data */
+  if NOBS = 0 then stop;
+
+  set &filesWithCodes. nobs = NOBS;
+  if (upcase(type) in: ('TEST')); /* only test files are used */
+
+  test + 1; /* count the number of tests */
+
+  _RC_ = filename(cats("_TIN_",test),  catx("/", base, folder, file));
+  _RC_ = filename(cats("_TOUT_",test), cats("./", file));
+
+  _RC_ = fcopy(cats("_TIN_",test), cats("_TOUT_", test));
+  
+  call symputX(cats("TEST_", test), fileshort, "L");
+  call symputX("numberOfTests",     test,      "L");
+run;
+
+/* each test is executed with autoexec loading the package */
+data _null_;
+  file "./autoexec.sas";
+
+  put "filename packages '&packages.';" /;
+  put '%include packages(loadpackage.sas);' /;
+  put '%loadpackage'"(&packageName.,";
+  put " path=&filesLocation.)       " /;
+run;
+
+%local t;   
+%do t = 1 %to &numberOfTests.;
+systask kill sas&t. wait;
+%local sasstat&t. TESTRC_&t;
+systask command
+"""&SASEXE.""
+ -sysin ""./&&TEST_&t...sas""
+ -print ""./&&TEST_&t...lst""
+   -log ""./&&TEST_&t...log""
+-config ""&SASROOT./sasv9.cfg""
+  -work ""./work""
+-noterminal"
+taskname=sas&t.
+status=sasstat&t.
+WAIT
+;
+%let TESTRC_&t = &SYSRC.;
+%put *sasstat&t.=&&sasstat&t.*TESTRC_&t=&&TESTRC_&t*;
+data _null_;
+  infile "./&&TEST_&t...log" dlm='0a0d'x end=EOF;
+  input;
+  if _N_ > 10; /* due to "Unable to copy SASUSER registry to WORK registry." */
+  if _INFILE_ =: 'WARNING:' then 
+    do;
+      warning+1; 
+      /*length warningline $ 1024;
+      warningline = catx(',', strip(warningline), _N_);*/
+      put _N_= _INFILE_;
+    end;
+  if _INFILE_ =: 'ERROR:' then 
+    do;
+      error+1;
+      /*length errorline $ 1024;
+      errorline = catx(',', strip(errorline), _N_);*/ 
+      put _N_= _INFILE_;
+    end;
+  if EOF then
+    do;
+      put (_ALL_) (=/);
+      call symputX("TESTW_&t.", warning, "L");
+      call symputX("TESTE_&t.", error,   "L");
+    end;
+run;
+%end;
+
+data test.tests_summary;
+  length testName $ 128;
+  do _N_ = 0 to &numberOfTests.;
+    testName = symget(cats("TEST_", _N_));
+    systask  = input(symget(cats("SASSTAT", _N_)), best32.);
+    sysrc    = input(symget(cats("TESTRC_", _N_)), best32.);
+    error    = input(symget(cats("TESTE_", _N_)),  best32.);
+    warning  = input(symget(cats("TESTW_", _N_)),  best32.);
+    output;
+  end;
+run;
+title1 "Summary of tests.";
+title2 "details can be found in:";
+title3 "%sysfunc(pathname(TEST))";
+footnote;
+proc print data = test.tests_summary;
+run;
+title;
+
+/*%put _local_;*/
+
+%put *NOTE: changing current folder to:*;
+%put *%sysfunc(DLGCDIR(%sysfunc(pathname(currdir))))*;
+
+
+/* if you do not want any test to be executed */
+%NOTESTING:
 
 proc sql;
   drop table &filesWithCodes.;
 quit;
-filename &zipReferrence. clear;
+
 %mend generatePackage;
 
 
@@ -1227,7 +1451,7 @@ TODO:  (in Polish)
 
 - wewnętrzna nazwaz zmiennej z nazwa pakietu (na potrzeby kompilacji) [v]
 
-- weryfikacja srodaowiska [ ]
+- weryfikacja srodowiska [ ]
 
 - weryfikacja "niepustosci" obowiazkowych argumentow   [v]
 
@@ -1249,7 +1473,7 @@ TODO:  (in Polish)
 
 - infolista o required packahes w unloadPackage [v]
 
-- dodac ICEloadPackage() [ ]
+- dodac ICEloadPackage() [v]
 */
 
 /*** HELP START ***/  
