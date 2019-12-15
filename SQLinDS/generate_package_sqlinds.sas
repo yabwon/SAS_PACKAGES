@@ -1,5 +1,7 @@
 
-%include "C:\SAS_PACKAGES\generatePackage.sas";
+
+filename packages "C:\SAS_PACKAGES";
+%include packages(generatePackage.sas);
 
 ods html;
 %generatePackage(filesLocation=C:\SAS_PACKAGES_DEV\SQLinDS)

@@ -749,7 +749,7 @@ data _null_;
 
   /* update SYSloadedPackages global macrovariable */
   put ' data _null_ ;                                                                                              ';
-  put '  length SYSloadedPackages $ 32767;                                                                         ';
+  put '  length SYSloadedPackages stringPCKG $ 32767;                                                              ';
   put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then                           ';
   put '    do;                                                                                                     ';
   put '      do until(EOF);                                                                                        ';
@@ -758,8 +758,18 @@ data _null_;
   put '      end;                                                                                                  ';
   put '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");                    ';
 
-  put "      if INDEX(lowcase(SYSloadedPackages), '#%lowcase(&packageName.(&packageVersion.))#') = 0 then          ";
+  put "      indexPCKG = INDEX(lowcase(SYSloadedPackages), '#%lowcase(&packageName.)(');                           ";
+  put "      if indexPCKG = 0 then                                                                                 ";
   put '         do;                                                                                                ';
+  put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              ";
+  put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               ';
+  put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        ';
+  put '          put "NOTE: " SYSloadedPackages = ;                                                                ';
+  put '         end ;                                                                                              ';
+  put "      else                                                                                                  ";
+  put '         do;                                                                                                ';
+  put "          stringPCKG = scan(substr(SYSloadedPackages, indexPCKG+1), 1, '#');                                ";
+  put '          SYSloadedPackages = compbl(tranwrd(SYSloadedPackages, strip(stringPCKG), "#"));                   ';
   put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              ";
   put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               ';
   put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        ';
@@ -1262,7 +1272,9 @@ filename currdir ".";
 filename currdir list;
 
 /* if your package uses any other packages this points to their location */
+/* test if packages fileref exists and if do then use it */
 /* if no one is provided the filesLocation is used as a repalacement */
+%if %bquote(&packages.)= %then %let packages=%sysfunc(pathname(packages));
 %if %bquote(&packages.)= %then %let packages=&filesLocation.;
 filename packages "&packages.";
 filename packages list;
