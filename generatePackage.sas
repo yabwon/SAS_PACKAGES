@@ -1490,6 +1490,8 @@ TODO:  (in Polish)
 - infolista o required packahes w unloadPackage [v]
 
 - dodac ICEloadPackage() [v]
+
+- dodac mozliwosc szyfrowania pliku z pakietem (haslo do zip, sprawdzic istnienie funkcjonalnosci)
 */
 
 /*** HELP START ***/  
