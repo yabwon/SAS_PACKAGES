@@ -23,7 +23,7 @@ filename packages "<directory/containing/packages/>";
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
-- Download and use `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (required for testing).
+- Download and use the `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (required for testing).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
@@ -33,7 +33,7 @@ Currently the following packages are available:
 - **SQLinDS**, based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the datastep, e.g.
 ```
 data class;
-  set %SQL(select * from sashelp.class ordered by age);
+  set %SQL(select * from sashelp.class order by age);
 run;
 ```
 - **DFA** (Dynamic Function Arrays), contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
