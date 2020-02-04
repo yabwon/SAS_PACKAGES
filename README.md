@@ -23,7 +23,7 @@ filename packages "<directory/containing/packages/>";
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
-- Download and use `generatePackage.sas` file (developer part of the framework).
+- Download and use `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (required for testing).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
