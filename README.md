@@ -8,7 +8,7 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting a *standalone Base SAS framework* which allows to develop and use SAS packages.
 
-General overwiev video:
+General overview video:
   - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
 
 ### The User:
