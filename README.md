@@ -8,6 +8,9 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting a *standalone Base SAS framework* which allows to develop and use SAS packages.
 
+General overview video:
+  - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
+
 ### The User:
 To use a package:
 - Create a folder for your packages, under Windows OS family, e.g. `C:/SAS_PACKAGES` or under Linux/UNIX OS family, e.g. `/home/<username>/SAS_PACKAGES`.
