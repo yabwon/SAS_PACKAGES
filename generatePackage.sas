@@ -1395,6 +1395,7 @@ systask command
    -log ""&dirForTest./&&TEST_&t...log""
  -config ""&SASROOT./sasv9.cfg""
   -work ""&dirForTest./work""
+ -autoexec ""&dirForTest./autoexec.sas""
  -noterminal"
 taskname=sas&t.
 status=sasstat&t.
