@@ -1320,9 +1320,9 @@ systask command
  -sysin ""&dirForTest./&TEST_0..sas""
  -print ""&dirForTest./&TEST_0..lst""
    -log ""&dirForTest./&TEST_0..log""
--config ""&SASROOT./sasv9.cfg""
+ -config ""&SASROOT./sasv9.cfg""
   -work ""&dirForTest./work""
--noterminal"
+ -noterminal"
 taskname=sas0
 status=sasstat0
 WAIT
@@ -1393,9 +1393,9 @@ systask command
  -sysin ""&dirForTest./&&TEST_&t...sas""
  -print ""&dirForTest./&&TEST_&t...lst""
    -log ""&dirForTest./&&TEST_&t...log""
--config ""&SASROOT./sasv9.cfg""
+ -config ""&SASROOT./sasv9.cfg""
   -work ""&dirForTest./work""
--noterminal"
+ -noterminal"
 taskname=sas&t.
 status=sasstat&t.
 WAIT
