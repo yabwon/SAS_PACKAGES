@@ -8,7 +8,7 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting a *standalone Base SAS framework* which allows to develop and use SAS packages.
 
-General overview video:
+**General overview video:**
   - SAS Global Forum 2020 V.E.: `https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s`
   - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
 
@@ -24,6 +24,8 @@ filename packages "<directory/containing/packages/>";
 %helpPackage(packageName) /* to get help about package */
 %loadPackage(packageName) /* to load package content */
 ```
+ **Workshop video for User: `https://youtu.be/qX_-HJ76g8Y`**
+
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
