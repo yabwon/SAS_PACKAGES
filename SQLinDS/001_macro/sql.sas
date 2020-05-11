@@ -10,13 +10,19 @@
  * by Mike Rhoads, Westat, Rockville, MD
  * https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
  *
+ * SYNTAX:
+
+   %sql(<nonempty sql querry code>)
+
+ * The sql querry code is limited to 32000 bytes.
+ *
  * EXAMPLE 1: simple sql query
 
    data class_subset;
      set %SQL(select name, sex, height from sashelp.class where age > 12);
    run;
 
- * EXAMPLE 2: with dataset options
+ * EXAMPLE 2: query with dataset options
 
    data renamed;
      set %SQL(select * from sashelp.class where sex = "F")(rename = (age=age2));
@@ -33,15 +39,15 @@
 /*** HELP END ***/
 
 
-/* outer macro */
+/* Main User macro */
 %MACRO SQL() / PARMBUFF SECURE; 
   %let SYSPBUFF = %superq(SYSPBUFF); /* macroquoting */
   %let SYSPBUFF = %substr(&SYSPBUFF, 2, %LENGTH(&SYSPBUFF) - 2); /* remove brackets */
   %let SYSPBUFF = %superq(SYSPBUFF); /* macroquoting */
   %let SYSPBUFF = %sysfunc(quote(&SYSPBUFF)); /* quotes */
-  %put NOTE-***the query***; /* print out the query in the log */
+  %put NOTE:*** the query ***; /* print out the query in the log */
   %put NOTE-&SYSPBUFF.;
-  %put NOTE-****************;
+  %put NOTE-*****************;
 
   %local UNIQUE_INDEX; /* internal variable, a unique index for views */
     %let UNIQUE_INDEX = &SYSINDEX; 

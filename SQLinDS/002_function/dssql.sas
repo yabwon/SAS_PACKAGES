@@ -3,6 +3,8 @@
 /* >>> dsSQL() function: <<<
  *
  * Internal function called by %SQL() macro.
+ * The function pass query code from the %SQL()
+ * macro to the %dsSQL_Inner() innternal macreo.
  *
  * Recommended for SAS 9.3 and higher. 
  * Based on paper: 

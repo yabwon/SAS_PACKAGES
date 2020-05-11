@@ -3,12 +3,12 @@
 /* >>> dsSQL library: <<< 
  *
  * The dsSQL library stores temporary views 
- * generated during %SQL() macro's execution.
- * If possible, created as a subdirectory of WORK: 
+ * generated during the %SQL() macro execution.
+ * If possible a subdirectory of WORK is created as: 
 
    LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))/dsSQLtmp";
 
- * if not then redirected to WORK
+ * if not possible then redirects to WORK as:
 
    LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))"; 
 
@@ -25,6 +25,5 @@ data _null_;
     rc1 = LIBNAME("dsSQL", "%sysfunc(pathname(work))", "BASE"); 
 run;
 
+/* list details about the library in the log */
 libname dsSQL LIST;
-;
-

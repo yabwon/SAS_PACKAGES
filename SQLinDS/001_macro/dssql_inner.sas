@@ -1,8 +1,10 @@
-﻿/*** HELP START ***/
+/*** HELP START ***/
 
 /* >>> %dsSQL_Inner() macro: <<<
  *
- * Internal macro called by dsSQL() function. 
+ * Internal macro called by dsSQL() function.
+ * The macro generates a uniqualy named sql view on the fly
+ * which is stored in DSSQL library.  
  *  
  * Recommended for SAS 9.3 and higher. 
  * Based on paper: 

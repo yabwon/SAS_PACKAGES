@@ -23,14 +23,23 @@ the macro-function-sandwich concept introduced in:
 "Use the Full Power of SAS in Your Function-Style Macros"
 the article by Mike Rhoads, Westat, Rockville, MD
 
-Copy of the article can be found at:
+Copy of the article is available at:
 https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
 
-SQLinDS package provides following components:
- 1) %dsSQL_inner() macro 
- 2) dsSQL() function
- 3) %SQL() macro
+Package provides ability to "execute" SQL queries inside a datastep, e.g.
 
-Library DSSQL is created in a subdirectory of the WORK library.
+  data class;
+    set %SQL(select * from sashelp.class);
+  run;
+
+SQLinDS package contains the following components:
+
+ 1) %SQL() macro - the main package macro available for the User
+
+ 2) dsSQL() function (internal)
+ 3) %dsSQL_inner() macro (internal) 
+ 4) Library DSSQL (created in a subdirectory of the WORK library)
+
+See help for the %SQL() macro to find more examples. 
 
 DESCRIPTION END:
