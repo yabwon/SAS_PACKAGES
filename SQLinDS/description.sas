@@ -6,7 +6,7 @@
 Type: Package                                    :/*required, not null, constant value*/
 Package: SQLinDS                                 :/*required, not null, up to 24 characters, naming restrictions like for a dataset name! */
 Title: SQL queries in Data Step                  :/*required, not null*/
-Version: 1.0                                     :/*required, not null*/
+Version: 2.0                                     :/*required, not null*/
 Author: Mike Rhoads (RhoadsM1@Westat.com)        :/*required, not null*/
 Maintainer: Bartosz Jablonski (yabwon@gmail.com) :/*required, not null*/
 License: MIT                                     :/*required, not null, values: MIT, GPL2, BSD, etc.*/
