@@ -285,3 +285,132 @@ TODO:
 
 */
 /*** HELP END ***/
+
+
+/*** HELP START ***/
+/* Macros to install SAS packages, version 20200603  */
+/* A SAS package is a zip file containing a group of files
+   with SAS code (macros, functions, datasteps generating 
+   data, etc.) wrapped up together and %INCLUDEed by
+   a single load.sas file (also embedded inside the zip).
+*/
+
+/*** HELP END ***/
+
+/*** HELP START ***/
+%macro installPackage(
+  packageName  /* package name, without the zip extension */
+, sourcePath = /* location of the package, e.g. "www.some.page/", mind the "/" at the end */
+, replace = 1  /* 1 = replace if the package already exist, 0 = otherwise */
+)
+/*** HELP END ***/
+/
+secure; 
+  %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp msglevel_tmp;
+  %let ls_tmp     = %sysfunc(getoption(ls));      
+  %let ps_tmp     = %sysfunc(getoption(ps));      
+  %let notes_tmp  = %sysfunc(getoption(notes));   
+  %let source_tmp = %sysfunc(getoption(source));
+  %let stimer_tmp = %sysfunc(getoption(stimer));
+  %let fullstimer_tmp = %sysfunc(getoption(fullstimer)); 
+  %let msglevel_tmp = %sysfunc(getoption(msglevel));  
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N;
+
+  %local in out;
+  %let  in = i%sysfunc(md5(&packageName.),hex7.);
+  %let out = o%sysfunc(md5(&packageName.),hex7.);
+
+  /*options MSGLEVEL=i;*/
+                           
+  /*
+  Reference:
+  https://blogs.sas.com/content/sasdummy/2011/06/17/how-to-use-sas-data-step-to-copy-a-file-from-anywhere/
+  */
+
+  %if %superq(sourcePath)= %then
+    %do;
+      %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/;
+    %end;
+  filename &in URL "&sourcePath.%lowcase(&packageName.).zip" recfm=N lrecl=1;
+  filename &out    "%sysfunc(pathname(packages))/%lowcase(&packageName.).zip" recfm=N lrecl=1;
+  /*
+  filename in  list;
+  filename out list;
+  */ 
+  /* copy the file byte-by-byte  */
+  data _null_;
+    length filein 8 out_path in_path $ 4096;
+    out_path = pathname ("&out");
+     in_path = pathname ("&in" );
+
+
+    filein = fopen( "&in", 'S', 1, 'B');
+    if filein = 0 then
+      put "ERROR: Source file:" / 
+          "ERROR- " in_path /
+          "ERROR- is unavaliable!";    
+    if filein > 0; 
+
+    put @2 "Source information:";  
+    infonum = FOPTNUM(filein);
+    length infoname $ 32 infoval $ 128;
+    do i=1 to coalesce(infonum, -1);
+      infoname = FOPTNAME(filein, i);
+      infoval  = FINFO(filein, infoname);
+      put @4 infoname ":" 
+        / @6 infoval
+        ;
+    end;
+    rc = FCLOSE(filein);
+    put;
+
+    
+
+    if FEXIST("&out") = 0 then 
+      do;
+        put @2 "Installing the &packageName. package.";
+        rc = FCOPY("&in", "&out");
+      end;
+    else if FEXIST("&out") = 1 then 
+      do;
+        if symget("replace")="1" then
+          do;
+            put @2 "The following file will be replaced during "
+              / @2 "instalation of the &packageName. package: " 
+              / @5 out_path;
+            rc = FDELETE("&out");
+            rc = FCOPY("&in", "&out");
+          end;
+        else
+          do;
+            put @2 "The following file will NOT be replaced: " 
+              / @5 out_path;
+            rc = 1;
+          end;
+      end;
+      
+    put @2 "Done with return code " rc=;
+  run;
+   
+  filename &in  clear;
+  filename &out clear;
+  options ls = &ls_tmp. ps = &ps_tmp. 
+          &notes_tmp. &source_tmp. 
+          &stimer_tmp. &fullstimer_tmp.
+          msglevel=&msglevel_tmp.;
+%mend installPackage;
+
+/*** HELP START ***/
+/* Example 1:
+
+filename packages "C:/Users/&sysuserid/Desktop/download_test/";
+
+%installPackage(SQLinDS);
+%installPackage(SQLinDS);
+%installPackage(SQLinDS,replace=0);
+
+
+%installPackage(NotExistingPackage);
+
+*/
+/*** HELP END ***/
