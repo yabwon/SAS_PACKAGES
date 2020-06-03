@@ -6,30 +6,35 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting a *standalone Base SAS framework* which allows to develop and use SAS packages.
+In this repository we are presenting a **standalone Base SAS framework** which allows to develop and use SAS packages.
 
 **General overview video:**
   - SAS Global Forum 2020 V.E.: `https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s`
   - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
 
 ### The User:
+**Update:** `%installPackage()` **macro is available**. 
+The `%installpackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+
 To use a package:
 - Create a folder for your packages, under Windows OS family, e.g. `C:/SAS_PACKAGES` or under Linux/UNIX OS family, e.g. `/home/<username>/SAS_PACKAGES`.
 - Download the `loadpackage.sas` file (user part of the framework) into the packages folder.
-- Download the `<packageName>.zip` file into the packages folder.
+- \[Optional\] Download the `<packageName>.zip` file into the packages folder.
 - Execute:
 ```
-filename packages "<directory/containing/packages/>";
-%include packages(loadpackage.sas);
-%helpPackage(packageName) /* to get help about package */
-%loadPackage(packageName) /* to load package content */
+filename packages "<directory/containing/packages/>"; /* setup directory for packages */
+%include packages(loadpackage.sas); /* enable the framework */
+
+%installPackage(packageName) /* install the package, unless you downloaded it manually */
+%helpPackage(packageName)    /* get help about the package */
+%loadPackage(packageName)    /* load the package content into the SAS session */
 ```
  **Workshop video for User: `https://youtu.be/qX_-HJ76g8Y`**
-
+ 
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
-- Download and use the `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (required for testing).
+- Download and use the `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (user part of the framework but required for *testing*).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
