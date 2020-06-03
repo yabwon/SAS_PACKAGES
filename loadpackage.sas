@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to load, to get help, or to unload SAS packages, version 20191118  */
+/* Macros to load, to get help, or to unload SAS packages, version 20200603  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -73,14 +73,15 @@
                                        */
 )/secure;
 /*** HELP END ***/
-  %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
   %let notes_tmp  = %sysfunc(getoption(notes));   
   %let source_tmp = %sysfunc(getoption(source));
   %let stimer_tmp = %sysfunc(getoption(stimer));
   %let fullstimer_tmp = %sysfunc(getoption(fullstimer)); 
-  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer;
+  %let msglevel_tmp = %sysfunc(getoption(msglevel));  
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N;
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
@@ -122,7 +123,8 @@
   filename &_PackageFileref_. clear;
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
-          &stimer_tmp. &fullstimer_tmp.;
+          &stimer_tmp. &fullstimer_tmp.
+          msglevel=&msglevel_tmp.;
 %mend loadPackage;
 
 /*** HELP START ***/
@@ -146,12 +148,13 @@
                                        */
 )/secure;
 /*** HELP END ***/
-  %local ls_tmp ps_tmp notes_tmp source_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
   %let notes_tmp  = %sysfunc(getoption(notes));   
-  %let source_tmp = %sysfunc(getoption(source));  
-  options NOnotes NOsource ls=MAX ps=MAX;
+  %let source_tmp = %sysfunc(getoption(source));
+  %let msglevel_tmp = %sysfunc(getoption(msglevel)); 
+  options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
@@ -174,7 +177,7 @@
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
-  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
+  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. msglevel = &msglevel_tmp.;
 %mend unloadPackage;
 
 /*** HELP START ***/
@@ -202,12 +205,13 @@
                                        */
 )/secure;
 /*** HELP END ***/
-  %local ls_tmp ps_tmp notes_tmp source_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
   %let notes_tmp  = %sysfunc(getoption(notes));   
-  %let source_tmp = %sysfunc(getoption(source));  
-  options NOnotes NOsource ls=MAX ps=MAX;
+  %let source_tmp = %sysfunc(getoption(source));
+  %let msglevel_tmp = %sysfunc(getoption(msglevel)); 
+  options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
   %local _PackageFileref_;
   %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.);
 
@@ -230,7 +234,7 @@
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
-  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
+  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. msglevel = &msglevel_tmp.;
 %mend helpPackage;
 
 /*
@@ -276,7 +280,7 @@ TODO:
  * and run macros with following options:                     ;
 
   %loadPackage(packageName,zip=disk,options=)
-  %helpPackage(packageName,,zip=disk,options=) * mind double comma! ;
+  %helpPackage(packageName,,zip=disk,options=) %* mind double comma! ;
   %unloadPackage(packageName,zip=disk,options=) 
 
 */
