@@ -13,9 +13,6 @@ In this repository we are presenting a **standalone Base SAS framework** which a
   - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
 
 ### The User:
-**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. 
-The `%installpackage()` macro is embedded in the `loadpackage.sas` part of the framework.
-
 To use a package:
 - Create a folder for your packages, under Windows OS family, e.g. `C:/SAS_PACKAGES` or under Linux/UNIX OS family, e.g. `/home/<username>/SAS_PACKAGES`.
 
@@ -47,6 +44,8 @@ filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
 
  **Workshop video for User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`**
  
+ **Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installpackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
