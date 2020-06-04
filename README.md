@@ -13,14 +13,17 @@ In this repository we are presenting a **standalone Base SAS framework** which a
   - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
 
 ### The User:
-**Update:** `%installPackage()` **macro is available**. 
+**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. 
 The `%installpackage()` macro is embedded in the `loadpackage.sas` part of the framework.
 
 To use a package:
 - Create a folder for your packages, under Windows OS family, e.g. `C:/SAS_PACKAGES` or under Linux/UNIX OS family, e.g. `/home/<username>/SAS_PACKAGES`.
+
+and then either:
+
 - Download the `loadpackage.sas` file (user part of the framework) into the packages folder.
 - \[Optional\] Download the `<packageName>.zip` file into the packages folder.
-- Execute:
+- and Execute:
 ```
 filename packages "<directory/containing/packages/>"; /* setup directory for packages */
 %include packages(loadpackage.sas); /* enable the framework */
@@ -29,7 +32,20 @@ filename packages "<directory/containing/packages/>"; /* setup directory for pac
 %helpPackage(packageName)    /* get help about the package */
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
- **Workshop video for User: `https://youtu.be/qX_-HJ76g8Y`**
+
+or if you need it just for "one time" only Execute: 
+
+```
+filename packages "<directory/containing/packages/>"; /* setup directory for packages */
+filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/loadpackage.sas";
+%include spfinit; /* enable the framework */
+
+%installPackage(packageName) /* install the package */
+%helpPackage(packageName)    /* get help about the package */
+%loadPackage(packageName)    /* load the package content into the SAS session */
+```
+
+ **Workshop video for User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`**
  
 ### The Developer:
 To create your own package:
