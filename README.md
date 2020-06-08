@@ -56,14 +56,14 @@ To create your own package:
 ## Available packages:
 Currently the following packages are available:
 
-- **SQLinDS**, based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the datastep, e.g.
+- **SQLinDS**\[2.1\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the datastep, e.g.
 ```
 data class;
   set %SQL(select * from sashelp.class order by age);
 run;
 ```
-- **DFA** (Dynamic Function Arrays), contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
-- **macroArray**, implementation of an array concept in a macrolanguage, e.g. 
+- **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **macroArray**\[0.3\], implementation of an array concept in a macrolanguage, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
 
@@ -77,6 +77,6 @@ run;
     %put &i.) %ABC(&i.); 
   %end;
 ```
-- **dynMacroArray**, set of macros (wrappers for a hash table) emulating dynamic array in the datastep (macro predecessor of DFA)
+- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the datastep (macro predecessor of DFA)
 
 ### ======
