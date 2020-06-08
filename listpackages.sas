@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to list SAS packages in packages' folder */
+/* Macros to list SAS packages in packages' folder, version 20200608 */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -44,8 +44,9 @@
 */
 /*
  * Example 1:
-  
+
   filename packages "C:\SAS_PACKAGES";
+  %include packages(listpackages.sas);
   %listPackages()
 
 */
@@ -100,7 +101,7 @@ data _null_;
           put " * " file @; put nn /;
            
           infile package ZIP FILEVAR=file member="description.sas" end=EOF; 
-           
+          
             do until(EOF);
                 input;
                 if lowcase(scan(_INFILE_,1,":")) in ("package" "title" "version" "author" "maintainer" "license") then
