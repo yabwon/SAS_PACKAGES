@@ -18,7 +18,7 @@
 
 /* inner macro */
 %MACRO dsSQL_Inner() / secure;
-  %local query tempfile1 tempfile2;
+  %local query tempfile1 tempfile2 ps_tmp;
   %let query = %superq(query_arg); 
   %let query = %sysfunc(dequote(&query));
 
@@ -29,6 +29,9 @@
 
   filename &tempfile1. temp;
   filename &tempfile2. temp;
+
+  %let ps_tmp = %sysfunc(getoption(ps));
+  options ps = MAX;
   proc printto log = &tempfile1.;
   run;
   /* get the query shape i.e. the executed one */
@@ -38,6 +41,7 @@
   quit;
   proc printto;
   run;
+  options ps = &ps_tmp.;
 
   %put *** executed as ***;
   data _null_;
