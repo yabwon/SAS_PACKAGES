@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to load, to get help, or to unload SAS packages, version 20200603  */
+/* Macros to load, to get help, or to unload SAS packages, version 20200610  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -49,17 +49,17 @@
 
 %macro loadPackage(
   packageName                         /* name of a package, 
-                                         e.g. myPackageFile.zip, 
+                                         e.g. myPackage, 
                                          required and not null  */
 , path = %sysfunc(pathname(packages)) /* location of a package, 
                                          by default it looks for 
                                          location of "packages" fileref */
-, options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
+, options = %str(LOWCASE_MEMNAME)     /* posible options for ZIP filename */
 , source2 = /*source2*/               /* option to print out details, 
                                          null by default */
 , requiredVersion = .                 /* option to test if loaded package 
                                          is provided in required version */
-, lazyData =                          /* a list of names of a lazy datasets 
+, lazyData =                          /* a list of names of lazy datasets 
                                          to be loaded, if not null then
                                          datasets from the list are loaded
                                          instead of a package, asterisk 
@@ -73,6 +73,56 @@
                                        */
 )/secure;
 /*** HELP END ***/
+%if %superq(packageName) = %then
+  %do;
+    %put ;
+    %put ###############################################################################;
+    %put #        This is short help information for the loadPackage macro             #;
+    %put ###############################################################################;
+    %put #                                                                             #;
+    %put # Macro to load SAS packages, version 20200610                                #;
+    %put #                                                                             #;
+    %put # A SAS package is a zip file containing a group                              #;
+    %put # of SAS codes (macros, functions, datasteps generating                       #;
+    %put # data, etc.) wrapped up together and included by                             #;
+    %put # a single load.sas file (also embedded inside the zip).                      #;
+    %put #                                                                             #;
+    %put # Parameters:                                                                 #;
+    %put #                                                                             #;
+    %put #  packageName        Name of a package, e.g. myPackage,                      #;
+    %put #                     Required and not null, default use case:                #;
+    %put #                      %nrstr(%%loadPackage(myPackage)).                               #;
+    %put #                     If empty displays this help information.                #;
+    %put #                                                                             #;
+    %put #  path=              Location of a package. By default it looks for          #;
+    %put #                     location of the "packages" fileref, i.e.                #;
+    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
+    %put #                                                                             #;
+    %put #  options=           Posible options for ZIP filename,                       #;
+    %put #                     default value: LOWCASE_MEMNAME                          #;
+    %put #                                                                             #;
+    %put #  source2=           Option to print out details, null by default.           #;
+    %put #                                                                             #;
+    %put #  requiredVersion=   Option to test if the loaded package                    #;
+    %put #                     is provided in required version,                        #;
+    %put #                     default value: .                                        #;
+    %put #                                                                             #;
+    %put #  lazyData=          A list of names of lazy datasets to be loaded.          #;
+    %put #                     If not null datasets from the list are loaded           #;
+    %put #                     instead of the package.                                 #;
+    %put #                     Asterisk (*) means "load all datasets".                 #;
+    %put #                                                                             #;
+    %put #  zip=zip            Standard package is zip (lowcase),                      #;
+    %put #                     e.g. %nrstr(%%loadPackage(PiPackage)).                           #;
+    %put #                     If the zip is not avaliable use a folder.               #;
+    %put #                     Unpack data to "pipackage.disk" folder                  #;
+    %put #                     and use loadPackage in the following form:              #;
+    %put #                      %nrstr(%%loadPackage(PiPackage, zip=disk, options=))            #;
+    %put #                                                                             #;
+    %put ###############################################################################;
+    %put ;
+    %GOTO ENDloadPackage;
+  %end;
   %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
@@ -125,13 +175,16 @@
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.
           msglevel=&msglevel_tmp.;
+
+/* jump here after running %loadPackage() - only help is displayed */
+%ENDloadPackage:
 %mend loadPackage;
 
 /*** HELP START ***/
 
 %macro unloadPackage(
   packageName                         /* name of a package, 
-                                         e.g. myPackageFile.zip, 
+                                         e.g. myPackage, 
                                          required and not null  */
 , path = %sysfunc(pathname(packages)) /* location of a package, 
                                          by default it looks for 
@@ -148,6 +201,47 @@
                                        */
 )/secure;
 /*** HELP END ***/
+%if %superq(packageName) = %then
+  %do;
+    %put ;
+    %put ###############################################################################;
+    %put #        This is short help information for the unloadPackage macro           #;
+    %put ###############################################################################;
+    %put #                                                                             #;
+    %put # Macro to unload SAS packages, version 20200610                              #;
+    %put #                                                                             #;
+    %put # A SAS package is a zip file containing a group                              #;
+    %put # of SAS codes (macros, functions, datasteps generating                       #;
+    %put # data, etc.) wrapped up together and included by                             #;
+    %put # a single load.sas file (also embedded inside the zip).                      #;
+    %put #                                                                             #;
+    %put # Parameters:                                                                 #;
+    %put #                                                                             #;
+    %put #  packageName        Name of a package, e.g. myPackage,                      #;
+    %put #                     Required and not null, default use case:                #;
+    %put #                      %nrstr(%%unloadPackage(myPackage)).                             #;
+    %put #                     If empty displays this help information.                #;
+    %put #                                                                             #;
+    %put #  path=              Location of a package. By default it looks for          #;
+    %put #                     location of the "packages" fileref, i.e.                #;
+    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
+    %put #                                                                             #;
+    %put #  options=           Posible options for ZIP filename,                       #;
+    %put #                     default value: LOWCASE_MEMNAME                          #;
+    %put #                                                                             #;
+    %put #  source2=           Option to print out details, null by default.           #;
+    %put #                                                                             #;
+    %put #  zip=zip            Standard package is zip (lowcase),                      #;
+    %put #                     e.g. %nrstr(%%unloadPackage(PiPackage)).                         #;
+    %put #                     If the zip is not avaliable use a folder.               #;
+    %put #                     Unpack data to "pipackage.disk" folder                  #;
+    %put #                     and use loadPackage in the following form:              #;
+    %put #                      %nrstr(%%unloadPackage(PiPackage, zip=disk, options=))          #;
+    %put #                                                                             #;
+    %put ###############################################################################;
+    %put ;
+    %GOTO ENDunloadPackage;
+  %end;
   %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
@@ -178,6 +272,8 @@
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. msglevel = &msglevel_tmp.;
+/* jump here after running %unloadPackage() - only help is displayed */
+%ENDunloadPackage:
 %mend unloadPackage;
 
 /*** HELP START ***/
@@ -205,6 +301,52 @@
                                        */
 )/secure;
 /*** HELP END ***/
+%if %superq(packageName) = %then
+  %do;
+    %put ;
+    %put ###############################################################################;
+    %put #        This is short help information for the helpPackage macro             #;
+    %put ###############################################################################;
+    %put #                                                                             #;
+    %put # Macro to get help about SAS packages, version 20200610                      #;
+    %put #                                                                             #;
+    %put # A SAS package is a zip file containing a group                              #;
+    %put # of SAS codes (macros, functions, datasteps generating                       #;
+    %put # data, etc.) wrapped up together and included by                             #;
+    %put # a single load.sas file (also embedded inside the zip).                      #;
+    %put #                                                                             #;
+    %put # Parameters:                                                                 #;
+    %put #                                                                             #;
+    %put #  packageName        Name of a package, e.g. myPackage,                      #;
+    %put #                     Required and not null, default use case:                #;
+    %put #                      %nrstr(%%helpPackage(myPackage)).                               #;
+    %put #                     If empty displays this help information.                #;
+    %put #                                                                             #;
+    %put #  helpKeyword        Phrase to search in help,                               #;
+    %put #                     - when empty prints description,                        #;
+    %put #                     - "*"  means prints all help,                           #;
+    %put #                     - "license"  prints license.                            #;
+    %put #                                                                             #;
+    %put #  path=              Location of a package. By default it looks for          #;
+    %put #                     location of the "packages" fileref, i.e.                #;
+    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
+    %put #                                                                             #;
+    %put #  options=           Posible options for ZIP filename,                       #;
+    %put #                     default value: LOWCASE_MEMNAME                          #;
+    %put #                                                                             #;
+    %put #  source2=           Option to print out details, null by default.           #;
+    %put #                                                                             #;
+    %put #  zip=zip            Standard package is zip (lowcase),                      #;
+    %put #                     e.g. %nrstr(%%helpPackage(PiPackage)).                           #;
+    %put #                     If the zip is not avaliable use a folder.               #;
+    %put #                     Unpack data to "pipackage.disk" folder                  #;
+    %put #                     and use loadPackage in the following form:              #;
+    %put #                      %nrstr(%%helpPackage(PiPackage, zip=disk, options=))            #;
+    %put #                                                                             #;
+    %put ###############################################################################;
+    %put ;
+    %GOTO ENDhelpPackage;
+  %end;
   %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
@@ -235,6 +377,8 @@
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist;
   filename &_PackageFileref_. clear;
   options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. msglevel = &msglevel_tmp.;
+/* jump here after running %helpPackage() - only help is displayed */
+%ENDhelpPackage:
 %mend helpPackage;
 
 /*
@@ -305,7 +449,40 @@ TODO:
 )
 /*** HELP END ***/
 /
-secure; 
+secure;
+%if %superq(packageName) = %then
+  %do;
+    %put ;
+    %put ###############################################################################;
+    %put #        This is short help information for the installPackage macro          #;
+    %put ###############################################################################;
+    %put #                                                                             #;
+    %put # Macro to install SAS packages, version 20200610                             #;
+    %put #                                                                             #;
+    %put # A SAS package is a zip file containing a group                              #;
+    %put # of SAS codes (macros, functions, datasteps generating                       #;
+    %put # data, etc.) wrapped up together and included by                             #;
+    %put # a single load.sas file (also embedded inside the zip).                      #;
+    %put #                                                                             #;
+    %put # Parameters:                                                                 #;
+    %put #                                                                             #;
+    %put #  packageName  Name of a package, e.g. myPackage,                            #;
+    %put #               Required and not null, default use case:                      #;
+    %put #                %nrstr(%%installPackage(myPackage)).                                  #;
+    %put #               If empty displays this help information.                      #;
+    %put #                                                                             #;
+    %put #  sourcePath=  Location of the package, e.g. "www.some.web.page/"            #;
+    %put #               Mind the "/" at the end of the path!                          #;
+    %put #               Current default location:                                     #;
+    %put #               https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/ #;    
+    %put #                                                                             #;
+    %put #  replace=     With default value of 1 it causes existing package file       #;
+    %put #               to be replaceed by new downloaded file.                       #;
+    %put #                                                                             #;
+    %put ###############################################################################;
+    %put ;
+    %GOTO ENDinstallPackage;
+  %end; 
   %local ls_tmp ps_tmp notes_tmp source_tmp fullstimer_tmp stimer_tmp msglevel_tmp;
   %let ls_tmp     = %sysfunc(getoption(ls));      
   %let ps_tmp     = %sysfunc(getoption(ps));      
@@ -398,19 +575,21 @@ secure;
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.
           msglevel=&msglevel_tmp.;
+/* jump here after running %installPackage() - only help is displayed */
+%ENDinstallPackage:
 %mend installPackage;
 
 /*** HELP START ***/
 /* Example 1:
 
-filename packages "C:/Users/&sysuserid/Desktop/download_test/";
+  filename packages "C:/Users/&sysuserid/Desktop/download_test/";
 
-%installPackage(SQLinDS);
-%installPackage(SQLinDS);
-%installPackage(SQLinDS,replace=0);
+  %installPackage(SQLinDS);
+  %installPackage(SQLinDS);
+  %installPackage(SQLinDS,replace=0);
 
 
-%installPackage(NotExistingPackage);
+  %installPackage(NotExistingPackage);
 
 */
 /*** HELP END ***/
