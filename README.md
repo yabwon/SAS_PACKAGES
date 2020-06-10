@@ -44,14 +44,16 @@ filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
 
  **Workshop video for User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`**
  
- **Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installpackage()` macro is embedded in the `loadpackage.sas` part of the framework.
-
 ### The Developer:
 To create your own package:
 - Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
 - Download and use the `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (user part of the framework but required for *testing*).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
+
+ **Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+ 
+  **Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
 
 ## Available packages:
 Currently the following packages are available:
