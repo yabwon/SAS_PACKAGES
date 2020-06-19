@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to generate SAS packages, version 20200610 */
+/* Macros to generate SAS packages, version 20200619 */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -63,7 +63,7 @@
     %put #        This is short help information for the generatePackage macro         #;
     %put ###############################################################################;
     %put #                                                                             #;
-    %put # Macro to generate SAS packages, version 20200610                            #;
+    %put # Macro to generate SAS packages, version 20200619                            #;
     %put #                                                                             #;
     %put # A SAS package is a zip file containing a group                              #;
     %put # of SAS codes (macros, functions, datasteps generating                       #;
@@ -276,40 +276,50 @@ DESCRIPTION END:
    |            |  option INLIB=  should be: work.&packageName.fcmp
    |            |  (both literally with macrovariable name and "fcmp" sufix)]
    |            |
-   |            +-efg.sas [a file with a code creating function EFG]
+   |            +-efg.sas [a file with a code creating function EFG, _with_ "Proc FCMP" header]
    |
-   +-003_format [one file one format,
+   +-003_functions [mind the S at the end!, one file one function,
+   |             |  only plain code of the function, without "Proc FCMP" header]
+   |             |
+   |             +-ijk.sas [a file with a code creating function EFG, _without_ "Proc FCMP" header]
+   |
+   +-004_format [one file one format,
    |          |  option LIB= should be: work.&packageName.format 
    |          |  (literally with macrovariable name and "format" sufix)]
    |          |
    |          +-efg.sas [a file with a code creating format EFG and informat EFG]
    |
-   +-004_data [one file one dataset]
+   +-005_data [one file one dataset]
    |        |
    |        +-abc.efg.sas [a file with a code creating dataset EFG in library ABC] 
    |
-   +-005_exec [so called "free code", content of the files will be printed 
+   +-006_exec [so called "free code", content of the files will be printed 
    |        |  to the log before execution]
    |        |
    |        +-<no file, in this case folder may be skipped>
    |
-   +-006_format [if your codes depend each other you can order them in folders, 
+   +-007_format [if your codes depend each other you can order them in folders, 
    |          |  e.g. code from 003_... will be executed before 006_...]
    |          |
    |          +-abc.sas [a file with a code creating format ABC, 
    |                     used in the definition of the format EFG]
-   +-007_function
+   +-008_function
    |            |
    |            +-<no file, in this case folder may be skipped>
    |
    |
-   +-008_lazydata [one file one dataset]
+   +-009_lazydata [one file one dataset]
    |            |
    |            +-klm.sas [a file with a code creating dataset klm in library work
    |                       it will be created only if user request it by using:
    |                       %loadPackage(packagename, lazyData=klm)
    |                       multiple elements separated by space are allowed
    |                       an asterisk(*) means "load all data"] 
+   |
+   +-010_imlmodule [one file one IML module,
+   |             |  only plain code of the module, without "Proc IML" header]
+   |             |
+   |             +-abc.sas [a file with a code creating IML module ABC, _without_ "Proc IML" header]
    |
    +-<sequential number>_<type [in lower case]>
    |
@@ -681,7 +691,7 @@ data _null_;
       put '      do _N_ = 1 to countw(SYSloadedPackages);                                                ';
       put '        req = scan(SYSloadedPackages, _N_, " ");                                              ';
       put '        name = lowcase(strip(scan(req, 1, "(")));                                             ';
-      put '        vers = input(compress(scan(req,-1, "("), ".", "KD"),best32.);                         ';
+      put '        vers = input(compress(scan(req,-1, "("), ".", "KD"), best32.);                        ';
       put '        _RC_ = LP.add();                                                                      ';
       put '      end;                                                                                    ';
 
@@ -706,7 +716,7 @@ data _null_;
       put '      call symputX("packageRequiredErrors", 1, "L");                                          ';
       put '      do req = ' / packageReqPackages / ' ;                                                   ';
       put '        name = lowcase(strip(scan(req, 1, "(")));                                             ';
-      put '        vers = lowcase(compress(scan(req,-1, "("), ".", "KD"));                               ';
+      put '        vers = input(compress(scan(req,-1, "("), ".", "KD"), best32.);                        ';
       put '        put "ERROR: SAS package " req "is missing! Download it and" ;                         ';
       put '        put ''ERROR- use %loadPackage('' name ", requiredVersion = " vers ") to load it." ;   ';
       put '      end ;                                                                                   ';
@@ -739,7 +749,9 @@ data _null_;
                                                                         test files are used only during package generation
                                                                       */
     /* test for supported types */
-    if not (upcase(type) in: ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) then 
+    if not (upcase(type) in: 
+      ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' 'IMLMODULE' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) 
+    then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
         continue;
@@ -761,16 +773,29 @@ data _null_;
       put '%put NOTE- ;';
     end;
 
-    if 1 = FIRST.type and upcase(type)='FUNCTIONS' then /* for multiple functions in one FCMP run */
+    /* HEADERS for IML and FCMP */
+    if 1 = FIRST.type and upcase(type)='FUNCTIONS' then /* header, for multiple functions in one FCMP run */
       do;
         put "proc fcmp outlib = work.%lowcase(&packageName.fcmp).package; ";
       end;
+    if 1 = FIRST.type and upcase(type)='IMLMODULE' then /* header, for IML modules */
+      do;
+        put "proc iml; ";
+      end;
 
+    /* include the file with the code of the element */
     put '%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;' /;
 
-    if 1 = LAST.type and upcase(type)='FUNCTIONS' then /* for multiple functions in one FCMP run */
+    /* FOOTERS for IML and FCMP */
+    if 1 = LAST.type and upcase(type)='FUNCTIONS' then /* footer, for multiple functions in one FCMP run */
       do;
         put "run; ";
+      end;
+    if 1 = LAST.type and upcase(type)='IMLMODULE' then /* footer, for IML modules */
+      do;
+        put "reset storage = WORK.&packageName.IML; "; /* set the storage location for modules */
+        put "store module = _ALL_;                  "; /* and store all created modules */
+        put "quit;                                  ";
       end;
 
     isFunction + (upcase(type)=:'FUNCTION');
@@ -1006,7 +1031,23 @@ data _null_;
           ',%str(()) ))));';
       put '%put; %put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
     end;
-   
+  
+  /* delete IML modules */
+  EOF = 0; first.IML = 1;
+  do until(EOF);
+    set &filesWithCodes. end = EOF;
+    if not (upcase(type)=:'IMLMODULE') then continue;
+    if first.iml then
+      do;
+        put "proc delete lib=WORK data=&packageName.IML (memtype=catalog); ";
+        put "run; ";
+        first.IML = 0;
+      end;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
+    put '%put NOTE- ;' /;
+    /* put 'remove module = ' fileshort ';'; */
+  end;
+ 
   /* delete datasets */
   put "proc sql noprint;";
   EOF = 0;
@@ -1149,7 +1190,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20200610 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20200619 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
@@ -1203,33 +1244,35 @@ data _null_;
   put 'run;';
 */
   /* loop through content found and print info to the log */
-  put 'data _null_;                                                                                                        ';
-  put 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;                                      ';
+  put 'data _null_;                                                                                              ';
+  put 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;                            ';
   put 'if NOBS = 0 then do; ' /
         'put; put '' *> No help info found. Try %helpPackage(packageName,*) to display all.''; put; stop; ' / 
       'end; ';
-  put '  do until(EOFDS);                                                                                                  ';
-  put '    set WORK._last_ end = EOFDS nobs = NOBS;                                                                        ';
-  put '    length memberX $ 1024;                                                                                          ';
-  put '    memberX = cats("_",folder,".",file);                                                                            ';
+  put '  do until(EOFDS);                                                                                        ';
+  put '    set WORK._last_ end = EOFDS nobs = NOBS;                                                              ';
+  put '    length memberX $ 1024;                                                                                ';
+  put '    memberX = cats("_",folder,".",file);                                                                  ';
   /* inner datastep in call execute to read each embedded file */
-  put '    call execute("data _null_;                                                                                   ");';
-  put "    call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;                                 ');";
-  put '    call execute("    printer = 0;                                                                               ");';
-  put '    call execute("    do until(EOF);                                                                             ");';
-  put '    call execute("      input;                                                                                   ");';
-  put '    call execute("      if strip(_infile_) = cat(""/"",""*** "",""HELP END"","" ***"",""/"") then printer = 0;   ");';   /* it looks like that because of comments */
-  put '    call execute("      if printer then put ""*> "" _infile_;                                                    ");';
-  put '    call execute("      if strip(_infile_) = cat(""/"",""*** "",""HELP START"","" ***"",""/"") then printer = 1; ");';   /* it looks like that because of comments */
-  put '    call execute("    end;                                                                                       ");';
-  put '    call execute("  put ""*> "" / ""*> "";                                                                       ");';
-  put '    call execute("  stop;                                                                                        ");';
-  put '    call execute("run;                                                                                           ");';
-  put '    if lowcase(type) =: "data" then                                                                                 ';
-  put '      do;                                                                                                           ';
-  put '        call execute("title ""Dataset " || strip(fileshort) || " from package &packageName. "";                  ");';
-  put '        call execute("proc contents data = " || strip(fileshort) || "; run; title;                               ");';
-  put '      end;                                                                                                          ';
+  put '    call execute("data _null_;                                                                         ");';
+  put "    call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;                       ');";
+  put '    call execute("    printer = 0;                                                                     ");';
+  put '    call execute("    do until(EOF);                                                                   ");';
+  put '    call execute("      input;                                                                         ");';
+  put '    call execute("      if upcase(strip(_infile_))                                                        ';
+  put '                           = cat(""/"",""*** "",""HELP END"","" ***"",""/"") then printer = 0;         ");';   /* it looks like that because of comments */
+  put '    call execute("      if printer then put ""*> "" _infile_;                                          ");';
+  put '    call execute("      if upcase(strip(_infile_))                                                        ';
+  put '                           = cat(""/"",""*** "",""HELP START"","" ***"",""/"") then printer = 1;       ");';   /* it looks like that because of comments */
+  put '    call execute("    end;                                                                             ");';
+  put '    call execute("  put ""*> "" / ""*> "";                                                             ");';
+  put '    call execute("  stop;                                                                              ");';
+  put '    call execute("run;                                                                                 ");';
+  put '    if lowcase(type) =: "data" then                                                                       ';
+  put '      do;                                                                                                 ';
+  put '        call execute("title ""Dataset " || strip(fileshort) || " from package &packageName. "";        ");';
+  put '        call execute("proc contents data = " || strip(fileshort) || "; run; title;                     ");';
+  put '      end;                                                                                                ';
   /**/
   put "  end; ";
   put "  stop; ";
@@ -1266,8 +1309,8 @@ data _null_;
   call execute(' retain test .;');
   call execute(' infile _IN_ lrecl=32767 dlm="0a0d"x end=EOF;');
   call execute(' input;');
-  call execute(' if strip(_infile_) = cat("/","*** ","HELP START"," ***","/") then test + (+1); ');
-  call execute(' if strip(_infile_) = cat("/","*** ","HELP END",  " ***","/") then test + (-1); ');
+  call execute(' if upcase(strip(_infile_)) = cat("/","*** ","HELP START"," ***","/") then test + (+1); ');
+  call execute(' if upcase(strip(_infile_)) = cat("/","*** ","HELP END",  " ***","/") then test + (-1); ');
   call execute(' if (test not in (.,0,1)) or (EOF and test) then '); 
   call execute('   do; '); 
   call execute('     put "ERR" "OR: unmatching or nested HELP tags!" _N_=; ');
