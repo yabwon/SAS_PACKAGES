@@ -46,7 +46,7 @@ filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
  
 ### The Developer:
 To create your own package:
-- Read the `SAS(r) packages - the way to share (a how to)- Paper 4725-2020.pdf` to learn more.
+- Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more.
 - Download and use the `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (user part of the framework but required for *testing*).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
