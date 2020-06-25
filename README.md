@@ -64,6 +64,7 @@ data class;
   set %SQL(select * from sashelp.class order by age);
 run;
 ```
+
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 - **macroArray**\[0.3\], implementation of an array concept in a macrolanguage, e.g. 
 ```
@@ -79,6 +80,16 @@ run;
     %put &i.) %ABC(&i.); 
   %end;
 ```
+
+- **FunctionsImissinBASE**\[0.1\] A bunch of functions and functionalities I am missing in BASE SAS, such as:
+```
+call shiftLeft(myArray); 
+call replaceNull(17, myArray); 
+call arrVal(42, myArray); 
+rc = kill("DataSetToBeDrop"); 
+string = catXFn("date9.", "#", myArray);
+```
+
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the datastep (macro predecessor of DFA)
 
 ### ======
