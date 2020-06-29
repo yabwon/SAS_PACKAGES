@@ -86,7 +86,7 @@ run;
 call shiftLeft(myArray); 
 call replaceNull(17, myArray); 
 call arrVal(42, myArray); 
-rc = kill("DataSetToBeDrop"); 
+rc = kill("DataSetToDrop"); 
 string = catXFn("date9.", "#", myArray);
 ```
 
