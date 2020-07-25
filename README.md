@@ -6,7 +6,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting a **standalone Base SAS framework** which allows to develop and use SAS packages. Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more.
+In this repository we are presenting a **standalone Base SAS framework** which allows to develop and use SAS packages. Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more. Latest version is `20200725`.
 
 **General overview video:**
   - SAS Global Forum 2020 V.E.: `https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s`
@@ -93,7 +93,7 @@ string = catXFn("date9.", "#", myArray);
 
 format x bool.;
 
-%put %getVars(sashelp.class ,patern = ght$, sep = +, varRange = _numeric_);
+%put %getVars(sashelp.class, patern = ght$, sep = +, varRange = _numeric_);
 ```
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the datastep (macro predecessor of DFA)
