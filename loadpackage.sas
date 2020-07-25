@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to load, to get help, or to unload SAS packages, version 20200610  */
+/* Macros to load, to get help, or to unload SAS packages, version 20020725  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -71,8 +71,10 @@
                                          and use loadPackage in the form: 
                                          %loadPackage(PiPackage, zip=disk, options=) 
                                        */
-)/secure;
+)/secure
 /*** HELP END ***/
+desc = 'Macro to load SAS package, version 20020725. Run %loadPackage() for help info.'
+;
 %if %superq(packageName) = %then
   %do;
     %put ;
@@ -80,7 +82,7 @@
     %put #        This is short help information for the loadPackage macro             #;
     %put ###############################################################################;
     %put #                                                                             #;
-    %put # Macro to load SAS packages, version 20200610                                #;
+    %put # Macro to load SAS packages, version 20020725                                #;
     %put #                                                                             #;
     %put # A SAS package is a zip file containing a group                              #;
     %put # of SAS codes (macros, functions, datasteps generating                       #;
@@ -199,8 +201,10 @@
                                          and use unloadPackage in the form: 
                                          %unloadPackage(PiPackage, zip=disk, options=) 
                                        */
-)/secure;
+)/secure
 /*** HELP END ***/
+desc = 'Macro to unload SAS package, version 20020725. Run %unloadPackage() for help info.'
+;
 %if %superq(packageName) = %then
   %do;
     %put ;
@@ -208,7 +212,7 @@
     %put #        This is short help information for the unloadPackage macro           #;
     %put ###############################################################################;
     %put #                                                                             #;
-    %put # Macro to unload SAS packages, version 20200610                              #;
+    %put # Macro to unload SAS packages, version 20020725                              #;
     %put #                                                                             #;
     %put # A SAS package is a zip file containing a group                              #;
     %put # of SAS codes (macros, functions, datasteps generating                       #;
@@ -299,8 +303,10 @@
                                          and use helpPackage in the form: 
                                          %helpPackage(PiPackage, *, zip=disk, options=) 
                                        */
-)/secure;
+)/secure
 /*** HELP END ***/
+desc = 'Macro to get help about SAS package, version 20020725. Run %helpPackage() for help info.'
+;
 %if %superq(packageName) = %then
   %do;
     %put ;
@@ -308,7 +314,7 @@
     %put #        This is short help information for the helpPackage macro             #;
     %put ###############################################################################;
     %put #                                                                             #;
-    %put # Macro to get help about SAS packages, version 20200610                      #;
+    %put # Macro to get help about SAS packages, version 20020725                      #;
     %put #                                                                             #;
     %put # A SAS package is a zip file containing a group                              #;
     %put # of SAS codes (macros, functions, datasteps generating                       #;
@@ -447,9 +453,10 @@ TODO:
 , sourcePath = /* location of the package, e.g. "www.some.page/", mind the "/" at the end */
 , replace = 1  /* 1 = replace if the package already exist, 0 = otherwise */
 )
+/secure
 /*** HELP END ***/
-/
-secure;
+desc = 'Macro to install SAS package, version 20020725. Run %installPackage() for help info.'
+;
 %if %superq(packageName) = %then
   %do;
     %put ;
@@ -457,7 +464,7 @@ secure;
     %put #        This is short help information for the installPackage macro          #;
     %put ###############################################################################;
     %put #                                                                             #;
-    %put # Macro to install SAS packages, version 20200610                             #;
+    %put # Macro to install SAS packages, version 20020725                             #;
     %put #                                                                             #;
     %put # A SAS package is a zip file containing a group                              #;
     %put # of SAS codes (macros, functions, datasteps generating                       #;

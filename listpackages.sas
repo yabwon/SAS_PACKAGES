@@ -36,7 +36,7 @@
                                                                                  */
 /**#############################################################################**/
 
-/* Macros to list SAS packages in packages' folder, version 20200608 */
+/* Macros to list SAS packages in packages' folder, version 20020725 */
 /* A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, datasteps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -53,7 +53,9 @@
 /*** HELP END ***/
 
 
-%macro listPackages();
+%macro listPackages()/
+desc = 'Macro to list SAS package from `package` fileref, version 20020725.'
+;
 
 %local ls_tmp ps_tmp notes_tmp source_tmp;
 %let   filesWithCodes = WORK._%sysfunc(datetime(), hex16.)_;
