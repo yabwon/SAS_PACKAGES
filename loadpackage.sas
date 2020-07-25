@@ -71,9 +71,9 @@
                                          and use loadPackage in the form: 
                                          %loadPackage(PiPackage, zip=disk, options=) 
                                        */
-)/secure
+)/secure 
 /*** HELP END ***/
-desc = 'Macro to load SAS package, version 20020725. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20020725. Run %loadPackage() for help info.'
 ;
 %if %superq(packageName) = %then
   %do;
@@ -203,7 +203,7 @@ desc = 'Macro to load SAS package, version 20020725. Run %loadPackage() for help
                                        */
 )/secure
 /*** HELP END ***/
-desc = 'Macro to unload SAS package, version 20020725. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20020725. Run %unloadPackage() for help info.'
 ;
 %if %superq(packageName) = %then
   %do;
@@ -305,7 +305,7 @@ desc = 'Macro to unload SAS package, version 20020725. Run %unloadPackage() for 
                                        */
 )/secure
 /*** HELP END ***/
-desc = 'Macro to get help about SAS package, version 20020725. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20020725. Run %helpPackage() for help info.'
 ;
 %if %superq(packageName) = %then
   %do;
@@ -453,9 +453,9 @@ TODO:
 , sourcePath = /* location of the package, e.g. "www.some.page/", mind the "/" at the end */
 , replace = 1  /* 1 = replace if the package already exist, 0 = otherwise */
 )
-/secure
+/secure  
 /*** HELP END ***/
-desc = 'Macro to install SAS package, version 20020725. Run %installPackage() for help info.'
+des = 'Macro to install SAS package, version 20020725. Run %%installPackage() for help info.'
 ;
 %if %superq(packageName) = %then
   %do;

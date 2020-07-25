@@ -56,7 +56,7 @@
                     dependencies in loading */
 )/secure
 /*** HELP END ***/
-desc = 'Macro to generate SAS packages, version 20020725. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20020725. Run %generatePackage() for help info.'
 ;
 %if %superq(filesLocation) = %then
   %do;

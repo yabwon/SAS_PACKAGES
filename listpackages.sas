@@ -54,7 +54,7 @@
 
 
 %macro listPackages()/
-desc = 'Macro to list SAS package from `package` fileref, version 20020725.'
+des = 'Macro to list SAS package from `package` fileref, version 20020725.'
 ;
 
 %local ls_tmp ps_tmp notes_tmp source_tmp;
