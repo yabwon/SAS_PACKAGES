@@ -81,10 +81,10 @@ run;
   %end;
 ```
 
-- **FunctionsImissinBASE**\[0.4\] A bunch of functions and functionalities I am missing in BASE SAS, such as:
+- **FunctionsImissinBASE**\[0.5\] A bunch of functions and functionalities I am missing in BASE SAS, such as:
 ```
-call arrShiftLeft(myArray); 
-call arrRepNull(17, myArray); 
+call arrMissToRight(myArray); 
+call arrFillMiss(17, myArray); 
 call arrFill(42, myArray); 
 
 rc = delDataset("DataSetToDrop"); 
