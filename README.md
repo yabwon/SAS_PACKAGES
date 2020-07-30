@@ -18,12 +18,12 @@ To use a package:
 
 and then either:
 
-- Download the `loadpackage.sas` file (user part of the framework) into the packages folder.
+- Download the `SPFinit.sas` file (the SAS Packages Framework) into the packages folder.
 - \[Optional\] Download the `<packageName>.zip` file into the packages folder.
 - and Execute:
 ```
 filename packages "<directory/containing/packages/>"; /* setup directory for packages */
-%include packages(loadpackage.sas); /* enable the framework */
+%include packages(SPFinit.sas); /* enable the framework */
 
 %installPackage(packageName) /* install the package, unless you downloaded it manually */
 %helpPackage(packageName)    /* get help about the package */
@@ -34,31 +34,33 @@ or if you need it just for "one time" only Execute:
 
 ```
 filename packages "<directory/containing/packages/>"; /* setup directory for packages */
-filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/loadpackage.sas";
-%include spfinit; /* enable the framework */
+filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/SPFinit.sas";
+%include SPFinit; /* enable the framework */
 
 %installPackage(packageName) /* install the package */
 %helpPackage(packageName)    /* get help about the package */
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
- **Workshop video for User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`**
+ **Workshop video for User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`** [obsolete, but gives idea how it works]
  
 ### The Developer:
 To create your own package:
 - Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more.
-- Download and use the `generatePackage.sas` file (developer part of the framework) and the `loadpackage.sas` file (user part of the framework but required for *testing*).
+- Download and use the `SPFinit.sas` file (the SAS Packages Framework) file (user part of the framework required for *testing* is there too).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
  **Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
  
   **Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
+  
+  **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` located in the `./SPF` directory. Documentation moved to `./SPF/Documentation` directory. Packages moved to `./packages` directory.
 
 ## Available packages:
 Currently the following packages are available:
 
-- **SQLinDS**\[2.1\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the datastep, e.g.
+- **SQLinDS**\[2.1\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```
 data class;
   set %SQL(select * from sashelp.class order by age);
@@ -81,7 +83,7 @@ run;
   %end;
 ```
 
-- **FunctionsImissinBASE**\[0.5\] A bunch of functions and functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[0.5\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -96,6 +98,6 @@ format x bool.;
 %put %getVars(sashelp.class, patern = ght$, sep = +, varRange = _numeric_);
 ```
 
-- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the datastep (macro predecessor of DFA)
+- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
 ### ======
