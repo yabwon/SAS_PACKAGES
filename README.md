@@ -6,7 +6,9 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting a **standalone Base SAS framework** which allows to develop and use SAS packages. Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more. Latest version is `20200725`.
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is `20200730`.  
+
+Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more (see the `./SPF/Documentation` directory).
 
 **General overview video:**
   - SAS Global Forum 2020 V.E.: `https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s`
@@ -42,7 +44,7 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
- **Workshop video for User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`** [obsolete, but gives idea how it works]
+ **Workshop video for the User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`** [a bit outdated, but gives idea how it works]
  
 ### The Developer:
 To create your own package:
@@ -58,7 +60,7 @@ To create your own package:
   **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` located in the `./SPF` directory. Documentation moved to `./SPF/Documentation` directory. Packages moved to `./packages` directory.
 
 ## Available packages:
-Currently the following packages are available:
+Currently the following packages are available (see the `./packages` directory):
 
 - **SQLinDS**\[2.1\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```
