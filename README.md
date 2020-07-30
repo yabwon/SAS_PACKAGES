@@ -20,14 +20,15 @@ To use a package:
 
 and then either:
 
-- Download the `SPFinit.sas` file (the SAS Packages Framework) into the packages folder.
-- \[Optional\] Download the `<packageName>.zip` file into the packages folder.
+- Download the `SPFinit.sas` file (the SAS Packages Framework) into the local packages folder.
+- \[Optional\] Manually download the `<packageName>.zip` file into the local packages folder.
 - and Execute:
 ```
 filename packages "<directory/containing/packages/>"; /* setup directory for packages */
 %include packages(SPFinit.sas); /* enable the framework */
 
-%installPackage(packageName) /* install the package, unless you downloaded it manually */
+/* %installPackage(packageName) */ /* install the package, unless you downloaded it manually */
+
 %helpPackage(packageName)    /* get help about the package */
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
@@ -35,7 +36,7 @@ filename packages "<directory/containing/packages/>"; /* setup directory for pac
 or if you need it just for "one time" only Execute: 
 
 ```
-filename packages "<directory/containing/packages/>"; /* setup directory for packages */
+filename packages "%sysfunc(pathname(work))"; /* setup temporary directory for packages in the WORK */
 filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/SPFinit.sas";
 %include SPFinit; /* enable the framework */
 
@@ -44,11 +45,11 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
- **Workshop video for the User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`** [a bit outdated, but gives idea how it works]
+ **Workshop video for the User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`** [a bit outdated but gives the idea how it works]
  
 ### The Developer:
 To create your own package:
-- Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more.
+- Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more details.
 - Download and use the `SPFinit.sas` file (the SAS Packages Framework) file (user part of the framework required for *testing* is there too).
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
@@ -57,7 +58,7 @@ To create your own package:
  
   **Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
   
-  **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` located in the `./SPF` directory. Documentation moved to `./SPF/Documentation` directory. Packages moved to `./packages` directory.
+  **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
 
 ## Available packages:
 Currently the following packages are available (see the `./packages` directory):
