@@ -8,11 +8,13 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is `20200730`.  
 
-Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more (see the `./SPF/Documentation` directory).
+To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
+
+The documentation and more advance reading would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
 
 **General overview video:**
-  - SAS Global Forum 2020 V.E.: `https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s`
-  - Sasensei Internationa Dojo: `https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s`
+  - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020")
+  - [Sasensei Internationa Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1")
 
 ### The User:
 To use a package:
@@ -45,12 +47,12 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
- **Workshop video for the User**\[May 6th, 2020\]**: `https://youtu.be/qX_-HJ76g8Y`** [a bit outdated but gives the idea how it works]
+ [**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y)\[May 6th, 2020\] [a bit outdated but gives the idea how it works]
  
 ### The Developer:
 To create your own package:
-- Read the **`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`** to learn more details.
-- Download and use the `SPFinit.sas` file (the SAS Packages Framework) file (user part of the framework required for *testing* is there too).
+- Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more details.
+- Download and use the `SPFinit.sas` file (the SAS Packages Framework), the part of the framework required for *testing* is there too.
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
