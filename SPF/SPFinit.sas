@@ -781,9 +781,55 @@ des = 'Macro to install SAS package, version 20200803. Run %%installPackage() fo
 /*** HELP END ***/
 
 
-%macro listPackages()/
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages() to run it, version 20200803.'
+%macro listPackages()/PARMBUFF
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20200803.'
 ;
+%if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
+  %do;
+    %put ;
+    %put ########################################################################################;
+    %put #        This is short help information for the listPackages macro                     #;
+    %put ########################################################################################;
+    %put #                                                                                      #;
+    %put # Macro to list available SAS packages, version 20200803                               #;
+    %put #                                                                                      #;
+    %put # A SAS package is a zip file containing a group                                       #;
+    %put # of SAS codes (macros, functions, data steps generating                               #;
+    %put # data, etc.) wrapped up together and included by                                      #;
+    %put # a single load.sas file (also embedded inside the zip).                               #;
+    %put #                                                                                      #;
+    %put # The %nrstr(%%listPackages()) macro lists packages available                                   #;
+    %put # in the packages folder. List is printed inthe SAS Log.                               #;
+    %put #                                                                                      #;
+    %put # Parameters: NO PARAMETERS                                                            #;
+    %put #                                                                                      #;
+    %put # When used as: %nrstr(%%listPackages(HELP)) it displays this help information.                 #;
+    %put #                                                                                      #;
+    %put ########################################################################################;
+    %put #                                                                                      #;
+    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation          #;
+    %put # to learn more.                                                                       #;
+    %put #                                                                                      #;
+    %put # Example ##############################################################################;
+    %put #                                                                                      #;
+    %put #   Enabling the SAS Package Framework                                                 #;
+    %put #   from the local directory and listing                                               #;
+    %put #   available packages.                                                                #;
+    %put #                                                                                      #;
+    %put #   Assume that the SPFinit.sas file                                                   #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                       #;
+    %put #                                                                                      #;
+    %put #   Run the following code in your SAS session:                                        #;
+    %put ;
+    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put ;
+    %put %nrstr( %%listPackages()                      %%* list available packages;              );
+    %put ;
+    %put ########################################################################################;
+    %put ;
+    %RETURN;
+  %end;
 
 %local ls_tmp ps_tmp notes_tmp source_tmp filesWithCodes;
 %let   filesWithCodes = WORK._%sysfunc(datetime(), hex16.)_;
