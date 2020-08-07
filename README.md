@@ -6,7 +6,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is `20200803`.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is `20200807`.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -88,7 +88,7 @@ run;
   %end;
 ```
 
-- **BasePlus**\[0.5\] adds a bunch of functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[0.52\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
