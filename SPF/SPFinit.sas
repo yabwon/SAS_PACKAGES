@@ -1811,14 +1811,18 @@ data _null_;
   put 'data _null_;';
   put ' length lazyData $ 32767; lazyData = lowcase(symget("lazyData"));';
   do until(eof);
-    set &filesWithCodes.(where=( upcase(type) =: 'LAZYDATA' )) end = EOF nobs=NOBS;
-
-    put 'if lazyData="*" OR findw(lazyData, "' fileshort +(-1) '") then';
-    put 'do;';
-    put ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";';
-    put ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');';
-    put 'end;';
+    set &filesWithCodes. end = EOF nobs=NOBS;
+    
+    if ( upcase(type) =: 'LAZYDATA' ) then
+      do;
+        put 'if lazyData="*" OR findw(lazyData, "' fileshort +(-1) '") then';
+        put 'do;';
+        put ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";';
+        put ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');';
+        put 'end;';
+      end;
   end;
+
   put 'run;';
 
   put '%put NOTE- ;';
