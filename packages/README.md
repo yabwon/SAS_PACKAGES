@@ -19,7 +19,7 @@ run;
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```
-%createDFArray(ArrDynamic, resizefactor=17);
+%createDFArray(ArrDynamic, resizefactor=17); 
 
 data _null_;
   call ArrDynamic("Allocate", -2, 2);
