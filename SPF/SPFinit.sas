@@ -1444,6 +1444,7 @@ data _null_;
   put '  , path = %sysfunc(pathname(packages)) /* location of a package */        ';
   put '  , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP */     ';
   put '  , zip = zip                           /* file ext. */                    ';
+  put '  , requiredVersion = .                 /* required version */             ';
   put '  , source2 = /* source2*/                                                 ';
   put '  )/secure;                                                                ';
   put '    %PUT ** NOTE: Package ' "&packageName." ' loaded in ICE mode **;       ';
@@ -1454,10 +1455,22 @@ data _null_;
   put '    ;                                                                      ';
   put '    %include &_PackageFileref_.(packagemetadata.sas) / &source2.;          ';
   put '    filename &_PackageFileref_. clear;                                     ';
+
+                 /* test if required version of package is "good enough" */
+  put '    %if %sysevalf(&requiredVersion. > &packageVersion.) %then              ';
+  put '      %do;                                                                 ';
+  put '        %put ERROR: Required version is &requiredVersion.;                 ';
+  put '        %put ERROR- Provided version is &packageVersion.;                  ';
+  put '        %ABORT;                                                            '; 
+  put '      %end;                                                                ';
+
+
   put '    filename &_PackageFileref_. &ZIP.                                      ';
   put '      "&path./%lowcase(&packageName.).&zip." %unquote(&options.)           ';
   put '      ENCODING =                                                           ';
-  put '        %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;;       ';
+  put '        %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;        ';
+  put '                                          %else utf8 ;                     ';
+  put '    ;                                                                      ';
   put '    %include &_PackageFileref_.(load.sas) / &source2.;                     ';
   put '    filename &_PackageFileref_. clear;                                     ';
   put '  %mend ICEloadPackage;                                                    ';
@@ -1584,18 +1597,24 @@ data _null_;
       put '    vers = input(compress(scan(req,-1, "("), ".", "KD"),best32.);                             ';
       put '    _RC_ = LP.add();                                                                          ';
       put '  end;                                                                                        ';
+      /* check if elements of the framewor are available */
+      put '       LoadPackageExist = input(resolve(''%SYSMACEXIST(   loadPackage)''), best.);            ';
+      put '    ICELoadPackageExist = input(resolve(''%SYSMACEXIST(ICEloadPackage)''), best.);            '; 
 
       put '  do req = ' / packageReqPackages / ' ;                                                       ';
 /*    put '    req = compress(req, "(.)", "KDF");                                                        ';*/
       put '    name = lowcase(strip(scan(req, 1, "(")));                                                 ';
       put '    verR = input(compress(scan(req,-1, "("), ".", "KD"),best32.); vers = .;                   ';
       put '    LP_find = LP.find();                                                                      ';
-      put '    if (LP_find ne 0) or (LP_find = 0 and . < vers < verR) then                               ';
-      put '     do;                                                                                      ';
-      put '      put "NOTE: Trying to install required SAS package " req;                                ';
-      put '      call execute(cats(''%nrstr(%loadPackage('', name, ", requiredVersion = ", verR, "))")); ';
-      put '     end ;                                                                                    ';
-      put '  end ;                                                                                       ';
+      put '    if (LP_find ne 0) or (LP_find = 0 and . < vers < verR) then                                       ';
+      put '     do;                                                                                              ';
+      put '      put "NOTE: Trying to load required SAS package " req;                                           ';
+      put '       if LoadPackageExist then                                                                       ';
+      put '         call execute(cats(''%nrstr(%loadPackage('', name, ", requiredVersion = ", verR, "))"));      ';
+      put '       else if ICELoadPackageExist then                                                               ';
+      put '         call execute(cats(''%nrstr(%ICEloadPackage('', name, ", requiredVersion = ", verR, "))"));   ';
+      put '     end ;                                                                                            ';
+      put '  end ;                                                                                               ';
       put ' stop;                                                                                        ';
       put 'run;                                                                                          ';
 
