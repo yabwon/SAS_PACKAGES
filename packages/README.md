@@ -72,7 +72,7 @@ string = catXFn("date9.", "#", myArray);
 
 format x bool.;
 
-%put %getVars(sashelp.class, patern = ght$, sep = +, varRange = _numeric_);
+%put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
