@@ -2177,9 +2177,10 @@ data _null_;
 
     select;
       when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = fileshort;
-      when (upcase(type) = "MACRO")              fileshort2 = cats('%',fileshort,'()');
-      when (upcase(type) =:"FUNCTION")           fileshort2 = cats(fileshort,'()');
-      when (upcase(type) = "FORMAT")             fileshort2 = cats('$',fileshort);
+      when (upcase(type) = "MACRO")              fileshort2 = cats('''%',fileshort,'()''');
+      when (upcase(type) =:"FUNCTION")           fileshort2 = cats("'",fileshort,"()'");
+      when (upcase(type) =:"IMLMODULE")          fileshort2 = cats("'",fileshort,"()'");
+      when (upcase(type) = "FORMAT")             fileshort2 = cats("'$",fileshort,".'");
       otherwise fileshort2 = fileshort;
     end;
     strX = catx('/', folder, order, type, file, fileshort, fileshort2);
