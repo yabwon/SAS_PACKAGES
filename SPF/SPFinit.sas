@@ -884,14 +884,14 @@ data _null_;
       stop;
     end;
 
-  length folder file $ 256 folderRef fileRef $ 8;
+  length folder $ 64 file $ 1024 folderRef fileRef $ 8;
 
   folderRef = "_%sysfunc(datetime(), hex6.)0";
 
   rc=filename(folderRef, base);
   folderid=dopen(folderRef);
 
-  put;
+  putlog " ";
   put "/*" 100*"+" ;
   do i=1 to dnum(folderId); drop i;
     folder = dread(folderId, i);
@@ -903,31 +903,36 @@ data _null_;
     EOF = 0;
     if fileId = 0 and lowcase(scan(folder, -1, ".")) = 'zip' then 
       do;
-          file = catx('/',base, folder);
-          length nn $ 96;
-          nn = repeat("*", (96-lengthn(file)));   
-          
-          putlog " ";
-          put " * " file @; put nn /;
-           
-          infile package ZIP FILEVAR=file member="description.sas" end=EOF; 
-          
-            do until(EOF);
-                input;
-                if lowcase(scan(_INFILE_,1,":")) in ("package" "title" "version" "author" "maintainer" "license") then
-                  do;
-                    _INFILE_ = scan(_INFILE_,1,":") !! ":" !! scan(_INFILE_,2,":");
-                    putlog " *  " _INFILE_;
-                  end;
-                if upcase(strip(_INFILE_)) =: "DESCRIPTION START:" then leave;
-            end; 
+        putlog " *  ";
+        file = catx('/',base, folder);
+
+        length nn $ 96;
+        if (96-lengthn(file)) < 1 then
+          put " * " file;  
+        else
+          do;
+            nn = repeat("*", (96-lengthn(file)));   
+            put " * " file nn;
+          end;
+         
+        infile package ZIP FILEVAR=file member="description.sas" end=EOF; 
+        
+          do until(EOF);
+              input;
+              if lowcase(scan(_INFILE_,1,":")) in ("package" "title" "version" "author" "maintainer" "license") then
+                do;
+                  _INFILE_ = scan(_INFILE_,1,":") !! ":" !! scan(_INFILE_,2,":");
+                  putlog " *  " _INFILE_;
+                end;                
+              if upcase(strip(_INFILE_)) =: "DESCRIPTION START:" then leave;
+          end; 
       end;
     
     rc = dclose(fileId);
     rc = filename(fileRef);
   end;
 
-  putlog " ";
+  putlog " *  ";
   put 100*"+" "*/";
   rc = dclose(folderid);
   rc = filename(folderRef);
@@ -1695,7 +1700,7 @@ data _null_;
                                                                       */
     /* test for supported types */
     if not (upcase(type) in: 
-      ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' 'IMLMODULE' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) 
+      ('LIBNAME' 'MACRO' 'DATA' 'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' 'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) 
     then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
@@ -1718,10 +1723,14 @@ data _null_;
       put '%put NOTE- ;';
     end;
 
-    /* HEADERS for IML and FCMP */
+    /* HEADERS for IML, FCMP, and PROTO */
     if 1 = FIRST.type and upcase(type)='FUNCTIONS' then /* header, for multiple functions in one FCMP run */
       do;
         put "proc fcmp outlib = work.%lowcase(&packageName.fcmp).package; ";
+      end;
+    if 1 = FIRST.type and upcase(type)='PROTO'     then /* header, for multiple functions in one FCMP run */
+      do;
+        put "proc proto package = work.%lowcase(&packageName.proto).package; ";
       end;
     if 1 = FIRST.type and upcase(type)='IMLMODULE' then /* header, for IML modules */
       do;
@@ -1731,7 +1740,7 @@ data _null_;
     /* include the file with the code of the element */
     put '%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;' /;
 
-    /* FOOTERS for IML and FCMP */
+    /* FOOTERS for IML, FCMP, and PROTO */
     if 1 = LAST.type and upcase(type)='FUNCTIONS' then /* footer, for multiple functions in one FCMP run */
       do;
         put "run; ";
@@ -1742,11 +1751,17 @@ data _null_;
         put "store module = _ALL_;                  "; /* and store all created modules */
         put "quit;                                  ";
       end;
+    if 1 = LAST.type and upcase(type)='PROTO' then     /* footer, for multiple functions in one PROTO run */
+      do;
+        put "run; ";
+      end;
+
 
     isFunction + (upcase(type)=:'FUNCTION');
     isFormat   + (upcase(type)=:'FORMAT'); 
+    isProto    + (upcase(type)=:'PROTO');
   
-    /* add the link to the functions' dataset, only for the first occurrence */
+    /* add the link to the functions dataset, only for the first occurrence */
     if 1 = isFunction and (upcase(type)=:'FUNCTION') then
       do;
         put "options APPEND=(cmplib = work.%lowcase(&packageName.fcmp));";
@@ -1754,7 +1769,15 @@ data _null_;
         put '%put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
       end;
 
-    /* add the link to the formats' catalog, only for the first occurrence  */
+    /* add the link to the proto functions dataset, only for the first occurrence */
+    if 1 = isProto and (upcase(type)=:'PROTO') then
+      do;
+        put "options APPEND=(cmplib = work.%lowcase(&packageName.proto));";
+        put '%put NOTE- ;';
+        put '%put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
+      end;
+
+    /* add the link to the formats catalog, only for the first occurrence  */
     if 1 = isFormat and (upcase(type)=:'FORMAT') then
       do;
         put "options INSERT=( fmtsearch = work.%lowcase(&packageName.format) );";
@@ -1954,6 +1977,31 @@ data _null_;
           ', %str(()) ))));';
       put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));' /;
     end;
+
+  /* delete proto functions */
+  isProto = 0;
+  EOF = 0;
+  do until(EOF);
+    set &filesWithCodes. end = EOF;
+    if not (upcase(type)=:'PROTO') then continue;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
+    put '%put NOTE- ;' /;
+    isProto + 1;
+  end;
+  /* delete the link to the proto functions dataset */
+  if isProto then
+    do;
+      put "proc delete data = work.%lowcase(&packageName.proto);";
+      put "run;" /;
+      put 'options cmplib = (%unquote(%sysfunc(tranwrd(' /
+          '%lowcase(%sysfunc(getoption(cmplib)))' /
+          ',%str(' "work.%lowcase(&packageName.proto)" '), %str() ))));';
+      put 'options cmplib = (%unquote(%sysfunc(compress(' /
+          '%sysfunc(getoption(cmplib))' /
+          ',%str(()) ))));';
+      put '%put; %put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
+    end;
+
 
   /* delete functions */
   put "proc fcmp outlib = work.%lowcase(&packageName.fcmp).package;";
@@ -2180,6 +2228,7 @@ data _null_;
       when (upcase(type) = "MACRO")              fileshort2 = cats('''%',fileshort,'()''');
       when (upcase(type) =:"FUNCTION")           fileshort2 = cats("'",fileshort,"()'");
       when (upcase(type) =:"IMLMODULE")          fileshort2 = cats("'",fileshort,"()'");
+      when (upcase(type) =:"PROTO")              fileshort2 = cats("'",fileshort,"()'");
       when (upcase(type) = "FORMAT")             fileshort2 = cats("'$",fileshort,".'");
       otherwise fileshort2 = fileshort;
     end;
