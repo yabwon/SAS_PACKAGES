@@ -60,7 +60,7 @@ run;
   %end;
 ```
 
-- **BasePlus**\[0.6\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[0.61\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
