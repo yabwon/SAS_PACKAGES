@@ -45,7 +45,7 @@ data _null_;
 run;
 ```
 
-- **macroArray**\[0.3\], implementation of an array concept in a macrolanguage, e.g. 
+- **macroArray**\[0.4\], implementation of an array concept in a macrolanguage, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
 
