@@ -48,16 +48,21 @@ run;
 - **macroArray**\[0.4\], implementation of an array concept in a macrolanguage, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
+  
+  %macro test();
+    %do i = 1 %to 17; 
+      %put &i.) %ABC(&i.); 
+    %end;
+  %mend;
+  %test() 
+  
+  %let %ABC(13,i) = 99999; /* i = insert */
 
-  %do i = 1 %to 17; 
-    %put &i.) %ABC(&i.); 
-  %end;
-
-  %let %ABC(13,i) = 999; /* i = insert */
-
-  %do i = 1 %to 17; 
-    %put &i.) %ABC(&i.); 
-  %end;
+  %do_over(ABC, phrase=%nrstr( 
+      %put &_i_.%) %ABC(&_i_.); 
+      ),
+      which = 1:H:2
+  );
 ```
 
 - **BasePlus**\[0.62\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
