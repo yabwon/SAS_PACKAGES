@@ -119,6 +119,7 @@ SHA256 digest for BasePlus: 278621A6D8BBBB791DEA4C215D4261F2CB8F8B76B1397F7FA9B2
 
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
+
 SHA256 digest for dynMacroArray: 066186B94B2976167C797C6A6E6217E361E8DEB10F2AB81906E0A325E5243084
 
 
