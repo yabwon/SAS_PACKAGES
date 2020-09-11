@@ -6,7 +6,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is `20200827`.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20200911`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -71,8 +71,14 @@ data class;
   set %SQL(select * from sashelp.class order by age);
 run;
 ```
+SHA256 digest for SQLinDS: 3EBC11A0890B6128DDB51643DC91F9DA1BDBF283535664540887FA7E7EA9744F
+
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+
+SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713BB54DDA
+
+
 - **macroArray**\[0.4\], implementation of an array concept in a macrolanguage, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
@@ -92,6 +98,8 @@ run;
       which = 1:H:2
   );
 ```
+SHA256 digest for macroArray: 5C9208ADD091E354794C24FA830F527D17CFC758C24CB77BF2154949059F7E6F
+
 
 - **BasePlus**\[0.62\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```
@@ -107,7 +115,11 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
+SHA256 digest for BasePlus: 278621A6D8BBBB791DEA4C215D4261F2CB8F8B76B1397F7FA9B2E4219E77CB5A
+
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
+SHA256 digest for dynMacroArray: 066186B94B2976167C797C6A6E6217E361E8DEB10F2AB81906E0A325E5243084
+
 
 ### ======

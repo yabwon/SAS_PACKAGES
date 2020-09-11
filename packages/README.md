@@ -16,6 +16,8 @@ data class;
     WH = weight + height;
 run;
 ```
+SHA256 digest for SQLinDS: 3EBC11A0890B6128DDB51643DC91F9DA1BDBF283535664540887FA7E7EA9744F
+
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```
@@ -44,6 +46,8 @@ data _null_;
   end;
 run;
 ```
+SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713BB54DDA
+
 
 - **macroArray**\[0.4\], implementation of an array concept in a macrolanguage, e.g. 
 ```
@@ -64,6 +68,8 @@ run;
       which = 1:H:2
   );
 ```
+SHA256 digest for macroArray: 5C9208ADD091E354794C24FA830F527D17CFC758C24CB77BF2154949059F7E6F
+
 
 - **BasePlus**\[0.62\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```
@@ -79,6 +85,9 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
+SHA256 digest for BasePlus: 278621A6D8BBBB791DEA4C215D4261F2CB8F8B76B1397F7FA9B2E4219E77CB5A
+
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
+SHA256 digest for dynMacroArray: 066186B94B2976167C797C6A6E6217E361E8DEB10F2AB81906E0A325E5243084
 
