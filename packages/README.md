@@ -4,7 +4,7 @@ To get started with SAS Packages try this [**`Getting Started with SAS Packages`
 ## Available packages: 
 Currently the following packages are available:
 
-- **SQLinDS**\[2.1\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```
 data class;
   set %SQL(
@@ -16,7 +16,7 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: 3EBC11A0890B6128DDB51643DC91F9DA1BDBF283535664540887FA7E7EA9744F
+SHA256 digest for SQLinDS: DD5E319EB5AA29C7054EC428072F987E77C29D36874DED1AE5C62E4B300845EB
 
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
