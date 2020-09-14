@@ -861,8 +861,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
              If macroquoted (e.g. `%str( + )`) then the `%unquote()` 
              function is automatically applied.
 
-*/
-/*
+
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Looping over two arrays.
