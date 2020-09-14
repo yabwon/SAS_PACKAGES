@@ -49,7 +49,7 @@ run;
 SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713BB54DDA
 
 
-- **macroArray**\[0.4\], implementation of an array concept in a macrolanguage, e.g. 
+- **macroArray**\[0.5\], implementation of an array concept in a macrolanguage, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -68,7 +68,7 @@ SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 5C9208ADD091E354794C24FA830F527D17CFC758C24CB77BF2154949059F7E6F
+SHA256 digest for macroArray: 69F6CF496F921D0E21F3524FC7FD130B4B8290C1E0B9BB3ABEA212B734EBE8A1
 
 
 - **BasePlus**\[0.62\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
