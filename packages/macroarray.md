@@ -979,7 +979,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
   , phrase = %NRSTR(%put (%a(&_I_.), %a(&_J_), %a(&_K_));)
   )
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/* 
+
+
 ## >>> `%make_do_over()` macro: <<< ###########################################
 
 The code of the macro was inspired by 
