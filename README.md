@@ -71,8 +71,9 @@ data class;
   set %SQL(select * from sashelp.class order by age);
 run;
 ```
-SHA256 digest for SQLinDS: DD5E319EB5AA29C7054EC428072F987E77C29D36874DED1AE5C62E4B300845EB
+SHA256 digest for SQLinDS: B280D0B72DB77001ADAAE9C1612B67AD30C2C672371B27F1ACB12016C7A1363D
 
+[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/sqlinds.md "Documentation for SQLinDS")
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
