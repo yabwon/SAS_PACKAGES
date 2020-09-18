@@ -341,7 +341,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
   %array(b{5} (5*17))
 
-  %* Mind the $ since it is a character array!
+  %* Mind the $ since it is a character array!;
   %array(c(3) $ 10 ("a A" "b,B" "c;C"))
 
   %array(d x1-x5 (5 4 3 2 1))
@@ -468,7 +468,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   %array(_[*] p q r s (4*42))
   %put _user_;
 
-  %* If no variables named than use _1 _2 ... _N;
+  %* If no variables names than use _1 _2 ... _N;
   %array(_[4] (-1 -2 -3 -4)) 
   %put &=_1 &=_2 &=_3 &=_4;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
