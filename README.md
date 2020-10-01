@@ -6,7 +6,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20200911`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201001`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -56,20 +56,20 @@ To create your own package:
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
- **Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
  
-  **Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
-  
-  **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
+**Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
+ 
+**Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
 
 ## Available packages:
 Currently the following packages are available (see the `./packages` directory):
 
 - **SQLinDS**\[2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```
-data class;
-  set %SQL(select * from sashelp.class order by age);
-run;
+  data class;
+    set %SQL(select * from sashelp.class order by age);
+  run;
 ```
 SHA256 digest for SQLinDS: B280D0B72DB77001ADAAE9C1612B67AD30C2C672371B27F1ACB12016C7A1363D
 
@@ -124,6 +124,5 @@ SHA256 digest for BasePlus: 278621A6D8BBBB791DEA4C215D4261F2CB8F8B76B1397F7FA9B2
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
 SHA256 digest for dynMacroArray: 066186B94B2976167C797C6A6E6217E361E8DEB10F2AB81906E0A325E5243084
-
 
 ### ======
