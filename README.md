@@ -1,4 +1,4 @@
-# SAS_PACKAGES - a SAS Packages Repository
+# SAS_PACKAGES - a SAS Packages Framework and Repository
 
 ## Intro:
 
