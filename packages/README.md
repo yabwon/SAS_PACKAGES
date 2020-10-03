@@ -3,6 +3,7 @@ To get started with SAS Packages try this [**`Getting Started with SAS Packages`
 
 ## Available packages: 
 Currently the following packages are available:
+
 ---
 
 - **SQLinDS**\[2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
@@ -20,6 +21,7 @@ run;
 SHA256 digest for SQLinDS: B280D0B72DB77001ADAAE9C1612B67AD30C2C672371B27F1ACB12016C7A1363D
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/sqlinds.md "Documentation for SQLinDS")
+
 ---
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
@@ -50,6 +52,7 @@ data _null_;
 run;
 ```
 SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713BB54DDA
+
 ---
 
 - **macroArray**\[0.5\], implementation of an array concept in a macro language, e.g. 
@@ -74,6 +77,7 @@ SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713
 SHA256 digest for macroArray: 53C248E1DE3268946C9CEC7E77BC222F652FBB006D9317BE36B86410DA31AE35
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/macroarray.md "Documentation for macroArray")
+
 ---
 
 - **BasePlus**\[0.7\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
@@ -93,8 +97,11 @@ format x bool.;
 SHA256 digest for BasePlus: 66E966489F4C183CA75FC32D3AF581FEC20FC9C5FF0C36E4DDC5A14BBDA82EAB
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/baseplus.md "Documentation for BasePlus")
+
 ---
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
+
 SHA256 digest for dynMacroArray: 066186B94B2976167C797C6A6E6217E361E8DEB10F2AB81906E0A325E5243084
+
 ---
