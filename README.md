@@ -62,6 +62,14 @@ To create your own package:
  
 **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
 
+## Where the SAS Packages Framework is used:
+This is a list of locations where the SAS Packages Framework is used. If you want to share that you are using SPF let me know and I'll update the list.
+
+The List:
+- Europe
+  - Poland 
+    - Warsaw
+
 ## Available packages:
 Currently the following packages are available (see the `./packages` directory):
 
