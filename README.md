@@ -14,7 +14,7 @@ The documentation and more advance reading would be the [**`SAS(r) packages - th
 
 **General overview video:**
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020")
-  - [Sasensei Internationa Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1")
+  - [Sasensei International Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1")
 
 ### The User:
 To use a package:
