@@ -42,7 +42,7 @@
    - to unload, or
    - to generate SAS packages.
 
-  Version 20201001.
+  Version 20201010.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -81,7 +81,7 @@
                                        */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20201001. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20201010. Run %loadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -92,77 +92,79 @@ des = 'Macro to load SAS package, version 20201001. Run %loadPackage() for help 
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ###############################################################################;
-    %put #        This is short help information for the loadPackage macro             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Macro to load SAS packages, version 20201001                                #;
-    %put #                                                                             #;
-    %put # A SAS package is a zip file containing a group                              #;
-    %put # of SAS codes (macros, functions, data steps generating                      #;
-    %put # data, etc.) wrapped up together and included by                             #;
-    %put # a single load.sas file (also embedded inside the zip).                      #;
-    %put #                                                                             #;
-    %put # The %nrstr(%%loadPackage()) macro loads package content, i.e. macros,                #;
-    %put # functions, formats, etc., from the zip into the SAS session.                #;
-    %put #                                                                             #;
-    %put # Parameters:                                                                 #;
-    %put #                                                                             #;
-    %put #  packageName        Name of a package, e.g. myPackage,                      #;
-    %put #                     Required and not null, default use case:                #;
-    %put #                      %nrstr(%%loadPackage(myPackage)).                               #;
-    %put #                     If empty displays this help information.                #;
-    %put #                                                                             #;
-    %put #  path=              Location of a package. By default it looks for          #;
-    %put #                     location of the "packages" fileref, i.e.                #;
-    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
-    %put #                                                                             #;
-    %put #  options=           Possible options for ZIP filename,                      #;
-    %put #                     default value: LOWCASE_MEMNAME                          #;
-    %put #                                                                             #;
-    %put #  source2=           Option to print out details, null by default.           #;
-    %put #                                                                             #;
-    %put #  requiredVersion=   Option to test if the loaded package                    #;
-    %put #                     is provided in required version,                        #;
-    %put #                     default value: .                                        #;
-    %put #                                                                             #;
-    %put #  lazyData=          A list of names of lazy datasets to be loaded.          #;
-    %put #                     If not null datasets from the list are loaded           #;
-    %put #                     instead of the package.                                 #;
-    %put #                     Asterisk (*) means "load all lazy datasets".            #;
-    %put #                                                                             #;
-    %put #  zip=zip            Standard package is zip (lowcase),                      #;
-    %put #                     e.g. %nrstr(%%loadPackage(PiPackage)).                           #;
-    %put #                     If the zip is not available use a folder.               #;
-    %put #                     Unpack data to "pipackage.disk" folder                  #;
-    %put #                     and use loadPackage in the following form:              #;
-    %put #                      %nrstr(%%loadPackage(PiPackage, zip=disk, options=))            #;
-    %put #                                                                             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation #;
-    %put # to learn more.                                                              #;
-    %put #                                                                             #;
-    %put # Example #####################################################################;
-    %put #                                                                             #;
-    %put #   Enabling the SAS Package Framework                                        #;
-    %put #   from the local directory and installing & loading                         #;
-    %put #   the SQLinDS package from the Internet.                                    #;
-    %put #                                                                             #;
-    %put #   Assume that the SPFinit.sas file                                          #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                              #;
-    %put #                                                                             #;
-    %put #   Run the following code in your SAS session:                               #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
-    %put %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
-    %put %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
-    %put %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
-    %put ;
-    %put ###############################################################################;
+    %put #################################################################################;
+    %put ###      This is short help information for the `loadPackage` macro             #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to *load* SAS packages, version `20201010`                              #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and included by                               #;
+    %put # a single `load.sas` file (also embedded inside the zip).                      #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%loadPackage())` macro loads package content, i.e. macros,                #;
+    %put # functions, formats, etc., from the zip into the SAS session.                  #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%loadPackage(myPackage)).`                             #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # - `path=`             *Optional.* Location of a package. By default it        #;
+    %put #                       looks for location of the **packages** fileref, i.e.    #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put # - `options=`          *Optional.* Possible options for ZIP filename,          #;
+    %put #                       default value: `LOWCASE_MEMNAME`                        #;
+    %put #                                                                               #;
+    %put # - `source2=`          *Optional.* Option to print out details about           #;
+    %put #                       what is loaded, null by default.                        #;
+    %put #                                                                               #;
+    %put # - `requiredVersion=`  *Optional.* Option to test if the loaded                #;
+    %put #                       package is provided in required version,                #;
+    %put #                       default value: `.`                                      #;
+    %put #                                                                               #;
+    %put # - `lazyData=`         *Optional.* A list of names of lazy datasets to be      #;
+    %put #                       loaded. If not null datasets from the list are loaded   #;
+    %put #                       instead of the package.                                 #;
+    %put #                       An asterisk (*) means *load all lazy datasets*.         #;
+    %put #                                                                               #;
+    %put # - `zip=`              Standard package is zip (lowcase),                      #;
+    %put #                        e.g. `%nrstr(%%loadPackage(PiPackage))`.                        #;
+    %put #                       If the zip is not available use a folder.               #;
+    %put #                       Unpack data to "pipackage.disk" folder                  #;
+    %put #                       and use loadPackage in the following form:              #;
+    %put #                        `%nrstr(%%loadPackage(PiPackage, zip=disk, options=))`          #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put ### Example #####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
+    %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
+    %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofloadPackage;
@@ -248,7 +250,7 @@ des = 'Macro to load SAS package, version 20201001. Run %loadPackage() for help 
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20201001. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20201010. Run %unloadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -259,68 +261,71 @@ des = 'Macro to unload SAS package, version 20201001. Run %unloadPackage() for h
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ###############################################################################;
-    %put #        This is short help information for the unloadPackage macro           #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Macro to unload SAS packages, version 20201001                              #;
-    %put #                                                                             #;
-    %put # A SAS package is a zip file containing a group                              #;
-    %put # of SAS codes (macros, functions, data steps generating                      #;
-    %put # data, etc.) wrapped up together and included by                             #;
-    %put # a single load.sas file (also embedded inside the zip).                      #;
-    %put #                                                                             #;
-    %put # The %nrstr(%%unloadPackage()) macro clears the package content                       #;
-    %put # from the SAS session.                                                       #;
-    %put #                                                                             #;
-    %put # Parameters:                                                                 #;
-    %put #                                                                             #;
-    %put #  packageName        Name of a package, e.g. myPackage,                      #;
-    %put #                     Required and not null, default use case:                #;
-    %put #                      %nrstr(%%unloadPackage(myPackage)).                             #;
-    %put #                     If empty displays this help information.                #;
-    %put #                                                                             #;
-    %put #  path=              Location of a package. By default it looks for          #;
-    %put #                     location of the "packages" fileref, i.e.                #;
-    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
-    %put #                                                                             #;
-    %put #  options=           Possible options for ZIP filename,                      #;
-    %put #                     default value: LOWCASE_MEMNAME                          #;
-    %put #                                                                             #;
-    %put #  source2=           Option to print out details, null by default.           #;
-    %put #                                                                             #;
-    %put #  zip=zip            Standard package is zip (lowcase),                      #;
-    %put #                     e.g. %nrstr(%%unloadPackage(PiPackage)).                         #;
-    %put #                     If the zip is not available use a folder.               #;
-    %put #                     Unpack data to "pipackage.disk" folder                  #;
-    %put #                     and use loadPackage in the following form:              #;
-    %put #                      %nrstr(%%unloadPackage(PiPackage, zip=disk, options=))          #;
-    %put #                                                                             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation #;
-    %put # to learn more.                                                              #;
-    %put #                                                                             #;
-    %put # Example #####################################################################;
-    %put #                                                                             #;
-    %put #   Enabling the SAS Package Framework                                        #;
-    %put #   from the local directory and installing & loading                         #;
-    %put #   the SQLinDS package from the Internet.                                    #;
-    %put #                                                                             #;
-    %put #   Assume that the SPFinit.sas file                                          #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                              #;
-    %put #                                                                             #;
-    %put #   Run the following code in your SAS session:                               #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
-    %put %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
-    %put %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
-    %put %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
-    %put ;
-    %put ###############################################################################;
+    %put #################################################################################;
+    %put ###      This is short help information for the `unloadPackage` macro           #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to unload SAS packages, version `20201010`                              #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and provided with                             #;
+    %put # a single `unload.sas` file (also embedded inside the zip).                    #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%unloadPackage())` macro clears the package content                       #;
+    %put # from the SAS session.                                                         #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%loadPackage(myPackage)).`                             #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # - `path=`             *Optional.* Location of a package. By default it        #;
+    %put #                       looks for location of the **packages** fileref, i.e.    #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put # - `options=`          *Optional.* Possible options for ZIP filename,          #;
+    %put #                       default value: `LOWCASE_MEMNAME`                        #;
+    %put #                                                                               #;
+    %put # - `source2=`          *Optional.* Option to print out details about           #;
+    %put #                       what is loaded, null by default.                        #;
+    %put #                                                                               #;
+    %put # - `zip=`              Standard package is zip (lowcase),                      #;
+    %put #                        e.g. `%nrstr(%%loadPackage(PiPackage))`.                        #;
+    %put #                       If the zip is not available use a folder.               #;
+    %put #                       Unpack data to "pipackage.disk" folder                  #;
+    %put #                       and use loadPackage in the following form:              #;
+    %put #                        `%nrstr(%%loadPackage(PiPackage, zip=disk, options=))`          #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put ### Example #####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
+    %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
+    %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofunloadPackage;
@@ -383,7 +388,7 @@ des = 'Macro to unload SAS package, version 20201001. Run %unloadPackage() for h
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20201001. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20201010. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -394,73 +399,76 @@ des = 'Macro to get help about SAS package, version 20201001. Run %helpPackage()
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ###############################################################################;
-    %put #        This is short help information for the helpPackage macro             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Macro to get help about SAS packages, version 20201001                      #;
-    %put #                                                                             #;
-    %put # A SAS package is a zip file containing a group                              #;
-    %put # of SAS codes (macros, functions, data steps generating                      #;
-    %put # data, etc.) wrapped up together and included by                             #;
-    %put # a single load.sas file (also embedded inside the zip).                      #;
-    %put #                                                                             #;
-    %put # The %nrstr(%%helpPackage()) macro prints in the SAS log help                         #;
-    %put # information about the package provided by the developer.                    #;
-    %put #                                                                             #;
-    %put # Parameters:                                                                 #;
-    %put #                                                                             #;
-    %put #  packageName        Name of a package, e.g. myPackage,                      #;
-    %put #                     Required and not null, default use case:                #;
-    %put #                      %nrstr(%%helpPackage(myPackage)).                               #;
-    %put #                     If empty displays this help information.                #;
-    %put #                                                                             #;
-    %put #  helpKeyword        Phrase to search in help,                               #;
-    %put #                     - when empty prints description,                        #;
-    %put #                     - "*"  means prints all help,                           #;
-    %put #                     - "license"  prints license.                            #;
-    %put #                                                                             #;
-    %put #  path=              Location of a package. By default it looks for          #;
-    %put #                     location of the "packages" fileref, i.e.                #;
-    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
-    %put #                                                                             #;
-    %put #  options=           Possible options for ZIP filename,                      #;
-    %put #                     default value: LOWCASE_MEMNAME                          #;
-    %put #                                                                             #;
-    %put #  source2=           Option to print out details, null by default.           #;
-    %put #                                                                             #;
-    %put #  zip=zip            Standard package is zip (lowcase),                      #;
-    %put #                     e.g. %nrstr(%%helpPackage(PiPackage)).                           #;
-    %put #                     If the zip is not available use a folder.               #;
-    %put #                     Unpack data to "pipackage.disk" folder                  #;
-    %put #                     and use loadPackage in the following form:              #;
-    %put #                      %nrstr(%%helpPackage(PiPackage, zip=disk, options=))            #;
-    %put #                                                                             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation #;
-    %put # to learn more.                                                              #;
-    %put #                                                                             #;
-    %put # Example #####################################################################;
-    %put #                                                                             #;
-    %put #   Enabling the SAS Package Framework                                        #;
-    %put #   from the local directory and installing & loading                         #;
-    %put #   the SQLinDS package from the Internet.                                    #;
-    %put #                                                                             #;
-    %put #   Assume that the SPFinit.sas file                                          #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                              #;
-    %put #                                                                             #;
-    %put #   Run the following code in your SAS session:                               #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
-    %put %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
-    %put %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
-    %put %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
-    %put ;
-    %put ###############################################################################;
+    %put #################################################################################;
+    %put ###       This is short help information for the `helpPackage` macro            #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to get help about SAS packages, version `20201010`                      #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and provided with                             #;
+    %put # a single `help.sas` file (also embedded inside the zip).                      #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%helpPackage())` macro prints in the SAS log help                         #;
+    %put # information about the package provided by the developer.                      #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%loadPackage(myPackage)).`                             #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # 2. `helpKeyword`      *Optional.*  A phrase to search in help,                #;
+    %put #                       - when empty prints description,                        #;
+    %put #                       - "*"  means prints all help,                           #;
+    %put #                       - "license"  prints the license.                        #;
+    %put #                                                                               #;
+    %put # - `path=`             *Optional.* Location of a package. By default it        #;
+    %put #                       looks for location of the **packages** fileref, i.e.    #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put # - `options=`          *Optional.* Possible options for ZIP filename,          #;
+    %put #                       default value: `LOWCASE_MEMNAME`                        #;
+    %put #                                                                               #;
+    %put # - `source2=`          *Optional.* Option to print out details about           #;
+    %put #                       what is loaded, null by default.                        #;
+    %put #                                                                               #;
+    %put # - `zip=`              Standard package is zip (lowcase),                      #;
+    %put #                        e.g. `%nrstr(%%loadPackage(PiPackage))`.                        #;
+    %put #                       If the zip is not available use a folder.               #;
+    %put #                       Unpack data to "pipackage.disk" folder                  #;
+    %put #                       and use loadPackage in the following form:              #;
+    %put #                        `%nrstr(%%loadPackage(PiPackage, zip=disk, options=))`          #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put #### Example ####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
+    %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
+    %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofhelpPackage;
@@ -504,7 +512,7 @@ TODO:
 - add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
 */
 
-/* Macros to install SAS packages, version 20201001  */
+/* Macros to install SAS packages, version 20201010  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -520,7 +528,7 @@ TODO:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20201001. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20201010. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -531,66 +539,67 @@ des = 'Macro to install SAS package, version 20201001. Run %%installPackage() fo
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put #########################################################################################;
-    %put #        This is short help information for the installPackage macro                    #;
-    %put #########################################################################################;
-    %put #                                                                                       #;
-    %put # Macro to install SAS packages, version 20201001                                       #;
-    %put #                                                                                       #;
-    %put # A SAS package is a zip file containing a group                                        #;
-    %put # of SAS codes (macros, functions, data steps generating                                #;
-    %put # data, etc.) wrapped up together and included by                                       #;
-    %put # a single load.sas file (also embedded inside the zip).                                #;
-    %put #                                                                                       #;
-    %put # The %nrstr(%%installPackage()) macro installs the package zip                                  #;
-    %put # in the packages folder. The process of installation is equivalent with                #;
-    %put # manual downloading the package zip file into the packages folder.                     #;
-    %put #                                                                                       #;
-    %put # Parameters:                                                                           #;
-    %put #                                                                                       #;
-    %put #  packagesNames Space separated list of packages names _without_                       #;
-    %put #                the zip extension, e.g. myPackage1 myPackage2,                         #;
-    %put #                Required and not null, default use case:                               #;
-    %put #                 %nrstr(%%installPackage(myPackage1 myPackage2)).                               #;
-    %put #                If empty displays this help information.                               #;
-    %put #                If the package name is "SPFinit" or "SASPackagesFramework"             #;
-    %put #                then the framework itself is downloaded.                               #;
-    %put #                                                                                       #;
-    %put #  sourcePath=   Location of the package, e.g. "www.some.web.page/"                     #;
-    %put #                Mind the "/" at the end of the path!                                   #;
-    %put #                Current default location for packages is:                              #;
-    %put #                https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/packages/ #;
-    %put #                Current default location for the framework is:                         #;
-    %put #                https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/      #;
-    %put #                                                                                       #;
-    %put #  replace=      With default value of 1 it causes existing package file                #;
-    %put #                to be replaceed by new downloaded file.                                #;
-    %put #                                                                                       #;
-    %put #########################################################################################;
-    %put #                                                                                       #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation           #;
-    %put # to learn more.                                                                        #;
-    %put #                                                                                       #;
-    %put # Example ###############################################################################;
-    %put #                                                                                       #;
-    %put #   Enabling the SAS Package Framework                                                  #;
-    %put #   from the local directory and installing & loading                                   #;
-    %put #   the SQLinDS package from the Internet.                                              #;
-    %put #                                                                                       #;
-    %put #   Assume that the SPFinit.sas file                                                    #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                        #;
-    %put #                                                                                       #;
-    %put #   Run the following code in your SAS session:                                         #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
-    %put %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
-    %put %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
-    %put %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
-    %put ;
-    %put #########################################################################################;
+    %put ##############################################################################################;
+    %put ###       This is short help information for the `installPackage` macro                      #;
+    %put #--------------------------------------------------------------------------------------------#;;
+    %put #                                                                                            #;
+    %put # Macro to install SAS packages, version `20201010`                                          #;
+    %put #                                                                                            #;
+    %put # A SAS package is a zip file containing a group                                             #;
+    %put # of SAS codes (macros, functions, data steps generating                                     #;
+    %put # data, etc.) wrapped up together and embedded inside the zip.                               #;
+    %put #                                                                                            #;
+    %put # The `%nrstr(%%installPackage())` macro installs the package zip                                     #;
+    %put # in the packages folder. The process of installation is equivalent with                     #;
+    %put # manual downloading the package zip file into the packages folder.                          #;
+    %put #                                                                                            #;
+    %put #--------------------------------------------------------------------------------------------#;
+    %put #                                                                                            #;
+    %put #### Parameters:                                                                             #;
+    %put #                                                                                            #;
+    %put # 1. `packagesNames` Space separated list of packages names _without_                        #;
+    %put #                    the zip extension, e.g. myPackage1 myPackage2,                          #;
+    %put #                    Required and not null, default use case:                                #;
+    %put #                    `%nrstr(%%installPackage(myPackage1 myPackage2))`.                               #;
+    %put #                    If empty displays this help information.                                #;
+    %put #                    If the package name is *SPFinit* or *SASPackagesFramework*              #;
+    %put #                    then the framework itself is downloaded.                                #;
+    %put #                                                                                            #;
+    %put # - `sourcePath=`   Location of the package, e.g. "www.some.web.page/"                       #;
+    %put #                   Mind the "/" at the end of the path!                                     #;
+    %put #                   Current default location for packages is:                                #;
+    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/packages/` #;
+    %put #                   Current default location for the framework is:                           #;
+    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/`      #;
+    %put #                                                                                            #;
+    %put # - `replace=`      With default value of `1` it causes existing package file                #;
+    %put #                   to be replaceed by new downloaded file.                                  #;
+    %put #                                                                                            #;
+    %put #--------------------------------------------------------------------------------------------#;
+    %put #                                                                                            #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation`              #;
+    %put # to learn more.                                                                             #;
+    %put #                                                                                            #;
+    %put #### Example #################################################################################;
+    %put #                                                                                            #;
+    %put #   Enabling the SAS Package Framework                                                       #;
+    %put #   from the local directory and installing & loading                                        #;
+    %put #   the SQLinDS package from the Internet.                                                   #;
+    %put #                                                                                            #;
+    %put #   Assume that the `SPFinit.sas` file                                                       #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                             #;
+    %put #                                                                                            #;
+    %put #   Run the following code in your SAS session:                                              #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;                     );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                              );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;                        );
+    %put  %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                                   );
+    %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;                );
+    %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session;              );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put ##############################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofinstallPackage;
@@ -827,7 +836,7 @@ des = 'Macro to install SAS package, version 20201001. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20201001 
+  Version 20201010 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -847,7 +856,7 @@ des = 'Macro to install SAS package, version 20201001. Run %%installPackage() fo
 
 
 %macro listPackages()/PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20201001.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20201010.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -858,46 +867,47 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ########################################################################################;
-    %put #        This is short help information for the listPackages macro                     #;
-    %put ########################################################################################;
-    %put #                                                                                      #;
-    %put # Macro to list available SAS packages, version 20201001                               #;
-    %put #                                                                                      #;
-    %put # A SAS package is a zip file containing a group                                       #;
-    %put # of SAS codes (macros, functions, data steps generating                               #;
-    %put # data, etc.) wrapped up together and included by                                      #;
-    %put # a single load.sas file (also embedded inside the zip).                               #;
-    %put #                                                                                      #;
-    %put # The %nrstr(%%listPackages()) macro lists packages available                                   #;
-    %put # in the packages folder. List is printed inthe SAS Log.                               #;
-    %put #                                                                                      #;
-    %put # Parameters: NO PARAMETERS                                                            #;
-    %put #                                                                                      #;
-    %put # When used as: %nrstr(%%listPackages(HELP)) it displays this help information.                 #;
-    %put #                                                                                      #;
-    %put ########################################################################################;
-    %put #                                                                                      #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation          #;
-    %put # to learn more.                                                                       #;
-    %put #                                                                                      #;
-    %put # Example ##############################################################################;
-    %put #                                                                                      #;
-    %put #   Enabling the SAS Package Framework                                                 #;
-    %put #   from the local directory and listing                                               #;
-    %put #   available packages.                                                                #;
-    %put #                                                                                      #;
-    %put #   Assume that the SPFinit.sas file                                                   #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                       #;
-    %put #                                                                                      #;
-    %put #   Run the following code in your SAS session:                                        #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%listPackages()                      %%* list available packages;              );
-    %put ;
-    %put ########################################################################################;
+    %put ###########################################################################################;
+    %put ###       This is short help information for the `listPackages` macro                     #;
+    %put #-----------------------------------------------------------------------------------------#;;
+    %put #                                                                                         #;
+    %put # Macro to list available SAS packages, version `20201010`                                #;
+    %put #                                                                                         #;
+    %put # A SAS package is a zip file containing a group                                          #;
+    %put # of SAS codes (macros, functions, data steps generating                                  #;
+    %put # data, etc.) wrapped up together and embedded inside the zip.                            #;
+    %put #                                                                                         #;
+    %put # The `%nrstr(%%listPackages())` macro lists packages available                                   #;
+    %put # in the packages folder. List is printed inthe SAS Log.                                  #;
+    %put #                                                                                         #;
+    %put #### Parameters:                                                                          #;
+    %put #                                                                                         #;
+    %put # NO PARAMETERS                                                                           #;
+    %put #                                                                                         #;
+    %put # When used as: `%nrstr(%%listPackages(HELP))` it displays this help information.                 #;
+    %put #                                                                                         #;
+    %put #-----------------------------------------------------------------------------------------#;
+    %put #                                                                                         #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation`           #;
+    %put # to learn more.                                                                          #;
+    %put #                                                                                         #;
+    %put #### Example ##############################################################################;
+    %put #                                                                                         #;
+    %put #   Enabling the SAS Package Framework                                                    #;
+    %put #   from the local directory and listing                                                  #;
+    %put #   available packages.                                                                   #;
+    %put #                                                                                         #;
+    %put #   Assume that the `SPFinit.sas` file                                                    #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                          #;
+    %put #                                                                                         #;
+    %put #   Run the following code in your SAS session:                                           #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;                 );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                          );
+    %put  ;
+    %put  %nrstr( %%listPackages()                      %%* list available packages;                       );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put ###########################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDoflistPackages;
@@ -992,7 +1002,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
 /* Macro to generate SAS packages.
 
-   Version 20201001
+   Version 20201010
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -1015,51 +1025,54 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
                     dependencies in loading */
 )/secure
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20201001. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20201010. Run %generatePackage() for help info.'
+minoperator
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
     %local options_tmp ;
-    %let options_tmp = ls=%sysfunc(getoption(ls))ps=%sysfunc(getoption(ps))
+    %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
      %sysfunc(getoption(notes)) %sysfunc(getoption(source))
      msglevel=%sysfunc(getoption(msglevel))
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ###############################################################################;
-    %put #        This is short help information for the generatePackage macro         #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Macro to generate SAS packages, version 20201001                            #;
-    %put #                                                                             #;
-    %put # A SAS package is a zip file containing a group                              #;
-    %put # of SAS codes (macros, functions, data steps generating                      #;
-    %put # data, etc.) wrapped up together and included by                             #;
-    %put # a single load.sas file (also embedded inside the zip).                      #;
-    %put #                                                                             #;
-    %put # The %nrstr(%%generatePackage()) macro generates SAS packages.                        #;
-    %put # It wraps-up the package content, i.e. macros, functions, formats, etc.,     #;
-    %put # into the zip file and generate all metadata content required by other       #;
-    %put # macros from the SAS Packages Framework.                                     #;
-    %put #                                                                             #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation #;
-    %put # to read about the details of package generation process.                    #;
-    %put #                                                                             #;
-    %put # Parameters:                                                                 #;
-    %put #                                                                             #;
-    %put #  filesLocation=   Location of package files, example value:                 #;
-    %put #                    %nrstr(%%sysfunc(pathname(work))/packagename).                    #;
-    %put #                   Default use case:                                         #;
-    %put #                    %nrstr(%%generatePackage(filesLocation=/path/to/packagename))     #;
-    %put #                   If empty displays this help information.                  #;
-    %put #                                                                             #;
-    %put #  testPackage=     Indicator if tests should be executed.                    #;
-    %put #                   Default value: Y, means "execute tests"                   #;
-    %put #                                                                             #;
-    %put #  packages=        Location of other packages for testing                    #;
-    %put #                   if there are dependencies in loading the package.         #;
-    %put #                                                                             #;
-    %put ###############################################################################;
+    %put #################################################################################;
+    %put ###      This is short help information for the `generatePackage` macro         #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to generate SAS packages, version `20201010`                            #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and embedded inside the zip.                  #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%generatePackage())` macro generates SAS packages.                        #;
+    %put # It wraps-up the package content, i.e. macros, functions, formats, etc.,       #;
+    %put # into the zip file and generate all metadata content required by other         #;
+    %put # macros from the SAS Packages Framework.                                       #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # to read about the details of package generation process.                      #;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `filesLocation=` Location of package files, example value:                 #;
+    %put #                      `%nrstr(%%sysfunc(pathname(work))/packagename)`.                  #;
+    %put #                     Default use case:                                         #;
+    %put #                      `%nrstr(%%generatePackage(filesLocation=/path/to/packagename))`   #;
+    %put #                     If empty displays this help information.                  #;
+    %put #                                                                               #;
+    %put # - `testPackage=`    Indicator if tests should be executed.                    #;
+    %put #                     Default value: `Y`, means "execute tests"                 #;
+    %put #                                                                               #;
+    %put # - `packages=`       Location of other packages for testing                    #;
+    %put #                     if there are dependencies in loading the package.         #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofgeneratePackage;
@@ -1072,13 +1085,13 @@ des = 'Macro to generate SAS packages, version 20201001. Run %generatePackage() 
 %let   _LIC_   = _%sysfunc(datetime(), hex6.)l;
 
 /* collect package metadata from the description.sas file */
-filename &_DESCR_. "&filesLocation./description.sas" lrecl = 256;
+filename &_DESCR_. "&filesLocation./description.sas" lrecl = 1024;
 /* file contains licence */
-filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
+filename &_LIC_.   "&filesLocation./license.sas" lrecl = 1024;
 
 %if %sysfunc(fexist(&_DESCR_.)) %then 
   %do;
-    %put NOTE: Creating package%str(%')s metadata; 
+    %put NOTE: Creating package metadata; 
 
     %local packageName        /* name of the package, required */  
            packageVersion     /* version of the package, required */
@@ -1122,7 +1135,7 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
       %then
         %do;
           %put ERROR: At least one of descriptors is missing!;
-          %put ERROR- They are required to create package.;
+          %put ERROR- They are required to create a package.;
           %put ERROR- &=packageName.;
           %put ERROR- &=packageTitle.;
           %put ERROR- &=packageVersion.;
@@ -1131,15 +1144,17 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
           %put ERROR- &=packageEncoding.;
           %put ERROR- &=packageLicense.; 
           %put ERROR- ;
+          %put ERROR- Aborting.;
           %abort;
         %end;
     /* test for package name */
     %if %sysfunc(lengthn(&packageName.)) > 24 %then
       %do;
         %put ERROR: Package name is more than 24 characters long.;
-        %put ERROR- The name is used for functions%str(%') dataset name;
-        %put ERROR- and for formats%str(%') catalog name (with suffix).;
-        %put ERROR- The length is %sysfunc(lengthn(&packageName.)). Try something shorter.;
+        %put ERROR- The name is used for functions dataset name;
+        %put ERROR- and for formats catalog name (with suffix).;
+        %put ERROR: The length is %sysfunc(lengthn(&packageName.)). Try something shorter.;
+        %put ERROR- Aborting.;
         %abort;
       %end;
     %else %if %sysfunc(lengthn(&packageName.)) < 3 %then
@@ -1151,10 +1166,22 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
     %if %qsysfunc(lengthn(%qsysfunc(compress(&packageName.,,KDF)))) NE %qsysfunc(lengthn(&packageName.)) %then
       %do;
         %put ERROR: Package name contains illegal symbols.;
-        %put ERROR- The name is used for functions%str(%') dataset name;
-        %put ERROR- and for formats%str(%') catalog name.;
+        %put ERROR- The name is used for functions dataset name;
+        %put ERROR- and for formats catalog name.;
         %put ERROR- Only English letters, underscore(_), and digits are allowed.;
-        %put ERROR- Try something else. Maybe: %qsysfunc(compress(&packageName.,,KDF)) will do?;
+        %put ERROR: Try something else. Maybe: %qsysfunc(compress(&packageName.,,KDF)) will do?;
+        %put ERROR- Aborting.;
+        %abort;
+      %end;
+    /* test first symbol in package name */
+    %if %qsubstr(&packageName.,1,1) IN (1 2 3 4 5 6 7 8 9 0) %then
+      %do;
+        %put ERROR: Package name cannot start with a number.;
+        %put ERROR- The name is used for functions dataset name;
+        %put ERROR- and for formats catalog name.;
+        %put ERROR- Only English letters and underscore(_) are allowed as the first symbol.;
+        %put ERROR: Try something else which not start with a digit;
+        %put ERROR- Aborting.;
         %abort;
       %end;
 
@@ -1162,7 +1189,8 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 256;
 %else
   %do;
     %put ERROR: The description.sas file is missing!;
-    %put ERROR- The file is required to create package%str(%')s metadata;
+    %put ERROR- The file is required to create package metadata;
+    %put ERROR- Aborting.;
     %abort;
   %end;
 
@@ -1180,6 +1208,7 @@ data _null_;
       put 'ERROR: Package version should be a positive NUMBER.';
       put 'ERROR- Current value is: ' "&packageVersion.";
       put 'ERROR- Try something small, e.g. 0.1';
+      put 'ERROR- Aborting.';
       put;
       abort;
     end;
@@ -1192,7 +1221,16 @@ filename &zipReferrence. ZIP "&filesLocation./%lowcase(&packageName.).zip";
   %do;
     %put NOTE: Deleting file "&filesLocation./%lowcase(&packageName.).zip";
     %let _RC_ = %sysfunc(fdelete(&zipReferrence.));
+    %put NOTE: &=_RC_;
   %end;
+%if %sysfunc(fexist(&zipReferrence.)) %then 
+  %do;
+    %put ERROR: File "&filesLocation./%lowcase(&packageName.).zip" cannot be deleted.;
+    %put ERROR- Check if the file is not blocked by another process.; 
+    %put ERROR- Aborting.;
+    %abort;
+  %end;
+
 
 /*** HELP START ***/
 /* 
@@ -1330,9 +1368,9 @@ data &filesWithCodes.;
         put 'ERROR: Folder should be named ONLY with low case letters.';
         put 'ERROR- Current value is: ' folder;
         lowcase_name = lowcase(folder);
-        put 'ERROR- Try: ' lowcase_name;
+        put 'ERROR- Try to use: ' lowcase_name;
         put;
-        abort;
+        _abort_ + 1;
       end;
     order = scan(folder, 1, "_");
     type  = scan(folder,-1, "_");
@@ -1350,9 +1388,9 @@ data &filesWithCodes.;
                 put 'ERROR: File with code should be named ONLY with low case letters.';
                 put 'ERROR- Current value is: ' file;
                 lowcase_name = lowcase(file);
-                put 'ERROR- Try: ' lowcase_name;
+                put 'ERROR- Try to use: ' lowcase_name;
                 put;
-                abort;
+                _abort_ + 1;
               end;
         fileshort = substr(file, 1, length(file) - 4); /* filename.sas -> filename */
         output;
@@ -1363,6 +1401,12 @@ data &filesWithCodes.;
 
   rc = dclose(folderid);
   rc = filename(folderRef);
+
+  if _abort_ then
+  do;
+    put 'ERROR: Aborting due to previous errors.';
+    abort;
+  end;
   stop;
 run;
 proc sort data = &filesWithCodes.;
@@ -1372,9 +1416,9 @@ run;
 proc contents data = &filesWithCodes.;
 run;
 */
-title1 "Package's location is: &filesLocation.";
+title1 "Package location is: &filesLocation.";
 title2 "User: &SYSUSERID., datetime: %qsysfunc(datetime(), datetime21.), SAS version: &SYSVLONG4.";
-title3 "Package's encoding: '&packageEncoding.', session's encoding: '&SYSENCODING.'.";
+title3 "Package encoding: '&packageEncoding.', session encoding: '&SYSENCODING.'.";
 title4 " ______________________________ ";
 title5 "List of files for package: &packageName. (version &packageVersion.), license: &packageLicense.";
 title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
@@ -1511,7 +1555,7 @@ data _null_;
   put '      %do;                                                                 ';
   put '        %put ERROR: Required version is &requiredVersion.;                 ';
   put '        %put ERROR- Provided version is &packageVersion.;                  ';
-  put '        %ABORT;                                                            '; 
+  put '        %GOTO WrongVersionOFPackage; /*%RETURN;*/                          '; 
   put '      %end;                                                                ';
 
 
@@ -1523,6 +1567,8 @@ data _null_;
   put '    ;                                                                      ';
   put '    %include &_PackageFileref_.(load.sas) / &source2.;                     ';
   put '    filename &_PackageFileref_. clear;                                     ';
+  put '    %WrongVersionOFPackage:                                                ';
+
   put '  %mend ICEloadPackage;                                                    ';
   put " ";
 run;
@@ -1605,13 +1651,15 @@ data _null_;
       put '   /* if checklist is not null rise error */                      ';
       put '   if eof and R.num_items > 0 then                                ';
       put '     do %str(;)                                                   ';
-      put '       put "ERROR- ###########################################" %str(;) ';
-      put '       put "ERROR-  The following SAS components are missing! " %str(;) ';
-      put '       call symputX("packageRequiredErrors", 1, "L") %str(;)      ';
-      put '       do while(iR.next() = 0) %str(;)                            ';
-      put '         put "ERROR-   " req %str(;)                              ';
-      put '       end %str(;)                                                ';
-      put '       put "ERROR- ###########################################" %str(;) ';
+      put '       put "WARNING- ###########################################" %str(;) ';
+      put '       put "WARNING:  The following SAS components are missing! " %str(;) ';
+      put '       call symputX("packageRequiredErrors", 0, "L") %str(;)              ';
+      put '       do while(iR.next() = 0) %str(;)                                    ';
+      put '         put "WARNING-   " req %str(;)                                    ';
+      put '       end %str(;)                                                        ';
+      put '       put "WARNING:  The package may NOT WORK as expected      " %str(;) ';
+      put '       put "WARNING:  or even result with ERRORS!               " %str(;) ';
+      put '       put "WARNING- ###########################################" %str(;) ';
       put '       put %str(;)                                                ';
       put '     end %str(;)                                                  ';
       put ' run %str(;)                                                      ';
@@ -1712,7 +1760,7 @@ data _null_;
       put '      do req = ' / packageReqPackages / ' ;                                                   ';
       put '        name = lowcase(strip(scan(req, 1, "(")));                                             ';
       put '        vers = input(compress(scan(req,-1, "("), ".", "KD"), best32.);                        ';
-      put '        put "ERROR: SAS package " req "is missing! Download it and" ;                         ';
+      put '        put "ERROR: SAS package " req "is missing! Download/install it and" ;                 ';
       put '        put ''ERROR- use %loadPackage('' name ", requiredVersion = " vers ") to load it." ;   ';
       put '      end ;                                                                                   ';
       put '    end;                                                                                      ';
@@ -1728,7 +1776,7 @@ data _null_;
       put '  if symget("packageRequiredErrors") = "1" then                   ';
       put '    do;                                                           ';
       put '      put "ERROR: Loading package &packageName. will be aborted!";';
-      put '      put "ERROR- Required SAS components are missing.";          ';
+      put '      put "ERROR- Required components are missing.";              ';
       put '      put "ERROR- *** STOP ***";                                  ';
       put '      ABORT;                                                      ';
       put '    end;                                                          ';
@@ -2193,7 +2241,7 @@ data _null_;
   put '    do until (EOF);                                                        ';
   put "      infile &_PackageFileref_.(description.sas) end = EOF;                ";
   put '      input;                                                               ';
-  put '      if upcase(strip(_infile_)) =: "DESCRIPTION END:" then printer = 0;   ';
+  put '      if upcase(strip(_infile_)) =: "DESCRIPTION END:"   then printer = 0; ';
   put '      if printer then put @1 _infile_;                                     ';
   put '      if upcase(strip(_infile_)) =: "DESCRIPTION START:" then printer = 1; ';
   put '    end;                                                                   ';
@@ -2232,7 +2280,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20201001 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20201010 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
@@ -2270,11 +2318,11 @@ data _null_;
 
     select;
       when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = fileshort;
-      when (upcase(type) = "MACRO")              fileshort2 = cats('''%',fileshort,'()''');
-      when (upcase(type) =:"FUNCTION")           fileshort2 = cats("'",fileshort,"()'");
-      when (upcase(type) =:"IMLMODULE")          fileshort2 = cats("'",fileshort,"()'");
-      when (upcase(type) =:"PROTO")              fileshort2 = cats("'",fileshort,"()'");
-      when (upcase(type) = "FORMAT")             fileshort2 = cats("'$",fileshort,".'");
+      when (upcase(type) =   "MACRO"           ) fileshort2 = cats('''%', fileshort, '()''');
+      when (upcase(type) =:  "FUNCTION"        ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) =:  "IMLMODULE"       ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) =:  "PROTO"           ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) =   "FORMAT"          ) fileshort2 = cats("'$",  fileshort, ".'"  );
       otherwise fileshort2 = fileshort;
     end;
     strX = catx('/', folder, order, type, file, fileshort, fileshort2);
@@ -2335,6 +2383,13 @@ data _null_;
 run;
 
 /* create package content */
+%local notesSourceOptions;
+%let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
+options notes source;
+%put NOTE-######################################################;
+%put NOTE-# Creating package content.                          #;
+%put NOTE-######################################################;
+options nonotes nosource;
 data _null_;
   /* break if no data */
   if NOBS = 0 then stop;
@@ -2344,9 +2399,13 @@ data _null_;
 
   call execute(cat ('filename _SPFIN_ "', catx('/', base, folder, file), '";'));
   call execute(cats("filename _SPFOUT_ ZIP '", base, "/%lowcase(&packageName.).zip' member='_", folder, ".", file, "';") );
+
   /* copy code file into the zip */
   call execute('data _null_;');
+  call execute('  put ;');
+  call execute('  pathname = pathname("_SPFIN_");');
   call execute('  rc = fcopy("_SPFIN_", "_SPFOUT_");');
+  call execute('  put "File " pathname "copied into the package with return code: " rc;');
   call execute('run;');
   /* test file content for help tags */
   call execute('data _null_;');
@@ -2357,15 +2416,19 @@ data _null_;
   call execute(' if upcase(strip(_infile_)) = "/*** HELP END ***/"   then test + (-1); ');
   call execute(' if (test not in (.,0,1)) or (EOF and test) then '); 
   call execute('   do; '); 
-  call execute('     put "ERR" "OR: unmatched or nested HELP tags!" _N_=; ');
+  call execute('     put "ERROR: Unmatched or nested HELP tags in ' !! catx('/', folder, file) !! '! Line: " _N_; ');
+  call execute('     put "ERROR- Aborting!                      ";      ');
   call execute('     abort; ');
   call execute('   end; ');
-  call execute(' if (EOF and test=.) then put "WARN" "ING: no HELP tags in the file." ; ');
+  call execute(' if (EOF and test=.) then put "WARNING: No HELP tags in the file ' !! catx('/', folder, file) !! '." ; ');
   call execute('run;');
 
   call execute('filename _SPFIN_  clear;');
   call execute('filename _SPFOUT_ clear;');
 run;
+options notes source;
+%put NOTE-######################################################;
+options &notesSourceOptions.;
 /*
 proc sql;
   drop table &filesWithCodes.;
@@ -2385,13 +2448,11 @@ filename &zipReferrence. clear;
     where fncname = "HASHING_FILE";
     call execute('
       data the_SHA256_hash_id;
-          SHA256 = HASHING_FILE("SHA256", "&zipReferrence.", 4);
-          lable SHA256 = "The SHA256 hash digest for package &packageName.:";
-          put SHA256=;
-      run;
-      proc print data = the_SHA256_hash_id noobs label;
-      run;
-    ');
+        SHA256 = HASHING_FILE("SHA256", "&zipReferrence.", 4);
+        lable SHA256 = "The SHA256 hash digest for package &packageName.:";
+        put SHA256=;
+      run;');
+    call execute('proc print data = the_SHA256_hash_id noobs label; run;');
     stop;
   run;
   filename &zipReferrence. clear;
@@ -2403,13 +2464,13 @@ filename &zipReferrence. clear;
 /* tests of package are executed by default */
 %if %bquote(&testPackage.) ne Y %then 
   %do;
-    %put WARNING: ** NO TESTING WILL BE EXECUTED **;
+    %put WARNING: ** NO TESTING WILL BE EXECUTED. **;
     %GOTO NOTESTING;
   %end;
 /* check if systask is available  */
 %if %sysfunc(GETOPTION(XCMD)) = NOXCMD %then 
   %do;
-    %put WARNING: ** NO TESTING WILL BE EXECUTED DUE TO NOXCMD **;
+    %put WARNING: ** NO TESTING WILL BE EXECUTED DUE TO NOXCMD. **;
     %GOTO NOTESTING;
   %end;
 
@@ -2463,7 +2524,7 @@ data _null_;
   if fileexist("&packages./SPFinit.sas") then
     put '%include packages(SPFinit.sas);' /;
   else if fileexist("&packages./loadpackage.sas") then
-    put '%include packages(loadpackage.sas);' /; /* for older versions when the SPFinit.sas did not exist */
+    put '%include packages(loadpackage.sas);' / ; /* for older versions when the SPFinit.sas did not exist */
 
   /* load */
   put '%loadpackage'"(&packageName.,";
@@ -2510,26 +2571,35 @@ WAIT
 ;
 %let TESTRC_0 = &SYSRC.;
 %put *&=sasstat0.*&=TESTRC_0.*;
+%local notesSourceOptions;
+%let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
+options NOnotes NOsource;
 data _null_;
+  if _N_ = 1 then 
+    put "##########################################################################" /
+        "./loading.log" /
+        "##########################################################################" ;
   infile "./loading.log" dlm='0a0d'x end=EOF;
   input;
   if _INFILE_ =: 'WARNING:' then 
     do;
       warning+1; 
-      put _N_= _INFILE_;
+      put _N_= "**" _INFILE_;
     end;
   if _INFILE_ =: 'ERROR:' then 
     do;
       error+1;
-      put _N_= _INFILE_; 
+      put _N_= "$$" _INFILE_; 
     end;
   if EOF then
     do;
+      put "##########################################################################" ;
       put (_ALL_) (=/);
       call symputX("TESTW_0", warning, "L");
       call symputX("TESTE_0", error,   "L");
     end;
 run;
+options &notesSourceOptions.;
 /*-1-*/
 
 
@@ -2592,7 +2662,14 @@ WAIT
 ;
 %let TESTRC_&t = &SYSRC.;
 %put *sasstat&t.=&&sasstat&t.*TESTRC_&t=&&TESTRC_&t*;
+%local notesSourceOptions;
+%let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
+options NOnotes NOsource;
 data _null_;
+  if _N_ = 1 then 
+    put "##########################################################################" /
+        "./&&TEST_&t...log" /
+        "##########################################################################" ;
   infile "./&&TEST_&t...log" dlm='0a0d'x end=EOF;
   input;
   if _INFILE_ =: 'WARNING:' then 
@@ -2600,22 +2677,24 @@ data _null_;
       warning+1; 
       /*length warningline $ 1024;
       warningline = catx(',', strip(warningline), _N_);*/
-      put _N_= _INFILE_;
+      put _N_= "**" _INFILE_;
     end;
   if _INFILE_ =: 'ERROR:' then 
     do;
       error+1;
       /*length errorline $ 1024;
       errorline = catx(',', strip(errorline), _N_);*/ 
-      put _N_= _INFILE_;
+      put _N_= "$$" _INFILE_;
     end;
   if EOF then
     do;
+      put "##########################################################################" ;
       put (_ALL_) (=/);
       call symputX("TESTW_&t.", warning, "L");
       call symputX("TESTE_&t.", error,   "L");
     end;
 run;
+options &notesSourceOptions.;
 %end;
 
 data test.tests_summary;
@@ -2729,7 +2808,7 @@ TODO: (in Polish)
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20201001. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20201010. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -2741,55 +2820,54 @@ parmbuff
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ###############################################################################;
-    %put #        This is short help information for the loadPackageS macro            #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Macro wrapper for the loadPackage macro, version 20201001                   #;
-    %put #                                                                             #;
-    %put # A SAS package is a zip file containing a group                              #;
-    %put # of SAS codes (macros, functions, data steps generating                      #;
-    %put # data, etc.) wrapped up together and included by                             #;
-    %put # a single load.sas file (also embedded inside the zip).                      #;
-    %put #                                                                             #;
-    %put # The %nrstr(%%loadPackageS()) allows to load multiple packages at one time,           #;
-    %put # ONLY from the ZIP with DEFAULT OPTIONS, into the SAS session.               #;
-    %put #                                                                             #;
-    %put # Parameters:                                                                 #;
-    %put #                                                                             #;
-    %put #  packagesNames  A comma separated list of packages names,                   #;
-    %put #                 e.g. myPackage, myPackage1, myPackage2, myPackage3          #;
-    %put #                 Required and not null, default use case:                    #;
-    %put #                  %nrstr(%%loadPackageS(myPackage1, myPackage2, myPackage3)).         #;
-    %put #                 Package version, in brackets behind a package name, can     #;
-    %put #                 be provided, example is the following:                      #;
-    %put #                  %nrstr(%%loadPackageS(myPackage1(1.7), myPackage2(4.2))).           #;
-    %put #                 If empty displays this help information.                    #;
-    %put #                                                                             #;
-    %put #                                                                             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation #;
-    %put # to learn more.                                                              #;
-    %put #                                                                             #;
-    %put # Example #####################################################################;
-    %put #                                                                             #;
-    %put #   Enabling the SAS Package Framework                                        #;
-    %put #   from the local directory and installing & loading                         #;
-    %put #   the SQLinDS package from the Internet.                                    #;
-    %put #                                                                             #;
-    %put #   Assume that the SPFinit.sas file                                          #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                              #;
-    %put #                                                                             #;
-    %put #   Run the following code in your SAS session:                               #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%installPackage(SQLinDS DFA)  %%* install packages from the Internet;          );
-    %put %nrstr( %%loadPackageS(SQLinDS, DFA)    %%* load packags content into the SAS session;  );
-    %put ;
-    %put ###############################################################################;
+    %put #################################################################################;
+    %put ###      This is short help information for the `loadPackageS` macro            #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro wrapper for the loadPackage macro, version `20201010`                   #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and embedded inside the zip.                  #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%loadPackageS())` allows to load multiple packages at one time,           #;
+    %put # *ONLY* from the *ZIP* with *DEFAULT OPTIONS*, into the SAS session.           #;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packagesNames`  A comma separated list of packages names,                 #;
+    %put #                     e.g. myPackage, myPackage1, myPackage2, myPackage3        #;
+    %put #                     Required and not null, default use case:                  #;
+    %put #                      `%nrstr(%%loadPackageS(myPackage1, myPackage2, myPackage3))`.     #;
+    %put #                     Package version, in brackets behind a package name, can   #;
+    %put #                     be provided, example is the following:                    #;
+    %put #                      `%nrstr(%%loadPackageS(myPackage1(1.7), myPackage2(4.2)))`.       #;
+    %put #                     If empty displays this help information.                  #;
+    %put #                                                                               #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put #### Example ####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS DFA)  %%* install packages from the Internet;          );
+    %put  %nrstr( %%loadPackageS(SQLinDS, DFA)    %%* load packags content into the SAS session;  );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofloadPackageS;
@@ -2830,7 +2908,7 @@ parmbuff
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20201001. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20201010. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -2841,61 +2919,60 @@ des = 'Macro to verify SAS package with the hash digest, version 20201001. Run %
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put ###############################################################################;
-    %put #       This is short help information for the verifyPackage macro            #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Macro to verify SAS package with it hash digest, version 20201001           #;
-    %put #                                                                             #;
-    %put # A SAS package is a zip file containing a group                              #;
-    %put # of SAS codes (macros, functions, data steps generating                      #;
-    %put # data, etc.) wrapped up together and included by                             #;
-    %put # a single load.sas file (also embedded inside the zip).                      #;
-    %put #                                                                             #;
-    %put # The %nrstr(%%verifyPackage()) macro generate package SHA256 hash                     #;
-    %put # and compares it with the one provided by the user.                          #;
-    %put #                                                                             #;
-    %put #                                                                             #;
-    %put # Minimum SAS version required for the process is 9.4M6.                      #;
-    %put #                                                                             #;
-    %put # Parameters:                                                                 #;
-    %put #                                                                             #;
-    %put #  packageName        Name of a package, e.g. myPackage,                      #;
-    %put #                     Required and not null, default use case:                #;
-    %put #                      %nrstr(%%loadPackage(myPackage)).                               #;
-    %put #                     If empty displays this help information.                #;
-    %put #                                                                             #;
-    %put #  path=              Location of a package. By default it looks for          #;
-    %put #                     location of the "packages" fileref, i.e.                #;
-    %put #                      %nrstr(%%sysfunc(pathname(packages)))                           #;
-    %put #                                                                             #;
-    %put #  hash=              A value of the package SHA256 hash.                     #;
-    %put #                     Provided by the user.                                   #;
-    %put #                                                                             #;
-    %put ###############################################################################;
-    %put #                                                                             #;
-    %put # Visit: https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation #;
-    %put # to learn more.                                                              #;
-    %put #                                                                             #;
-    %put # Example #####################################################################;
-    %put #                                                                             #;
-    %put #   Enabling the SAS Package Framework                                        #;
-    %put #   from the local directory and installing & loading                         #;
-    %put #   the SQLinDS package from the Internet.                                    #;
-    %put #                                                                             #;
-    %put #   Assume that the SPFinit.sas file                                          #;
-    %put #   is located in the "C:/SAS_PACKAGES/" folder.                              #;
-    %put #                                                                             #;
-    %put #   Run the following code in your SAS session:                               #;
-    %put ;
-    %put %nrstr( filename packages "C:/SAS_PACKAGES"; %%* set-up a directory for packages;       );
-    %put %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
-    %put ;
-    %put %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
-    %put %nrstr( %%verifPackage%(SQLinDS,    %%* verify the package with provided hash;          );
-    %put %nrstr(               hash=HDA478ANJ3HKHRY327FGE88HF89VH89HFFFV73GCV98RF390VB4%)        );
-    %put ;
-    %put ###############################################################################;
+    %put #################################################################################;
+    %put ###      This is short help information for the `verifyPackage` macro           #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to verify SAS package with it hash digest, version `20201010`           #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and embedded inside the zip.                  #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%verifyPackage())` macro generate package SHA256 hash                     #;
+    %put # and compares it with the one provided by the user.                            #;
+    %put #                                                                               #;
+    %put #                                                                               #;
+    %put # *Minimum SAS version required for the process is 9.4M6.*                      #;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      Name of a package, e.g. myPackage,                      #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%loadPackage(myPackage))`.                             #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # - `hash=`             A value of the package `SHA256` hash.                   #;
+    %put #                       Provided by the user.                                   #;
+    %put #                                                                               #;
+    %put # - `path=`             Location of a package. By default it looks for          #;
+    %put #                       location of the "packages" fileref, i.e.                #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put #### Example ####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* set-up a directory for packages;       );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%verifPackage%(SQLinDS,    %%* verify the package with provided hash;          );
+    %put  %nrstr(               hash=HDA478ANJ3HKHRY327FGE88HF89VH89HFFFV73GCV98RF390VB4%)        );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofverifyPackage;

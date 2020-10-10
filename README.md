@@ -6,7 +6,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201001`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201010`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -71,13 +71,13 @@ Currently the following packages are available (see the `./packages` directory):
     set %SQL(select * from sashelp.class order by age);
   run;
 ```
-SHA256 digest for SQLinDS: B280D0B72DB77001ADAAE9C1612B67AD30C2C672371B27F1ACB12016C7A1363D
+SHA256 digest for SQLinDS: D76B85EFF129678B45233FB397A2BDB8D23F234013BD821D55141CA18DD5589E
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/sqlinds.md "Documentation for SQLinDS")
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
-SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713BB54DDA
+SHA256 digest for DFA: 43AE8BB0FC7D2121AABDD8DB8AD2C3F226C7D2699CAACC171FCB72B75D9141FA
 
 
 - **macroArray**\[0.5\], implementation of an array concept in a macrolanguage, e.g. 
@@ -99,7 +99,7 @@ SHA256 digest for DFA: BB8768E977D62429368CFF2E5338A6553C35C998AEC09AF24088BA713
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 53C248E1DE3268946C9CEC7E77BC222F652FBB006D9317BE36B86410DA31AE35
+SHA256 digest for macroArray: 085A0F3D544EAF01378BB6C6B4F429123F8BFEEFC76013D1B05DFADFEE3FA661
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/macroarray.md "Documentation for macroArray")
 
@@ -118,12 +118,12 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: 66E966489F4C183CA75FC32D3AF581FEC20FC9C5FF0C36E4DDC5A14BBDA82EAB
+SHA256 digest for BasePlus: 54232DA5E253EB58E49A09DD0DF244F433B61983D921E27F2E4FFB1EA73A5C6D
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/baseplus.md "Documentation for BasePlus")
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
-SHA256 digest for dynMacroArray: 066186B94B2976167C797C6A6E6217E361E8DEB10F2AB81906E0A325E5243084
+SHA256 digest for dynMacroArray: 281D9493564A8185B858D9525AA7D9D5343E42414AAB1D8A00AE85AB80882661
 
 ### ======
