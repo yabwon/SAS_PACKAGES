@@ -48,7 +48,7 @@
    is located in the "C:/SAS_PACKAGES/" folder.                                             
                                                                                             
    Run the following code in your SAS session:                                              
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
@@ -118,7 +118,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
    is located in the "C:/SAS_PACKAGES/" folder.                                
                                                                                
    Run the following code in your SAS session:                                 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
@@ -126,7 +126,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %helpPackage(SQLinDS)     %* get help about the package;
 %loadPackage(SQLinDS)     %* load the package content into the SAS session;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ##      This is short help information for the `loadPackage` macro             
@@ -191,7 +191,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
    is located in the "C:/SAS_PACKAGES/" folder.                                
                                                                                
    Run the following code in your SAS session:                                 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
@@ -199,7 +199,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %helpPackage(SQLinDS)     %* get help about the package;
 %loadPackage(SQLinDS)     %* load the package content into the SAS session;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ##      This is short help information for the `loadPackageS` macro            
@@ -241,13 +241,13 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
    is located in the "C:/SAS_PACKAGES/" folder.                                
                                                                                
    Run the following code in your SAS session:                                 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
 %installPackage(SQLinDS DFA)  %* install packages from the Internet;
 %loadPackageS(SQLinDS, DFA)    %* load packags content into the SAS session;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -305,7 +305,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
    is located in the "C:/SAS_PACKAGES/" folder.                                
                                                                                
    Run the following code in your SAS session:                                 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
@@ -313,7 +313,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %helpPackage(SQLinDS)     %* get help about the package;
 %loadPackage(SQLinDS)     %* load the package content into the SAS session;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ##       This is short help information for the `listPackages` macro                     
@@ -349,12 +349,12 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
    is located in the "C:/SAS_PACKAGES/" folder.                                          
                                                                                          
    Run the following code in your SAS session:                                           
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
 %listPackages()                      %* list available packages;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ###      This is short help information for the `verifyPackage` macro          
@@ -401,14 +401,14 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
    is located in the "C:/SAS_PACKAGES/" folder.                                
                                                                                
    Run the following code in your SAS session:                                 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
 %installPackage(SQLinDS)  %* install the package from the Internet;
 %verifPackage(SQLinDS,    %* verify the package with provided hash;
               hash=HDA478ANJ3HKHRY327FGE88HF89VH89HFFFV73GCV98RF390VB4)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ##      This is short help information for the `generatePackage` macro         
 -------------------------------------------------------------------------------
