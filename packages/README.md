@@ -18,7 +18,7 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: F070926B26504F9F65384EE3FB84E2E54B223FDAB71EDD61B11B865262C2E5DD
+SHA256 digest for SQLinDS: FCD7EE5B59E08CD1A2E31F6A5D94D7275C99AFFAACEA3D187F60A57CD0520FCD
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -51,7 +51,7 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: 7E9042867ED9C4BD2F27B3CD9180701CE619E301C13F5BD82DB46547616D17DF
+SHA256 digest for DFA: CC19058354D4B51F0675A8414F18089CCC583AA45822CEFC79368F06D8715846
 
 ---
 
@@ -74,7 +74,7 @@ SHA256 digest for DFA: 7E9042867ED9C4BD2F27B3CD9180701CE619E301C13F5BD82DB465476
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 519B1CE64F66F8498B10F5EB253BB45FC860E3F7868FCEB97ABF45C96F30716D
+SHA256 digest for macroArray: 96215AC04EF26C97719F6B1EDA5ACAF7DD491B7F2DDDE9985A0560CD2916ABA1
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/macroarray.md "Documentation for macroArray")
 
@@ -94,7 +94,7 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: 75B8D2BF718E035FEFC0D24504A6EBB9893883E2DF5D0FCD2D8ADD28456CFEBD
+SHA256 digest for BasePlus: 4E0C2A45CF8A5863C0D054568C712D10A296240877D604E77A778451A740874B
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/baseplus.md "Documentation for BasePlus")
 
@@ -102,6 +102,6 @@ SHA256 digest for BasePlus: 75B8D2BF718E035FEFC0D24504A6EBB9893883E2DF5D0FCD2D8A
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
-SHA256 digest for dynMacroArray: FF111DA330ACE57BAE8C9B7890839045B691A17414AE04CBD49C66BCD9663B21
+SHA256 digest for dynMacroArray: 0854317DE7A97DCFE30411B37D909F04BBE12F1F9F7C45D39CBCD61641158F80
 
 ---
