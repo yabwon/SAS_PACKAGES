@@ -1,41 +1,47 @@
 /*** HELP START ***/
+/*
+## >>> `%SQL()` macro: <<< <a name="dssql-macro"></a> ###########################
 
-/* >>> %SQL() macro: <<<
- *
- * Main macro which allows to use 
- * SQL's queries in the data step. 
- * Recommended for SAS 9.3 and higher. 
- * Based on paper: 
- * "Use the Full Power of SAS in Your Function-Style Macros"
- * by Mike Rhoads, Westat, Rockville, MD
- * https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
- *
- * SYNTAX:
+The **main** macro which allows to use 
+SQL queries in the data step.
+ 
+Recommended for *SAS 9.3* and higher.
+ 
+Based on the article *"Use the Full Power of SAS in Your Function-Style Macros"*
+by *Mike Rhoads* (Westat, Rockville), available at:
+[https://support.sas.com/resources/papers/proceedings12/004-2012.pdf](https://support.sas.com/resources/papers/proceedings12/004-2012.pdf)
 
-   %sql(<nonempty sql querry code>)
+### SYNTAX: ###################################################################
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%sql(<nonempty sql querry code>)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- * The sql querry code is limited to 32000 bytes.
- *
- * EXAMPLE 1: simple sql query
+The sql query code is limited to *32000* bytes.
 
-   data class_subset;
-     set %SQL(select name, sex, height from sashelp.class where age > 12);
-   run;
+### EXAMPLES: #################################################################
 
- * EXAMPLE 2: query with dataset options
+**EXAMPLE 1**: simple SQL query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data class_subset;
+  set %SQL(select name, sex, height from sashelp.class where age > 12);
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   data renamed;
-     set %SQL(select * from sashelp.class where sex = "F")(rename = (age=age2));
-   run;
+**EXAMPLE 2**: query with dataset options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data renamed;
+  set %SQL(select * from sashelp.class where sex = "F")(rename = (age=age2));
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- * EXAMPLE 3: dictionaries in datastep
-
-   data dictionary;
-     set %SQL(select * from dictionary.macros);
-   run;
-
-**/
-
+**EXAMPLE 3**: dictionaries in the data step
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data dictionary;
+  set %SQL(select * from dictionary.macros);
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+*/
 /*** HELP END ***/
 
 

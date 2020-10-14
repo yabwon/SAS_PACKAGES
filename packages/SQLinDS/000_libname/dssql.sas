@@ -1,19 +1,21 @@
 /*** HELP START ***/
+/*
+## >>> library `dsSQL`: <<< <a name="library-dssql"></a> ########################
 
-/* >>> dsSQL library: <<< 
- *
- * The dsSQL library stores temporary views 
- * generated during the %SQL() macro execution.
- * If possible a subdirectory of WORK is created as: 
+The `dsSQL` library stores temporary views 
+generated during the `%SQL()` macro execution.
 
-   LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))/dsSQLtmp";
+If possible a subdirectory of the `WORK` location is created, like: 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))/dsSQLtmp";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- * if not possible then redirects to WORK as:
-
-   LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))"; 
-
-**/
-
+if not possible, then redirects to the `WORK` location, like:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))"; 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+*/
 /*** HELP END ***/
 
 data _null_;
@@ -25,5 +27,5 @@ data _null_;
     rc1 = LIBNAME("dsSQL", "%sysfunc(pathname(work))", "BASE"); 
 run;
 
-/* list details about the library in the log */
+/* list the details about the library in the log */
 libname dsSQL LIST;

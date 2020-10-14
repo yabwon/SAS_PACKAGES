@@ -6,7 +6,7 @@
 Type: Package                                    :/*required, not null, constant value*/
 Package: SQLinDS                                 :/*required, not null, up to 24 characters, naming restrictions like for a dataset name! */
 Title: SQL queries in Data Step                  :/*required, not null*/
-Version: 2.1                                     :/*required, not null*/
+Version: 2.2                                     :/*required, not null*/
 Author: Mike Rhoads (RhoadsM1@Westat.com)        :/*required, not null*/
 Maintainer: Bartosz Jablonski (yabwon@gmail.com) :/*required, not null*/
 License: MIT                                     :/*required, not null, values: MIT, GPL2, BSD, etc.*/
@@ -18,28 +18,32 @@ Required: "Base SAS Software"                    :/*optional, COMMA separated, Q
 /* All the text below will be used in help */
 DESCRIPTION START:
 
-The SQLinDS package is an implementation of  
-the macro-function-sandwich concept introduced in: 
-"Use the Full Power of SAS in Your Function-Style Macros"
-the article by Mike Rhoads, Westat, Rockville, MD
+# The SQLinDS package [ver. 2.2] <a name="sqlinds-package"></a> ###############################################
+
+The **SQLinDS** package is an implementation of 
+the *macro-function-sandwich* concept introduced in the 
+*"Use the Full Power of SAS in Your Function-Style Macros"*,
+the article by *Mike Rhoads (Westat, Rockville)*.
 
 Copy of the article is available at:
-https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
+[https://support.sas.com/resources/papers/proceedings12/004-2012.pdf](https://support.sas.com/resources/papers/proceedings12/004-2012.pdf)
 
-Package provides ability to "execute" SQL queries inside a datastep, e.g.
-
+Package provides ability to *execute* SQL queries inside a data step, e.g.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   data class;
     set %SQL(select * from sashelp.class);
   run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+See the help for the `%SQL()` macro to find more examples. 
+
+### Content ###################################################################
 
 SQLinDS package contains the following components:
 
- 1) %SQL() macro - the main package macro available for the User
+1. `%SQL()` macro - the main package macro available for the User
+2. `dsSQL()` function (internal)
+3. `%dsSQL_inner()` macro (internal) 
+4. Library `DSSQL` (created as a subdirectory of the `WORK` library)
 
- 2) dsSQL() function (internal)
- 3) %dsSQL_inner() macro (internal) 
- 4) Library DSSQL (created in a subdirectory of the WORK library)
-
-See help for the %SQL() macro to find more examples. 
-
+---
 DESCRIPTION END:

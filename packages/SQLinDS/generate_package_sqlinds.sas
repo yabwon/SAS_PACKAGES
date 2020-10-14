@@ -1,6 +1,6 @@
+resetline;
 
-
-filename packages "C:\SAS_PACKAGES\SASPackagesFramework";
+filename packages "C:\SAS_PACKAGES\SPF";
 %include packages(SPFinit.sas);
 
 ods html;

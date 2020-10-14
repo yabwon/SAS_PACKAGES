@@ -1,19 +1,26 @@
 /*** HELP START ***/
+/* 
+## >>> `dsSQL()` function: <<< <a name="dssql-function"></a> ####################
 
-/* >>> dsSQL() function: <<<
- *
- * Internal function called by %SQL() macro.
- * The function pass query code from the %SQL()
- * macro to the %dsSQL_Inner() innternal macreo.
- *
- * Recommended for SAS 9.3 and higher. 
- * Based on paper: 
- * "Use the Full Power of SAS in Your Function-Style Macros"
- * by Mike Rhoads, Westat, Rockville, MD
- * https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
- *
-**/
+**Internal** function called by the `%SQL()` macro.
+The function pass a query code from the `%SQL()`
+macro to the `%dsSQL_Inner()` internal macro.
 
+Recommended for *SAS 9.3* and higher. 
+
+### SYNTAX: ###################################################################
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+dsSQL(unique_index_2, query)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `unique_index_2` - *Numeric*, internal variable, a unique index for views.
+
+2. `query` -          *Character*, internal variable, contains query text.
+
+---
+*/
 /*** HELP END ***/
 
 proc fcmp 

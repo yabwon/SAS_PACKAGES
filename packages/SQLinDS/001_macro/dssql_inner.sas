@@ -1,19 +1,15 @@
 /*** HELP START ***/
+/*
+## >>> `%dsSQL_Inner()` macro: <<< <a name="dssql-inner-macro"></a> #############
 
-/* >>> %dsSQL_Inner() macro: <<<
- *
- * Internal macro called by dsSQL() function.
- * The macro generates a uniqualy named sql view on the fly
- * which is stored in DSSQL library.  
- *  
- * Recommended for SAS 9.3 and higher. 
- * Based on paper: 
- * "Use the Full Power of SAS in Your Function-Style Macros"
- * by Mike Rhoads, Westat, Rockville, MD
- * https://support.sas.com/resources/papers/proceedings12/004-2012.pdf
- *
-**/
+**Internal** macro called by `dsSQL()` function.
+The macro generates a uniquely named SQL view on the fly
+which is then stored in the `dsSQL` library.
+ 
+Recommended for *SAS 9.3* and higher. 
 
+---
+*/
 /*** HELP END ***/
 
 /* inner macro */
@@ -57,7 +53,7 @@
   %put *****************;
   
   proc sql;
-       %include &tempfile2.; /* &query */
+       %include &tempfile2.; /* the &query */
        ;
   quit;
   filename &tempfile1. clear;
