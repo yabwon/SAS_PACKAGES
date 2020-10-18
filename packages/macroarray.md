@@ -1,4 +1,4 @@
-- [The macroArray package [ver. 0.5]](#macroarray)
+- [The macroArray package [ver. 0.6]](#macroarray)
 - [Content description](#content-description)
   * [`%appendArray()` macro](#appendarray-macro)
   * [`%appendCell()` macro](#appendcell-macro)
