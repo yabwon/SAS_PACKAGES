@@ -88,7 +88,7 @@ SHA256 digest for SQLinDS: 135DC50C0412B8CEAF6D5349B8A203C0ADB23D4F5C2680B6A35FD
 SHA256 digest for DFA: E67A0863992722A5F535F56E14EF8D19A55F74FB374447BF11B5ED74029C29CB
 
 
-- **macroArray**\[0.6\], implementation of an array concept in a macrolanguage, e.g. 
+- **macroArray**\[0.7\], implementation of an array concept in a macrolanguage, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -107,7 +107,7 @@ SHA256 digest for DFA: E67A0863992722A5F535F56E14EF8D19A55F74FB374447BF11B5ED740
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 42771AA7CD2A0608E1EE25F104F21CCCC296919910E4BCA7AD9AE46A291BB8D7
+SHA256 digest for macroArray: 75056F508E96296DC50096BBB054C58334DB913AD37885958099EDCE0C330CB2
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/macroarray.md "Documentation for macroArray")
 
