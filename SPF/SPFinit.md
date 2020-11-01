@@ -19,7 +19,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201018`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201101`**.  
 
 **To get started with SAS Packages** try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -37,7 +37,7 @@ After assigning the directory do not change them when using the SPF since it may
 ##       This is short help information for the `installPackage` macro <a name="installpackage"></a>                     
 --------------------------------------------------------------------------------------------
                                                                                             
- Macro to install SAS packages, version `20201018`                                          
+ Macro to install SAS packages, version `20201101`                                          
                                                                                             
  A SAS package is a zip file containing a group                                             
  of SAS codes (macros, functions, data steps generating                                     
@@ -94,7 +94,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##       This is short help information for the `helpPackage` macro <a name="helppackage"></a>           
 -------------------------------------------------------------------------------
                                                                                
- Macro to get help about SAS packages, version `20201018`                      
+ Macro to get help about SAS packages, version `20201101`                      
                                                                                
  A SAS package is a zip file containing a group                                
  of SAS codes (macros, functions, data steps generating                        
@@ -164,7 +164,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `loadPackage` macro <a name="loadpackage"></a>            
 -------------------------------------------------------------------------------
                                                                                
- Macro to *load* SAS packages, version `20201018`                              
+ Macro to *load* SAS packages, version `20201101`                              
                                                                                
  A SAS package is a zip file containing a group                                
  of SAS codes (macros, functions, data steps generating                        
@@ -237,7 +237,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `loadPackageS` macro <a name="loadpackages"></a>          
 -------------------------------------------------------------------------------
                                                                                
- Macro wrapper for the loadPackage macro, version `20201018`                   
+ Macro wrapper for the loadPackage macro, version `20201101`                   
                                                                                
  A SAS package is a zip file containing a group                                
  of SAS codes (macros, functions, data steps generating                        
@@ -286,7 +286,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `unloadPackage` macro <a name="unloadpackage"></a>          
 -------------------------------------------------------------------------------
                                                                                
- Macro to unload SAS packages, version `20201018`                              
+ Macro to unload SAS packages, version `20201101`                              
                                                                                
  A SAS package is a zip file containing a group                                
  of SAS codes (macros, functions, data steps generating                        
@@ -351,7 +351,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##       This is short help information for the `listPackages` macro <a name="listpackages"></a>                    
 -----------------------------------------------------------------------------------------
                                                                                          
- Macro to list available SAS packages, version `20201018`                                
+ Macro to list available SAS packages, version `20201101`                                
                                                                                          
  A SAS package is a zip file containing a group                                          
  of SAS codes (macros, functions, data steps generating                                  
@@ -392,7 +392,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `verifyPackage` macro <a name="verifypackage"></a>         
 -------------------------------------------------------------------------------
                                                                                
- Macro to verify SAS package with it hash digest, version `20201018`           
+ Macro to verify SAS package with it hash digest, version `20201101`           
                                                                                
  A SAS package is a zip file containing a group                                
  of SAS codes (macros, functions, data steps generating                        
@@ -445,7 +445,7 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
 ##      This is short help information for the `generatePackage` macro <a name="generatepackage"></a>        
 -------------------------------------------------------------------------------
                                                                                
- Macro to generate SAS packages, version `20201018`                            
+ Macro to generate SAS packages, version `20201101`                            
                                                                                
  A SAS package is a zip file containing a group                                
  of SAS codes (macros, functions, data steps generating                        
@@ -469,6 +469,8 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
                       `%generatePackage(filesLocation=/path/to/packagename)`   
                      If empty displays this help information.                  
                                                                                
+ Testing parameters:                                                           
+                                                                               
  - `testPackage=`    Indicator if tests should be executed.                    
                      Default value: `Y`, means "execute tests"                 
                                                                                
@@ -477,6 +479,15 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
                                                                                
 - `testResults=`     Location where tests results should be stored,            
                      if null (the default) then the session WORK is used.      
+                                                                               
+- `sasexe=`         Location of a DIRECTORY where the SAS binary is located,
+                    if null (the default) then the `!SASROOT` is used.      
+                                                                            
+- `sascfgfile=`     Location of a FILE with testing session configuration   
+                    parameters, if null (the default) then no config file   
+                    is pointed during the SAS invocation,                   
+                    if set to `DEF` then the `!SASROOT/sasv9.cfg` is used.  
+
                                                                                
 ------------------------------------------------------------------------------- 
 
@@ -585,12 +596,19 @@ The "tree structure" of the folder could be for example as follows:
    |
    +-<sequential number>_<type [in lower case]>
    |
-   +-...
-   |
    +-00n_clean [if you need to clean something up after exec file execution,
    |         |  content of the files will be printed to the log before execution]
    |         |
    |         +-<no file, in this case folder may be skipped>
+   |
+   +-...
+   |
+   +-999_test [tests executed during package generation, XCMD options must be turned-on]
+   |        |
+   |        +-test1.sas [a file with a code for test1]
+   |        |
+   |        +-test2.sas [a file with a code for test2]
+   |
    +-...
    ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
