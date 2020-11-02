@@ -8,9 +8,9 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201101`**.  
 
-To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
+To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
-The documentation and more advance reading would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
+The documentation and more advance reading would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
 
 **General overview video:**
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020") (April 2020)
@@ -40,7 +40,7 @@ or if you need it just for "one time" only Execute:
 
 ```
 filename packages "%sysfunc(pathname(work))"; /* setup temporary directory for packages in the WORK */
-filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/SPFinit.sas";
+filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas";
 %include SPFinit; /* enable the framework */
 
 %installPackage(packageName) /* install the package */
@@ -52,7 +52,7 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/mast
  
 ### The Developer:
 To create your own package:
-- Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more details.
+- Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more details.
 - Download and use the `SPFinit.sas` file (the SAS Packages Framework), the part of the framework required for *testing* is there too.
 
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
@@ -82,7 +82,7 @@ Currently the following packages are available (see the `./packages` directory):
 ```
 SHA256 digest for SQLinDS: 135DC50C0412B8CEAF6D5349B8A203C0ADB23D4F5C2680B6A35FD2E5482B6C49
 
-[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/sqlinds.md "Documentation for SQLinDS")
+[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
 - **MacroCore**\[1\], a macro library for SAS application developers. Over 100 macros for Base SAS, metadata, and Viya. Provided by the [SASjs framework](https://sasjs.io "SASjs framework").
 
@@ -116,7 +116,7 @@ SHA256 digest for DFA: E67A0863992722A5F535F56E14EF8D19A55F74FB374447BF11B5ED740
 ```
 SHA256 digest for macroArray: 75056F508E96296DC50096BBB054C58334DB913AD37885958099EDCE0C330CB2
 
-[Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/macroarray.md "Documentation for macroArray")
+[Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 
 - **BasePlus**\[0.8\] adds a bunch of functionalities I am missing in BASE SAS, such as:
@@ -135,7 +135,7 @@ format x bool.;
 ```
 SHA256 digest for BasePlus: 9549378E5F81DA4DC421C366DF006D270261852336CE3DCD88FF8E2A759938C8
 
-[Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/baseplus.md "Documentation for BasePlus")
+[Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 

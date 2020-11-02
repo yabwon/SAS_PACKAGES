@@ -142,7 +142,7 @@ des = 'Macro to load SAS package, version 20201101. Run %loadPackage() for help 
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
     %put #                                                                               #;
     %put ### Example #####################################################################;
@@ -303,7 +303,7 @@ des = 'Macro to unload SAS package, version 20201101. Run %unloadPackage() for h
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
     %put #                                                                               #;
     %put ### Example #####################################################################;
@@ -446,7 +446,7 @@ des = 'Macro to get help about SAS package, version 20201101. Run %helpPackage()
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
     %put #                                                                               #;
     %put #### Example ####################################################################;
@@ -568,16 +568,16 @@ des = 'Macro to install SAS package, version 20201101. Run %%installPackage() fo
     %put # - `sourcePath=`   Location of the package, e.g. "www.some.web.page/"                       #;
     %put #                   Mind the "/" at the end of the path!                                     #;
     %put #                   Current default location for packages is:                                #;
-    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/packages/` #;
+    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/`   #;
     %put #                   Current default location for the framework is:                           #;
-    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/`      #;
+    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/`        #;
     %put #                                                                                            #;
     %put # - `replace=`      With default value of `1` it causes existing package file                #;
     %put #                   to be replaceed by new downloaded file.                                  #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;
     %put #                                                                                            #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation`              #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`                #;
     %put # to learn more.                                                                             #;
     %put #                                                                                            #;
     %put #### Example #################################################################################;
@@ -621,7 +621,7 @@ des = 'Macro to install SAS package, version 20201101. Run %%installPackage() fo
 
   %if %superq(sourcePath)= %then
     %do;
-      %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/packages/;
+      %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/;
     %end;
 
   %local i;
@@ -641,7 +641,7 @@ des = 'Macro to install SAS package, version 20201101. Run %%installPackage() fo
       %do;
         /* allows to install/download the framework file like any other package */
         filename &in URL 
-          "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/SPFinit.sas" 
+          "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas" 
           recfm=N lrecl=1;
         filename &out    
           "%sysfunc(pathname(packages))/SPFinit.sas" 
@@ -775,7 +775,7 @@ des = 'Macro to install SAS package, version 20201101. Run %%installPackage() fo
 
   filename packages "%sysfunc(pathname(work))"; %* setup WORK as a temporary directory for packages;
    
-  filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPFinit.sas";
+  filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPFinit.sas";
   %include spfinit;                    %* enable the framework;
 
   %installPackage(SQLinDS)             %* install the package from the Internet;
@@ -888,7 +888,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put #                                                                                         #;
     %put #-----------------------------------------------------------------------------------------#;
     %put #                                                                                         #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation`           #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`             #;
     %put # to learn more.                                                                          #;
     %put #                                                                                         #;
     %put #### Example ##############################################################################;
@@ -1062,7 +1062,7 @@ des = 'Macro to generate SAS packages, version 20201101. Run %generatePackage() 
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to read about the details of package generation process.                      #;
     %put #                                                                               #;
     %put #### Parameters:                                                                #;
@@ -2978,7 +2978,7 @@ parmbuff
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
     %put #                                                                               #;
     %put #### Example ####################################################################;
@@ -3082,7 +3082,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20201101. Run %
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
     %put #                                                                               #;
     %put #### Example ####################################################################;

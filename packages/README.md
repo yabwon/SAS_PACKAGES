@@ -1,5 +1,5 @@
 ## SAS Packages: 
-To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
+To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
 ## Available packages: 
 Currently the following packages are available:
@@ -20,7 +20,7 @@ run;
 ```
 SHA256 digest for SQLinDS: 135DC50C0412B8CEAF6D5349B8A203C0ADB23D4F5C2680B6A35FD2E5482B6C49
 
-[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/sqlinds.md "Documentation for SQLinDS")
+[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
 ---
 
@@ -84,7 +84,7 @@ SHA256 digest for DFA: E67A0863992722A5F535F56E14EF8D19A55F74FB374447BF11B5ED740
 ```
 SHA256 digest for macroArray: 75056F508E96296DC50096BBB054C58334DB913AD37885958099EDCE0C330CB2
 
-[Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/macroarray.md "Documentation for macroArray")
+[Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 ---
 
@@ -104,7 +104,7 @@ format x bool.;
 ```
 SHA256 digest for BasePlus: 9549378E5F81DA4DC421C366DF006D270261852336CE3DCD88FF8E2A759938C8
 
-[Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/master/packages/baseplus.md "Documentation for BasePlus")
+[Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
 ---
 

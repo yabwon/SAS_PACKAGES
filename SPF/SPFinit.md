@@ -21,9 +21,9 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201101`**.  
 
-**To get started with SAS Packages** try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
+**To get started with SAS Packages** try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
-**The documentation and more advance reading** would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/master/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
+**The documentation and more advance reading** would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
 
 
 *Note:* Filenames references `packages` and `package` are reserved keywords.
@@ -60,15 +60,15 @@ After assigning the directory do not change them when using the SPF since it may
                     then the framework itself is downloaded.                                
                                                                                             
  - `sourcePath=`   Location of the package, e.g. "www.some.web.page/" (mind the "/" at the end of the path!) <br>
-                   Current default location for packages is: <br> `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/packages/` <br>
-                   Current default location for the framework is: <br> `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPF/`      
+                   Current default location for packages is: <br> `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/` <br>
+                   Current default location for the framework is: <br> `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/`      
                                                                                             
  - `replace=`      With default value of `1` it causes existing package file                
                    to be replaceed by new downloaded file.                                  
                                                                                             
 --------------------------------------------------------------------------------------------
                                                                                             
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` to learn more.
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` to learn more.
                                                                                             
 ### Example ################################################################################
                                                                                             
@@ -137,7 +137,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
                                                                                
 -------------------------------------------------------------------------------
                                                                                
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` 
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` 
  to learn more.                                                                
                                                                                
 ## Example ####################################################################
@@ -210,7 +210,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
                                                                                
 -------------------------------------------------------------------------------
                                                                                
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` 
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` 
  to learn more.                                                                
                                                                                
 ## Example ####################################################################
@@ -260,7 +260,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
                                                                                
 -------------------------------------------------------------------------------
                                                                                
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` 
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` 
  to learn more.                                                                
                                                                                
 ### Example ###################################################################
@@ -324,7 +324,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
                                                                                
 -------------------------------------------------------------------------------
                                                                                
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` 
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` 
  to learn more.                                                                
                                                                                
 ### Example ###################################################################
@@ -368,7 +368,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
                                                                                          
 -----------------------------------------------------------------------------------------
                                                                                          
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation`           
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`           
  to learn more.                                                                          
                                                                                          
 ### Example #############################################################################
@@ -420,7 +420,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
                                                                                
 -------------------------------------------------------------------------------
                                                                                
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` 
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` 
  to learn more.                                                                
                                                                                
 ### Example ###################################################################
@@ -458,7 +458,7 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
                                                                                
 -------------------------------------------------------------------------------
                                                                                
- Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/master/SPF/Documentation` 
+ Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation` 
  to read about the details of package generation process.                      
                                                                                
 ### Parameters:                                                                
@@ -665,7 +665,7 @@ Run the following code in your SAS session:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   filename packages "%sysfunc(pathname(work))"; %* setup WORK as a temporary directory for packages;
    
-  filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/master/SPFinit.sas";
+  filename spfinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPFinit.sas";
   %include spfinit;                    %* enable the framework;
 
   %installPackage(SQLinDS)             %* install the package from the Internet;
