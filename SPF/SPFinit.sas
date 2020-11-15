@@ -42,7 +42,7 @@
    - to unload, or
    - to generate SAS packages.
 
-  Version 20201103.
+  Version 20201115.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -81,7 +81,7 @@
                                        */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20201103. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20201115. Run %loadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -96,7 +96,7 @@ des = 'Macro to load SAS package, version 20201103. Run %loadPackage() for help 
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20201103`                              #;
+    %put # Macro to *load* SAS packages, version `20201115`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -251,7 +251,7 @@ des = 'Macro to load SAS package, version 20201103. Run %loadPackage() for help 
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20201103. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20201115. Run %unloadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -266,7 +266,7 @@ des = 'Macro to unload SAS package, version 20201103. Run %unloadPackage() for h
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20201103`                              #;
+    %put # Macro to unload SAS packages, version `20201115`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -282,7 +282,7 @@ des = 'Macro to unload SAS package, version 20201103. Run %unloadPackage() for h
     %put #                                                                               #;
     %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
     %put #                       Required and not null, default use case:                #;
-    %put #                        `%nrstr(%%loadPackage(myPackage)).`                             #;
+    %put #                        `%nrstr(%%unloadPackage(myPackage)).`                           #;
     %put #                       If empty displays this help information.                #;
     %put #                                                                               #;
     %put # - `path=`             *Optional.* Location of a package. By default it        #;
@@ -296,11 +296,11 @@ des = 'Macro to unload SAS package, version 20201103. Run %unloadPackage() for h
     %put #                       what is loaded, null by default.                        #;
     %put #                                                                               #;
     %put # - `zip=`              Standard package is zip (lowcase),                      #;
-    %put #                        e.g. `%nrstr(%%loadPackage(PiPackage))`.                        #;
+    %put #                        e.g. `%nrstr(%%unloadPackage(PiPackage))`.                      #;
     %put #                       If the zip is not available use a folder.               #;
     %put #                       Unpack data to "pipackage.disk" folder                  #;
-    %put #                       and use loadPackage in the following form:              #;
-    %put #                        `%nrstr(%%loadPackage(PiPackage, zip=disk, options=))`          #;
+    %put #                       and use unloadPackage in the following form:            #;
+    %put #                        `%nrstr(%%unloadPackage(PiPackage, zip=disk, options=))`        #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -373,7 +373,7 @@ des = 'Macro to unload SAS package, version 20201103. Run %unloadPackage() for h
                                          required and not null  */
 , helpKeyword                         /* phrase to search in help,
                                          when empty prints description 
-                                         "*" means prints all help 
+                                         "*" means print all help 
                                          "license" prints license */
 , path = %sysfunc(pathname(packages)) /* location of a package, 
                                          by default it looks for 
@@ -390,7 +390,7 @@ des = 'Macro to unload SAS package, version 20201103. Run %unloadPackage() for h
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20201103. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20201115. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -405,7 +405,7 @@ des = 'Macro to get help about SAS package, version 20201103. Run %helpPackage()
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20201103`                      #;
+    %put # Macro to get help about SAS packages, version `20201115`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -421,13 +421,13 @@ des = 'Macro to get help about SAS package, version 20201103. Run %helpPackage()
     %put #                                                                               #;
     %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
     %put #                       Required and not null, default use case:                #;
-    %put #                        `%nrstr(%%loadPackage(myPackage)).`                             #;
+    %put #                        `%nrstr(%%helpPackage(myPackage)).`                             #;
     %put #                       If empty displays this help information.                #;
     %put #                                                                               #;
     %put # 2. `helpKeyword`      *Optional.*  A phrase to search in help,                #;
     %put #                       - when empty prints description,                        #;
-    %put #                       - "*"  means prints all help,                           #;
-    %put #                       - "license"  prints the license.                        #;
+    %put #                       - "*" means: print all help,                            #;
+    %put #                       - "license" prints the license.                         #;
     %put #                                                                               #;
     %put # - `path=`             *Optional.* Location of a package. By default it        #;
     %put #                       looks for location of the **packages** fileref, i.e.    #;
@@ -440,11 +440,11 @@ des = 'Macro to get help about SAS package, version 20201103. Run %helpPackage()
     %put #                       what is loaded, null by default.                        #;
     %put #                                                                               #;
     %put # - `zip=`              Standard package is zip (lowcase),                      #;
-    %put #                        e.g. `%nrstr(%%loadPackage(PiPackage))`.                        #;
+    %put #                        e.g. `%nrstr(%%helpPackage(PiPackage))`.                        #;
     %put #                       If the zip is not available use a folder.               #;
     %put #                       Unpack data to "pipackage.disk" folder                  #;
-    %put #                       and use loadPackage in the following form:              #;
-    %put #                        `%nrstr(%%loadPackage(PiPackage, zip=disk, options=))`          #;
+    %put #                       and use helpPackage in the following form:              #;
+    %put #                        `%nrstr(%%helpPackage(PiPackage, ,zip=disk, options=))`         #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -515,7 +515,7 @@ TODO:
 - add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
 */
 
-/* Macros to install SAS packages, version 20201103  */
+/* Macros to install SAS packages, version 20201115  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -531,7 +531,7 @@ TODO:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20201103. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20201115. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -546,7 +546,7 @@ des = 'Macro to install SAS package, version 20201103. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20201103`                                          #;
+    %put # Macro to install SAS packages, version `20201115`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -842,7 +842,7 @@ des = 'Macro to install SAS package, version 20201103. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20201103 
+  Version 20201115 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -862,7 +862,7 @@ des = 'Macro to install SAS package, version 20201103. Run %%installPackage() fo
 
 
 %macro listPackages()/PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20201103.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20201115.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -877,7 +877,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20201103`                                #;
+    %put # Macro to list available SAS packages, version `20201115`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -1008,7 +1008,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
 /* Macro to generate SAS packages.
 
-   Version 20201103
+   Version 20201115
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -1040,7 +1040,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
                     if set to DEF then the !SASROOT/sasv9.cfg is used */
 )/secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20201103. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20201115. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -1055,7 +1055,7 @@ des = 'Macro to generate SAS packages, version 20201103. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20201103`                            #;
+    %put # Macro to generate SAS packages, version `20201115`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -2257,6 +2257,117 @@ data _null_;
   stop;
 run;
 
+/* package preview, i.e. print out all content of the package files into the log */
+data _null_;
+  /* break if no data */
+  if NOBS = 0 then stop;
+
+  file &zipReferrence.(preview.sas);
+  length strX $ 32767;
+
+  put "filename &_PackageFileref_. list;" /;
+  put ' %put NOTE- ;';
+  put ' %put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;";
+  put ' %put NOTE: ' @; put "*** &packageTitle. ***; ";
+  put ' %put NOTE- ' @; put "Generated: %sysfunc(datetime(), datetime21.); ";
+  put ' %put NOTE- ' @; put "Author(s): &packageAuthor.; ";
+  put ' %put NOTE- ' @; put "Maintainer(s): &packageMaintainer.; ";
+  put ' %put NOTE- ;';
+  put ' %put NOTE- *** START ***;' /;
+  
+  /* Use helpKeyword macrovariable to search for content (filename and type) */
+  /* put '%local ls_tmp ps_tmp notes_tmp source_tmp;                       ';*/
+  put '%let ls_tmp     = %sysfunc(getoption(ls));         ';
+  put '%let ps_tmp     = %sysfunc(getoption(ps));         ';
+  put '%let notes_tmp  = %sysfunc(getoption(notes));      ';
+  put '%let source_tmp = %sysfunc(getoption(source));     ';
+  put 'options ls = MAX ps = MAX nonotes nosource;        ';
+  put '%include' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /;
+
+  put 'data _null_;                                                 ';
+  put '  if strip(symget("helpKeyword")) = " " then                 ';
+  put '    do until (EOF);                                          ';
+  put "      infile &_PackageFileref_.(description.sas) end = EOF;  ";
+  put '      input;                                                 ';
+  put '      put _infile_;                                          ';
+  put '    end;                                                     ';
+  put '  else stop;                                                 ';
+  put 'run;                                                         ' /;
+
+  put 'data WORK._%sysfunc(datetime(), hex16.)_;                      ';
+  put 'infile cards4 dlm = "/";                                       ';
+  put 'input @;                                                       ';
+  put 'if 0 then output;                                              ';
+  put 'length helpKeyword $ 64;                                       ';
+  put 'retain helpKeyword "*";                                        ';
+  put 'drop helpKeyword;                                              ';
+  put 'if _N_ = 1 then helpKeyword = strip(symget("helpKeyword"));    ';
+  put 'if FIND(_INFILE_, helpKeyword, "it") or helpKeyword = "*" then '; 
+  put ' do;                                                           ';
+  put '   input (folder order type file fileshort) (: $ 256.);        ';
+  put '   output;                                                     ';
+  put ' end;                                                          ';
+  put 'cards4;                                                        ';
+
+  EOFDS = 0;
+  do until(EOFDS);
+    /* content is created during package creation */
+    set &filesWithCodes. end = EOFDS nobs = NOBS;
+    if upcase(type) in: ('TEST') then continue; /* exclude tests */
+
+    select;
+      when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = cats("'",   fileshort, "'" );
+      when (upcase(type) =:  "MACRO"           ) fileshort2 = cats('''%', fileshort, "()'");
+      when (upcase(type) =:  "FUNCTION"        ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) =:  "IMLMODULE"       ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) =:  "PROTO"           ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) =   "FORMAT"          ) fileshort2 = cats("'$",  fileshort, ".'"  );
+      otherwise fileshort2 = fileshort;
+    end;
+    strX = catx('/', folder, order, type, file, fileshort, fileshort2);
+    put strX;
+  end;
+
+  put ";;;;";
+  put "run;" /;
+
+  /* loop through content found and print info to the log */
+  put 'data _null_;                                                                        ';
+  put 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;      ';
+  put 'if NOBS = 0 then do; ' /
+        'put; put '' *> No preview. Try %previewPackage(packageName,*) to display all.''; put; stop; ' /
+      'end; ';
+  put '  do until(EOFDS);                                                                  ';
+  put '   set WORK._last_ end = EOFDS nobs = NOBS;                                         ';
+  put '   length memberX $ 1024;                                                           ';
+  put '   memberX = cats("_",folder,".",file);                                             ';
+  /* inner data step in call execute to read each embedded file */
+  put '   call execute("data _null_;                                                    ");';
+  put "   call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;  ');";
+  put '   call execute("    do until(EOF);                                              ");';
+  put '   call execute("      input;                                                    ");';
+  put '   call execute("      put _infile_;                                             ");';
+  put '   call execute("    end;                                                        ");';
+  put '   call execute("  put "" "" / "" "";                                            ");';
+  put '   call execute("  stop;                                                         ");';
+  put '   call execute("run;                                                            ");';
+  /**/
+  put "  end; ";
+  put "  stop; ";
+  put "run; ";
+  
+  /* cleanup */
+  put "proc delete data = WORK._last_; ";
+  put "run; ";
+  put 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; ' /;
+ 
+  put '%put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;";
+  put '%put NOTE- *** END ***;' /; 
+  put "/* preview.sas end */";
+
+  stop;
+run;
+
 /* package help */
 data _null_;
   /* break if no data */
@@ -2328,7 +2439,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20201103 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20201115 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
@@ -2431,6 +2542,7 @@ data _null_;
 
   stop;
 run;
+
 
 /* create package content */
 %local notesSourceOptions;
@@ -2671,6 +2783,12 @@ data _null_;
   put '%helpPackage'"(&packageName.,*,";
   put " path=&filesLocation.)" /;
   put '%helpPackage'"(&packageName.,License,";
+  put " path=&filesLocation.)" /;
+
+  /* preview */
+  put '%previewPackage'"(&packageName.,";
+  put " path=&filesLocation.)" /;
+  put '%previewPackage'"(&packageName.,*,";
   put " path=&filesLocation.)" /;
 
   /* unload */
@@ -2956,7 +3074,7 @@ TODO: (in Polish)
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20201103. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20201115. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -2972,7 +3090,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20201103`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20201115`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -3056,7 +3174,7 @@ parmbuff
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20201103. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20201115. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -3071,7 +3189,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20201103. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20201103`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20201115`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -3198,3 +3316,145 @@ des = 'Macro to verify SAS package with the hash digest, version 20201103. Run %
           msglevel=&msglevel_tmp.;
 %ENDofverifyPackage:
 %mend verifyPackage;
+/**/
+
+/*** HELP START ***/
+
+%macro previewPackage(
+  packageName                         /* name of a package, 
+                                         e.g. myPackageFile.zip, 
+                                         required and not null  */
+, helpKeyword                         /* phrase to search for preview,
+                                         when empty prints description 
+                                         "*" means prints all */
+, path = %sysfunc(pathname(packages)) /* location of a package, 
+                                         by default it looks for 
+                                         location of "packages" fileref */
+, options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
+, source2 = /*source2*/               /* option to print out details, 
+                                         null by default */
+, zip = zip                           /* standard package is zip (lowcase), 
+                                         e.g. %previewPackage(PiPackage,*)
+                                         if the zip is not available use a folder
+                                         unpack data to "pipackage.disk" folder
+                                         and use previewPackage in the form: 
+                                         %previewPackage(PiPackage, *, zip=disk, options=) 
+                                       */
+)/secure
+/*** HELP END ***/
+des = 'Macro to preview content of a SAS package, version 20201115. Run %previewPackage() for help info.'
+;
+%if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
+  %do;
+    %local options_tmp ;
+    %let options_tmp = ls=%sysfunc(getoption(ls))ps=%sysfunc(getoption(ps))
+     %sysfunc(getoption(notes)) %sysfunc(getoption(source))
+     msglevel=%sysfunc(getoption(msglevel))
+    ;
+    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    %put ;
+    %put #################################################################################;
+    %put ###    This is short help information for the `previewPackage` macro            #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to get previwe of a SAS packages, version `20201115`                    #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and provided with                             #;
+    %put # a single `preview.sas` file (also embedded inside the zip).                   #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%previewPackage())` macro prints, in the SAS log, content                 #;
+    %put # of a SAS package. Code of a package is printed out.                           #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%previewPackage(myPackage)).`                          #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # 2. `helpKeyword`      *Optional.*  A phrase to search in preview,             #;
+    %put #                       - when empty prints description,                        #;
+    %put #                       - "*" means: print all preview.                         #;
+    %put #                                                                               #;
+    %put # - `path=`             *Optional.* Location of a package. By default it        #;
+    %put #                       looks for location of the **packages** fileref, i.e.    #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put # - `options=`          *Optional.* Possible options for ZIP filename,          #;
+    %put #                       default value: `LOWCASE_MEMNAME`                        #;
+    %put #                                                                               #;
+    %put # - `source2=`          *Optional.* Option to print out details about           #;
+    %put #                       what is loaded, null by default.                        #;
+    %put #                                                                               #;
+    %put # - `zip=`              Standard package is zip (lowcase),                      #;
+    %put #                        e.g. `%nrstr(%%previewPackage(PiPackage))`.                     #;
+    %put #                       If the zip is not available use a folder.               #;
+    %put #                       Unpack data to "pipackage.disk" folder                  #;
+    %put #                       and use previewPackage in the following form:           #;
+    %put #                        `%nrstr(%%previewPackage(PiPackage, , zip=disk, options=))`     #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put #### Example ####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%previewpPackage(SQLinDS) %%* get content of the package;                      );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
+    %put ;
+    options &options_tmp.;
+    %GOTO ENDofpreviewPackage;
+  %end;
+  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp;
+  %let ls_tmp     = %sysfunc(getoption(ls));
+  %let ps_tmp     = %sysfunc(getoption(ps));
+  %let notes_tmp  = %sysfunc(getoption(notes));
+  %let source_tmp = %sysfunc(getoption(source));
+  %let msglevel_tmp = %sysfunc(getoption(msglevel));
+  options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+  %local _PackageFileref_;
+  /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
+  data _null_; call symputX("_PackageFileref_", "P" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); run;
+
+  filename &_PackageFileref_. &ZIP. 
+  /* put location of package myPackageFile.zip here */
+    "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
+  ;
+  %if %sysfunc(fexist(&_PackageFileref_.)) %then
+    %do;
+      %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
+      filename &_PackageFileref_. clear;
+      options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
+      filename &_PackageFileref_. &ZIP. 
+        "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
+        ENCODING =
+          %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
+                                            %else utf8 ;
+      ;
+      %include &_PackageFileref_.(preview.sas) / &source2.;
+    %end;
+  %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist!;
+  filename &_PackageFileref_. clear;
+  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. msglevel = &msglevel_tmp.;
+%ENDofpreviewPackage:
+%mend previewPackage;
+/**/
