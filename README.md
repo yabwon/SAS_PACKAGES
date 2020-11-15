@@ -6,11 +6,13 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201101`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20201115`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
 The documentation and more advance reading would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
+
+Short description of the SAS Packages Framework macros can be found [here](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md "Short description of the SAS Packages Framework macros")
 
 **General overview video:**
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020") (April 2020)
@@ -80,7 +82,7 @@ Currently the following packages are available (see the `./packages` directory):
     set %SQL(select * from sashelp.class order by age);
   run;
 ```
-SHA256 digest for SQLinDS: 135DC50C0412B8CEAF6D5349B8A203C0ADB23D4F5C2680B6A35FD2E5482B6C49
+SHA256 digest for SQLinDS: CE1A266B9030E5E336B45F53DF483F6913FD8AE88A2884CEE88BEEF621FDBD78
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -92,7 +94,7 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 - **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
-SHA256 digest for DFA: E67A0863992722A5F535F56E14EF8D19A55F74FB374447BF11B5ED74029C29CB
+SHA256 digest for DFA: C795736F55B3C6EFBEF2E82362694EB017D37C54E6AEC3EB0F6F813F69F54B5F
 
 
 - **macroArray**\[0.7\], implementation of an array concept in a macrolanguage, e.g. 
@@ -114,12 +116,12 @@ SHA256 digest for DFA: E67A0863992722A5F535F56E14EF8D19A55F74FB374447BF11B5ED740
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 75056F508E96296DC50096BBB054C58334DB913AD37885958099EDCE0C330CB2
+SHA256 digest for macroArray: 0F1B985E2FC34C91D2A3BD237DC294502A76913B71266D76702A5E77A78C9CA7
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 
-- **BasePlus**\[0.8\] adds a bunch of functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[0.9\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -133,12 +135,12 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: 9549378E5F81DA4DC421C366DF006D270261852336CE3DCD88FF8E2A759938C8
+SHA256 digest for BasePlus: B25A3992B6FCD13528BEE462B3ADD0F5A6D15E607A6DABAA984CA66B0AD69415
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
-SHA256 digest for dynMacroArray: 694AACE925B7F4E149C3B90383F56370ED76233D8F5040713D66C1F3A4E414FE
+SHA256 digest for dynMacroArray: 5E8CCC88CC048A0B564CEE37C6CF4013857D9CFF3FA1B6B9AD6F719D08B30005
 
 ### ======
