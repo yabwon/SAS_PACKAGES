@@ -1,5 +1,7 @@
 # SAS_PACKAGES - a SAS Packages Framework and Repository
 
+---
+
 ## Intro:
 
 A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
@@ -18,6 +20,8 @@ Short description of the SAS Packages Framework macros can be found [here](https
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020") (April 2020)
   - [Sasensei International Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1") (April 2020)
   - [SAS dla Administratorów i Praktyków 2020](https://www.youtube.com/watch?v=mXuep2k48Z8&feature=youtu.be&t=0s "SASAiP2020") (October 2020, in Polish)
+
+---
 
 ### The User:
 To use a package:
@@ -51,19 +55,31 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main
 ```
 
  [**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y)\[May 6th, 2020\] [a bit outdated but gives the idea how it works]
- 
+
+---
+
 ### The Developer:
 To create your own package:
 - Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more details.
 - Download and use the `SPFinit.sas` file (the SAS Packages Framework), the part of the framework required for *testing* is there too.
 
+---
+
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
-**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
- 
-**Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
- 
+---
+
+**Update**\[October 15th, 2020\]**:** `%previewPackage()` **macro is available**.
+
+**Update**\[September 11th, 2020\]**:** ` %loadPackageS()` and `%verifyPackage()` **macros are available**.
+
 **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
+
+**Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
+
+**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+
+---
 
 ## Where the SAS Packages Framework is used:
 This is a list of locations where the SAS Packages Framework is used. If you want to share that you are using SPF let me know and I'll update the list.
@@ -72,6 +88,8 @@ The List:
 - Europe
   - Poland 
     - Warsaw
+
+---
 
 ## Available packages:
 Currently the following packages are available (see the `./packages` directory):
