@@ -1,5 +1,7 @@
 # SAS_PACKAGES - a SAS Packages Framework and Repository
 
+---
+
 ## Intro:
 
 A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
@@ -18,6 +20,8 @@ Short description of the SAS Packages Framework macros can be found [here](https
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020") (April 2020)
   - [Sasensei International Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1") (April 2020)
   - [SAS dla Administratorów i Praktyków 2020](https://www.youtube.com/watch?v=mXuep2k48Z8&feature=youtu.be&t=0s "SASAiP2020") (October 2020, in Polish)
+  - [Boston Area SAS Users Group webinar](https://us02web.zoom.us/rec/share/p6ZpCsvc5YZDQGpLOOLOB4zyNGA4vjfjJcNhwaGQ7jKKR00Z_bmeCcBkcwkut6Pr.Q6UoueYAOcv6dPQf "BASUG") (November 2020)
+---
 
 ### The User:
 To use a package:
@@ -51,19 +55,31 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main
 ```
 
  [**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y)\[May 6th, 2020\] [a bit outdated but gives the idea how it works]
- 
+
+---
+
 ### The Developer:
 To create your own package:
 - Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more details.
 - Download and use the `SPFinit.sas` file (the SAS Packages Framework), the part of the framework required for *testing* is there too.
 
+---
+
 #### If you have any questions, suggestions, or ideas do not hesitate to contact me!
 
-**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
- 
-**Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
- 
+---
+
+**Update**\[October 15th, 2020\]**:** `%previewPackage()` **macro is available**.
+
+**Update**\[September 11th, 2020\]**:** ` %loadPackageS()` and `%verifyPackage()` **macros are available**.
+
 **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
+
+**Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
+
+**Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+
+---
 
 ## Where the SAS Packages Framework is used:
 This is a list of locations where the SAS Packages Framework is used. If you want to share that you are using SPF let me know and I'll update the list.
@@ -72,6 +88,8 @@ The List:
 - Europe
   - Poland 
     - Warsaw
+
+---
 
 ## Available packages:
 Currently the following packages are available (see the `./packages` directory):
@@ -92,10 +110,11 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 [Documentation for MacroCore](https://core.sasjs.io "Documentation for MacroCore")
 
-- **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.3\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
-SHA256 digest for DFA: C795736F55B3C6EFBEF2E82362694EB017D37C54E6AEC3EB0F6F813F69F54B5F
+SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1E69AEB8
 
+[Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
 - **macroArray**\[0.7\], implementation of an array concept in a macrolanguage, e.g. 
 ```
@@ -121,7 +140,7 @@ SHA256 digest for macroArray: 0F1B985E2FC34C91D2A3BD237DC294502A76913B71266D7670
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 
-- **BasePlus**\[0.9\] adds a bunch of functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[0.99\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -135,7 +154,7 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: B25A3992B6FCD13528BEE462B3ADD0F5A6D15E607A6DABAA984CA66B0AD69415
+SHA256 digest for BasePlus: 7933E6BCFDCA7C04EAAC537773574799759007A5D2AED639E86CF4EA631F1351
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 

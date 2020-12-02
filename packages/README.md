@@ -32,7 +32,7 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 ---
 
-- **DFA** (Dynamic Function Arrays)\[0.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.3\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```
 %createDFArray(ArrDynamic, resizefactor=17); 
 
@@ -59,7 +59,9 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: C795736F55B3C6EFBEF2E82362694EB017D37C54E6AEC3EB0F6F813F69F54B5F
+SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1E69AEB8
+
+[Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
 ---
 
@@ -88,7 +90,7 @@ SHA256 digest for macroArray: 0F1B985E2FC34C91D2A3BD237DC294502A76913B71266D7670
 
 ---
 
-- **BasePlus**\[0.9\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[0.99\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -102,7 +104,7 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: B25A3992B6FCD13528BEE462B3ADD0F5A6D15E607A6DABAA984CA66B0AD69415
+SHA256 digest for BasePlus: 7933E6BCFDCA7C04EAAC537773574799759007A5D2AED639E86CF4EA631F1351
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
