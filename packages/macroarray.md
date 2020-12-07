@@ -10,6 +10,8 @@
   * [`%do_over3()` macro](#do-over3-macro)
   * [`%make_do_over()` macro](#make-do-over-macro)
   * [`%mcHashTable()` macro](#mchashtable-macro)
+  * [`%QzipArrays()` macro](#qziparrays-macro)
+  * [`%zipArrays()` macro](#ziparrays-macro)
   * [License](#license)
 
 ---
@@ -1517,6 +1519,317 @@ run;
 %mcHashTable(H1,DCL,HASH=MD5)
 %mcHashTable(H2,DECLARE,HASH=CRC32)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%QzipArrays()` macro: <<< <a name="qziparrays-macro"></a> #######################  
+
+The zipArrays() and QzipArrays() macros
+allow to use a function on elements of pair of 
+macro arrays. 
+
+For two macroarrays the corresponding 
+elements are taken and the macro applies a function, provided by user, 
+to calculate result of the function on taken elements. 
+
+When one of the arrays is shorter then elements are, by default, 
+"reused" starting from the beginning. But this behaviour can be altered. 
+See examples for the details.
+
+By default newly created macroarray name is concatenation 
+of first 13 characters of names of arrays used to create the new one, 
+e.g. if arrays names are `abc` and `def` then the result name is `abcdef`,
+if arrays names are `abcd1234567890` and `efgh1234567890` then the result 
+name is `abcd123456789efgh123456789` 
+
+The `zipArrays()` returns unquoted value [by `%unquote()`].
+The `QzipArrays()` returns quoted value [by `%superq()`].
+
+See examples below for the details.
+
+The `%QzipArrays()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%QzipArrays(
+    first
+   ,second
+  <,function=>
+  <,operator=> 
+  <,argBf=>
+  <,argMd=>
+  <,argAf=>
+  <,format=>
+  <,result=>
+  <,macarray=>
+  <,reuse=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `first`         - *Required*, a space separated list of texts.
+
+2. `second`        - *Required*, a space separated list of texts.
+
+* `function = cat` - *Optional*, default value is `cat`, 
+                     a function which will be applied 
+                     to corresponding pairs of elements of 
+                     the first and the second list. 
+
+* `operator =`     - *Optional*, default value is empty,
+                     arithmetic infix operator used with elements 
+                     the first and the second list. The first
+                     list is used on the left side of the operator
+                     the second list is used on the right side
+                     of the operator. 
+
+* `argBf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *before* elements the first list.
+                     If multiple should be comma separated.
+
+* `argMd =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *between* elements the first list and 
+                     the second list.
+                     If multiple should be comma separated.
+
+* `argAf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *after* elements the second list.
+                     If multiple should be comma separated.
+
+* `format=`        - *Optional*, default value is empty,
+                     indicates a format which should be used
+                     to format the result, does not work when 
+                     the `operator=` is used.
+
+* `result=`        - *Optional*, default value is empty,
+                     indicates a name of newly created macroarray,
+                     by default created macroarray name is concatenation 
+                     of first 13 characters of names of arrays used 
+                     to create the new one.
+
+* `macarray=N`     - *Optional*, default value is `N`, 
+                     if set to `Y`/`YES` then a macro, named with 
+                     the array name, is compiled to create convenient 
+                     envelope for multiple ampersands, see the 
+                     `%array()` macro for details.
+
+* `reuse=Y`        - *Optional*, default value is `Y`,
+                     when one of the arrays is shorter then elements 
+                     are *reused* starting from the beginning.
+                     If `CP` then function  is executed on the *Cartesian 
+                     product* of arrays elements. Any other value will
+                     cut the process with the end of the shorter array.
+                     See examples for the details.
+
+### EXAMPLES AND USECASES: ####################################################
+
+See examples in `%zipArrays()` help for the details.
+
+---
+
+## >>> `%zipArrays()` macro: <<< <a name="ziparrays-macro"></a> #######################  
+
+The zipArrays() and QzipArrays() macros
+allow to use a function on elements of pair of 
+macro arrays. 
+
+For two macroarrays the corresponding 
+elements are taken and the macro applies a function, provided by user, 
+to calculate result of the function on taken elements. 
+
+When one of the arrays is shorter then elements are, by default, 
+"reused" starting from the beginning. But this behaviour can be altered. 
+See examples for the details.
+
+By default newly created macroarray name is concatenation 
+of first 13 characters of names of arrays used to create the new one, 
+e.g. if arrays names are `abc` and `def` then the result name is `abcdef`,
+if arrays names are `abcd1234567890` and `efgh1234567890` then the result 
+name is `abcd123456789efgh123456789` 
+
+The `zipArrays()` returns unquoted value [by `%unquote()`].
+The `QzipArrays()` returns quoted value [by `%superq()`].
+
+See examples below for the details.
+
+The `%zipArrays()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipArrays(
+    first
+   ,second
+  <,function=>
+  <,operator=> 
+  <,argBf=>
+  <,argMd=>
+  <,argAf=>
+  <,format=>
+  <,result=>
+  <,macarray=>
+  <,reuse=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `first`         - *Required*, a space separated list of texts.
+
+2. `second`        - *Required*, a space separated list of texts.
+
+* `function = cat` - *Optional*, default value is `cat`, 
+                     a function which will be applied 
+                     to corresponding pairs of elements of 
+                     the first and the second list. 
+
+* `operator =`     - *Optional*, default value is empty,
+                     arithmetic infix operator used with elements 
+                     the first and the second list. The first
+                     list is used on the left side of the operator
+                     the second list is used on the right side
+                     of the operator. 
+
+* `argBf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *before* elements the first list.
+                     If multiple should be comma separated.
+
+* `argMd =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *between* elements the first list and 
+                     the second list.
+                     If multiple should be comma separated.
+
+* `argAf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *after* elements the second list.
+                     If multiple should be comma separated.
+
+* `format=`        - *Optional*, default value is empty,
+                     indicates a format which should be used
+                     to format the result, does not work when 
+                     the `operator=` is used.
+
+* `result=`        - *Optional*, default value is empty,
+                     indicates a name of newly created macroarray,
+                     by default created macroarray name is concatenation 
+                     of first 13 characters of names of arrays used 
+                     to create the new one.
+
+* `macarray=N`     - *Optional*, default value is `N`, 
+                     if set to `Y`/`YES` then a macro, named with 
+                     the array name, is compiled to create convenient 
+                     envelope for multiple ampersands, see the 
+                     `%array()` macro for details.
+
+* `reuse=Y`        - *Optional*, default value is `Y`,
+                     when one of the arrays is shorter then elements 
+                     are *reused* starting from the beginning.
+                     If `CP` then function  is executed on the *Cartesian 
+                     product* of arrays elements. Any other value will
+                     cut the process with the end of the shorter array.
+                     See examples for the details.
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple concatenation of elements:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(a[*] x1-x3 (1:3))
+%array(b[*] x1-x5 (11:15))
+
+%put _user_;
+
+%zipArrays(a, b);
+%put _user_;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Shorter list is "reused":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(a[6] (1:6))
+%array(b[3] (10 20 30))
+
+%zipArrays(a, b, result=A_and_B, macarray=Y);
+%put %do_over(A_and_B);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Use of the `operator=`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(c[0:4] (000 100 200 300 400))
+%array(d[2:16] (1002:1016))
+
+%zipArrays(c, d, operator=+, result=C_plus_D, macarray=Y);
+%put (%do_over(C_plus_D));
+
+%put %C_plus_D(1);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** If one of array names is empty or an array does not exist:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(a[6] (1:6))
+%array(b[3] (10 20 30))
+
+%zipArrays(a, );
+%zipArrays(, b);
+
+%zipArrays(a, z);
+%zipArrays(z, b);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Use of the `function=`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(one[3] A B C, vnames=Y)
+%array(two[5] p q r s t, vnames=Y)
+
+%zipArrays(
+ one
+,two
+,function = catx
+,argBf = %str( )
+,format = $quote.
+,macarray=Y
+)
+%put %do_over(onetwo);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** To reuse or not to reuse, or maybe Cartesian product:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(e[3] (10 20 30))
+%array(f[2] (5:6))
+
+%zipArrays(e, f, reuse=n,  operator=+, macarray=Y, result=_noReuse);
+%zipArrays(e, f, reuse=y,  operator=+, macarray=Y, result=_yesReuse);
+%zipArrays(e, f, reuse=cp, operator=+, macarray=Y, result=_cartProdReuse);
+
+%put %do_over(_noReuse);
+%put %do_over(_yesReuse);
+%put %do_over(_cartProdReuse);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** Use middle argument:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%array(yr[3] (2018:2020))
+%array(mth[12] (1:12))
+
+%zipArrays(mth, yr, argMd=5, function=MDY, format=date11., macarray=Y);
+%put %do_over(mthyr);
+
+%zipArrays(mth, yr, argMd=5, function=MDY, format=date11., macarray=Y, reuse=cp);
+%put %do_over(mthyr);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
 
