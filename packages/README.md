@@ -65,7 +65,7 @@ SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1
 
 ---
 
-- **macroArray**\[0.7\], implementation of an array concept in a macro language, e.g. 
+- **macroArray**\[0.8\], implementation of an array concept in a macro language, e.g. 
 ```
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -84,13 +84,13 @@ SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 0F1B985E2FC34C91D2A3BD237DC294502A76913B71266D76702A5E77A78C9CA7
+SHA256 digest for macroArray: AC3AD58AFBBE459616743DC6346330BD8DD33FBA8CDD595423F181B67D0475BC
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 ---
 
-- **BasePlus**\[0.99\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[0.991\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -104,7 +104,7 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: 7933E6BCFDCA7C04EAAC537773574799759007A5D2AED639E86CF4EA631F1351
+SHA256 digest for BasePlus: 9EA40F72191D1916189F043315CA519F6E42CEB05C186F7653AE464D21D21CFB
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
