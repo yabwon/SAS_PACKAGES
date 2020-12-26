@@ -7,7 +7,7 @@ Currently the following packages are available:
 ---
 
 - **SQLinDS**\[2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
-```
+```sas
 data class;
   set %SQL(
     select age, name, weight, height 
@@ -33,7 +33,7 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 ---
 
 - **DFA** (Dynamic Function Arrays)\[0.3\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
-```
+```sas
 %createDFArray(ArrDynamic, resizefactor=17); 
 
 data _null_;
@@ -66,7 +66,7 @@ SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1
 ---
 
 - **macroArray**\[0.8\], implementation of an array concept in a macro language, e.g. 
-```
+```sas
   %array(ABC[17] (111:127), macarray=Y); 
   
   %macro test();
@@ -91,7 +91,7 @@ SHA256 digest for macroArray: AC3AD58AFBBE459616743DC6346330BD8DD33FBA8CDD595423
 ---
 
 - **BasePlus**\[0.991\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
-```
+```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
 call arrFill(42, myArray); 
