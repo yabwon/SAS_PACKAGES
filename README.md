@@ -32,7 +32,8 @@ and then either:
 - Download the `SPFinit.sas` file (the SAS Packages Framework) into the local packages folder.
 - \[Optional\] Manually download the `<packageName>.zip` file into the local packages folder.
 - and Execute:
-```
+
+```sas
 filename packages "<directory/containing/packages/>"; /* setup directory for packages */
 %include packages(SPFinit.sas); /* enable the framework */
 
@@ -44,7 +45,7 @@ filename packages "<directory/containing/packages/>"; /* setup directory for pac
 
 or if you need it just for "one time" only Execute: 
 
-```
+```sas
 filename packages "%sysfunc(pathname(work))"; /* setup temporary directory for packages in the WORK */
 filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas";
 %include SPFinit; /* enable the framework */
@@ -95,7 +96,7 @@ The List:
 Currently the following packages are available (see the `./packages` directory):
 
 - **SQLinDS**\[2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
-```
+```sas
   data class;
     set %SQL(select * from sashelp.class order by age);
   run;
@@ -117,7 +118,7 @@ SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
 - **macroArray**\[0.8\], implementation of an array concept in a macrolanguage, e.g. 
-```
+```sas
   %array(ABC[17] (111:127), macarray=Y); 
   
   %macro test();
@@ -141,7 +142,7 @@ SHA256 digest for macroArray: AC3AD58AFBBE459616743DC6346330BD8DD33FBA8CDD595423
 
 
 - **BasePlus**\[0.991\] adds a bunch of functionalities I am missing in BASE SAS, such as:
-```
+```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
 call arrFill(42, myArray); 
