@@ -32,7 +32,7 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 ---
 
-- **DFA** (Dynamic Function Arrays)\[0.3\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.4\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```sas
 %createDFArray(ArrDynamic, resizefactor=17); 
 
@@ -59,7 +59,7 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: 1FC8D030D576C33F1B5DEB27E17534946209BC148D57A1357CA025ED1E69AEB8
+SHA256 digest for DFA: 5B41657A8A3BEAD185B13D072BC54902AB81FEAD32330DA8ABA90CF777D4D76E
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
