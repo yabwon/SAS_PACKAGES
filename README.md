@@ -111,9 +111,9 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 [Documentation for MacroCore](https://core.sasjs.io "Documentation for MacroCore")
 
-- **DFA** (Dynamic Function Arrays)\[0.4\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.5\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
-SHA256 digest for DFA: E777D4578DFDEB2277D58264BAB5BFDBEAFD4E538D4831CDCBFFB4216D2441C2
+SHA256 digest for DFA: 179AAB9DF3DE8F049A4EFDF5FB0BE92AE5F7BFA7708D4365F39D4DC71C4F90FE
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
