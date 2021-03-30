@@ -56,7 +56,7 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
- [**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y)\[May 6th, 2020\] [a bit outdated but gives the idea how it works]
+ [**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y) \[May 6th, 2020\] [a bit outdated but gives the idea how it works]
 
 ---
 
