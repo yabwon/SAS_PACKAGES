@@ -448,7 +448,7 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
 %include packages(SPFinit.sas);      %* enable the framework;
 
 %installPackage(SQLinDS)  %* install the package from the Internet;
-%verifPackage(SQLinDS,    %* verify the package with provided hash;
+%verifyPackage(SQLinDS,   %* verify the package with provided hash;
               hash=HDA478ANJ3HKHRY327FGE88HF89VH89HFFFV73GCV98RF390VB4)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

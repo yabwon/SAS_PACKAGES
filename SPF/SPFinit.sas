@@ -3386,7 +3386,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20210204. Run %
     %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
     %put  ;
     %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
-    %put  %nrstr( %%verifPackage%(SQLinDS,    %%* verify the package with provided hash;          );
+    %put  %nrstr( %%verifyPackage%(SQLinDS,   %%* verify the package with provided hash;          );
     %put  %nrstr(               hash=HDA478ANJ3HKHRY327FGE88HF89VH89HFFFV73GCV98RF390VB4%)        );
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
     %put #################################################################################;
