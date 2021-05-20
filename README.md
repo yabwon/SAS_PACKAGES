@@ -8,7 +8,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. **The latest version** of SPF is **`20210516`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. **The latest version** of SPF is **`20210520`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -16,12 +16,13 @@ The documentation and more advance reading would be the [**`SAS(r) packages - th
 
 Short description of the SAS Packages Framework macros can be found [here](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md "Short description of the SAS Packages Framework macros")
 
-**General overview video** (the newer the better):
+**Videos** (the newer the better):
 
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020") (April 2020)
   - [Sasensei International Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1") (April 2020)
   - [SAS dla Administratorów i Praktyków 2020](https://www.youtube.com/watch?v=mXuep2k48Z8&feature=youtu.be&t=0s "SASAiP2020") (October 2020, in Polish)
   - [Boston Area SAS Users Group webinar](https://us02web.zoom.us/rec/share/p6ZpCsvc5YZDQGpLOOLOB4zyNGA4vjfjJcNhwaGQ7jKKR00Z_bmeCcBkcwkut6Pr.Q6UoueYAOcv6dPQf "BASUG") (November 2020)
+  - [SAS Global Forum 2021 V.E.](https://www.youtube.com/watch?v=hqexaQtGw88 "SGF2021") (May 20th, 2021)
 ---
 
 ### The User:
@@ -62,7 +63,8 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main
 
 ### The Developer:
 To create your own package:
-- Read the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") to learn more details.
+- Read the [**`SAS Packages - The Way to Share (a How-To) - Paper 4725-2020 - extended version`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article to learn more details.
+- Read the **`My First SAS Package: A How-To - Paper 1079-2021`** article available at communities.sas.com [**`here`**](https://communities.sas.com/t5/SAS-Global-Forum-Proceedings/My-First-SAS-Package-A-How-To/ta-p/726319 "My First SAS Package: A How-To") or locally [**`here`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Paper_1079-2021/My%20First%20SAS%20Package%20-%20a%20How%20To.pdf "My First SAS Package: A How-To")
 - Download and use the `SPFinit.sas` file (the SAS Packages Framework), the part of the framework required for *testing* is there too.
 
 ---
