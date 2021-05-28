@@ -1,5 +1,5 @@
-/*** HELP START ***/
-/*
+/*** HELP START ***//*
+ 
 ## >>> `%dsSQL_Inner()` macro: <<< <a name="dssql-inner-macro"></a> #############
 
 **Internal** macro called by `dsSQL()` function.
@@ -9,8 +9,8 @@ which is then stored in the `dsSQL` library.
 Recommended for *SAS 9.3* and higher. 
 
 ---
-*/
-/*** HELP END ***/
+
+*//*** HELP END ***/
 
 /* inner macro */
 %MACRO dsSQL_Inner() / secure;

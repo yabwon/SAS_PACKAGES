@@ -1,5 +1,5 @@
-/*** HELP START ***/
-/*
+/*** HELP START ***//*
+ 
 ## >>> library `dsSQL`: <<< <a name="library-dssql"></a> ########################
 
 The `dsSQL` library stores temporary views 
@@ -15,8 +15,8 @@ if not possible, then redirects to the `WORK` location, like:
 LIBNAME dsSQL BASE "%sysfunc(pathname(WORK))"; 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
-*/
-/*** HELP END ***/
+
+*//*** HELP END ***/
 
 data _null_;
   length rc0 $ 32767 rc1 rc2 8;
