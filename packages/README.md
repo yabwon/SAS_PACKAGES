@@ -18,7 +18,7 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: 3034A0C8AC43683AD55698861DBBDEBDE6FC8567D59ECF2BB5F3389FE6BC8062
+SHA256 digest for SQLinDS: 1853CD6262CF66582A33C373AA612CA714B61CB88A1C51745E7A57D5A03C39B4
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -59,7 +59,7 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: 179AAB9DF3DE8F049A4EFDF5FB0BE92AE5F7BFA7708D4365F39D4DC71C4F90FE
+SHA256 digest for DFA: 22AB51B85E3344B8C0FB7AF164247881B656F5CBA88BBA974AD8BC41ED79327F
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
@@ -84,7 +84,7 @@ SHA256 digest for DFA: 179AAB9DF3DE8F049A4EFDF5FB0BE92AE5F7BFA7708D4365F39D4DC71
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 42E87B80450B3E1AD462B9B63B41F34C83B7745AA0F98C3CA72AA19F3B1FF10E
+SHA256 digest for macroArray: 849629D3AF3FE3AB45D86990E303F1D5E4D5F9F31C8ED6864C95B0DFAADCA445
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
@@ -104,7 +104,7 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: 28F3DE865C5E3B914FFB7CC2627D8B0975527EEECEE7AFEAD7B335C3FDC1BFD3
+SHA256 digest for BasePlus: A321A4BC54D444B82575EC5D443553A096557AD69DC171D578A330277E67637A
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
@@ -112,6 +112,6 @@ SHA256 digest for BasePlus: 28F3DE865C5E3B914FFB7CC2627D8B0975527EEECEE7AFEAD7B3
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
-SHA256 digest for dynMacroArray: 8B0777EA3CF41968C0B029AA57B1F809D21D1BAB1B88A35B0EA5DB3C6DD9E748
+SHA256 digest for dynMacroArray: 67956116578E71327748B7EB3DAFF9D872DBC6F6EDD0DC11B7CF2A54FDA71785
 
 ---

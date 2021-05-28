@@ -1,5 +1,5 @@
-/*** HELP START ***/
-/* 
+/*** HELP START ***//*
+ 
 ## >>> `dsSQL()` function: <<< <a name="dssql-function"></a> ####################
 
 **Internal** function called by the `%SQL()` macro.
@@ -20,8 +20,8 @@ dsSQL(unique_index_2, query)
 2. `query` -          *Character*, internal variable, contains query text.
 
 ---
-*/
-/*** HELP END ***/
+
+*//*** HELP END ***/
 
 proc fcmp 
   /*inlib  = work.&packageName.fcmp*/

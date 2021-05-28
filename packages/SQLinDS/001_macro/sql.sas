@@ -1,5 +1,5 @@
-/*** HELP START ***/
-/*
+/*** HELP START ***//*
+ 
 ## >>> `%SQL()` macro: <<< <a name="dssql-macro"></a> ###########################
 
 The **main** macro which allows to use 
@@ -41,8 +41,8 @@ data dictionary;
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
-*/
-/*** HELP END ***/
+
+*//*** HELP END ***/
 
 
 /* Main User macro */
