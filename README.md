@@ -21,7 +21,7 @@ Short description of the SAS Packages Framework macros can be found [here](https
   - [SAS Global Forum 2020 V.E.](https://www.youtube.com/watch?v=qCkb-bx0Dv8&t=0s "SGF2020") (April 2020)
   - [Sasensei International Dojo](https://www.youtube.com/watch?v=BFhdUBQgjYQ&t=0s "SID no. 1") (April 2020)
   - [SAS dla Administratorów i Praktyków 2020](https://www.youtube.com/watch?v=mXuep2k48Z8&feature=youtu.be&t=0s "SASAiP2020") (October 2020, in Polish)
-  - [Boston Area SAS Users Group webinar](https://us02web.zoom.us/rec/share/p6ZpCsvc5YZDQGpLOOLOB4zyNGA4vjfjJcNhwaGQ7jKKR00Z_bmeCcBkcwkut6Pr.Q6UoueYAOcv6dPQf "BASUG") (November 2020)
+  - [Boston Area SAS Users Group webinar](https://www.basug.org/videos?wix-vod-video-id=78067e61413d43d3a6951974b3bc3014&wix-vod-comp-id=comp-klv807gt "BASUG") (November 2020)
   - [SAS Global Forum 2021 V.E.](https://www.youtube.com/watch?v=hqexaQtGw88 "SGF2021") (May 20th, 2021)
 ---
 
