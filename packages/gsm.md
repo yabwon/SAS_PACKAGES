@@ -78,8 +78,17 @@ the **GSM** (a.k.a. *Generate Secure Macros*) package.
 
 It converts a list of macros provided by the user into
 a data set of the Proc FCMP functions. The macros are stored
-as encrypted code which allow to share the macros
-without showing their code.
+in functions are encrypted which allow to share them without 
+showing their code. *Important* thing is that macros provided 
+by the user *has* to be "secure", i.e. the `secure` option has to 
+be added to the macro definition. See the example:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%macro secretMacro(x) / SECURE; /* <- the secure option */
+  <... some code ...>
+%mend secretMacro;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 As a result a zip file, containing dataset with functions and 
 code to be executed on site, is generated. 
