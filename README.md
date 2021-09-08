@@ -162,12 +162,12 @@ SHA256 digest for BasePlus: C9D26CAC2504634EF25F02B5BD04596B2F873E3C25E8CEDDD7F4
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
-- **GSM** (Generate Secure Macros)\[0.13\], package allows
+- **GSM** (Generate Secure Macros)\[0.14\], package allows
  to create secured macros stored in SAS Proc FCMP functions.
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: 2FC239B5A2216D073826125999BFD64FBA32BFEA3EE6EA2B22EC64E8C1B04144
+SHA256 digest for GSM: 93D88D4465B68984E938212241DE55C7B12EBC20601538553AC9E1AC0628C006
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
