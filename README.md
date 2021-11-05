@@ -167,7 +167,7 @@ SHA256 digest for BasePlus: D01BDFB50EF023EF51806F5F0ED664523C1A6F25AA2778808558
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: 93D88D4465B68984E938212241DE55C7B12EBC20601538553AC9E1AC0628C006
+SHA256 digest for GSM: 3EAF6E93642CCA9B5B592DF9BED4C8B20B60BCD4B0434720D12D26096717C4A9
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
