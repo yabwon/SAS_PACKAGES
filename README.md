@@ -8,7 +8,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. **The latest version** of SPF is **`20210528`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. **The latest version** of SPF is **`20211111`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -73,6 +73,8 @@ To create your own package:
 
 ---
 
+**Update**\[November 11th, 2021\]**:** `%extendPackagesFileref()` **macro is available**.
+
 **Update**\[October 15th, 2020\]**:** `%previewPackage()` **macro is available**.
 
 **Update**\[September 11th, 2020\]**:** ` %loadPackageS()` and `%verifyPackage()` **macros are available**.
@@ -104,7 +106,7 @@ Currently the following packages are available (see the `./packages` directory):
     set %SQL(select * from sashelp.class order by age);
   run;
 ```
-SHA256 digest for SQLinDS: 1853CD6262CF66582A33C373AA612CA714B61CB88A1C51745E7A57D5A03C39B4
+SHA256 digest for SQLinDS: F2BE3CC68C9A34DD324FD35C8287A4F89737E2E28E806E0DD7FB0EBF60F7C569
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -116,7 +118,7 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 - **DFA** (Dynamic Function Arrays)\[0.5\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
-SHA256 digest for DFA: 22AB51B85E3344B8C0FB7AF164247881B656F5CBA88BBA974AD8BC41ED79327F
+SHA256 digest for DFA: C32A81304A411C1EB6BA7B76EDB8D70550F3935F35A1506E2B8019A2036FB5FF
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
@@ -139,7 +141,7 @@ SHA256 digest for DFA: 22AB51B85E3344B8C0FB7AF164247881B656F5CBA88BBA974AD8BC41E
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 849629D3AF3FE3AB45D86990E303F1D5E4D5F9F31C8ED6864C95B0DFAADCA445
+SHA256 digest for macroArray: 9FE227EF3144431B51063D599148BDD8873509D1B32F1AC2979EC566E1BB1487
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
@@ -158,7 +160,7 @@ format x bool.;
 
 %put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
 ```
-SHA256 digest for BasePlus: D01BDFB50EF023EF51806F5F0ED664523C1A6F25AA2778808558C212E6D74725
+SHA256 digest for BasePlus: B34E352EC52E05B8BBE1816E6104F47677CBFDEAF7CD71B8BF04FDBFA01B0EF0
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
@@ -167,12 +169,12 @@ SHA256 digest for BasePlus: D01BDFB50EF023EF51806F5F0ED664523C1A6F25AA2778808558
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: 3EAF6E93642CCA9B5B592DF9BED4C8B20B60BCD4B0434720D12D26096717C4A9
+SHA256 digest for GSM: BEFAA87266D6DBA3D5983117FC36A24DE03A2F93791AC786DCDB37571A4494AC
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
-SHA256 digest for dynMacroArray: 67956116578E71327748B7EB3DAFF9D872DBC6F6EDD0DC11B7CF2A54FDA71785
+SHA256 digest for dynMacroArray: 9FE227EF3144431B51063D599148BDD8873509D1B32F1AC2979EC566E1BB1487
 
 ### ======
