@@ -42,6 +42,7 @@ run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 See examples for more details.
 
+Recording of presentation with "how it works" description, in Polish, is avaliable [here](https://www.youtube.com/watch?v=LtaWPe2sgRY&t=1s).
 
 *How to use it:* 
  - Copy all files with your secured macros code into a directory. 
