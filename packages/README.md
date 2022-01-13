@@ -18,7 +18,7 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: F2BE3CC68C9A34DD324FD35C8287A4F89737E2E28E806E0DD7FB0EBF60F7C569
+SHA256 digest for SQLinDS: DCAB62267B52822F416BA7E6713A696D843E8092A4E3A37DF06CBE1E1D5DAD11
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -59,7 +59,7 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: C32A81304A411C1EB6BA7B76EDB8D70550F3935F35A1506E2B8019A2036FB5FF
+SHA256 digest for DFA: 5F89AC6AE628EB27D87FF6A9D72A515FFA3FF6694D04DE0D9811BFFB81444ABB
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
@@ -84,7 +84,7 @@ SHA256 digest for DFA: C32A81304A411C1EB6BA7B76EDB8D70550F3935F35A1506E2B8019A20
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 95164E71AF0B86AC816F13821F6468F611C6E5BB9036AC10459CDEB10487B08E
+SHA256 digest for macroArray: 833D747526F4CE83FFD73F9EB3A2A9065401B498DFEC79045A28A42E0E57A8CA
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
@@ -108,7 +108,7 @@ format x bool.;
 
 %zipLibrary(sashelp,libOut=work)
 ```
-SHA256 digest for BasePlus: 1B6AA5A38846C30B3DD3E9FED86CB4ECACF25FBAF3011CBE108ED996C3FBB823
+SHA256 digest for BasePlus: A60A300E083628C65DD6899E7EF95588916F8F66B6A25B32B3228987B6F74857
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
@@ -119,7 +119,7 @@ SHA256 digest for BasePlus: 1B6AA5A38846C30B3DD3E9FED86CB4ECACF25FBAF3011CBE108E
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: F6EE77A3C042E1E083E970BE255D126B52A75205DC1FB9A4A7337D0A89EEC7EB
+SHA256 digest for GSM: 3B70D8C31F02CB2B6AC47CC1DB3EC9E462796226CBFF519936AF5EEDB0C46B8F
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
@@ -127,6 +127,6 @@ SHA256 digest for GSM: F6EE77A3C042E1E083E970BE255D126B52A75205DC1FB9A4A7337D0A8
 
 - **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
 
-SHA256 digest for dynMacroArray: 9FE227EF3144431B51063D599148BDD8873509D1B32F1AC2979EC566E1BB1487
+SHA256 digest for dynMacroArray: 766DF3F330B87E99FAC32A00A569D9A45DA1157F591DE34DD0892CD864779409
 
 ---
