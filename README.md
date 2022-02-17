@@ -122,7 +122,7 @@ SHA256 digest for DFA: 5F89AC6AE628EB27D87FF6A9D72A515FFA3FF6694D04DE0D9811BFFB8
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
-- **macroArray**\[0.9\], implementation of an array concept in a macrolanguage, e.g. 
+- **macroArray**\[1.0\], implementation of an array concept in a macrolanguage, e.g. 
 ```sas
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -141,7 +141,7 @@ SHA256 digest for DFA: 5F89AC6AE628EB27D87FF6A9D72A515FFA3FF6694D04DE0D9811BFFB8
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 833D747526F4CE83FFD73F9EB3A2A9065401B498DFEC79045A28A42E0E57A8CA
+SHA256 digest for macroArray: DAEB87654D99965BF2B7A6AB14626B3E617D0ABF526E77725DF89A1AB4C812C2
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
