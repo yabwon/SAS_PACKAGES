@@ -88,12 +88,12 @@ To create your own package:
 ---
 
 ## Where the SAS Packages Framework is used:
-This is a list of locations where the SAS Packages Framework is used. If you want to share that you are using SPF let me know and I'll update the list.
+This is a list of locations where the SAS Packages Framework is used:
+ - Warsaw (Poland)
 
-The List:
-- Europe
-  - Poland 
-    - Warsaw
+If you want to share that you are using the SPF let me know and I'll update the list.
+
+If you find the SPF usefull **share info** about it or **give it a [star](https://github.com/yabwon/SAS_PACKAGES/stargazers)** so more people will know.
 
 ---
 
