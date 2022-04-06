@@ -88,12 +88,12 @@ To create your own package:
 ---
 
 ## Where the SAS Packages Framework is used:
-This is a list of locations where the SAS Packages Framework is used. If you want to share that you are using SPF let me know and I'll update the list.
+This is a list of locations where the SAS Packages Framework is used:
+ - Warsaw (Poland)
 
-The List:
-- Europe
-  - Poland 
-    - Warsaw
+If you want to share that you are using the SPF let me know and I'll update the list.
+
+If you find the SPF usefull **share info** about it or **give it a [star](https://github.com/yabwon/SAS_PACKAGES/stargazers)** so more people will know.
 
 ---
 
@@ -168,12 +168,12 @@ SHA256 digest for BasePlus: A60A300E083628C65DD6899E7EF95588916F8F66B6A25B32B322
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
-- **GSM** (Generate Secure Macros)\[0.19\], package allows
+- **GSM** (Generate Secure Macros)\[0.20\], package allows
  to create secured macros stored in SAS Proc FCMP functions.
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: F63B8C602C1DB02F4107D9AF78182D87CD64AEA6521163067B7EB6D5C1B368AF
+SHA256 digest for GSM: BE9508C8E37706B2EB2FBCA68B64F7DCF63C65E8E24775C92E28FE34E547893D
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
