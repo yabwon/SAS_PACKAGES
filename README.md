@@ -28,7 +28,7 @@ Short description of the SAS Packages Framework macros can be found [here](https
 
 ### Innitiative to add SAS Packages Framework to SAS Base/Viya:
 
-A **SASwareBallot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submited Frayday, May 27th 2022. If you would like to support the idea visit this **[communities.sas.com post](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508)** and **up vote** the idea!
+A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submited Frayday, May 27th 2022. If you would like to support the idea visit this **[communities.sas.com post](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508)** and **up vote** the idea!
 
 ---
 
