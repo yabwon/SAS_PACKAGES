@@ -3652,10 +3652,10 @@ The main idea behind the `%LDSNM()` is the same as for `%LDSN()` - see the descr
 
 ---
 
-The `%LDSNM()` works differently then the `%LDSN()`.
+The `%LDSNM()` macro works differently than the `%LDSN()` macro.
 
-The `%LDSN()` assumed that *both* libname and dataset options *could*
-be passed as elements in macro argument, e.g.
+The `%LDSN()` macro assumes that *both* libname and dataset options *are*
+be passed as elements **inside** the macro argument, together with the data set name. E.g.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 data %LDSN( WORK.peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s (drop = sex) );
@@ -3663,8 +3663,8 @@ data %LDSN( WORK.peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s (
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The `%LDSNM()`, in contrary, assumes that both libname and dataset options are
-passed **outside** the macro, i.e.
+The `%LDSNM()` macro, in contrary, assumes that both libname and dataset options are
+passed **outside** the macro parameter, i.e.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 data WORK.%LDSNM( peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s ) (drop = sex);
@@ -3672,12 +3672,13 @@ data WORK.%LDSNM( peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s 
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This approach reduces some limitations the LDSN has.
+This approach overcomes some limitations the LDSN has.
 
-The **additional** feature of the `%LDSNM()` is that when the macro is called 
-a global macrovariable, which name is the same as hashed dataset name, is created.
-The macrovariable value is the text of the argument of the macro. For example 
-the following macro call:
+The **additional** feature of the `%LDSNM()` is that when the macro is called, 
+a global macrovariable is created.
+The macro variable name is the text of the hashed data set name. 
+The macro variable value is the text of the unhashed data set name (i.e. the argument of the macro). 
+For example the following macro call:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 data %LDSNM(John "x" 'y' dog);
@@ -3686,7 +3687,7 @@ data %LDSNM(John "x" 'y' dog);
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-creates `DSN_BF1F8C4D6495B34A_` macrovariable with value:  `JOHN "X" 'Y' DOG`.
+creates macro variable with name `DSN_BF1F8C4D6495B34A_` and with value:  `JOHN "X" 'Y' DOG`.
 
 The macrovariable is useful when combined with `symget()` function and 
 the `indsname=` option to get the original text string value back, 
@@ -3737,8 +3738,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The text string is concider as *"only dataset name"*, i.e. macro does not 
-assume it contain library as prefix or data set options as sufix.
+The text string is considered as *"only dataset name"*, i.e. the macro does not 
+assume it contains library as prefix or data set options as suffix.
 See the `%LDSN()` macro for comparison.
 
 ---
@@ -3802,7 +3803,7 @@ run;
 The LVarNm() macro function works like the LDSN() macro function, but for variables.
 Supported by LVarNmLab() macro function which allows to remember "user names" in labels.
 
-The motivation for the macro was similar one as for the LDSN() macro. 
+The motivation for the macro was similar to that for the LDSN() macro. 
 
 ---
 
@@ -3835,7 +3836,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ---
 
 
-### EXAMPLES AND USECASES: ####################################################
+### EXAMPLES AND USE CASES: ####################################################
 
 **EXAMPLE 1.** 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
