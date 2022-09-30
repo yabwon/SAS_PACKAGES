@@ -8,7 +8,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. **The latest version** of SPF is **`20220925`**.  
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. **The latest version** of SPF is **`20220930`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -80,6 +80,8 @@ To create your own package:
 
 ---
 
+**Update**\[September 30th, 2022\]**:** **New dedicated repository:** *SASPAC - the SAS Packages Archive* **is available as new location for packages storage**. Location of SASPAC is: [`https://github.com/SASPAC`](https://github.com/SASPAC) 
+
 **Update**\[November 11th, 2021\]**:** `%extendPackagesFileref()` **macro is available**.
 
 **Update**\[October 15th, 2020\]**:** `%previewPackage()` **macro is available**.
@@ -105,7 +107,12 @@ If you find the SPF useful **share info** about it or **give it a [star](https:/
 ---
 
 ## Available packages:
-Currently the following packages are available (see the `./packages` directory):
+
+For "backward compatibility"/historical point of view the following packages are available under the `./packages` directory.
+
+Since *September 2022* the default location for packages is **SASPAC - the SAS Packages Archive** located under: [`https://github.com/SASPAC`](https://github.com/SASPAC) where each package is stored as a separate repository with historical versions too.
+
+Packages:
 
 - **SQLinDS**\[2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
@@ -184,7 +191,7 @@ SHA256 digest for GSM: 2AEBC150FBA99A4AAB0265A21C57E89200BFD96B633B898F32743D1C8
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
-- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
+- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
 
 SHA256 digest for dynMacroArray: D7E0B8F85C05EBF8622204E0D2F3E990D48D0A9B3911051C3AD44DC98954DDCF
 
