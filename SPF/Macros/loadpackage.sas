@@ -27,7 +27,7 @@
                                        */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20220930. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20221001. Run %loadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -42,7 +42,7 @@ des = 'Macro to load SAS package, version 20220930. Run %loadPackage() for help 
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20220930`                              #;
+    %put # Macro to *load* SAS packages, version `20221001`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -155,7 +155,17 @@ des = 'Macro to load SAS package, version 20220930. Run %loadPackage() for help 
       filename &_PackageFileref_. clear;
 
       /* test if required version of package is "good enough" */
-      %if %sysevalf(&requiredVersion. > &packageVersion.) %then
+      %local rV pV;
+      %let pV = %sysfunc(compress(&packageVersion.,.,kd));
+      %let pV = %sysevalf((%scan(&pV.,1,.,M)+0)*1e8
+                        + (%scan(&pV.,2,.,M)+0)*1e4
+                        + (%scan(&pV.,3,.,M)+0)*1e0);
+      %let rV = %sysfunc(compress(&requiredVersion.,.,kd));
+      %let rV = %sysevalf((%scan(&rV.,1,.,M)+0)*1e8
+                        + (%scan(&rV.,2,.,M)+0)*1e4
+                        + (%scan(&rV.,3,.,M)+0)*1e0);
+      
+      %if %sysevalf(&rV. > &pV.) %then
         %do;
           %put ERROR: Package &packageName. will not be loaded!;
           %put ERROR- Required version is &requiredVersion.;
