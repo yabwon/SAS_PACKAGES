@@ -2,7 +2,11 @@
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
 ## Available packages: 
-Currently the following packages are available:
+For "backward compatibility"/historical point of view the following packages are available under the `./packages` directory.
+
+Since *September 2022* the default location for packages is **SASPAC - the SAS Packages Archive** located under: [`https://github.com/SASPAC`](https://github.com/SASPAC) where each package is stored as a separate repository with historical versions too.
+
+Packages:
 
 ---
 
@@ -125,7 +129,7 @@ SHA256 digest for GSM: 2AEBC150FBA99A4AAB0265A21C57E89200BFD96B633B898F32743D1C8
 
 ---
 
-- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA)
+- **dynMacroArray**\[0.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
 
 SHA256 digest for dynMacroArray: D7E0B8F85C05EBF8622204E0D2F3E990D48D0A9B3911051C3AD44DC98954DDCF
 

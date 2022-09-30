@@ -4,7 +4,8 @@
 %macro installPackage(
   packagesNames /* space separated list of packages names, without the zip extension */
 , sourcePath =  /* location of the package, e.g. "www.some.page/", mind the "/" at the end */
-, mirror = 1    /* indicates which location for package source should be used */
+, mirror = 0    /* indicates which location for package source should be used */
+, version =     /* indicates which version of a package to install */
 , replace = 1   /* 1 = replace if the package already exist, 0 = otherwise */
 , URLuser =     /* user name for the password protected URLs */
 , URLpass =     /* password for the password protected URLs */
@@ -13,7 +14,7 @@
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20220925. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20220930. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -28,7 +29,7 @@ des = 'Macro to install SAS package, version 20220925. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20220925`                                          #;
+    %put # Macro to install SAS packages, version `20220930`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -61,11 +62,17 @@ des = 'Macro to install SAS package, version 20220925. Run %%installPackage() fo
     %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/`        #;
     %put #                                                                                            #;
     %put # - `mirror=`       Indicates which web location for packages installation is used.          #;
+    %put #                   Value `0` indicates:                                                     #;
+    %put #                   `https://raw.githubusercontent.com/SASPAC/`                              #;
     %put #                   Value `1` indicates:                                                     #;
     %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main`             #;
     %put #                   Value `2` indicates:                                                     #;
     %put #                   `https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES`        #;
-    %put #                   Default value is `1`.                                                    #;
+    %put #                   Default value is `0`.                                                    #;
+    %put #                                                                                            #;
+    %put # - `version=`      Indicates which historical version of a package to install.              #;
+    %put #                   Historical version are available only if `mirror=0` is set.              #;
+    %put #                   Default value is null which means "install the latest".                  #;
     %put #                                                                                            #;
     %put # - `replace=`      With default value of `1` it causes existing package file                #;
     %put #                   to be replaced by new downloaded file.                                   #;
@@ -138,6 +145,13 @@ des = 'Macro to install SAS package, version 20220925. Run %%installPackage() fo
       %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
       %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/;
 
+      %if 0 = %superq(mirror) %then
+        %do;
+          %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+          %let sourcePath = https://raw.githubusercontent.com/SASPAC/;
+          %goto mirrorEnd;
+        %end;
+
       %if 1 = %superq(mirror) %then
         %do;
           %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
@@ -158,7 +172,7 @@ des = 'Macro to install SAS package, version 20220925. Run %%installPackage() fo
   %local i;
   %do i = 1 %to %sysfunc(countw(&packagesNames., , S));
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
-    %local packageName;
+    %local packageName packageSubDir;
     %let packageName = %scan(&packagesNames., &i., , S);
 
     %put ;
@@ -183,7 +197,15 @@ des = 'Macro to install SAS package, version 20220925. Run %%installPackage() fo
       %end;
     %else
       %do;
-        filename &in URL "&sourcePath.%lowcase(&packageName.).zip" 
+        %if 0 = %superq(mirror) %then
+          %do;
+            %let packageSubDir = %lowcase(&packageName.)/main/;
+            %if %superq(version) ne %then
+              %do;
+                %let packageSubDir = %lowcase(&packageName.)/main/hist/&version./;
+              %end;
+          %end;
+        filename &in URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).zip" 
         %if (%superq(URLuser) ne ) %then
           %do;
             user = "&URLuser."
@@ -368,7 +390,7 @@ des = 'Macro to install SAS package, version 20220925. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20220925 
+  Version 20220930 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
