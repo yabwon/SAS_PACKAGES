@@ -11,7 +11,7 @@
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20221001. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20221002. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -27,7 +27,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20221001`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20221002`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -76,18 +76,28 @@ parmbuff
     %GOTO ENDofloadPackageS;
   %end;
   
-  %local lengthOfsyspbuff numberOfPackagesNames i packageElement packageName packageVersion;
+  %local lengthOfsyspbuff numberOfPackagesNames i packageElement packageName packageVersion str;
 
   %let lengthOfsyspbuff      = %qsysfunc(length(&syspbuff.));
-  %let packagesNames         = %qsysfunc(compress(%qsubstr(&syspbuff., 2, %eval(&lengthOfsyspbuff.-2)), %str((._,)), KDA));
-  %let numberOfPackagesNames = %qsysfunc(countw(&packagesNames., %str(,)));
+  %let packagesNames         = %qsysfunc(compress(%qsubstr(&syspbuff., 2, %eval(&lengthOfsyspbuff.-2)), {[(. _,)]}, KDA));
+  
+  %let str = %qsysfunc(translate(%superq(packagesNames),[[ ]],{(,)}));
+  %let str = %qsysfunc(transtrn(%superq(str),],%str(] )));
+  %let str = %qsysfunc(compbl(%superq(str)));
+  %let str = %qsysfunc(transtrn(%superq(str),%str([ ),[));
+  %let str = %qsysfunc(transtrn(%superq(str),%str( [),[));
+  %let str = %qsysfunc(transtrn(%superq(str),%str( ]),]));
+  %let str = %qsysfunc(translate(%superq(str),(),[]));
+  %let packagesNames = %unquote(&str.);
+  
+  %let numberOfPackagesNames = %qsysfunc(countw(&packagesNames., %str( )));
 
   %put NOTE: List of packages to be loaded contains &numberOfPackagesNames. element(s).;
   %put NOTE- The list is: &packagesNames..;
   %put NOTE- ;
 
   %do i = 1 %to &numberOfPackagesNames.;
-    %let packageElement = %qscan(&packagesNames., &i., %str(,) );
+    %let packageElement = %qscan(&packagesNames., &i., %str( ) );
     %let packageName    = %qscan(&packageElement.,  1, %str(()));
     %let packageVersion = %qscan(&packageElement.,  2, %str(()));
     %if %superq(packageVersion) = %then %let packageVersion = .;

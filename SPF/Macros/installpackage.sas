@@ -14,7 +14,7 @@
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20221001. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20221002. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -29,7 +29,7 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20221001`                                          #;
+    %put # Macro to install SAS packages, version `20221002`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -73,6 +73,8 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
     %put # - `version=`      Indicates which historical version of a package to install.              #;
     %put #                   Historical version are available only if `mirror=0` is set.              #;
     %put #                   Default value is null which means "install the latest".                  #;
+    %put #                   When there are multiple packages to install version                      #;
+    %put #                   is scan sequentially.                                                    #;
     %put #                                                                                            #;
     %put # - `replace=`      With default value of `1` it causes existing package file                #;
     %put #                   to be replaced by new downloaded file.                                   #;
@@ -108,6 +110,23 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
     %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;                );
     %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session;              );
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #### Example #################################################################################;
+    %put #                                                                                            #;
+    %put #   Enabling the SAS Package Framework                                                       #;
+    %put #   from the local directory and installing & loading                                        #;
+    %put #   the multiple packages from the Internet.                                                 #; 
+    %put #                                                                                            #;
+    %put #   Assume that the `SPFinit.sas` file                                                       #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                             #;
+    %put #                                                                                            #;
+    %put #   Run the following code in your SAS session:                                              #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES";                                                         );
+    %put  %nrstr( %%include packages(SPFinit.sas);                                                             );
+    %put ;
+    %put  %nrstr( %%installPackage(baseplus(1.17) macroarray(1.0) dfa(0.5) GSM)                                );
+    %put  %nrstr( %%loadPackageS(GSM, baseplus(1.17), macroarray(1.0), dfa(0.5))                               );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
     %put ##############################################################################################;
     %put ;
     options &options_tmp.;
@@ -134,8 +153,11 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
 
   /* in case the 'packages' fileref is multi-directory the first directory will be selected as a destination */
   data _null_;
-  /*      get the firstPackagesPath                                                           */
-    call symputX("firstPackagesPath", dequote(kscanx(pathname("packages"), 1, "()", "QS")) ,"L");
+    if "(" =: pathname("packages") then
+    /*      get the firstPackagesPath                                                           */
+      call symputX("firstPackagesPath", dequote(kscanx(pathname("packages"), 1, "()", "QS")), "L");
+    else
+      call symputX("firstPackagesPath", pathname("packages"), "L");
   run;
 
   %if %superq(sourcePath)= %then
@@ -168,14 +190,51 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
       %mirrorEnd:
       %put INFO: Source path is &sourcePath.;
     %end;
+  %else
+    %do;
+      %let mirror=-1;
+      %let SPFinitMirror = &sourcePath.SPFinit.sas;
+    %end;
 
-  %local i;
+  %local i str;
+  /* standardise list of packages */
+  %let str = %qsysfunc(compress(%superq(packagesNames),[{(. _)}],kad));
+  %let str = %qsysfunc(translate(%superq(str),[[]],{()}));
+  %let str = %qsysfunc(transtrn(%superq(str),],%str(] )));
+  %let str = %qsysfunc(compbl(%superq(str)));
+  %let str = %qsysfunc(transtrn(%superq(str),%str([ ),[));
+  %let str = %qsysfunc(transtrn(%superq(str),%str( [),[));
+  %let str = %qsysfunc(transtrn(%superq(str),%str( ]),]));
+  %let str = %unquote(&str.);
+  %let packagesNames = %qsysfunc(translate(%superq(str),(),[]));
+  
+  %if %length("%sysfunc(compress(%superq(str),[,k))") NE %length("%sysfunc(compress(%superq(str),],k))") %then
+    %do;
+      %put ERROR: Syntax error in list of packages!;
+      %put ERROR- %superq(packagesNames);
+      %goto packagesListError;
+    %end;
+    
+  %put ;
+  %put INFO: Calling: &packagesNames.;
+  
   %do i = 1 %to %sysfunc(countw(&packagesNames., , S));
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
-    %local packageName packageSubDir;
-    %let packageName = %scan(&packagesNames., &i., , S);
-
+    %local packageName packageSubDir vers versA versB;
     %put ;
+    /*%put ### %scan(&packagesNames., &i., , S) ###;*/
+    %let packageName = %scan(%scan(&packagesNames., &i., , S),1,{[()]});
+    %let versA       = %scan(%scan(&packagesNames., &i., , S),2,{[()]});
+    %let versB       =       %scan(&version.,       &i., , S);
+    %let vers=;
+    %if %superq(versB) ne %then %let vers = &versB.;
+    %if %superq(versA) ne %then %let vers = &versA.;
+    %if -1 = &mirror %then /* ignore version when direct path is provided */
+      %do;
+        %let vers=;
+      %end;
+    %put ### &packageName.(&vers.) ###;
+    
     %put *** %lowcase(&packageName.) start *****************************************;
     %local in out _IOFileref_;
     data _null_; call symputX("_IOFileref_", put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); run;
@@ -188,6 +247,11 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
     %if %upcase(&packageName.) in (SPFINIT SASPACKAGEFRAMEWORK SASPACKAGESFRAMEWORK) %then
       %do;
         /* allows to install/download the framework file like any other package */
+        %if %superq(mirror) in (0 1) AND (%superq(vers) ne) %then
+          %do;
+            %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.sas;
+          %end;
+        
         filename &in URL 
           "&SPFinitMirror." 
           recfm=N lrecl=1;
@@ -200,11 +264,11 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
         %if 0 = %superq(mirror) %then
           %do;
             %let packageSubDir = %lowcase(&packageName.)/raw/main/;
-          
-            %if %superq(version) ne %then
+            
+            %if %superq(vers) ne %then
               %do;
                 /*%let packageSubDir = %lowcase(&packageName.)/main/hist/&version./;*/
-                %let packageSubDir = %lowcase(&packageName.)/raw/&version./;
+                %let packageSubDir = %lowcase(&packageName.)/raw/&vers./;
               %end;
           %end;
         filename &in URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).zip" 
@@ -281,6 +345,8 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
   %end;
 
+  %packagesListError:
+  
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.
@@ -392,7 +458,7 @@ des = 'Macro to install SAS package, version 20221001. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20221001 
+  Version 20221002 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
