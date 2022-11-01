@@ -77,6 +77,8 @@ Kudos to all who inspired me to generate this package:
 *Michal Ludwicki*,
 *Quentin McMullen*.
 
+Recording from the SAS Explore 2022 conference: [A BasePlus Package for SAS](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "A BasePlus Package for SAS") (September 27th-29th, 2022).
+
 ---
 
 ### BASIC EXAMPLES AND USECASES: ####################################################
@@ -3934,7 +3936,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ## License ####################################################################
 
-Copyright (c) 2020 Bartosz Jablonski
+Copyright (c) since 2020 Bartosz Jablonski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
