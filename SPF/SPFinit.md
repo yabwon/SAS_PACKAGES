@@ -15,7 +15,7 @@
 ---
 
 
-##      This is short SAS PAckages Framework help information <a name="helpinfo"></a>
+##      This is short SAS Packages Framework help information <a name="helpinfo"></a>
 
 A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
 
