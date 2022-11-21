@@ -134,7 +134,7 @@ The SAS Packages Framework [(short) documetation](https://github.com/yabwon/SAS_
 
 ### Updates worth mentioning:
 
-**Update**\[November 21st, 2022\]**:** ` %loadPackage()` **macro allows Cherry Picking of content (see [here]())**.
+**Update**\[November 21st, 2022\]**:** ` %loadPackage()` **macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking"))**.
 
 **Update**\[September 30th, 2022\]**:** **New dedicated repository:** *SASPAC - the SAS Packages Archive* **is available as new location for packages storage**. Location of SASPAC is: [`https://github.com/SASPAC`](https://github.com/SASPAC) 
 
