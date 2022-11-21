@@ -25,9 +25,14 @@
                                          and use loadPackage in the form: 
                                          %loadPackage(PiPackage, zip=disk, options=) 
                                        */
+, cherryPick=*                        /* space separated list of selected elements of the package
+                                         to be loaded into the session, default value "*" means
+                                         "load all elements of the package"
+                                       */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20221112. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20221121. Run %loadPackage() for help info.'
+minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -42,7 +47,7 @@ des = 'Macro to load SAS package, version 20221112. Run %loadPackage() for help 
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20221112`                              #;
+    %put # Macro to *load* SAS packages, version `20221121`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -74,24 +79,29 @@ des = 'Macro to load SAS package, version 20221112. Run %loadPackage() for help 
     %put #                       package is provided in required version,                #;
     %put #                       default value: `.`                                      #;
     %put #                                                                               #;
-    %put # - `lazyData=`         *Optional.* A list of names of lazy datasets to be      #;
-    %put #                       loaded. If not null datasets from the list are loaded   #;
-    %put #                       instead of the package.                                 #;
+    %put # - `lazyData=`         *Optional.* A space separated list of names of lazy     #;
+    %put #                       datasets to be loaded. If not null datasets from the    #;
+    %put #                       list are loaded instead of the package.                 #;
     %put #                       An asterisk (*) means *load all lazy datasets*.         #;
     %put #                                                                               #;
-    %put # - `zip=`              Standard package is zip (lowcase),                      #;
+    %put # - `zip=`              *Optional.* Standard package is zip (lowcase),          #;
     %put #                        e.g. `%nrstr(%%loadPackage(PiPackage))`.                        #;
     %put #                       If the zip is not available use a folder.               #;
     %put #                       Unpack data to "pipackage.disk" folder                  #;
     %put #                       and use loadPackage in the following form:              #;
     %put #                        `%nrstr(%%loadPackage(PiPackage, zip=disk, options=))`          #;
     %put #                                                                               #;
+    %put # - `cherryPick=`       *Optional.* A space separated list of selected elements #;
+    %put #                       of the package to be loaded into the SAS session.       #;
+    %put #                       Default value of an asterisk (*) means:                 #;
+    %put #                       "load all elements of the package".                     #;
+    %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
     %put #                                                                               #;
-    %put ### Example #####################################################################;
+    %put ### Example 1 ###################################################################;
     %put #                                                                               #;
     %put #   Enabling the SAS Package Framework                                          #;
     %put #   from the local directory and installing & loading                           #;
@@ -110,6 +120,25 @@ des = 'Macro to load SAS package, version 20221112. Run %loadPackage() for help 
     %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
     %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #                                                                               #;
+    %put ### Example 2 ###################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & cherry picking                    #;
+    %put #   elements of the BasePlus package.                                           #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(BasePlus) %%* install the package from the Internet;           );
+    %put  %nrstr( %%loadPackage(BasePlus, cherryPick=getVars) %%* cherry pick the content;        );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #                                                                               #;
     %put #################################################################################;
     %put ;
     options &options_tmp.;
@@ -144,6 +173,19 @@ des = 'Macro to load SAS package, version 20221112. Run %loadPackage() for help 
     end;
     if exists then call symputx("path", p, "L");
   run;
+  
+  /* convert cherryPick to lower case if needed */
+  %if NOT (%str(*) = %superq(cherryPick)) %then
+    %do;
+      data _null_;
+        call symputX("cherryPick",lowcase(compbl(compress(symget("cherryPick"),". _","KDA"))),"L");
+      run;
+    %end;
+  /* empty list is equivalent to "*" */ 
+  %if %superq(cherryPick)= %then 
+    %do;
+      %let cherryPick=*;
+    %end;
 
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
@@ -184,7 +226,11 @@ des = 'Macro to load SAS package, version 20221112. Run %loadPackage() for help 
       ;
       %if %bquote(&lazyData.) = %then
         %do;
+          %local tempLoad_minoperator;
+          %let tempLoad_minoperator = %sysfunc(getoption(minoperator));
+          options minoperator; /* MinOperator option is required for cherryPicking to work */
           %include &_PackageFileref_.(load.sas) / &source2.;
+          options &tempLoad_minoperator.;
         %end;
       %else
         %do;
