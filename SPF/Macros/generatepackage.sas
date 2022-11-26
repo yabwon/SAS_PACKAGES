@@ -23,7 +23,7 @@
                     default value 1 means "delete tests work" */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20221121. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20221125. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -38,7 +38,7 @@ des = 'Macro to generate SAS packages, version 20221121. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20221121`                            #;
+    %put # Macro to generate SAS packages, version `20221125`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -898,11 +898,16 @@ data _null_;
   put ' %put NOTE- ;';
   put ' %put NOTE- *** START ***; ' /;
   
-  put '%if NOT (%str(*)=%superq(cherryPick)) %then %do; '; /* Cherry Pick test0 start */
-  put '  %put NOTE- ;' /
-      '  %put NOTE- *** Cherry Picking in action. ***; ' /
-      '  %put NOTE- ;' ;
-  put '%end; '; /* Cherry Pick test0 end */
+  put 'data _null_; ';
+  put ' if NOT ("*"=symget("cherryPick")) then do; '; /* Cherry Pick test0 start */
+  put '  put "NOTE- "; ' /
+      '  put "NOTE: *** Cherry Picking ***"; ' /
+      '  put "NOTE- Cherry Picking in action!! Be advised that"; ' /
+      '  put "NOTE- dependencies/required packages will not be loaded!"; ' /
+      '  put "NOTE- "; ' ;
+  put ' end; ' ; /* Cherry Pick test0 end */
+  put 'run; ';
+
 
   put '%include ' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /; /* <- copied also to loadPackage macro */
   
@@ -987,9 +992,9 @@ data _null_;
       length packageReqPackages $ 32767;
       packageReqPackages = lowcase(symget('packageReqPackages'));
       
-      put '%if (%str(*)=%superq(cherryPick)) %then %do; /* test for Cherry Picking */                    ';
       /* try to load required packages */
       put 'data _null_ ;                                                                                 ';
+      put ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages loading."; stop; end; ';
       put '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                ';
       put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
       put '    do;                                                                                       ';
@@ -1043,7 +1048,8 @@ data _null_;
 
       /* test if required packages are loaded */
       put 'data _null_ ;                                                                                 ';
-      put '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                                             ';
+      put ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages checking."; stop; end; ';
+      put '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                ';
       put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
       put '    do;                                                                                       ';
       put '      do until(EOF);                                                                          ';
@@ -1101,13 +1107,6 @@ data _null_;
       put '    end;                                                                                      ';
       put '  stop;                                                                                       ';
       put 'run;                                                                                          ';
-      put '%end;                                                                                         '; 
-      put '%else %do;                                                                                    ';
-      put '  %put NOTE-                                           ;                                      ';
-      put '  %put NOTE- Cherry Picking in action!! Be advised that;                                      ';
-      put '  %put NOTE- dependencies/required packages will not be loaded!;                              ';
-      put '%end;                                                                                         '; 
-      
     %end;
 
   %if (%superq(packageRequired) ne ) 
@@ -1859,7 +1858,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20221121 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20221125 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
