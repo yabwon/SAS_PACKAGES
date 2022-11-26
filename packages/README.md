@@ -10,7 +10,7 @@ Packages:
 
 ---
 
-- **SQLinDS**\[2.2.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.2.3\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
 data class;
   set %SQL(
@@ -22,7 +22,7 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: 085F0B8BD4A59343E2913FF9635EA6E551ADD54E9678C35F5096D4A0A895B9C5
+SHA256 digest for SQLinDS: D5A66E60602270E5FB1E592FA3E0C2F2C640BC077FE799A2223CB9BA275F6F47
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -36,7 +36,7 @@ SHA256 digest for MacroCore: A23C29529F3CE7D0C8BEE9545C5D22D5B5594907547374A5135
 
 ---
 
-- **DFA** (Dynamic Function Arrays)\[0.5.2\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.5.3\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```sas
 %createDFArray(ArrDynamic, resizefactor=17); 
 
@@ -63,13 +63,13 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: 3F618EDAC8B4F4BE6C19D606E6BCC58121A16BA1383D2EE64C680B4B7FA9C96A
+SHA256 digest for DFA: 7520CF21CBF1FD4AD2BC05C5DD343E508FCEA507575EBC060B4AD322FB80AB04
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
 ---
 
-- **macroArray**\[1.0.2\], implementation of an array concept in a macro language, e.g. 
+- **macroArray**\[1.0.3\], implementation of an array concept in a macro language, e.g. 
 ```sas
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -88,13 +88,13 @@ SHA256 digest for DFA: 3F618EDAC8B4F4BE6C19D606E6BCC58121A16BA1383D2EE64C680B4B7
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: DA57FFE85F49201FD61A53411D19E97FB5A6AC3C34E34FDF4B913545699551FF
+SHA256 digest for macroArray: 244B88C82AD7E6E93B8B85BC701ECDDB20B68F38B16C500EE9B49E1167ADC298
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 ---
 
-- **BasePlus**\[1.17.2\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[1.17.3\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -112,25 +112,25 @@ format x bool.;
 
 %zipLibrary(sashelp,libOut=work)
 ```
-SHA256 digest for BasePlus: EBA9EDB3D50D854288970CC0E965DA6AD5B057F6E6433EEBEC4A02B9A25CF6E2
+SHA256 digest for BasePlus: D8DBB7CC5952331FA59FEBBBDD15BC543FE3C89A8BA9150FE6AF5E412868EBE7
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
 ---
 
-- **GSM** (Generate Secure Macros)\[0.20.2\], package allows
+- **GSM** (Generate Secure Macros)\[0.20.3\], package allows
  to create secured macros stored in SAS Proc FCMP functions.
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: E47C94B536B661DEE390F5C3EA1684DD1A246106F4FBBDAFA57F5E34D4BB16D5
+SHA256 digest for GSM: 50D8340E080BEA459E68BE315146AD3B809930DB8DC7B23C7A492C3815ACD83F
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
 ---
 
-- **dynMacroArray**\[0.2.2\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
+- **dynMacroArray**\[0.2.3\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
 
-SHA256 digest for dynMacroArray: DD0BF1768DA05EBB5F8C6E7409A0929E28DF11CB499F75B433D9648855AACAE4
+SHA256 digest for dynMacroArray: 440920272D1838505EA5C033B1C448C612DE2FCCFD57F157BB90ED980E4001CC
 
 ---
