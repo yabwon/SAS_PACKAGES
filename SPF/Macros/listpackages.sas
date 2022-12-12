@@ -1,7 +1,7 @@
 /*+listPackages+*/
 
 %macro listPackages()/secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20221125.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20221212.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -16,7 +16,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20221125`                                #;
+    %put # Macro to list available SAS packages, version `20221212`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -166,7 +166,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
 /* Macro to generate SAS packages.
 
-   Version 20221125
+   Version 20221212
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
