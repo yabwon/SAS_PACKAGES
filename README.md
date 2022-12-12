@@ -14,7 +14,7 @@ In this repository we are presenting the **SAS Packages Framework** which allows
 
 ### Current version:
 
-**The latest version** of SPF is **`20221125`**.  
+**The latest version** of SPF is **`20221212`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -134,7 +134,9 @@ The SAS Packages Framework [(short) documetation](https://github.com/yabwon/SAS_
 
 ### Updates worth mentioning:
 
-**Update**\[November 21st, 2022\]**:** ` %loadPackage()` **macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking"))**.
+**Update**\[December 12th, 2022\]**:** `CASLUDF` **typed for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros"))**.
+
+**Update**\[November 21st, 2022\]**:** `%loadPackage()` **macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking"))**.
 
 **Update**\[September 30th, 2022\]**:** **New dedicated repository:** *SASPAC - the SAS Packages Archive* **is available as new location for packages storage**. Location of SASPAC is: [`https://github.com/SASPAC`](https://github.com/SASPAC) 
 

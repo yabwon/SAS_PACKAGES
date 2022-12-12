@@ -42,7 +42,7 @@
    - to unload, or
    - to generate SAS packages.
 
-  Version 20221125.
+  Version 20221212.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -86,7 +86,7 @@
                                        */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20221125. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20221212. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -102,7 +102,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20221125`                              #;
+    %put # Macro to *load* SAS packages, version `20221212`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -329,7 +329,7 @@ minoperator
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20221125. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20221212. Run %unloadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -344,7 +344,7 @@ des = 'Macro to unload SAS package, version 20221125. Run %unloadPackage() for h
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20221125`                              #;
+    %put # Macro to unload SAS packages, version `20221212`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -489,7 +489,7 @@ des = 'Macro to unload SAS package, version 20221125. Run %unloadPackage() for h
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20221125. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20221212. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -504,7 +504,7 @@ des = 'Macro to get help about SAS package, version 20221125. Run %helpPackage()
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20221125`                      #;
+    %put # Macro to get help about SAS packages, version `20221212`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -634,7 +634,7 @@ TODO:
 - add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
 */
 
-/* Macros to install SAS packages, version 20221125  */
+/* Macros to install SAS packages, version 20221212  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -657,7 +657,7 @@ TODO:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20221125. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20221212. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -672,7 +672,7 @@ des = 'Macro to install SAS package, version 20221125. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20221125`                                          #;
+    %put # Macro to install SAS packages, version `20221212`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -1101,7 +1101,7 @@ des = 'Macro to install SAS package, version 20221125. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20221125 
+  Version 20221212 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -1122,7 +1122,7 @@ des = 'Macro to install SAS package, version 20221125. Run %%installPackage() fo
 /*+listPackages+*/
 
 %macro listPackages()/secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20221125.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20221212.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -1137,7 +1137,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20221125`                                #;
+    %put # Macro to list available SAS packages, version `20221212`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -1287,7 +1287,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
 /* Macro to generate SAS packages.
 
-   Version 20221125
+   Version 20221212
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -1324,7 +1324,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
                     default value 1 means "delete tests work" */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20221125. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20221212. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -1339,7 +1339,7 @@ des = 'Macro to generate SAS packages, version 20221125. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20221125`                            #;
+    %put # Macro to generate SAS packages, version `20221212`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -1846,7 +1846,10 @@ data &filesWithCodes.;
 
     /* ignore unknown types for folders */
     if fileId AND not (upcase(type) in: 
-      ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) 
+      ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 
+       'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
+       'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
+       'LAZYDATA' 'TEST' 'CASLUDF')) 
     then 
       do;
         put "WARNING: Type " type 'is not yet supported.' /
@@ -2212,8 +2215,11 @@ data _null_;
 
   put '%include ' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /; /* <- copied also to loadPackage macro */
   
-  isFunction = 0;
-  isFormat   = 0;
+  isFunction  = 0;
+  isFormat    = 0;
+  isProto     = 0;
+  isIMLmodule = 0;
+  isCASLudf   = 0;
 
   %if (%superq(packageRequired) ne ) 
    or (%superq(packageReqPackages) ne ) 
@@ -2430,23 +2436,29 @@ data _null_;
 
     set &filesWithCodes. end = EOF nobs=NOBS;
     by TYPE notsorted;
-    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST')) then continue; /* cleaning files are only included in unload.sas */
-                                                                     /* lazy data are only loaded on demand 
-                                                                        %loadPackage(packagename, lazyData=set1 set2 set3)
-                                                                        test files are used only during package generation
-                                                                      */
+    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST' 'CASLUDF')) 
+      then continue;                                          /* CASLUDF type will go in the next loop */
+                                                              /* cleaning files are only included in unload.sas */
+                                                              /* lazy data are only loaded on demand 
+                                                                 %loadPackage(packagename, lazyData=set1 set2 set3)
+                                                                 test files are used only during package generation
+                                                               */
     /* test for supported types */
     if not (upcase(type) in: 
-      ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 'LAZYDATA' 'TEST')) 
+      ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 
+       'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
+       'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
+       'LAZYDATA' 'TEST')) 
     then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
         continue;
       end;
 
-    isFunction + (upcase(type)=:'FUNCTION');
-    isFormat   + (upcase(type)=:'FORMAT'); 
-    isProto    + (upcase(type)=:'PROTO');
+    isFunction  + (upcase(type)=:'FUNCTION');
+    isFormat    + (upcase(type)=:'FORMAT'); 
+    isProto     + (upcase(type)=:'PROTO');
+    isIMLmodule + (upcase(type)=:'IMLMODULE');
 
     /* HEADERS for IML, FCMP, and PROTO - start */
     if 1 = isFunction and upcase(type)=:'FUNCTION' then 
@@ -2474,7 +2486,8 @@ data _null_;
       do;
         /* macro variable for test if cherry picking used IML */
         put 'data _null_;                               ';
-        put '  call symputX("cherryPick_IML",  0, "L"); ';
+        put '  call symputX("cherryPick_IML",      0, "L"); ';
+        put '  call symputX("cherryPick_IML_ALL",  0, "L"); ';
         put 'run;                                       ';
         /* header, for IML modules */
         put "proc iml ; ";
@@ -2541,7 +2554,8 @@ data _null_;
       end;
     if 1 = LAST.type and upcase(type)='IMLMODULE' then /* footer, for IML modules */
       do;
-        put '%if 0 < &cherryPick_IML. %then %do;    ' / 
+        put '%if 0 < &cherryPick_IML. %then %do;    ' /
+            '%let cherryPick_IML_ALL = %eval(&cherryPick_IML_ALL. + &cherryPick_IML.);' /
             "reset storage = WORK.&packageName.IML; " / /* set the storage location for modules */
             "store module = _ALL_;                  " / /* and store all created modules */
             '%end;                                  ' / 
@@ -2568,6 +2582,125 @@ data _null_;
       end;
 
   end; /* loopOverTypes - start */
+
+  /* this is a header for CASLudf macro */
+  put 'data _null_;                                   ';
+  put '  call symputX("cherryPick_CASLUDF",  0, "L"); ';
+  put 'run;                                           ';
+  put 'data _null_;';
+  put 'length CASLUDF $ 32767;';
+  put 'dtCASLudf = datetime();';
+  put 'CASLUDF =                                      ';
+  put '    ''%macro ' "&packageName.CASLudf('         ";
+  put ' !! "list=1,depList="                          ';
+      %if %superq(packageReqPackages) ne %then
+        %do;
+          length reqPackage $ 32;
+          do i = 1 to countw(packageReqPackages, ",", "Q");
+            reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
+            put ' !! " ' reqPackage ' " ';
+          end;
+        %end;
+  put " !! ')/ des = ''CASL User Defined Functions loader for &packageName. package'';'";
+
+  put ' !! ''  %if HELP = %superq(list) %then                               ''' /
+      ' !! ''    %do;                                                       ''' / 
+      ' !! ''      %put ****************************************************************************;''' /
+      ' !! ''      %put This is help for the `' "&packageName.CASLudf" '` macro;''' /
+      ' !! ''      %put Parameters (optional) are the following:;''' /
+
+      ' !! ''      %put - `list` indicates if the list of loaded CASL UDFs should be displayed,;''' /
+      ' !! ''      %put %str(  )when set to the value of `1` (the default) runs `FUNCTIONLIST USER%str(;)`,;''' /
+      ' !! ''      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;''' /
+
+      ' !! ''      %put - `depList` [technical] contains the list of dependencies required by the package.;''' /
+      ' !! ''      %put - %str(  )for _this_ macro the default value is: `';
+          %if %superq(packageReqPackages) ne %then
+            %do;
+              do i = 1 to countw(packageReqPackages, ",", "Q");
+                reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
+                put reqPackage @;
+              end;
+            %end; 
+      put '`.;''' /
+      ' !! ''      %put The macro generated: '' !! put(dtCASLudf, datetime19.-L) !! ";"' /
+      ' !! ''      %put with the SAS Packages Framework version 20221212.;''' / 
+      ' !! ''      %put ****************************************************************************;''' /
+      ' !! ''    %GOTO theEndOfTheMacro;''' / 
+      ' !! ''    %end;''' ;
+
+
+  put ' !! ''  %if %superq(depList) ne %then                                ''' / 
+      ' !! ''    %do;                                                       ''' / 
+      ' !! ''      %do i = 1 %to %sysfunc(countw(&depList.,%str( )));       ''' / 
+      ' !! ''        %let depListNm = %scan(&depList.,&i.,%str( ));         ''' / 
+      ' !! ''        %if %SYSMACEXIST(&depListNm.CASLudf) %then             ''' / 
+      ' !! ''          %do;                                                 ''' / 
+      ' !! ''            %&depListNm.CASLudf(list=0)                        ''' / 
+      ' !! ''          %end;                                                ''' / 
+      ' !! ''      %end;                                                    ''' / 
+      ' !! ''    %end;                                                      ''' ; 
+
+  put ' !! ''  %local tmp_NOTES;''                                                                     ';
+  put ' !! ''  %let tmp_NOTES = %sysfunc(getoption(NOTES));''                                          ';
+  /* the PATH macrovariable will be resolved when the load.sas file is executed */
+  put ' !! "  filename ' "&_PackageFileref_." ' &ZIP. ''&path./' "%lowcase(&packageName.)" '.&zip.'';"';
+
+  /* this loop lists includes for CASLUDFs in the macro definition */
+  do until(eof1); /* loopOverTypes1 - start */
+    set &filesWithCodes. end = EOF1;
+    by TYPE notsorted;
+    if not (upcase(type) = 'CASLUDF') then continue; /* only CASLUDF type in this loop */
+    isCASLudf + 1;
+
+    put ' ' /
+        '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; '; /* Cherry Pick test2 start */
+    put '  %put NOTE- ;';
+    put '  %put NOTE: >> Element of type ' type 'from the file "' file +(-1) '" will be included <<;';
+    /* for CASLUDF we are building code of a macro to be run while loading */
+    put '  !! ''    %include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;''';
+    put '  %let cherryPick_CASLUDF = %eval(&cherryPick_CASLUDF. + 1);';
+    put '%end; ' /; /* Cherry Pick test2 end */
+
+  end; /* loopOverTypes1 - start */
+
+  /* this is a footer for CASLudf macro */
+  put ' !! "  options nonotes;"                      ' /
+      " !! '  filename &_PackageFileref_. clear;'    " /
+      ' !! ''  options &tmp_NOTES.;''                ' /
+      ' !! ''   %if 1 = %superq(list) %then ''       ' /
+      ' !! ''     %do; ''                            ' /
+      ' !! "       FUNCTIONLIST USER;"               ' /
+      ' !! "       run;"                             ' /
+      ' !! ''     %end; ''                           ' ;
+  put ' !! ''%theEndOfTheMacro: %mend;'';            ' ;
+
+  /* generate macro for CASL user defined functions */
+  if 0 < isCASLudf then
+    do;
+      put '%if 0 < &cherryPick_CASLUDF. %then %do;      ';
+    /*put '  put / / CASLUDF / / ;                      ';*/
+      put "  rc = resolve(CASLUDF);                     ";
+      put '  put "NOTE: Macro named:";                  ';
+      put "  put @7 '%' '&packageName.CASLudf()';       ";
+      put '  put "NOTE- will be generated. Its purpose";';
+      put '  put "NOTE- is to allow fast load of CASL"; ';
+      put '  put "NOTE- user defined functions into";   ';
+      put '  put "NOTE- the Proc CAS session.";         ';
+      put '  put "NOTE-";                               ';
+      put '  put "NOTE- Use it the following way:";     ';
+      put "  put @7 'Proc CAS;';                        ";
+      put "  put @7 '  %' '&packageName.CASLudf()';     ";
+      put "  put @7 '  <... your code ...>';            ";
+      put "  put @7 'quit;';                            ";
+      put '  put "NOTE-";                               ';
+      put '  put "NOTE-To get help run:";               ';
+      put "  put @7 '  %' '&packageName.CASLudf(list=HELP)';";
+      put '  put "NOTE-";                               ';
+      put '%end;                                        ';
+    end;
+  put 'run;'/;
+
 
 
   /* cherry pick clean in cmplib for functions */
@@ -2605,7 +2738,7 @@ data _null_;
   /* list fmtsearch for formats */
   if isFormat then
     do;
-      put '%if 0 = &cherryPick_FCMP. %then %do;';
+      put '%if 0 = &cherryPick_FORMAT. %then %do;';
       put 'options fmtsearch = (%unquote(%sysfunc(tranwrd(' /
           '%lowcase(%sysfunc(getoption(fmtsearch)))' /
           ',%str(' "work.%lowcase(&packageName.)format" '), %str() ))));';
@@ -2616,6 +2749,116 @@ data _null_;
       put '%put NOTE- ;';
       put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));'/;
     end;
+
+  /* create a macro loader for IML modules with dependencies */
+  if isIMLmodule then
+    do;
+      put '%if (%str(*)=%superq(cherryPick)) or 0 < &cherryPick_IML_ALL. %then %do;';
+
+      /* this "text wrapper" was added to get datetime generated when macro is compiled */
+      put "data _null_; dtIML=datetime(); IML='"; /* wrapper start */
+
+      put '%macro ' " &packageName.IML(list=1,err=ERROR,resetIMLstorage=1,depList=" ;
+      %if %superq(packageReqPackages) ne %then
+        %do;
+          length reqPackage $ 32;
+          do i = 1 to countw(packageReqPackages, ",", "Q");
+            reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
+            put " " reqPackage @;
+          end;
+          put ;
+        %end;
+      put ")/ des = ""IML Modules loader for &packageName. package"";                                     " /
+          '  %if HELP = %superq(list) %then                                                               ' / 
+          '    %do;                                                                                       ' / 
+          '      %put ****************************************************************************;       ' /
+          '      %put This is help for the `' "&packageName.IML" '` macro;                                ' /
+          '      %put Parameters (optional) are the following:;                                           ' /
+
+          '      %put - `list` indicates if the list of loaded moduls should be displayed,;                 ' /
+          '      %put %str(  )when set to the value of `1` (the default) runs `SHOW MODULES%str(;)`,;       ' /
+          '      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;' /
+
+          '      %put - `resetIMLstorage` indicates if to reset default moduls storage,;                    ' /
+          '      %put %str(  )when set to `1` (the default) runs `RESET STORAGE = WORK.IMLSTOR%str(;)`.;    ' /
+
+          '      %put - `err` [technical] indicates message type in case of missing modules catalog,;       ' /
+          '      %put %str(  )when set to the value of `ERROR` (the default) prints Error message.;         ' /
+
+          '      %put - `depList` [technical] contains the list of dependencies required by the package.;   ' /
+          '      %put - %str(  )for _this_ macro the default value is: `';
+          %if %superq(packageReqPackages) ne %then
+            %do;
+              do i = 1 to countw(packageReqPackages, ",", "Q");
+                reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
+                put reqPackage @;
+              end;
+            %end; 
+      put '`.;' /
+          '      %put The macro generated: ''' " !! put(dtIML, datetime19.-L) !! " ''';                   ' / 
+          '      %put with the SAS Packages Framework version 20221212.;                                  ' / 
+          '      %put ****************************************************************************;       ' /
+          '    %GOTO theEndOfTheMacro;                                                                    ' / 
+          '    %end;                                                                                      ' / 
+
+          '  %local localSYSmacroName localPackageName i depListNm;                                       ' / 
+          '  %let localSYSmacroName = &sysmacroname.;                                                     ' / 
+          '  %let localSYSmacroName = %LOWCASE(&localSYSmacroName.);                                      ' / 
+          '  %let localPackageName = %substr(&localSYSmacroName.,1,%eval(%length(&localSYSmacroName.)-3));' / 
+          '                                                                                               ' / 
+          '  %if %superq(depList) ne %then                                                                ' / 
+          '    %do;                                                                                       ' / 
+          '      %do i = 1 %to %sysfunc(countw(&depList.,%str( )));                                       ' / 
+          '        %let depListNm = %scan(&depList.,&i.,%str( ));                                         ' / 
+          '        %if %SYSMACEXIST(&depListNm.IML) %then                                                 ' / 
+          '          %do;                                                                                 ' / 
+          '            %&depListNm.IML(list=0,err=&err.,resetIMLstorage=0)                                ' / 
+          '          %end;                                                                                ' / 
+          '      %end;                                                                                    ' / 
+          '    %end;                                                                                      ' / 
+          '  %if %sysfunc(CEXIST(WORK.&localSYSmacroName.)) %then                                         ' / 
+          '    %do;                                                                                       ' / 
+          '      %put NOTE: Loading IML Modules from package &localPackageName.;                          ' / 
+          '      RESET STORAGE = WORK.&localSYSmacroName.;                                                ' / 
+          '      LOAD MODULE = _all_;                                                                     ' / 
+          '    %end;                                                                                      ' / 
+          '  %else                                                                                        ' / 
+          '    %do;                                                                                       ' / 
+          '      %put %superq(err): IML Modules not provided;                                             ' / 
+          '      %let list = 0;                                                                           ' / 
+          '    %end;                                                                                      ' / 
+          '  %if 1 = %superq(list) %then                                                                  ' / 
+          '    %do;                                                                                       ' / 
+          '      SHOW MODULES;                                                                            ' / 
+          '    %end;                                                                                      ' / 
+          '  %if 1 = %superq(resetIMLstorage) %then                                                       ' / 
+          '    %do;                                                                                       ' / 
+          '      RESET STORAGE = WORK.IMLSTOR;                                                            ' / 
+          '    %end;                                                                                      ' / 
+          '%theEndOfTheMacro: %mend;                                                                      ' ;
+
+      put "'; rc = resolve(IML); run;"; /* wrapper end */
+
+      put '%put NOTE: Macro named:;                          ';
+      put '%put %nrstr(      %%)' "&packageName." 'IML();    ';
+      put '%put NOTE- will be generated. Its purpose;        ';
+      put '%put NOTE- is to allow fast load of IML;          ';
+      put '%put NOTE- user defined modules into;             ';
+      put '%put NOTE- the Proc IML session.;                 ';
+      put '%put NOTE-;                                       ';
+      put '%put NOTE- Use it the following way:;             ';
+      put '%put %nrstr(      )Proc IML%str(;);               ';
+      put '%put %nrstr(        %%)' "&packageName." 'IML();  ';
+      put '%put %nrstr(        )<... your code ...>;         ';
+      put '%put %nrstr(      )quit%str(;);                   ';
+      put '%put NOTE- ;                                      ';
+      put '%put NOTE- To get help info run:;                 ';
+      put '%put %nrstr(      %%)' "&packageName." 'IML(list=HELP);';
+      put '%put NOTE-;                                       ';
+
+      put '%end;';
+    end;
+
 
   /* update SYSloadedPackages global macrovariable */
   put '%if (%str(*)=%superq(cherryPick)) %then %do; '; /* Cherry Pick test3 start */
@@ -2764,15 +3007,17 @@ data _null_;
   put '  from dictionary.catalogs';
   put '  where ';
   put '  (';
-  put '   objname in ("*"' /;
+  put '   objname in ("*"' ;
+  put "   ,%UPCASE('&packageName.IML')" ;
+  put "   ,%UPCASE('&packageName.CASLUDF')" /;
   /* list of macros */
   EOF = 0;
   do until(EOF);
     set &filesWithCodes. end = EOF nobs = NOBS;
     if not (upcase(type)=:'MACRO') then continue;
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '%put NOTE- ;';
-    put ',"' fileshort upcase32. '"' /;
+    put '   %put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
+    put '   %put NOTE- ;';
+    put '   ,"' fileshort upcase32. '"' /;
   end;
   /**/
   put '  )';
@@ -2788,9 +3033,9 @@ data _null_;
   do until(EOF);
     set &filesWithCodes. end = EOF;
     if not (upcase(type)=:'FORMAT') then continue;
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '%put NOTE- ;';
-    put ',"' fileshort upcase32. '"' /;
+    put '   %put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
+    put '   %put NOTE- ;';
+    put '   ,"' fileshort upcase32. '"' /;
     isFormat + 1;
   end;
   put '  )';
@@ -3159,7 +3404,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20221125 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20221212 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
@@ -4023,7 +4268,7 @@ TODO: (in Polish)
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20221125. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20221212. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -4039,7 +4284,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20221125`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20221212`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -4136,7 +4381,7 @@ parmbuff
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20221125. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20221212. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -4151,7 +4396,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20221125. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20221125`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20221212`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -4322,7 +4567,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20221125. Run %
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to preview content of a SAS package, version 20221125. Run %previewPackage() for help info.'
+des = 'Macro to preview content of a SAS package, version 20221212. Run %previewPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -4337,7 +4582,7 @@ des = 'Macro to preview content of a SAS package, version 20221125. Run %preview
     %put ###    This is short help information for the `previewPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get previwe of a SAS packages, version `20221125`                    #;
+    %put # Macro to get previwe of a SAS packages, version `20221212`                    #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -4464,7 +4709,7 @@ des = 'Macro to preview content of a SAS package, version 20221125. Run %preview
              when empty the "packages" value is used */
 )/secure
 /*** HELP END ***/
-des = 'Macro to list directories pointed by "packages" fileref, version 20221125. Run %extendPackagesFileref(HELP) for help info.'
+des = 'Macro to list directories pointed by "packages" fileref, version 20221212. Run %extendPackagesFileref(HELP) for help info.'
 ;
 
 %if %QUPCASE(&packages.) = HELP %then
@@ -4480,7 +4725,7 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20221125
     %put ###       This is short help information for the `extendPackagesFileref` macro            #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list directories pointed by 'packages' fileref, version `20221125`             #;
+    %put # Macro to list directories pointed by 'packages' fileref, version `20221212`             #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
