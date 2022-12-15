@@ -23,7 +23,7 @@
                     default value 1 means "delete tests work" */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20221212. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20221215. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -38,7 +38,7 @@ des = 'Macro to generate SAS packages, version 20221212. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20221212`                            #;
+    %put # Macro to generate SAS packages, version `20221215`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -1172,29 +1172,17 @@ data _null_;
         /* header for multiple functions in one FCMP run */
         put "proc fcmp outlib = work.%lowcase(&packageName.fcmp).package ; ";
       end;
-    if 1 = FIRST.type and upcase(type)='PROTO' then 
+    if 1 = isProto and upcase(type)='PROTO' then 
       do;
         /* macro variable for test if cherry picking used PROTO */
         put 'data _null_;                                ';
         put '  call symputX("cherryPick_PROTO", 0, "L"); ';
         put 'run;                                        ';
+      end;
+    if 1 = FIRST.type and upcase(type)='PROTO' then 
+      do;
         /* header for multiple functions in one PROTO run */
         put "proc proto package = work.%lowcase(&packageName.proto).package ; ";
-      end;
-    if 1 = FIRST.type and upcase(type)='IMLMODULE' then 
-      do;
-        /* macro variable for test if cherry picking used IML */
-        put 'data _null_;                               ';
-        put '  call symputX("cherryPick_IML",      0, "L"); ';
-        put '  call symputX("cherryPick_IML_ALL",  0, "L"); ';
-        put 'run;                                       ';
-        /* header, for IML modules */
-        put "proc iml ; ";
-      end;
-    if 1 = FIRST.type and upcase(type)='FORMATS' then 
-      do;
-        /* header, for FORMATS */
-        put "proc format lib = work.%lowcase(&packageName.format) ; ";
       end;
     if 1 = isFormat and upcase(type)=:'FORMAT' then 
       do;
@@ -1202,6 +1190,27 @@ data _null_;
         put 'data _null_;                                  ';
         put '  call symputX("cherryPick_FORMAT",  0, "L"); ';
         put 'run;                                          ';
+      end;
+    if 1 = FIRST.type and upcase(type)='FORMATS' then 
+      do;
+        /* header, for FORMATS */
+        put "proc format lib = work.%lowcase(&packageName.format) ; ";
+      end;
+    if 1 = isIMLmodule and upcase(type)='IMLMODULE' then 
+      do;
+        /* macro variable for test if cherry picking used IML */
+        put 'data _null_;                               ';
+        put '  call symputX("cherryPick_IML_ALL",  0, "L"); ';
+        put 'run;                                       ';
+      end;
+    if 1 = FIRST.type and upcase(type)='IMLMODULE' then 
+      do;
+        /* macro variable for test if cherry picking used IML */
+        put 'data _null_;                               ';
+        put '  call symputX("cherryPick_IML",      0, "L"); ';
+        put 'run;                                       ';
+        /* header, for IML modules */
+        put "proc iml ; ";
       end;
     /* HEADERS for IML, FCMP, and PROTO - end */
 
@@ -1323,7 +1332,7 @@ data _null_;
             %end; 
       put '`.;''' /
       ' !! ''      %put The macro generated: '' !! put(dtCASLudf, datetime19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20221212.;''' / 
+      ' !! ''      %put with the SAS Packages Framework version 20221215.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -1424,6 +1433,7 @@ data _null_;
       put 'options cmplib = (%unquote(%sysfunc(compress(' /
           '%sysfunc(getoption(cmplib))' /
           ',%str(()) ))));';
+      /* proc delete is adde because "empty" PROTO creates dataset too */
       put "proc delete data=work.%lowcase(&packageName.proto); run;";
       put '%end;';
     end;
@@ -1495,7 +1505,7 @@ data _null_;
             %end; 
       put '`.;' /
           '      %put The macro generated: ''' " !! put(dtIML, datetime19.-L) !! " ''';                   ' / 
-          '      %put with the SAS Packages Framework version 20221212.;                                  ' / 
+          '      %put with the SAS Packages Framework version 20221215.;                                  ' / 
           '      %put ****************************************************************************;       ' /
           '    %GOTO theEndOfTheMacro;                                                                    ' / 
           '    %end;                                                                                      ' / 
@@ -2103,7 +2113,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20221212 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20221215 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
