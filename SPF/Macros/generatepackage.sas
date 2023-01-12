@@ -23,7 +23,7 @@
                     default value 1 means "delete tests work" */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20221215. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20230112. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -38,7 +38,7 @@ des = 'Macro to generate SAS packages, version 20221215. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20221215`                            #;
+    %put # Macro to generate SAS packages, version `20230112`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -152,6 +152,11 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 1024;
         otherwise;
       end;
     run;
+    /* package generation timestamp, in iso8601 YYYY-MM-DDThh:mm:ss */
+    %local packageGenerated;
+    %let packageGenerated = %sysfunc(datetime(), E8601DT19.);
+    %put NOTE: &=packageGenerated.;
+
     options &qlenmax_fstimer_tmp.;
  
     /* test for required descriptors */
@@ -680,8 +685,8 @@ proc contents data = &filesWithCodes.;
 run;
 */
 title1 "Package location is: &filesLocation.";
-title2 "User: &SYSUSERID., datetime: %qsysfunc(datetime(), datetime21.), SAS version: &SYSVLONG4.";
-title3 "Package encoding: '&packageEncoding.', session encoding: '&SYSENCODING.'.";
+title2 "User: &SYSUSERID., Datetime: &packageGenerated., SAS version: &SYSVLONG4.";
+title3 "Package encoding: '&packageEncoding.', Session encoding: '&SYSENCODING.'.";
 title4 " ______________________________ ";
 title5 "List of files for package: &packageName. (version &packageVersion.), license: &packageLicense.";
 title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
@@ -772,7 +777,7 @@ data _null_;
     end;
   file &zipReferrence.(packagemetadata.sas) encoding = &packageEncoding.;
 
-  length packageName $ 32 packageVersion $ 24
+  length packageName $ 32 packageVersion packageGenerated $ 24
          packageTitle packageAuthor packageMaintainer $ 2048
          packageEncoding $ 8 packageLicense $ 128;
   packageName       = quote(strip(symget('packageName')),'"');
@@ -782,6 +787,7 @@ data _null_;
   packageMaintainer = quote(strip(symget('packageMaintainer')),'"');
   packageEncoding   = quote(strip(symget('packageEncoding')),'"');
   packageLicense    = quote(strip(symget('packageLicense')),'"');
+  packageGenerated  = quote(strip(symget('packageGenerated')),'"');
 
   put ' data _null_; '; /* simple "%local" returns error while loading package */
   put '  call symputX("packageName",       ' packageName       ', "L");';
@@ -790,7 +796,8 @@ data _null_;
   put '  call symputX("packageAuthor",     ' packageAuthor     ', "L");';
   put '  call symputX("packageMaintainer", ' packageMaintainer ', "L");';
   put '  call symputX("packageEncoding",   ' packageEncoding   ', "L");';
-  put '  call symputX("packageLicense",    ' packageLicense   ', "L");';
+  put '  call symputX("packageLicense",    ' packageLicense    ', "L");';
+  put '  call symputX("packageGenerated",  ' packageGenerated  ', "L");';
   put ' run; ';
 
   stop;
@@ -893,7 +900,7 @@ data _null_;
   put ' %put NOTE: ' @; put "Loading package &packageName., version &packageVersion., license &packageLicense.; ";
 
   put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
-  put ' %put NOTE- ' @; put "Generated: %sysfunc(datetime(), datetime21.); ";
+  put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
   put ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); ';
   put ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); ';
   put ' %put NOTE- ;';
@@ -1094,8 +1101,10 @@ data _null_;
       put '        if (LP_find ne 0) or (LP_find = 0 and . < versN < verRN) then                         ';
       put '         do;                                                                                  ';
       put '          missingPackagr = 1;                                                                 ';
-      put '          put "ERROR: SAS package: " req "is missing! Download it and" ;                      ';
-      put '          put ''ERROR- use  %loadPackage('' name ", requiredVersion = " verR ") to load it." ;';
+      put '          put "ERROR: SAS package: " req "is missing! Download it by hand or if the SAS session";';
+      put '          put "ERROR- has access to the Internet and the package is available at SASPAC repository";';
+      put '          put ''ERROR- use %installPackage('' name +(-1) "(" verR +(-1) ")) to install it."/; ';
+      put '          put ''ERROR- Use %loadPackage('' name +(-1) ", requiredVersion=" verR +(-1) ") to load it."/;';
       put '         end ;                                                                                ';
       put '      end ;                                                                                   ';
       put '      if missingPackagr then call symputX("packageRequiredErrors", 1, "L");                   ';
@@ -1107,8 +1116,10 @@ data _null_;
       put '      do req = ' / packageReqPackages / ' ;                                                   ';
       put '        name = lowcase(strip(kscanx(req, 1, "(")));                                           ';
       put '        vers = compress(kscanx(req,-1, "("), ".", "KD");                                      ';
-      put '        put "ERROR: SAS package " req "is missing! Download/install it and" ;                 ';
-      put '        put ''ERROR- use %loadPackage('' name ", requiredVersion = " vers ") to load it." ;   ';
+      put '        put "ERROR: SAS package " req "is missing! Download it by hand or if the SAS session";';
+      put '        put "ERROR- has access to the Internet and the package is available at SASPAC repository";';
+      put '        put ''ERROR- use %installPackage('' name +(-1) "(" vers +(-1) ")) to install it."/;   ';
+      put '        put ''ERROR- Use %loadPackage('' name +(-1)", requiredVersion=" vers +(-1) ") to load it."/;';
       put '      end ;                                                                                   ';
       put '    end;                                                                                      ';
       put '  stop;                                                                                       ';
@@ -1322,7 +1333,7 @@ data _null_;
       ' !! ''      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;''' /
 
       ' !! ''      %put - `depList` [technical] contains the list of dependencies required by the package.;''' /
-      ' !! ''      %put - %str(  )for _this_ macro the default value is: `';
+      ' !! ''      %put %str(  )for _this_ instance of the macro the default value is: `';
           %if %superq(packageReqPackages) ne %then
             %do;
               do i = 1 to countw(packageReqPackages, ",", "Q");
@@ -1330,9 +1341,9 @@ data _null_;
                 put reqPackage @;
               end;
             %end; 
-      put '`.;''' /
-      ' !! ''      %put The macro generated: '' !! put(dtCASLudf, datetime19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20221215.;''' / 
+      put +(-1) '`.;''' /
+      ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
+      ' !! ''      %put with the SAS Packages Framework version 20230112.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -1495,7 +1506,7 @@ data _null_;
           '      %put %str(  )when set to the value of `ERROR` (the default) prints Error message.;         ' /
 
           '      %put - `depList` [technical] contains the list of dependencies required by the package.;   ' /
-          '      %put - %str(  )for _this_ macro the default value is: `';
+          '      %put %str(  )for _this_ instance of the macro the default value is: `';
           %if %superq(packageReqPackages) ne %then
             %do;
               do i = 1 to countw(packageReqPackages, ",", "Q");
@@ -1503,9 +1514,9 @@ data _null_;
                 put reqPackage @;
               end;
             %end; 
-      put '`.;' /
-          '      %put The macro generated: ''' " !! put(dtIML, datetime19.-L) !! " ''';                   ' / 
-          '      %put with the SAS Packages Framework version 20221215.;                                  ' / 
+      put +(-1) '`.;' /
+          '      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                   ' / 
+          '      %put with the SAS Packages Framework version 20230112.;                                  ' / 
           '      %put ****************************************************************************;       ' /
           '    %GOTO theEndOfTheMacro;                                                                    ' / 
           '    %end;                                                                                      ' / 
@@ -1630,7 +1641,7 @@ data _null_;
   put ' %put NOTE: ' @; put "Data for package &packageName., version &packageVersion., license &packageLicense.; ";
 
   put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
-  put ' %put NOTE- ' @; put "Generated: %sysfunc(datetime(), datetime21.); ";
+  put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
   put ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); ';
   put ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); ';
   put ' %put NOTE- ;';
@@ -1938,7 +1949,7 @@ data _null_;
   put ' %put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;";
 
   put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
-  put ' %put NOTE- ' @; put "Generated: %sysfunc(datetime(), datetime21.); ";
+  put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
   put ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); ';
   put ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); ';
   put ' %put NOTE- ;';
@@ -2054,7 +2065,7 @@ data _null_;
   put ' %put NOTE: '"Help for package &packageName., version &packageVersion., license &packageLicense.;";
 
   put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
-  put ' %put NOTE- ' @; put "Generated: %sysfunc(datetime(), datetime21.); ";
+  put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
   put ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); ';
   put ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); ';
   put ' %put NOTE- ;';
@@ -2113,7 +2124,7 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20221215 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20230112 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
@@ -2332,6 +2343,7 @@ filename &zipReferrence. clear;
   %put NOTE: Calculating SHA256 check sum.;
   %put NOTE- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^;
   %put NOTE-;
+
   filename &zipReferrence. "&filesLocation./%lowcase(&packageName.).zip";
   filename &zipReferrence. list;
   %local notesSourceOptions;
@@ -2341,12 +2353,20 @@ filename &zipReferrence. clear;
     set sashelp.vfunc(keep=fncname);
     where fncname = "HASHING_FILE";
     call execute('
-      data the_SHA256_hash_id;
-        SHA256 = HASHING_FILE("SHA256", "&zipReferrence.", 4);
-        label SHA256 = "The SHA256 hash digest for package &packageName.:";
-        put / @7 SHA256= / " ";
-      run;');
-    call execute('proc print data = the_SHA256_hash_id noobs label; run;');
+      data the_SHA256_hash_id;' !!
+        /* F - file */
+        " SHA256 = 'F*' !! HASHING_FILE('SHA256', pathname('&zipReferrence.','F'), 0); " !!
+        ' TYPE="F"; ' !!
+        ' put / @7 SHA256= / " "; output; ' !!
+        /* C  - content */
+        " SHA256 = 'C*' !! HASHING_FILE('SHA256', '&zipReferrence.', 4); " !!
+        ' TYPE="C"; ' !!
+        ' put / @7 SHA256= / " "; output; ' !!
+        ' label ' !! 
+        '  SHA256 = "The SHA256 hash digest for package &packageName.:" ' !!
+        '  TYPE= "Type of hash digest / F = file / C = content"; ' !!
+      'run;');
+    call execute('proc print data = the_SHA256_hash_id noobs label split="/"; run;');
     stop;
   run;
   options &notesSourceOptions.;

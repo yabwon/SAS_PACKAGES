@@ -13,7 +13,7 @@
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20221215. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20230112. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -28,7 +28,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20221215. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20221215`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20230112`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -138,13 +138,21 @@ des = 'Macro to verify SAS package with the hash digest, version 20221215. Run %
           filename &_PackageFileref_. list;
           
           data _null_;
-            SHA256 = HASHING_FILE("SHA256", "&_PackageFileref_.", 4);
-            providedHash = "&hash.";
+            length providedHash $ 100;
+            providedHash = strip(symget("hash"));
+            select;
+              when ( 'F*' = upcase(substr(providedHash,1,2)) ) /* F = file digest */                
+                SHA256 = 'F*' !! HASHING_FILE("SHA256", pathname("&_PackageFileref_.",'F'), 0);
+              when ( 'C*' = upcase(substr(providedHash,1,2)) ) /* C = content digest */                
+                SHA256 = 'C*' !! HASHING_FILE("SHA256", "&_PackageFileref_.", 4);
+              otherwise /* legacy approach, without C or F, digest value equivalent to C */
+                SHA256 = HASHING_FILE("SHA256", "&_PackageFileref_.", 4);
+            end;
             put "Provided Hash: " providedHash;
             put "SHA256 digest: " SHA256;
             put " ";
             
-            if SHA256 = providedHash then
+            if upcase(SHA256) = upcase(providedHash) then
               do;
                 put "NOTE: Package verification SUCCESSFUL."; 
                 put "NOTE- Generated hash is EQUAL to the provided one."; 
