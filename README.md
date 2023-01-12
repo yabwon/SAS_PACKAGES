@@ -108,7 +108,7 @@ filename packages "<directory/containing/packages/>";
 
 ---
 The "Workshop video for the User" got outdated (in general). Newer version is comming soon, in the mean time see some of the vedeos from the "Recordings and Presentations" section above. 
-(You can watch the workshop if you wish, link is working and some parts are still valid source of information e.g., "`ICE` lading" or "`disk` lading")
+(You can watch the workshop if you wish, link is working and some parts are still valid source of information e.g., "`ICE` loading" or "`disk` loading")
 
  <s>[**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y) \[May 6th, 2020\] [~86 minutes, outdated (installPackage macro was not there yet) but gives the idea how it works especially load, help, unload, ICEload, and other details]</s>
 
