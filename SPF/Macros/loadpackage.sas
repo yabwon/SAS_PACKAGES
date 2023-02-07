@@ -29,9 +29,11 @@
                                          to be loaded into the session, default value "*" means
                                          "load all elements of the package"
                                        */
+, loadAddCnt=0                        /* should the additional content be loaded?
+                                         default is 0 - means No, 1 means Yes */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20230112. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20230207. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -47,7 +49,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20230112`                              #;
+    %put # Macro to *load* SAS packages, version `20230207`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -95,6 +97,13 @@ minoperator
     %put #                       of the package to be loaded into the SAS session.       #;
     %put #                       Default value of an asterisk (*) means:                 #;
     %put #                       "load all elements of the package".                     #;
+    %put #                                                                               #;
+    %put # - `loadAddCnt=`       *Optional.* A package zip may contain additional        #;
+    %put #                       content. The option indicates if it should be loaded    #;
+    %put #                       Default value of zero (`0`) means "No", one (`1`)       #;
+    %put #                       means "Yes". Content is extracted into the **Work**     #;
+    %put #                       directory in `<packageName>_AdditionalContent` folder.  #;
+    %put #                       For other locations use `%nrstr(%%loadPackageAddCnt())` macro.   #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -187,6 +196,11 @@ minoperator
       %let cherryPick=*;
     %end;
 
+  %if %superq(loadAddCnt) NE 1 %then
+    %do;
+      %let loadAddCnt = 0;
+    %end;
+
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
     "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
@@ -224,13 +238,20 @@ minoperator
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %if %bquote(&lazyData.) = %then
+      %if %superq(lazyData) = %then
         %do;
           %local tempLoad_minoperator;
           %let tempLoad_minoperator = %sysfunc(getoption(minoperator));
           options minoperator; /* MinOperator option is required for cherryPicking to work */
           %include &_PackageFileref_.(load.sas) / &source2.;
           options &tempLoad_minoperator.;
+          %if 1 = &loadAddCnt. %then
+            %do;
+              %put; %put - Additional content loading - Start -;
+              %loadPackageAddCnt(&packageName., 
+                                 path=&path.)
+              %put - Additional content loading - End -;
+            %end;
         %end;
       %else
         %do;

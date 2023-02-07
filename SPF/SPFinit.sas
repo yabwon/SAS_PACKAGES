@@ -12,7 +12,7 @@
 /*                                                                              */
 /*  Here is the official version:                                               */
 /*
-  Copyright (c) 2019 - 2022 Bartosz Jablonski (yabwon@gmail.com)
+  Copyright (c) 2019 - 2023 Bartosz Jablonski (yabwon@gmail.com)
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@
    - to unload, or
    - to generate SAS packages.
 
-  Version 20230112.
+  Version 20230207.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -84,9 +84,11 @@
                                          to be loaded into the session, default value "*" means
                                          "load all elements of the package"
                                        */
+, loadAddCnt=0                        /* should the additional content be loaded?
+                                         default is 0 - means No, 1 means Yes */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20230112. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20230207. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -102,7 +104,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20230112`                              #;
+    %put # Macro to *load* SAS packages, version `20230207`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -150,6 +152,13 @@ minoperator
     %put #                       of the package to be loaded into the SAS session.       #;
     %put #                       Default value of an asterisk (*) means:                 #;
     %put #                       "load all elements of the package".                     #;
+    %put #                                                                               #;
+    %put # - `loadAddCnt=`       *Optional.* A package zip may contain additional        #;
+    %put #                       content. The option indicates if it should be loaded    #;
+    %put #                       Default value of zero (`0`) means "No", one (`1`)       #;
+    %put #                       means "Yes". Content is extracted into the **Work**     #;
+    %put #                       directory in `<packageName>_AdditionalContent` folder.  #;
+    %put #                       For other locations use `%nrstr(%%loadPackageAddCnt())` macro.   #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -242,6 +251,11 @@ minoperator
       %let cherryPick=*;
     %end;
 
+  %if %superq(loadAddCnt) NE 1 %then
+    %do;
+      %let loadAddCnt = 0;
+    %end;
+
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
     "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
@@ -279,13 +293,20 @@ minoperator
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %if %bquote(&lazyData.) = %then
+      %if %superq(lazyData) = %then
         %do;
           %local tempLoad_minoperator;
           %let tempLoad_minoperator = %sysfunc(getoption(minoperator));
           options minoperator; /* MinOperator option is required for cherryPicking to work */
           %include &_PackageFileref_.(load.sas) / &source2.;
           options &tempLoad_minoperator.;
+          %if 1 = &loadAddCnt. %then
+            %do;
+              %put; %put - Additional content loading - Start -;
+              %loadPackageAddCnt(&packageName., 
+                                 path=&path.)
+              %put - Additional content loading - End -;
+            %end;
         %end;
       %else
         %do;
@@ -329,7 +350,7 @@ minoperator
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20230112. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20230207. Run %unloadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -344,7 +365,7 @@ des = 'Macro to unload SAS package, version 20230112. Run %unloadPackage() for h
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20230112`                              #;
+    %put # Macro to unload SAS packages, version `20230207`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -489,7 +510,7 @@ des = 'Macro to unload SAS package, version 20230112. Run %unloadPackage() for h
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20230112. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20230207. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -504,7 +525,7 @@ des = 'Macro to get help about SAS package, version 20230112. Run %helpPackage()
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20230112`                      #;
+    %put # Macro to get help about SAS packages, version `20230207`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -634,7 +655,7 @@ TODO:
 - add MD5(&packageName.) value hash instead "package" word in filenames [DONE]
 */
 
-/* Macros to install SAS packages, version 20230112  */
+/* Macros to install SAS packages, version 20230207  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -653,11 +674,13 @@ TODO:
 , URLuser =     /* user name for the password protected URLs */
 , URLpass =     /* password for the password protected URLs */
 , URLoptions =  /* options for the `sourcePath` URLs */
+, loadAddCnt=0  /* should the additional content be loaded?
+                   default is 0 - means No, 1 means Yes */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20230112. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20230207. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -672,7 +695,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20230112`                                          #;
+    %put # Macro to install SAS packages, version `20230207`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -728,6 +751,13 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
     %put #                                                                                            #;
     %put # - `URLoptions=`   Options for the `sourcePath` URLs filename. Consult the SAS              #;
     %put #                   documentation for the further details.                                   #;
+    %put #                                                                                            #;
+    %put # - `loadAddCnt=`   *Optional.* A package zip may contain additional                         #;
+    %put #                   content. The option indicates if it should be loaded                     #;
+    %put #                   Default value of zero (`0`) means "No", one (`1`)                        #;
+    %put #                   means "Yes". Content is extracted into the **packages** fileref          #;
+    %put #                   directory in `<packageName>_AdditionalContent` folder.                   #;
+    %put #                   For other locations use `%nrstr(%%loadPackageAddCnt())` macro.                    #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;
     %put #                                                                                            #;
@@ -929,6 +959,8 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
     filename out list;
     */ 
     /* copy the file byte-by-byte  */
+    %local installationRC;
+    %let installationRC=1;
     data _null_;
       length filein 8 out_path in_path $ 4096;
       out_path = pathname ("&out");
@@ -966,7 +998,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
           if symgetn("replace")=1 then
             do;
               put @2 "The following file will be replaced during "
-                / @2 "instalation of the &packageName. package: " 
+                / @2 "installation of the &packageName. package: " 
                 / @5 out_path;
               rc = FDELETE("&out");
               rc = FCOPY("&in", "&out");
@@ -980,10 +1012,24 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
         end;
         
       put @2 "Done with return code " rc= "(zero = success)";
+      call symputX("installationRC", rc, "L");
     run;
      
     filename &in  clear;
     filename &out clear;
+
+    %if 1 = &loadAddCnt. 
+        AND 0 = &installationRC. 
+        AND NOT (%upcase(&packageName.) in (SPFINIT SASPACKAGEFRAMEWORK SASPACKAGESFRAMEWORK)) 
+    %then
+      %do;
+        %put; %put - Additional content loading - Start -;
+        %loadPackageAddCnt(&packageName.
+                           ,path=&firstPackagesPath.
+                           ,target=&firstPackagesPath.
+                           )
+        %put - Additional content loading - End -;
+      %end;
     %put *** %lowcase(&packageName.) end *******************************************;
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
   %end;
@@ -1101,7 +1147,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20230112 
+  Version 20230207 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -1122,7 +1168,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
 /*+listPackages+*/
 
 %macro listPackages()/secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20230112.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20230207.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -1137,7 +1183,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20230112`                                #;
+    %put # Macro to list available SAS packages, version `20230207`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -1287,7 +1333,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
 /* Macro to generate SAS packages.
 
-   Version 20230112
+   Version 20230207
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -1324,7 +1370,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
                     default value 1 means "delete tests work" */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20230112. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20230207. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -1339,7 +1385,7 @@ des = 'Macro to generate SAS packages, version 20230112. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20230112`                            #;
+    %put # Macro to generate SAS packages, version `20230207`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -1397,7 +1443,7 @@ des = 'Macro to generate SAS packages, version 20230112. Run %generatePackage() 
   %end;
 
 %put --- generatePackage START ---;
-%local zipReferrence filesWithCodes _DESCR_ _LIC_ _DUMMY_ _RC_ _PackageFileref_;
+%local zipReferrence filesWithCodes _DESCR_ _LIC_ _DUMMY_ _RC_ _PackageFileref_ additionalContent;
 %let   zipReferrence = _%sysfunc(datetime(), hex6.)_;
 %let   filesWithCodes = WORK._%sysfunc(datetime(), hex16.)_;
 %let   _DESCR_ = _%sysfunc(datetime(), hex6.)d;
@@ -1792,6 +1838,15 @@ DESCRIPTION END:
    |
    +-...
    |
+   +-998_addcnt [additional content for the package, can be only one!, content of this 
+   |          |  directory is copied "as is"]
+   |          |
+   |          +-arbitrary_file1 [an arbitrary file ]
+   |          |
+   |          +-subdirectory_with_files [an arbitrary directory with some files inside]
+   |          |
+   |          +-...
+   |
    +-999_test [tests executed during package generation, XCMD options must be turned-on]
    |        |
    |        +-test1.sas [a file with a code for test1]
@@ -1854,7 +1909,9 @@ data &filesWithCodes.;
       ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 
        'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
        'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
-       'LAZYDATA' 'TEST' 'CASLUDF')) 
+       'LAZYDATA' 'TEST' 'CASLUDF'
+       'ADDCNT'
+      )) 
     then 
       do;
         put "WARNING: Type " type 'is not yet supported.' /
@@ -1862,30 +1919,53 @@ data &filesWithCodes.;
             "WARNING- No content from it will be used to generate the package." / " ";
         goto ignoreFolder;
       end;
-   
-    /* if it is a directory then read its content */
-    if fileId then 
-      do j = 1 to dnum(fileId); drop j;
-        file = dread(fileId, j);
-            if file NE lowcase(file) then
-              do;
-                put 'ERROR: File with code should be named ONLY with low case letters.';
-                put 'ERROR- Current value is: ' file;
-                lowcase_name = lowcase(file);
-                put 'ERROR- Try to use: ' lowcase_name;
-                put;
-                _abort_ + 1;
-              end;
-        fileshort = substr(file, 1, length(file) - 4); /* filename.sas -> filename */
 
-        if strip(reverse(file)) in: ('sas.') then output; /* ignore not ".sas" files */
-        else
-          do;
-            put "WARNING: Only *.sas files are supported." /
-                "WARNING- The file: " file "will be ignored." /
-                "WARNING- ";
-          end;
-      end;
+    /* if it is a directory then read its content... */
+    if fileId then 
+    do;
+      /* ...but! do not use files from "additional content" directory */
+      if NOT (upcase(type) =: 'ADDCNT') then
+        do j = 1 to dnum(fileId); drop j;
+          file = dread(fileId, j);
+              if file NE lowcase(file) then
+                do;
+                  put 'ERROR: File with code should be named ONLY with low case letters.';
+                  put 'ERROR- Current value is: ' file;
+                  lowcase_name = lowcase(file);
+                  put 'ERROR- Try to use: ' lowcase_name;
+                  put;
+                  _abort_ + 1;
+                end;
+          fileshort = substr(file, 1, length(file) - 4); /* filename.sas -> filename */
+
+          if strip(reverse(file)) in: ('sas.') then output; /* ignore not ".sas" files */
+          else
+            do;
+              put "WARNING: Only *.sas files are supported." /
+                  "WARNING- The file: " file "will be ignored." /
+                  "WARNING- ";
+            end;
+        end;
+      else
+        do;
+          file = "additionalcontent";
+          fileshort = file;
+          additionalContent+1;
+          if additionalContent > 1 then
+            do;
+              put "WARNING: Only ONE directory with additional content is allowed!" /
+                  "WARNING- Store all additional content in a single directory." /
+                  "WARNING- The directory: " folder "will be ignored." /
+                  "WARNING- ";
+            end;
+          else
+            do;
+              /*output;*/
+              put "NOTE: Additional content located in " folder;
+              call symputX('additionalContent', folder, "L");
+            end;
+        end;
+    end;
 
     ignoreFolder: ;
     rc = dclose(fileId);
@@ -1981,6 +2061,55 @@ data _null_;
     end;
 run;
 
+%if %superq(additionalContent) NE %then
+  %do;
+    /* code inspired by Kurt Bremser's "Talking to Your Host" article */
+    /* https://communities.sas.com/t5/SAS-User-Groups-Library/WUSS-Presentation-Talking-to-Your-Host/ta-p/838344 */
+    /* WUSS 2022 */
+    
+    data &filesWithCodes.addCnt;
+    run;
+
+    data &filesWithCodes.addCnt;
+      length root dname $ 2048 filename $ 256 dir level 8;
+      root = "&filesLocation./&additionalContent.";
+      retain filename dname ' ' level 0 dir 1;
+      label 
+        filename = "file"
+        dname = "folder"
+        ;
+    run;
+
+    data &filesWithCodes.addCnt;
+      modify &filesWithCodes.addCnt;
+      rc1=filename('tmp',catx('/',root,dname,filename));
+      rc2=dopen('tmp');
+      dir = 1 & rc2;
+      if dir then 
+        do;
+          dname=catx('/',dname,filename);
+          filename=' ';
+        end;
+      replace;
+
+      if dir;
+
+      level=level+1;
+
+      do i=1 to dnum(rc2);
+        filename=dread(rc2,i);
+        output;
+      end;
+      rc3=dclose(rc2);
+    run;
+
+    proc sort data=&filesWithCodes.addCnt(where=(filename is not null));
+      by root dname filename;
+    run;
+  %end;
+
+
+
 /*
 proc contents data = &filesWithCodes.;
 run;
@@ -2000,8 +2129,30 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
   %end;
 
 
-proc print data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId);
+proc print data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent);
 run;
+title;
+
+%if %superq(additionalContent) NE %then
+  %do;
+    data _null_;
+      if not nobs then 
+        do;
+          put "WARNING: Directory with additional content is empty.";
+          put "WARNING- Additional content will not be generated.";
+          call symputX("additionalContent", "", "L");
+        end;
+      stop;
+      set &filesWithCodes.addCnt nobs=nobs;
+    run;
+    title2 "Package additional content:";
+    proc print 
+      data=&filesWithCodes.addCnt(drop=root dir level)
+      label
+    ;
+    run;
+  %end;
+
 title;
 options &notesSourceOptions.;
 
@@ -2447,7 +2598,7 @@ data _null_;
 
     set &filesWithCodes. end = EOF nobs=NOBS;
     by TYPE notsorted;
-    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST' 'CASLUDF')) 
+    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST' 'CASLUDF' 'ADDCNT')) 
       then continue;                                          /* CASLUDF type will go in the next loop */
                                                               /* cleaning files are only included in unload.sas */
                                                               /* lazy data are only loaded on demand 
@@ -2459,7 +2610,7 @@ data _null_;
       ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 
        'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
        'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
-       'LAZYDATA' 'TEST')) 
+       'LAZYDATA' 'TEST' 'ADDCNT')) 
     then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
@@ -2584,22 +2735,47 @@ data _null_;
     /* FOOTERS for IML, FCMP, and PROTO - end */
 
     /* add the link to the functions dataset, only for the first occurrence */
-    if 1 = isFunction and (upcase(type)=:'FUNCTION') then
+    /*if 1 = isFunction and (upcase(type)=:'FUNCTION') then
       do;
         put "options APPEND=(cmplib = work.%lowcase(&packageName.fcmp));"/;
+      end;*/
+    if 1 = FIRST.type and (upcase(type)=:'FUNCTION') then
+      do;
+        put '%sysfunc(ifc(0<' /
+            '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' /
+            "                ,work.%lowcase(&packageName.fcmp),""'( )'"",RIO))" /
+            ',,%str(options' " APPEND=(cmplib = work.%lowcase(&packageName.fcmp));)" /
+            '))' ;
       end;
 
     /* add the link to the proto functions dataset, only for the first occurrence */
-    if 1 = isProto and (upcase(type)=:'PROTO') then
+    /*if 1 = isProto and (upcase(type)=:'PROTO') then
       do;
         put "options APPEND=(cmplib = work.%lowcase(&packageName.proto));"/;
+      end;*/
+    if 1 = FIRST.type and (upcase(type)=:'PROTO') then
+      do;
+        put '%sysfunc(ifc(0<' /
+            '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' /
+            "                ,work.%lowcase(&packageName.proto),""'( )'"",RIO))" /
+            ',,%str(options' " APPEND=(cmplib = work.%lowcase(&packageName.proto));)" /
+            '))' ;
       end;
 
     /* add the link to the formats catalog, only for the first occurrence  */
-    if 1 = isFormat and (upcase(type)=:'FORMAT') then
+    /*if 1 = isFormat and (upcase(type)=:'FORMAT') then
       do;
         put "options INSERT=(fmtsearch = work.%lowcase(&packageName.format));"/;
+      end;*/
+    if 1 = FIRST.type and (upcase(type)=:'FORMAT') then
+      do;
+        put '%sysfunc(ifc(0<' /
+            '  %sysfunc(findw((%sysfunc(getoption(fmtsearch)))' /
+            "                ,work.%lowcase(&packageName.format),""'( )'"",RIO))" /
+            ',,%str(options' " INSERT=(fmtsearch = work.%lowcase(&packageName.format));)" /
+            '))' ;
       end;
+
 
   end; /* loopOverTypes - start */
 
@@ -2634,7 +2810,7 @@ data _null_;
       ' !! ''      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;''' /
 
       ' !! ''      %put - `depList` [technical] contains the list of dependencies required by the package.;''' /
-      ' !! ''      %put %str(  )for _this_ instance of the macro the default value is: `';
+      ' !! ''      %put %str(  )for _this_ instance of the macro the default value is: `' @;
           %if %superq(packageReqPackages) ne %then
             %do;
               do i = 1 to countw(packageReqPackages, ",", "Q");
@@ -2644,7 +2820,7 @@ data _null_;
             %end; 
       put +(-1) '`.;''' /
       ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20230112.;''' / 
+      ' !! ''      %put with the SAS Packages Framework version 20230207.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -2777,9 +2953,9 @@ data _null_;
       put '%if (%str(*)=%superq(cherryPick)) or 0 < &cherryPick_IML_ALL. %then %do;';
 
       /* this "text wrapper" was added to get datetime generated when macro is compiled */
-      put "data _null_; dtIML=datetime(); IML='"; /* wrapper start */
+      put "data _null_; dtIML=datetime(); IML="; /* wrapper start */
 
-      put '%macro ' " &packageName.IML(list=1,err=ERROR,resetIMLstorage=1,depList=" ;
+      put '''%macro ' " &packageName.IML(list=1,err=ERROR,resetIMLstorage=1,depList=" ;
       %if %superq(packageReqPackages) ne %then
         %do;
           length reqPackage $ 32;
@@ -2789,25 +2965,25 @@ data _null_;
           end;
           put ;
         %end;
-      put ")/ des = ""IML Modules loader for &packageName. package"";                                     " /
-          '  %if HELP = %superq(list) %then                                                               ' / 
-          '    %do;                                                                                       ' / 
-          '      %put ****************************************************************************;       ' /
-          '      %put This is help for the `' "&packageName.IML" '` macro;                                ' /
-          '      %put Parameters (optional) are the following:;                                           ' /
+      put "' !! ')/ des = ""IML Modules loader for &packageName. package"";                               ' !!" /
+          '''  %if HELP = %superq(list) %then                                                               '' !!' / 
+          '''    %do;                                                                                       '' !!' / 
+          '''      %put ****************************************************************************;       '' !!' /
+          '''      %put This is help for the `' "&packageName.IML" '` macro;                                '' !!' /
+          '''      %put Parameters (optional) are the following:;                                           '' !!' /
 
-          '      %put - `list` indicates if the list of loaded moduls should be displayed,;                 ' /
-          '      %put %str(  )when set to the value of `1` (the default) runs `SHOW MODULES%str(;)`,;       ' /
-          '      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;' /
+          '''      %put - `list` indicates if the list of loaded moduls should be displayed,;                 '' !!' /
+          '''      %put %str(  )when set to the value of `1` (the default) runs `SHOW MODULES%str(;)`,;       '' !!' /
+          '''      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;'' !!' /
 
-          '      %put - `resetIMLstorage` indicates if to reset default moduls storage,;                    ' /
-          '      %put %str(  )when set to `1` (the default) runs `RESET STORAGE = WORK.IMLSTOR%str(;)`.;    ' /
+          '''      %put - `resetIMLstorage` indicates if to reset default moduls storage,;                    '' !!' /
+          '''      %put %str(  )when set to `1` (the default) runs `RESET STORAGE = WORK.IMLSTOR%str(;)`.;    '' !!' /
 
-          '      %put - `err` [technical] indicates message type in case of missing modules catalog,;       ' /
-          '      %put %str(  )when set to the value of `ERROR` (the default) prints Error message.;         ' /
+          '''      %put - `err` [technical] indicates message type in case of missing modules catalog,;       '' !!' /
+          '''      %put %str(  )when set to the value of `ERROR` (the default) prints Error message.;         '' !!' /
 
-          '      %put - `depList` [technical] contains the list of dependencies required by the package.;   ' /
-          '      %put %str(  )for _this_ instance of the macro the default value is: `';
+          '''      %put - `depList` [technical] contains the list of dependencies required by the package.;   '' !!' /
+          '''      %put %str(  )for _this_ instance of the macro the default value is: `' @;
           %if %superq(packageReqPackages) ne %then
             %do;
               do i = 1 to countw(packageReqPackages, ",", "Q");
@@ -2815,50 +2991,50 @@ data _null_;
                 put reqPackage @;
               end;
             %end; 
-      put +(-1) '`.;' /
-          '      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                   ' / 
-          '      %put with the SAS Packages Framework version 20230112.;                                  ' / 
-          '      %put ****************************************************************************;       ' /
-          '    %GOTO theEndOfTheMacro;                                                                    ' / 
-          '    %end;                                                                                      ' / 
+      put +(-1) '`.; '' !!' /
+          '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !!' / 
+          '''      %put with the SAS Packages Framework version 20230207.;                                  '' !! ' / 
+          '''      %put ****************************************************************************;       '' !! ' /
+          '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
+          '''    %end;                                                                                      '' !! ' / 
 
-          '  %local localSYSmacroName localPackageName i depListNm;                                       ' / 
-          '  %let localSYSmacroName = &sysmacroname.;                                                     ' / 
-          '  %let localSYSmacroName = %LOWCASE(&localSYSmacroName.);                                      ' / 
-          '  %let localPackageName = %substr(&localSYSmacroName.,1,%eval(%length(&localSYSmacroName.)-3));' / 
-          '                                                                                               ' / 
-          '  %if %superq(depList) ne %then                                                                ' / 
-          '    %do;                                                                                       ' / 
-          '      %do i = 1 %to %sysfunc(countw(&depList.,%str( )));                                       ' / 
-          '        %let depListNm = %scan(&depList.,&i.,%str( ));                                         ' / 
-          '        %if %SYSMACEXIST(&depListNm.IML) %then                                                 ' / 
-          '          %do;                                                                                 ' / 
-          '            %&depListNm.IML(list=0,err=&err.,resetIMLstorage=0)                                ' / 
-          '          %end;                                                                                ' / 
-          '      %end;                                                                                    ' / 
-          '    %end;                                                                                      ' / 
-          '  %if %sysfunc(CEXIST(WORK.&localSYSmacroName.)) %then                                         ' / 
-          '    %do;                                                                                       ' / 
-          '      %put NOTE: Loading IML Modules from package &localPackageName.;                          ' / 
-          '      RESET STORAGE = WORK.&localSYSmacroName.;                                                ' / 
-          '      LOAD MODULE = _all_;                                                                     ' / 
-          '    %end;                                                                                      ' / 
-          '  %else                                                                                        ' / 
-          '    %do;                                                                                       ' / 
-          '      %put %superq(err): IML Modules not provided;                                             ' / 
-          '      %let list = 0;                                                                           ' / 
-          '    %end;                                                                                      ' / 
-          '  %if 1 = %superq(list) %then                                                                  ' / 
-          '    %do;                                                                                       ' / 
-          '      SHOW MODULES;                                                                            ' / 
-          '    %end;                                                                                      ' / 
-          '  %if 1 = %superq(resetIMLstorage) %then                                                       ' / 
-          '    %do;                                                                                       ' / 
-          '      RESET STORAGE = WORK.IMLSTOR;                                                            ' / 
-          '    %end;                                                                                      ' / 
-          '%theEndOfTheMacro: %mend;                                                                      ' ;
+          '''  %local localSYSmacroName localPackageName i depListNm;                                       '' !! ' / 
+          '''  %let localSYSmacroName = &sysmacroname.;                                                     '' !! ' / 
+          '''  %let localSYSmacroName = %LOWCASE(&localSYSmacroName.);                                      '' !! ' / 
+          '''  %let localPackageName = %substr(&localSYSmacroName.,1,%eval(%length(&localSYSmacroName.)-3));'' !!' / 
 
-      put "'; rc = resolve(IML); run;"; /* wrapper end */
+          '''  %if %superq(depList) ne %then                                                                '' !!' / 
+          '''    %do;                                                                                       '' !!' / 
+          '''      %do i = 1 %to %sysfunc(countw(&depList.,%str( )));                                       '' !!' / 
+          '''        %let depListNm = %scan(&depList.,&i.,%str( ));                                         '' !!' / 
+          '''        %if %SYSMACEXIST(&depListNm.IML) %then                                                 '' !!' / 
+          '''          %do;                                                                                 '' !!' / 
+          '''            %&depListNm.IML(list=0,err=&err.,resetIMLstorage=0)                                '' !!' / 
+          '''          %end;                                                                                '' !!' / 
+          '''      %end;                                                                                    '' !!' / 
+          '''    %end;                                                                                      '' !!' / 
+          '''  %if %sysfunc(CEXIST(WORK.&localSYSmacroName.)) %then                                         '' !!' / 
+          '''    %do;                                                                                       '' !!' / 
+          '''      %put NOTE: Loading IML Modules from package &localPackageName.;                          '' !!' / 
+          '''      RESET STORAGE = WORK.&localSYSmacroName.;                                                '' !!' / 
+          '''      LOAD MODULE = _all_;                                                                     '' !!' / 
+          '''    %end;                                                                                      '' !!' / 
+          '''  %else                                                                                        '' !!' / 
+          '''    %do;                                                                                       '' !!' / 
+          '''      %put %superq(err): IML Modules not provided;                                             '' !!' / 
+          '''      %let list = 0;                                                                           '' !!' / 
+          '''    %end;                                                                                      '' !!' / 
+          '''  %if 1 = %superq(list) %then                                                                  '' !!' / 
+          '''    %do;                                                                                       '' !!' / 
+          '''      SHOW MODULES;                                                                            '' !!' / 
+          '''    %end;                                                                                      '' !!' / 
+          '''  %if 1 = %superq(resetIMLstorage) %then                                                       '' !!' / 
+          '''    %do;                                                                                       '' !!' / 
+          '''      RESET STORAGE = WORK.IMLSTOR;                                                            '' !!' / 
+          '''    %end;                                                                                      '' !!' / 
+          '''%theEndOfTheMacro: %mend;                                                                      ''   ' ;
+
+      put "; rc = resolve(IML); run;"; /* wrapper end */
 
       put '%put NOTE: Macro named:;                          ';
       put '%put %nrstr(      %%)' "&packageName." 'IML();    ';
@@ -3337,7 +3513,7 @@ data _null_;
   put "  stop; ";
   put "run; ";
   
-  /* cleanup */
+  /* clean-up */
   put "proc delete data = WORK._last_; ";
   put "run; ";
   put 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; ' /;
@@ -3425,7 +3601,15 @@ data _null_;
     put '  end ;                                                                 ';
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20230112 *"; put "***";';
+
+  %if %superq(additionalContent) NE %then
+  %do;
+    put 'put ;' / 'put @3 ''Package contains additional content, run:  %loadPackageAddCnt(' "&packageName." ')  to load it'';';
+    put "put @3 'or look for the %lowcase(&packageName.)_AdditionalContent directory in the Packages fileref';";
+    put "put @3 'localization (only if additional content was deployed during the installation process).';" / "put ;";
+  %end;
+
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20230207 *"; put "***";';
 
   put 'run;                                                                      ' /;
 
@@ -3548,7 +3732,7 @@ data _null_;
   if NOBS = 0 then stop;
 
   set &filesWithCodes. nobs = NOBS end = EOF;
-  if (upcase(type) not in: ('TEST')); /* test files are not to be copied */
+  if (upcase(type) not in: ('TEST' 'ADDCNT')); /* test files and additional content are not to be copied */
 
   call execute(cat ('filename _SPFIN_ "', catx('/', base, folder, file), '";'));
   call execute(cats("filename _SPFOUT_ ZIP '", base, "/%lowcase(&packageName.).zip' member='_", folder, ".", file, "';") );
@@ -3622,6 +3806,95 @@ data _null_;
       stop;
     end;
 run;
+
+
+/* Additional Content */
+/* check if a file with additional content exists in the Work library */
+filename _SPFOUT_ "%sysfunc(pathname(work,L))/addcnt.zip";
+%if %sysfunc(fexist(_SPFOUT_)) %then
+  %do;
+    %if %sysfunc(fdelete(_SPFOUT_)) NE 0 %then
+      %do;
+        %put ERROR: Additional content for package not generated!;
+        %put ERROR- Delete "%sysfunc(pathname(work,L))/addcnt.zip" file;
+        %put ERROR- and try again.;
+        %let additionalContent=;
+      %end;
+  %end;
+filename _SPFOUT_ clear;
+
+%if %superq(additionalContent) NE %then
+  %do;
+
+    %put ;
+    %put Status of additional content for the package:;
+    /* create "addcnt.zip" file for Additional Content */
+    data _null_;
+      set &filesWithCodes.addCnt;
+      if dir=0;
+
+      rc1=filename("_SPFIN_" , catx('/',root,dname,filename), "disk", "lrecl=1 recfm=n");
+      rc1txt=sysmsg();
+      rc2=filename("_SPFOUT_", "%sysfunc(pathname(work,L))/addcnt.zip", "ZIP"
+                  ,"lrecl=1 recfm=n member='" !! catx('/',dname,filename) !! "'");
+      rc2txt=sysmsg();
+
+      do _N_ = 1 to 10;
+        rc3=fcopy("_SPFIN_","_SPFOUT_");
+        rc3txt=sysmsg();
+        if fexist("_SPFOUT_") then leave;
+        else sleeprc=sleep(0.25,1);
+      end;
+
+      rc4=fexist("_SPFOUT_");
+      rc4txt=sysmsg();
+
+      if rc4 = 0 then
+        do;
+          call symputX("createPackageContentStatus",1,"L");
+          put "ERROR:" @;
+        end;
+      put "AddCnt: " dname +(-1) "/" filename / 
+          "Try=" _N_ "Return codes:" / 
+          (rc:) (=);
+
+      rc1=filename("_SPFIN_");
+      rc2=filename("_SPFOUT_");
+    run;
+
+    /* inserting addcnt.zip into the package file */
+    %put ;
+    %put Status of inserting "addcnt.zip" into the package file:;
+    data _null_;
+      rc1=filename("_SPFIN_" , "%sysfunc(pathname(work,L))/addcnt.zip", "disk", "lrecl=1 recfm=n");
+      rc1txt=sysmsg();
+      rc2=filename("_SPFOUT_", pathname("&zipReferrence.","F"), "ZIP", "lrecl=1 recfm=n member='addcnt.zip'");
+      rc2txt=sysmsg();
+
+      do _N_ = 1 to 10;
+        rc3=fcopy("_SPFIN_","_SPFOUT_");
+        rc3txt=sysmsg();
+        if fexist("_SPFOUT_") then leave;
+        else sleeprc=sleep(0.25,1);
+      end;
+      
+      rc4=fexist("_SPFOUT_");
+      rc4txt=sysmsg();
+
+      if rc4 then 
+        rc5=fdelete("_SPFIN_");
+      else
+        do;
+          call symputX("createPackageContentStatus",1,"L");
+          put "ERROR:" @;
+        end;
+      put "File addcnt.zip, Try=" _N_ "Return codes:" / 
+          (rc:) (=);
+
+      rc1=filename("_SPFIN_");
+      rc2=filename("_SPFOUT_");
+    run;
+%end;
 
 options notes source;
 %put NOTE-;
@@ -3743,6 +4016,10 @@ run;
 
       /* unload */
       put @n '%unloadPackage'"(&packageName.,";
+      put @n " path=&filesLocation.)         " /;
+
+      /* additional content */
+      put @n '%loadPackageAddCnt'"(&packageName.,";
       put @n " path=&filesLocation.)         " /;
 
       put ;
@@ -3960,6 +4237,10 @@ data _null_;
 
   /* unload */
   put '%unloadPackage'"(&packageName.,";
+  put " path=&filesLocation.)         " /;
+
+  /* additional content */
+  put '%loadPackageAddCnt'"(&packageName.,";
   put " path=&filesLocation.)         " /;
 
   put "filename packages '&filesLocation.';" /
@@ -4210,6 +4491,11 @@ options &quotelenmax_tmp.;
 
 proc sql;
   drop table &filesWithCodes.;
+
+  %if %sysfunc(exist(&filesWithCodes.addCnt)) %then
+    %do;
+      drop table &filesWithCodes.addCnt;
+    %end;
 quit;
 
 /* turn on the original value of the note about quoted string length */
@@ -4298,7 +4584,7 @@ TODO: (in Polish)
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20230112. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20230207. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -4314,7 +4600,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20230112`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20230207`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -4411,7 +4697,7 @@ parmbuff
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20230112. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20230207. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -4426,7 +4712,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20230112. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20230112`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20230207`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -4605,7 +4891,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20230112. Run %
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to preview content of a SAS package, version 20230112. Run %previewPackage() for help info.'
+des = 'Macro to preview content of a SAS package, version 20230207. Run %previewPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -4620,7 +4906,7 @@ des = 'Macro to preview content of a SAS package, version 20230112. Run %preview
     %put ###    This is short help information for the `previewPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get previwe of a SAS packages, version `20230112`                    #;
+    %put # Macro to get previwe of a SAS packages, version `20230207`                    #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -4747,7 +5033,7 @@ des = 'Macro to preview content of a SAS package, version 20230112. Run %preview
              when empty the "packages" value is used */
 )/secure
 /*** HELP END ***/
-des = 'Macro to list directories pointed by "packages" fileref, version 20230112. Run %extendPackagesFileref(HELP) for help info.'
+des = 'Macro to list directories pointed by "packages" fileref, version 20230207. Run %extendPackagesFileref(HELP) for help info.'
 ;
 
 %if %QUPCASE(&packages.) = HELP %then
@@ -4763,7 +5049,7 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20230112
     %put ###       This is short help information for the `extendPackagesFileref` macro            #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list directories pointed by 'packages' fileref, version `20230112`             #;
+    %put # Macro to list directories pointed by 'packages' fileref, version `20230207`             #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -4842,5 +5128,369 @@ filename packages list;
 
 
 */
+
+/*+loadPackageAddCnt+*/
+/*** HELP START ***/
+
+%macro loadPackageAddCnt(
+  packageName                         /* name of a package, 
+                                         e.g. myPackage, 
+                                         required and not null  */
+, path = %sysfunc(pathname(packages)) /* location of a package, 
+                                         by default it looks for 
+                                         location of "packages" fileref */
+, target = %sysfunc(pathname(WORK))   /* a path in which the directory with
+                                         additional content will be generated,
+                                         name of directory created is set to 
+                                         `&packageName._AdditionalContent` 
+                                         default location is SAS work */
+, source2 = /*source2*/               /* option to print out details, 
+                                         null by default */
+, requiredVersion = .                 /* option to test if loaded package 
+                                         is provided in required version */
+)/secure 
+/*** HELP END ***/
+des = 'Macro to load additional content for a SAS package, version 20230207. Run %loadPackageAddCnt() for help info.'
+minoperator
+;
+%if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
+  %do;
+    %local options_tmp ;
+    %let options_tmp = ls=%sysfunc(getoption(ls))ps=%sysfunc(getoption(ps))
+     %sysfunc(getoption(notes)) %sysfunc(getoption(source))
+     msglevel=%sysfunc(getoption(msglevel))
+    ;
+    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    %put ;
+    %put #################################################################################;
+    %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to *load* additional content for a SAS package, version `20230207`      #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and included by                               #;
+    %put # a single `load.sas` file (also embedded inside the zip).                      #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%loadPackageAddCnt())` macro loads additional content                     #;
+    %put # for a package (of course only if one is provided).                            #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%loadPackageAddCnt(myPackage))`.                       #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # - `path=`             *Optional.* Location of a package. By default it        #;
+    %put #                       looks for location of the **packages** fileref, i.e.    #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put # - `target=`           *Optional.* Location where the directory with           #;
+    %put #                       additional content will be generated,                   #;
+    %put #                       name of the directory created is set to                 #;
+    %put #                       `<packagename>_AdditionalContent`, the default          #;
+    %put #                       location is `%nrstr(%%sysfunc(pathname(WORK)))`                  #;
+    %put #                                                                               #;
+    %put # - `source2=`          *Optional.* Option to print out details about           #;
+    %put #                       what is loaded, null by default.                        #;
+    %put #                                                                               #;
+    %put # - `requiredVersion=`  *Optional.* Option to test if the loaded                #;
+    %put #                       package is provided in required version,                #;
+    %put #                       default value: `.`                                      #;
+    %put #                                                                               #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
+    %put # to learn more.                                                                #;
+    %put #                                                                               #;
+    %put ### Example 1 ###################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading additional content        #;
+    %put #   for the SQLinDS package.                                                    #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%loadPackageAddCnt(SQLinDS) %%* load additional content for the package;       );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #                                                                               #;
+    %put #################################################################################;
+    %put ;
+    options &options_tmp.;
+    %GOTO ENDofloadPackageAddCnt;
+  %end;
+  /* local variables for options */
+  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp zip;
+  %let ls_tmp         = %sysfunc(getoption(ls));
+  %let ps_tmp         = %sysfunc(getoption(ps));
+  %let notes_tmp      = %sysfunc(getoption(notes));
+  %let source_tmp     = %sysfunc(getoption(source));
+  %let stimer_tmp     = %sysfunc(getoption(stimer));
+  %let fullstimer_tmp = %sysfunc(getoption(fullstimer));
+  %let msglevel_tmp   = %sysfunc(getoption(msglevel));
+
+  %let zip = zip;
+
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N;
+
+  %local _PackageFileref_;
+  /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
+  data _null_; 
+    call symputX("_PackageFileref_", "A" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); 
+    call symputX("_TargetFileref_",  "T" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); 
+  run;
+
+  /* when the packages reference is multi-directory search for the first one containing the package */
+  data _null_;
+    exists = 0;
+    length packages $ 32767 p $ 4096;
+    packages = resolve(symget("path"));
+    if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
+    do i = 1 to kcountw(packages, "()", "QS");
+      p = dequote(kscanx(packages, i, "()", "QS"));
+      exists + fileexist(catx("/", p, "%lowcase(&packageName.).&zip."));
+      if exists then leave;
+    end;
+    if exists then call symputx("path", p, "L");
+  run;
+  
+  filename &_PackageFileref_. &ZIP. 
+  /* put location of package myPackageFile.zip here */
+    "&path./%lowcase(&packageName.).&zip."
+  ;
+  %if %sysfunc(fexist(&_PackageFileref_.)) %then
+    %do;
+
+      filename &_PackageFileref_. &ZIP. 
+      /* check existence of addcnt.zip inside package */
+        "&path./%lowcase(&packageName.).&zip."
+        member='addcnt.zip'
+      ;
+      %if %sysfunc(fexist(&_PackageFileref_.)) %then
+        %do;
+
+          /* get metadata */
+          filename &_PackageFileref_. &ZIP. 
+            "&path./%lowcase(&packageName.).&zip."
+          ;
+          %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
+          filename &_PackageFileref_. clear;
+
+          /* test if required version of package is "good enough" */
+          %local rV pV;
+          %let pV = %sysfunc(compress(&packageVersion.,.,kd));
+          %let pV = %sysevalf((%scan(&pV.,1,.,M)+0)*1e8
+                            + (%scan(&pV.,2,.,M)+0)*1e4
+                            + (%scan(&pV.,3,.,M)+0)*1e0);
+          %let rV = %sysfunc(compress(&requiredVersion.,.,kd));
+          %let rV = %sysevalf((%scan(&rV.,1,.,M)+0)*1e8
+                            + (%scan(&rV.,2,.,M)+0)*1e4
+                            + (%scan(&rV.,3,.,M)+0)*1e0);
+          
+          %if %sysevalf(&rV. > &pV.) %then
+            %do;
+              %put ERROR: Additional content for package &packageName. will not be loaded!;
+              %put ERROR- Required version is &requiredVersion.;
+              %put ERROR- Provided version is &packageVersion.;
+              %put ERROR- Verify installed version of the package.;
+              %put ERROR- ;
+              %GOTO WrongVersionOFPackageAddCnt; /*%RETURN;*/
+            %end;
+
+          /*options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;*/
+          filename &_PackageFileref_. &ZIP. 
+            "&path./%lowcase(&packageName.).&zip."
+            member='addcnt.zip'
+          ;
+          /*********************/
+          filename &_TargetFileref_. "&target.";
+          %if %sysfunc(fexist(&_TargetFileref_.)) %then
+            %do;
+
+              %if %sysfunc(fileexist(%sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent)) %then
+                %do; /* dir for AC already exists */
+                  %put WARNING: Target location:;
+                  %put WARNING- %sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent;
+                  %put WARNING- already exist. Please remove it manually to upload additional contents.;
+                  %put WARNING- Additional Content will not be loaded.;
+                  %put WARNING- ;
+                %end;
+              %else
+                %do;
+                  /*-+-+-+-*/
+                  /* create target location */
+                  %put INFO:;
+                  %put Additional content will be located in:;
+                  %put %sysfunc(dcreate(%lowcase(&packageName.)_AdditionalContent,%sysfunc(pathname(&_TargetFileref_.))));
+
+                  %if NOT (%sysfunc(fileexist(%sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent))) %then
+                    %do; /* dir for AC cannot be generated */
+                      %put ERROR: Cannot create target location:;
+                      %put ERROR- %sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent;
+                      %put ERROR- Additional Content will not be loaded.;
+                      %put ERROR- ;
+                    %end;
+                  %else
+                    %do;
+                      /* extract addcnt.zip to work and, if successful, load additional content */
+                      %put NOTE- **%sysfunc(DoSubL(%nrstr(
+                      ;
+                      options nonotes nosource ps=min ls=max;
+                      data _null_;
+                        call symputx("AdditionalContent", 0, "L");
+
+                        rc1=filename("in", pathname("&_PackageFileref_."), "ZIP", "lrecl=1 recfm=n member='addcnt.zip'");
+                        rc1txt=sysmsg();
+
+                        if fexist("in") then
+                          do;
+                            rc2=filename("out", pathname("WORK")!!"/%lowcase(&packageName.)addcnt.zip", "disk", "lrecl=1 recfm=n");
+                            rc2txt=sysmsg();
+
+                            rc3=fcopy("in","out");
+                            rc3txt=sysmsg();
+
+                            if rc3 then put _N_ @12 (rc:) (=);
+
+                            if fexist("out") then 
+                              do;
+                                call symputx("AdditionalContent", 1, "L");
+                              end;
+                            else put "INFO: No additional content for package &packageName..";
+
+                            rc1=filename("in");
+                            rc2=filename("out");
+                          end;
+                        else
+                         do;
+                           call symputx("AdditionalContent", 0, "L");
+                           put "INFO: No additional content for package &packageName..";
+                         end;
+                      run;
+
+                      %if &AdditionalContent. %then 
+                        %do;
+                          filename f DUMMY;
+                          filename f ZIP "%sysfunc(pathname(WORK))/%lowcase(&packageName.)addcnt.zip";
+                          options dlCreateDir;
+                          libname outData "%sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent";
+
+                          data WORK.__&_TargetFileref_._zip___;
+                            did = dopen("f");
+                            if not did then 
+                              do;
+                                put "ERROR: Can not access Additional Content data.";
+                                stop;
+                              end;
+                            if did then
+                             do i=1 to dnum(did);
+                              file = dread(did, i);
+                              output;
+                              keep file;
+                             end;
+                            did = dclose(did);
+                          run;
+
+                          data _null_; 
+                          	set WORK.__&_TargetFileref_._zip___ end = EOF;
+                            wc = countw(file,"/\");
+                          
+                            libText = pathname("outData", "L");
+                         
+                            if scan(file, wc , "/\") = "" then
+                              do j = 1 to wc-1;
+                                libText = catx("/", libText, scan(file, j , "/\"));
+                                rc = libname("test", libText);
+                                rc = libname("test");
+                              end;
+                            else
+                              do;
+                                do j = 1 to wc-1;
+                                  libText = catx("/", libText, scan(file, j , "/\"));
+                                  rc = libname("test", libText);
+                                  rc = libname("test");
+                                end;
+                                rc1 = filename("in", pathname("f"), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
+                                rc1msg = sysmsg();
+                                rc2 = filename("out", catx("/", libText, scan(file, j , "/\")), "disk", "lrecl=1 recfm=n");
+                                rc2msg = sysmsg();
+                              
+                                rc3 = fcopy("in", "out");
+                                rc3msg = sysmsg();
+                          
+                                loadingProblem + (rc3 & 1);
+
+                                if rc3 then
+                                  do;
+                                    put "ERROR: Cannot extract: " file;
+                                    put (rc1 rc2 rc3) (=); 
+                                    put (rc1msg rc2msg rc3msg) (/);
+                                    put "ERROR-"; 
+                                  end;
+                                crc1=filename("in");
+                                crc2=filename("out");
+                              end;
+
+                              if EOF and loadingProblem then
+                                do;
+                                  put "ERROR: Not all files from Additional Content were extracted successfully!";
+                                end;
+                          run;
+
+                          data _null_;
+                            rc = fdelete("f");
+                          run;
+
+                          proc delete data = WORK.__&_TargetFileref_._zip___;
+                          run;
+
+                          libname outData;
+                          filename f DUMMY;
+                        %end;
+                      )))**;
+                    %end; 
+                  /*-+-+-+-*/
+                %end;
+ 
+            %end;
+          %else
+            %do;
+              %put ERROR: Cannot access target location:;
+              %put ERROR- %sysfunc(pathname(&_TargetFileref_.));
+              %put ERROR- Additional Content will not be loaded.;
+              %put ERROR- ;
+            %end;
+          filename &_TargetFileref_. clear;
+          /*********************/
+        %end;
+      %else %put INFO: No additional content for &packageName. package.;
+    %end;
+  %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist!;
+  filename &_PackageFileref_. clear;
+  
+  %WrongVersionOFPackageAddCnt:
+
+  /* restore optionos */
+  options ls = &ls_tmp. ps = &ps_tmp. 
+          &notes_tmp. &source_tmp. 
+          &stimer_tmp. &fullstimer_tmp.
+          msglevel=&msglevel_tmp.;
+
+%ENDofloadPackageAddCnt:
+%mend loadPackageAddCnt;
+
+
+
 
 /**/

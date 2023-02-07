@@ -14,7 +14,7 @@ In this repository we are presenting the **SAS Packages Framework** which allows
 
 ### Current version:
 
-**The latest version** of SPF is **`20230112`**.  
+**The latest version** of SPF is **`20230207`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -136,7 +136,9 @@ The SAS Packages Framework [(short) documetation](https://github.com/yabwon/SAS_
 
 ### Updates worth mentioning:
 
-**Update**\[December 12th, 2022\]**:** `CASLUDF` **typed for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros"))**.
+**Update**\[February 7th, 2023\]**:** `ADDCNT` ** type for *additional content* feature and ** `%loadPackageAddCnt()` **macro added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20230207 "Additional Content"))**.
+
+**Update**\[December 12th, 2022\]**:** `CASLUDF` ** type for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros"))**.
 
 **Update**\[November 21st, 2022\]**:** `%loadPackage()` **macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking"))**.
 
