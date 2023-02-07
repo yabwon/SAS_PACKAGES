@@ -10,11 +10,13 @@
 , URLuser =     /* user name for the password protected URLs */
 , URLpass =     /* password for the password protected URLs */
 , URLoptions =  /* options for the `sourcePath` URLs */
+, loadAddCnt=0  /* should the additional content be loaded?
+                   default is 0 - means No, 1 means Yes */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20230112. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20230207. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -29,7 +31,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20230112`                                          #;
+    %put # Macro to install SAS packages, version `20230207`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -85,6 +87,13 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
     %put #                                                                                            #;
     %put # - `URLoptions=`   Options for the `sourcePath` URLs filename. Consult the SAS              #;
     %put #                   documentation for the further details.                                   #;
+    %put #                                                                                            #;
+    %put # - `loadAddCnt=`   *Optional.* A package zip may contain additional                         #;
+    %put #                   content. The option indicates if it should be loaded                     #;
+    %put #                   Default value of zero (`0`) means "No", one (`1`)                        #;
+    %put #                   means "Yes". Content is extracted into the **packages** fileref          #;
+    %put #                   directory in `<packageName>_AdditionalContent` folder.                   #;
+    %put #                   For other locations use `%nrstr(%%loadPackageAddCnt())` macro.                    #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;
     %put #                                                                                            #;
@@ -286,6 +295,8 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
     filename out list;
     */ 
     /* copy the file byte-by-byte  */
+    %local installationRC;
+    %let installationRC=1;
     data _null_;
       length filein 8 out_path in_path $ 4096;
       out_path = pathname ("&out");
@@ -323,7 +334,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
           if symgetn("replace")=1 then
             do;
               put @2 "The following file will be replaced during "
-                / @2 "instalation of the &packageName. package: " 
+                / @2 "installation of the &packageName. package: " 
                 / @5 out_path;
               rc = FDELETE("&out");
               rc = FCOPY("&in", "&out");
@@ -337,10 +348,24 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
         end;
         
       put @2 "Done with return code " rc= "(zero = success)";
+      call symputX("installationRC", rc, "L");
     run;
      
     filename &in  clear;
     filename &out clear;
+
+    %if 1 = &loadAddCnt. 
+        AND 0 = &installationRC. 
+        AND NOT (%upcase(&packageName.) in (SPFINIT SASPACKAGEFRAMEWORK SASPACKAGESFRAMEWORK)) 
+    %then
+      %do;
+        %put; %put - Additional content loading - Start -;
+        %loadPackageAddCnt(&packageName.
+                           ,path=&firstPackagesPath.
+                           ,target=&firstPackagesPath.
+                           )
+        %put - Additional content loading - End -;
+      %end;
     %put *** %lowcase(&packageName.) end *******************************************;
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
   %end;
@@ -458,7 +483,7 @@ des = 'Macro to install SAS package, version 20230112. Run %%installPackage() fo
 
 /* Macro to list SAS packages in packages folder. 
 
-  Version 20230112 
+  Version 20230207 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
