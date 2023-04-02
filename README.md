@@ -176,13 +176,13 @@ If you find the SPF useful **share info** about it or **give it a [star](https:/
 
 Packages:
 
-- **SQLinDS**\[2.2.4\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.2.5\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
   data class;
     set %SQL(select * from sashelp.class order by age);
   run;
 ```
-SHA256 digest for SQLinDS: 42677CEBB0778A6B72DE9C0071B66A345811EE470289E3847D7737F782E709E0
+SHA256 digest for SQLinDS: F*229ACF1A62E5194A25C75D8E554BEF1B7D29227A498ED5862F23892BB0D57644
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
@@ -222,7 +222,7 @@ SHA256 digest for macroArray: 8584C249C308B5E8B620ED5F695BC58CD426172FB2EACD5FF9
 
 [MacroArray in SASPAC](https://github.com/SASPAC/macroarray "MacroArray in SASPAC")
 
-- **BasePlus**\[1.18.4\] adds a bunch of functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[1.19.0\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -241,8 +241,10 @@ format x bool.;
 %zipLibrary(sashelp,libOut=work)
 
 %bpPIPE(ls -la ~/)
+
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result)
 ```
-SHA256 digest for BasePlus: A6F1977DC4EC22A39DDC7BCE68CF562AF54351A3D385D488EC3067B5A7C0F3CB
+SHA256 digest for BasePlus: F*AD0B78F94A6FD1C394999CBBC8DD16017FB06DFC3FA1F51AC17B43AC8F517432
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
