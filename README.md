@@ -14,7 +14,7 @@ In this repository we are presenting the **SAS Packages Framework** which allows
 
 ### Current version:
 
-**The latest version** of SPF is **`20230207`**.  
+**The latest version** of SPF is **`20230411`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -34,6 +34,8 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   -  ["Kod SASowy ukryty na widoku" - SAS dla Administratorów i Praktyków 2021](https://www.youtube.com/watch?v=LtaWPe2sgRY&t=1s) (November 24th 2021, in Polish, ~34 minutes, technical presentation with details about the GSM package)
   - ["A BasePlus Package for SAS" - SAS Explore 2022](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "SASexplore2022 communities.sas.com") (September 27th-29th 2022, ~28 minutes, technical presentation with details about the BasePlus package), alternative video at YouTube is [here](https://www.youtube.com/watch?v=-Poxkx5WfOQ "SASexplore2022 TouTube")
   - ["SAS Packages - State of the Union" - SaSensei International Dojo No. 13](https://www.youtube.com/watch?v=1GEldZYQjj0&t=0s "SID no. 13") (November 10th 2022, ~50 minutes, general overview with the latest technical details)
+  - ["SAS Packages Framework - an easy code sharing medium for SAS" - Warsaw IT Days 2023](https://youtu.be/T52Omisi0dk&t=0s "Warsaw IT Days 2023") (March 31st 2023, ~60 minutes, general overview with technical details for user and developer)
+
 
 ---
 
@@ -176,28 +178,28 @@ If you find the SPF useful **share info** about it or **give it a [star](https:/
 
 Packages:
 
-- **SQLinDS**\[2.2.5\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.2.6\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
   data class;
     set %SQL(select * from sashelp.class order by age);
   run;
 ```
-SHA256 digest for SQLinDS: F*229ACF1A62E5194A25C75D8E554BEF1B7D29227A498ED5862F23892BB0D57644
+SHA256 digest for SQLinDS: F*3BB422E8C94515DEE9E13E674A0D119794F464D9597C28D5D536E71F64EB5298
 
 [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
 [SQLinDS in SASPAC](https://github.com/SASPAC/sqlinds "SQLinDS in SASPAC")
 
 
-- **DFA** (Dynamic Function Arrays)\[0.5.4\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.5.5\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 
-SHA256 digest for DFA: 6DEB02BE1C30453FBC688AF1F561709C7D6BF10B3B67988B238853A2A9D53034
+SHA256 digest for DFA: F*924711C77E413B8CFC18336DDA2293A9F5294D02E267C1BB7BC876B4AF0AABE4
 
 [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
 [DFA in SASPAC](https://github.com/SASPAC/dfa "DFA in SASPAC")
 
-- **macroArray**\[1.0.4\], implementation of an array concept in a macrolanguage, e.g. 
+- **macroArray**\[1.0.5\], implementation of an array concept in a macrolanguage, e.g. 
 ```sas
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -216,13 +218,13 @@ SHA256 digest for DFA: 6DEB02BE1C30453FBC688AF1F561709C7D6BF10B3B67988B238853A2A
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: 8584C249C308B5E8B620ED5F695BC58CD426172FB2EACD5FF9C6899F9DE2B470
+SHA256 digest for macroArray: F*85E3BE4D163AC5223B6EC9D3C25C46564A656E3830998B4555A963180D767160
 
 [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
 [MacroArray in SASPAC](https://github.com/SASPAC/macroarray "MacroArray in SASPAC")
 
-- **BasePlus**\[1.19.0\] adds a bunch of functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[1.19.1\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -244,25 +246,25 @@ format x bool.;
 
 %dirsAndFiles(C:\SAS_WORK\,ODS=work.result)
 ```
-SHA256 digest for BasePlus: F*AD0B78F94A6FD1C394999CBBC8DD16017FB06DFC3FA1F51AC17B43AC8F517432
+SHA256 digest for BasePlus: F*B5BF05531BF78DCEBC436BD93311FED0436D83AA3D106ABFBAD96B04C7D63DF2
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
 [BasePlus in SASPAC](https://github.com/SASPAC/baseplus "BasePlus in SASPAC")
 
-- **GSM** (Generate Secure Macros)\[0.20.4\], package allows
+- **GSM** (Generate Secure Macros)\[0.20.5\], package allows
  to create secured macros stored in SAS Proc FCMP functions.
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
 
-SHA256 digest for GSM: 83EC349DF97EFA71187536E8CC6CD62215CE675D20DA355E14D4ACE3FBC6D524
+SHA256 digest for GSM: F*91C619E47EFAB44CCEB8B892BA1D7A8F9948590DA1317B8EA330F5D12642CE0E
 
 [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
 [GSM in SASPAC](https://github.com/SASPAC/gsm "GSM in SASPAC")
 
-- **dynMacroArray**\[0.2.4\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
+- **dynMacroArray**\[0.2.5\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
 
-SHA256 digest for dynMacroArray: 7800F36877DC0B9A94B1AC8FFDF8B43ADB216F11B5B26343E41165E7F5E32FC0
+SHA256 digest for dynMacroArray: F*6E087F38BB39B93CBF983124272812E14693C4EF5EE0A3A218BD2BAA069A74BF
 
 ### ======
