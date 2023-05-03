@@ -53,14 +53,21 @@
   * [`%dirsAndFiles()` macro](#dirsandfiles-macro)
   * [`%repeatTxt()` macro](#repeattxt-macro)
   * [`%intsList()` macro](#intslist-macro)
+  * [`%letters()` macro](#letters-macro)
   * [`%splitDSIntoBlocks()` macro](#splitdsintoblocks-macro)
   * [`%splitDSIntoParts()` macro](#splitdsintoparts-macro)
+  * [`%filePath()` macro](#filepath-macro)
+  * [`%libPath()` macro](#libpath-macro)
+  * [`%workPath()` macro](#workpath-macro)
+  * [`%translate()` macro](#translate-macro)
+  * [`%tranwrd()` macro](#tranwrd-macro)
+  
   
   * [License](#license)
   
 ---
 
-# The BasePlus package [ver. 1.20.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.24.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -202,7 +209,6 @@ Recording from the SAS Explore 2022 conference: [A BasePlus Package for SAS](htt
 %rainCloudPlot(sashelp.cars,DriveTrain,Invoice)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 **Example 10**: Zip SAS library.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 %zipLibrary(sashelp, libOut=work)
@@ -240,66 +246,91 @@ run;
 %put %repeatTxt(#,15,s=$) HELLO SAS! %repeatTxt(#,15,s=$);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 15** Integer list:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %intsList(42);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 16** Split dataset into blocks of 5 observations:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%splitDSIntoBlocks(5, sashelp.class, classBlock)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 17** Split dataset into 7 parts:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%splitDSIntoParts(7, sashelp.cars, carsPart)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 18** Return path to temporary file:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename f temp;
+  %put %filePath(f);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
 
 Package contains: 
-1.  macro        bppipe
-2.  macro        deduplistc
-3.  macro        deduplistp
-4.  macro        deduplists
-5.  macro        deduplistx
-6.  macro        dirsandfiles
-7.  macro        functionexists
-8.  macro        getvars
-9.  macro        intslist
-10. macro        ldsn
-11. macro        ldsnm
-12. macro        lvarnm
-13. macro        lvarnmlab
-14. macro        qdeduplistx
-15. macro        qgetvars
-16. macro        qzipevalf
-17. macro        raincloudplot
-18. macro        repeattxt
-19. macro        splitdsintoblocks
-20. macro        splitdsintoparts
-21. macro        symdelglobal
-22. macro        unziplibrary
-23. macro        zipevalf
-24. macro        ziplibrary
-25. format       bool
-26. format       boolz
-27. format       ceil
-28. format       floor
-29. format       int
-30. functions    arrfill
-31. functions    arrfillc
-32. functions    arrmissfill
-33. functions    arrmissfillc
-34. functions    arrmisstoleft
-35. functions    arrmisstoleftc
-36. functions    arrmisstoright
-37. functions    arrmisstorightc
-38. functions    bracketsc
-39. functions    bracketsn
-40. functions    catxfc
-41. functions    catxfi
-42. functions    catxfj
-43. functions    catxfn
-44. functions    deldataset
-45. functions    semicolonc
-46. functions    semicolonn
-47. format       brackets
-48. format       semicolon
-49. proto        qsortincbyprocproto
-50. functions    frommissingtonumberbs
-51. functions    fromnumbertomissing
-52. functions    quicksort4notmiss
-53. functions    quicksorthash
-54. functions    quicksorthashsddv
-55. functions    quicksortlight
-
-
+1.  macro     bppipe
+2.  macro     deduplistc
+3.  macro     deduplistp
+4.  macro     deduplists
+5.  macro     deduplistx
+6.  macro     dirsandfiles
+7.  macro     functionexists
+8.  macro     getvars
+9.  macro     intslist
+10. macro     ldsn
+11. macro     ldsnm
+12. macro     lvarnm
+13. macro     lvarnmlab
+14. macro     qdeduplistx
+15. macro     qgetvars
+16. macro     qzipevalf
+17. macro     raincloudplot
+18. macro     repeattxt
+19. macro     splitdsintoblocks
+20. macro     splitdsintoparts
+21. macro     symdelglobal
+22. macro     unziplibrary
+23. macro     zipevalf
+24. macro     ziplibrary
+25. format    bool
+26. format    boolz
+27. format    ceil
+28. format    floor
+29. format    int
+30. function  arrfill
+31. function  arrfillc
+32. function  arrmissfill
+33. function  arrmissfillc
+34. function  arrmisstoleft
+35. function  arrmisstoleftc
+36. function  arrmisstoright
+37. function  arrmisstorightc
+38. function  bracketsc
+39. function  bracketsn
+40. function  catxfc
+41. function  catxfi
+42. function  catxfj
+43. function  catxfn
+44. function  deldataset
+45. function  semicolonc
+46. function  semicolonn
+47. format    brackets
+48. format    semicolon
+49. proto     qsortincbyprocproto
+50. function  frommissingtonumberbs
+51. function  fromnumbertomissing
+52. function  quicksort4notmiss
+53. function  quicksorthash
+54. function  quicksorthashsddv
+55. function  quicksortlight
+56. macro     filepath
+57. macro     letters
+58. macro     libpath
+59. macro     translate
+60. macro     tranwrd
+61. macro     workpath
 
 Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load it
 or look for the baseplus_AdditionalContent directory in the Packages fileref
@@ -308,7 +339,7 @@ localization (only if additional content was deployed during the installation pr
 * SAS package generated by generatePackage, version 20230411 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*625E56B017C4AA8D436959C0A03C8503773A9A3823D43FA9E0326276E52DA6F2` 
+`F*B297440903337E1AE6F12A6001B80B8AB743079847D16D63DF1C649AE51AA411` 
 
 ---
 # Content description ############################################################################################
@@ -4303,6 +4334,118 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+## >>> `%letters()` macro: <<< <a name="letters-macro"></a> #######################  
+
+The letters() macro function allows to print a list of Roman
+letters starting from `start` up to `end` incremented by `by`.
+The letters list can be uppercases or lowercase (parameter `c=U` or `c=L`), 
+can be quoted (e.g. `q=""` or `q=[]`), and can be separated by `s=`.
+
+Values of `start`, `end`, and `by` have to be integers in range between 1 ad 26.
+
+See examples below for the details.
+
+The `%letters()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%letters(
+    range
+  <,c=>
+  <,q=>
+  <,s=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `range`       - *Required*, letters selector in form `start:end:by`.
+                   Lists letters from `start` to `end` by `by`. 
+                   Values of `start`, `end`, and `by` are separated by 
+                   colon and must be between 1 ad 26.
+                   If value is outside range it is set to 
+                   `start=1`, `en=26`, and `by=1`. If `end` is missing
+                   then is set to value of `start`.
+                   If `end` is smaller than `start` list is reversed
+
+* `c = U`        - *Optional*, it is a lowercase letters indicator. 
+                   Select `L` or `l`. Default value is `U` for upcase.
+
+* `q = `         - *Optional*, it is a quite around elements of the list. 
+                   Default value is empty. Use `%str()` for one quote symbol.
+                   If there are multiple symbols, only the first and the 
+                   second are selected as a preceding and trailing one, 
+                   e.g. `q=[]` gives `[A] [B] ... [Z]`.
+
+* `s = %str( )`  - *Optional*, it is a separator between 
+                   elements of the list. Default value is space.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Space separated list of capital letters from A to Z:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:1);
+
+  %put %letters();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** First, thirteenth, and last letter:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1) %letters(13) %letters(26);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Every third lowercase letter, i.e. `a d g j m p s v y`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:3,c=L);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Lists with separators:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:2,s=#);
+  %put %letters(1:26:3,s=%str(;));
+  %put %letters(1:26:4,s=%str(,));
+  %put %letters(1:26,s=);
+  %put %letters(1:26,s==);
+  %put %letters(1:26,s=/);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Every second letter with quotes:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:2,q=%str(%'));
+  %put %letters(2:26:2,q=%str(%"));
+
+  %put %letters(1:26:2,q='');
+  %put %letters(2:26:2,q="");
+
+  %put %letters(1:26:2,q=<>);
+  %put %letters(2:26:2,q=\/);
+
+  %put %letters(1:26:2,q=());
+  %put %letters(2:26:2,q=][);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Mix of examples 4, 5, and 6:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26,c=L,q='',s=%str(, ));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** If `end` is smaller than `start` list is reversed:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(26:1:2,q='');
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
 ## >>> `%splitDSIntoBlocks()` macro: <<< <a name="splitdsintoblocks-macro"></a> #######################  
 
 The splitDSIntoBlocks() macro allows to split the `set` dataset into blocks 
@@ -4439,6 +4582,230 @@ The basic syntax is the following, the `<...>` means optional parameters:
   run;
 
   %splitDSIntoParts(3,test.test,work.spde)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%filePath()` macro: <<< <a name="filepath-macro"></a> #######################  
+
+The filePath() macro function returns path to a file,
+it is a wrapper to `pathname()` function for files.
+
+See examples below for the details.
+
+The `%filePath()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%filePath(
+    fileref
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `fileref` - *Required*, a fileref from the `filename` statement.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Return path to temporary file:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename f temp;
+  %put %filePath(f);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%libPath()` macro: <<< <a name="libpath-macro"></a> #######################  
+
+The libPath() macro function returns path to a library,
+it is a wrapper to `pathname()` function for libraries.
+
+See examples below for the details.
+
+The `%libPath()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%libPath(
+    libref
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `libref` - *Required*, a libref from the `libname` statement.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Return path to `WORK` library:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %libPath(WORK);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Return path to `SASHELP` library:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %libPath(SASHELP);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
+
+The workPath() macro function returns path to the `WORK` library,
+it is a wrapper to `pathname("work", "L")` function.
+
+See examples below for the details.
+
+The `%workPath()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%workPath()
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+*) No arguments.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Create new library inside `WORK` library:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  options dlCreateDir;
+  libname NEW "%workPath()/new";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
+
+The translate() macro function allows to replace bytes with bytes in text string.
+
+See examples below for the details.
+
+The `%translate()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%translate(
+    string
+   ,from
+   ,to
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `string`       - *Required*, string to modify.
+
+2. `from`         - *Required*, list of bytes to be replaced with 
+                    corresponding bytes from `to`.
+
+3. `to`           - *Required*, list of bytes replacing
+                    corresponding bytes from `from`. 
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Replace quotes and commas with apostrophes and spaces:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %translate(%str("A", "B", "C"),%str(%",),%str(%' ));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Unify all brackets;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %translate(%str([A] {B} (C) <D>),{[(<>)]},(((()))));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Replace all digits with `*`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    %put %translate(QAZ1WSSX2EDC3RFV4TGB5YHN6UJM7IK8OL9P0,1234567890,**********);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Letters change:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    %put %translate(%str(A=B),AB,BA);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%tranwrd()` macro: <<< <a name="tranwrd-macro"></a> #######################  
+
+The tranwrd() macro function allows to replace substrings 
+with other substrings in text string.
+
+Returned string is unquoted by `%unquote()`.
+
+See examples below for the details.
+
+The `%tranwrd()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%tranwrd(
+    string
+   ,from
+   ,to
+  <,repeat>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `string`       - *Required*, string to modify.
+
+2. `from`         - *Required*, substring replaced with 
+                    corresponding string from `to`.
+
+3. `to`           - *Required*, substring replacing
+                    corresponding substring from `from`. 
+
+4. `repeat`       - *Optional*, number of times the replacing
+                    should be repeated, default is 1.
+                    Useful while removing multiple adjacent 
+                    characters, e.g. compress all multiple 
+                    spaces (see example 2).
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple text replacement:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %tranwrd(Miss Joan Smith,Miss,Ms.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Delete multiple spaces;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %tranwrd(%str(A      B   C),%str(  ),%str( ),5);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Remove substring:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    %put %tranwrd(ABCxyzABCABCxyzABC,ABC);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
