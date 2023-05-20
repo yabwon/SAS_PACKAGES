@@ -19,7 +19,7 @@
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20230411. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20230520. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -35,7 +35,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20230411`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20230520`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -220,14 +220,17 @@ minoperator
                         call symputx("AdditionalContent", 0, "L");
 
                         rc1=filename("in", pathname("&_PackageFileref_."), "ZIP", "lrecl=1 recfm=n member='addcnt.zip'");
+                        length rc1txt $ 8192;
                         rc1txt=sysmsg();
 
                         if fexist("in") then
                           do;
                             rc2=filename("out", pathname("WORK")!!"/%lowcase(&packageName.)addcnt.zip", "disk", "lrecl=1 recfm=n");
+                            length rc2txt $ 8192;
                             rc2txt=sysmsg();
 
                             rc3=fcopy("in","out");
+                            length rc3txt $ 8192;
                             rc3txt=sysmsg();
 
                             if rc3 then put _N_ @12 (rc:) (=);
@@ -264,6 +267,7 @@ minoperator
                               end;
                             if did then
                              do i=1 to dnum(did);
+                              length file $ 8192;
                               file = dread(did, i);
                               output;
                               keep file;
@@ -275,6 +279,7 @@ minoperator
                           	set WORK.__&_TargetFileref_._zip___ end = EOF;
                             wc = countw(file,"/\");
                           
+                            length libText pathname_f $ 8192;
                             libText = pathname("outData", "L");
                          
                             if scan(file, wc , "/\") = "" then
@@ -290,12 +295,17 @@ minoperator
                                   rc = libname("test", libText);
                                   rc = libname("test");
                                 end;
-                                rc1 = filename("in", pathname("f"), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
+
+                                pathname_f = pathname("f");
+                                rc1 = filename("in", strip(pathname_f), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
+                                length rc1txt $ 8192;
                                 rc1msg = sysmsg();
                                 rc2 = filename("out", catx("/", libText, scan(file, j , "/\")), "disk", "lrecl=1 recfm=n");
+                                length rc2txt $ 8192;
                                 rc2msg = sysmsg();
                               
                                 rc3 = fcopy("in", "out");
+                                length rc3txt $ 8192;
                                 rc3msg = sysmsg();
                           
                                 loadingProblem + (rc3 & 1);
