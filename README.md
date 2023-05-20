@@ -14,7 +14,7 @@ In this repository we are presenting the **SAS Packages Framework** which allows
 
 ### Current version:
 
-**The latest version** of SPF is **`20230411`**.  
+**The latest version** of SPF is **`20230520`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -224,7 +224,7 @@ SHA256 digest for macroArray: F*85E3BE4D163AC5223B6EC9D3C25C46564A656E3830998B45
 
 [MacroArray in SASPAC](https://github.com/SASPAC/macroarray "MacroArray in SASPAC")
 
-- **BasePlus**\[1.24.0\] adds a bunch of functionalities I am missing in BASE SAS, such as:
+- **BasePlus**\[1.24.1\] adds a bunch of functionalities I am missing in BASE SAS, such as:
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -248,7 +248,7 @@ format x bool.;
 
 %put %repeatTxt(#,15,s=$) HELLO SAS! %repeatTxt(#,15,s=$);
 ```
-SHA256 digest for BasePlus: F*B297440903337E1AE6F12A6001B80B8AB743079847D16D63DF1C649AE51AA411
+SHA256 digest for BasePlus: F*0CCAA009D64CC20ED315FA123C233E0383967E635EB8708E7A48EEE3767C6BC5
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
