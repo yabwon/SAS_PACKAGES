@@ -61,13 +61,16 @@
   * [`%workPath()` macro](#workpath-macro)
   * [`%translate()` macro](#translate-macro)
   * [`%tranwrd()` macro](#tranwrd-macro)
+  * [`%findDSwithVarVal()` macro](finddswithvarval-macro)
+  * [`%getTitle()` macro](gettitle-macro) 
+
   
   
   * [License](#license)
   
 ---
 
-# The BasePlus package [ver. 1.24.2] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.26.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -218,7 +221,7 @@ Recording from the SAS Explore 2022 conference: [A BasePlus Package for SAS](htt
 
 **Example 11**: Long dataset names.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data %LDSN(  work. peanut butter & jelly time with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s (drop = sex rename=(name=first_name) where = (age in (12,13,14)))  );
+data %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s (drop = sex rename=(name=first_name) where = (age in (12,13,14)))  );
   set sashelp.class;
 run;
 
@@ -267,70 +270,84 @@ run;
   %put %filePath(f);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 19** Get titles:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  title1 j=c "Hi Roger" ;
+  title2 j=l "Good Morning" ;
+  title3 "How are you?" ;
+  title4 ;
+  title5 "Bye bye!" ;
+
+  %put %GetTitle(1 2 3 5, dlm=s, qt='') ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
 
 Package contains: 
-1.  macro     bppipe
-2.  macro     deduplistc
-3.  macro     deduplistp
-4.  macro     deduplists
-5.  macro     deduplistx
-6.  macro     dirsandfiles
-7.  macro     functionexists
-8.  macro     getvars
-9.  macro     intslist
-10. macro     ldsn
-11. macro     ldsnm
-12. macro     lvarnm
-13. macro     lvarnmlab
-14. macro     qdeduplistx
-15. macro     qgetvars
-16. macro     qzipevalf
-17. macro     raincloudplot
-18. macro     repeattxt
-19. macro     splitdsintoblocks
-20. macro     splitdsintoparts
-21. macro     symdelglobal
-22. macro     unziplibrary
-23. macro     zipevalf
-24. macro     ziplibrary
-25. format    bool
-26. format    boolz
-27. format    ceil
-28. format    floor
-29. format    int
-30. function  arrfill
-31. function  arrfillc
-32. function  arrmissfill
-33. function  arrmissfillc
-34. function  arrmisstoleft
-35. function  arrmisstoleftc
-36. function  arrmisstoright
-37. function  arrmisstorightc
-38. function  bracketsc
-39. function  bracketsn
-40. function  catxfc
-41. function  catxfi
-42. function  catxfj
-43. function  catxfn
-44. function  deldataset
-45. function  semicolonc
-46. function  semicolonn
-47. format    brackets
-48. format    semicolon
-49. proto     qsortincbyprocproto
-50. function  frommissingtonumberbs
-51. function  fromnumbertomissing
-52. function  quicksort4notmiss
-53. function  quicksorthash
-54. function  quicksorthashsddv
-55. function  quicksortlight
-56. macro     filepath
-57. macro     letters
-58. macro     libpath
-59. macro     translate
-60. macro     tranwrd
-61. macro     workpath
+1.  macro      bppipe
+2.  macro      deduplistc
+3.  macro      deduplistp
+4.  macro      deduplists
+5.  macro      deduplistx
+6.  macro      dirsandfiles
+7.  macro      functionexists
+8.  macro      getvars
+9.  macro      intslist
+10. macro      ldsn
+11. macro      ldsnm
+12. macro      lvarnm
+13. macro      lvarnmlab
+14. macro      qdeduplistx
+15. macro      qgetvars
+16. macro      qzipevalf
+17. macro      raincloudplot
+18. macro      repeattxt
+19. macro      splitdsintoblocks
+20. macro      splitdsintoparts
+21. macro      symdelglobal
+22. macro      unziplibrary
+23. macro      zipevalf
+24. macro      ziplibrary
+25. format     bool
+26. format     boolz
+27. format     ceil
+28. format     floor
+29. format     int
+30. functions  arrfill
+31. functions  arrfillc
+32. functions  arrmissfill
+33. functions  arrmissfillc
+34. functions  arrmisstoleft
+35. functions  arrmisstoleftc
+36. functions  arrmisstoright
+37. functions  arrmisstorightc
+38. functions  bracketsc
+39. functions  bracketsn
+40. functions  catxfc
+41. functions  catxfi
+42. functions  catxfj
+43. functions  catxfn
+44. functions  deldataset
+45. functions  semicolonc
+46. functions  semicolonn
+47. format     brackets
+48. format     semicolon
+49. proto      qsortincbyprocproto
+50. functions  frommissingtonumberbs
+51. functions  fromnumbertomissing
+52. functions  quicksort4notmiss
+53. functions  quicksorthash
+54. functions  quicksorthashsddv
+55. functions  quicksortlight
+56. macro      filepath
+57. macro      finddswithvarval
+58. macro      gettitle
+59. macro      letters
+60. macro      libpath
+61. macro      translate
+62. macro      tranwrd
+63. macro      workpath
+
 
 Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load it
 or look for the baseplus_AdditionalContent directory in the Packages fileref
@@ -339,7 +356,7 @@ localization (only if additional content was deployed during the installation pr
 * SAS package generated by generatePackage, version 20230520 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*2A4F3953EC56DB914024457F74286D565C23DCF220FF151040BDB704FD8DDB06` 
+`F*B3CACDA32A5E70940E667DCA859483BD76DB082D19BAF326F28A580226DDD962` 
 
 ---
 # Content description ############################################################################################
@@ -4890,6 +4907,210 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
     %put %tranwrd(ABCxyzABCABCxyzABC,ABC);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## >>> `%findDSwithVarVal()` macro: <<< <a name="finddswithvarval-macro"></a> #######################  
+
+The findDSwithVarVal() macro searches for all 
+datasets (available for a given session) containing 
+a variable of a given value.
+
+The value search is case sensitive - but can be altered with `IC=` parameter.
+The value search keeps leading blanks - but can be altered with `TB=` parameter.
+The value search compares full value - but can be altered with `CTS=` parameter.
+
+The default variable type is `char`, the `type=` parameter allows 
+to change it (possible values are `char` and `num`), the parameter is case sensitive.
+
+Only datasets are searched, views are not included.
+
+During the process two temporary datasets named: 
+`WORK._` (single underscore) and `WORK.__` (double underscore) 
+are generated. The datasets are deleted at the end of the process.
+
+By default search results are stored in the `WORK.RESULT` dataset.
+Name of the dataset can be altered with `result=` parameter.
+The dataset with result contains two variables:
+`datasetName` - names of datasets,
+`firstObservation` - the firs occurrence of the value.
+
+See examples below for the details.
+
+The `%findDSwithVarVal()` macro does not execute as a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%findDSwithVarVal(
+    variable
+   ,value
+  <,type=>
+  <,ic=>
+  <,tb=>
+  <,cts=>
+  <,lib=>
+  <,result=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `variable`     - *Required*, name of variable to be searched.
+
+2. `value`        - *Required*, the value to be searched.
+
+*. `type`         - *Optional*, default value is `char`.
+                    Indicates which type is the searched value.
+                    Possible values are `char` and `num`, 
+                    the parameter is case sensitive. 
+
+*. `ic`           - *Optional*, "Ignore Cases", default value is `0`.
+                    Indicates should the search ignore cases of the text values.
+                    Possible values are `0` and `1`.
+
+*. `tb`           - *Optional*, "Trim Blanks", default value is `0`.
+                    Indicates should the search trim leading and trailing
+                    blanks of the text values.
+                    Possible values are `0` and `1`.
+
+*. `cts`          - *Optional*, "Compare To Shorter", default value is `0`.
+                    IF set to `1` execute value comparison as `=:` for the text value.
+                    Possible values are `0` and `1`.
+                    See examples.
+
+*. `lib`          - *Optional*, default value is missing.
+                    If not empty narrows the search to a particular library.
+
+*. `result`       - *Optional*, default value is `WORK.RESULT`.
+                    Is the name of the dataset with results.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Search variable `NAME` containing value `John`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %findDSwithVarVal(name, John)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Search numeric variable `AGE` containing value `14`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %findDSwithVarVal(age, 14, type=num)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Search numeric variable `SCORE` with missing value:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    data TEST;
+      score=17; output;
+      score=42; output;
+      score=. ; output;
+    run;
+    
+    %findDSwithVarVal(score, ., type=num, result=WORK.MissingScore)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Search library `WORK` for variable `NAME` starting with value `Jo` 
+               ignoring cases and trimming blanks from value:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  data A;
+    name="Joanna";
+  data B;
+    name="john";
+  data C;
+    name="  Joseph";
+  data D;
+    name="  joe";
+  run;
+
+  %findDSwithVarVal(name, Jo, ic=1, tb=1, cts=1, lib=WORK)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%getTitle()` macro: <<< <a name="gettitle-macro"></a> #######################  
+
+The getTitle() macro extract text of titles or footnotes
+into a delimited list.
+
+Titles/footnotes numbers can be selected with the `number` argument.
+Only the text of a title or footnote is extracted.
+
+Author of the original code is: Quentin McMullen (`qmcmullen.sas@gmail.com`).
+
+See examples below for the details.
+
+The `%getTitle()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%getTitle(
+  < number>
+  <,type=> 
+  <,dlm=>
+  <,qt=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `number`       - *Optional*, default value is empty,
+                    indicates numbers of titles to be extracted.
+                    Space separated list is expected.
+                    If empty or `_ALL_` extract all non-missing.
+
+*. `type`         - *Optional*, default value is `T`.
+                    Indicates which type is the searched.
+                    `T` fro title, `F` for footnote.
+
+*. `dlm`          - *Optional*, "DeLiMiter", default value is `|` (pipe).
+                    Possible values are: `| \ / , . ~ * # @ ! + - _ : ?`
+                    or `s` for space, `c` for comma, `d` for semicolon.
+
+*. `qt`           - *Optional*, "QuoTes", default value is empty.
+                    Use `%str()` for single quote symbol (e.g. `%str(%")`).
+                    If there are multiple symbols, only the first and the 
+                    second are selected as a leading and trailing one, 
+                    e.g. `qt=""` gives `"title1 text" "title2 text" ... `.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get titles in different forms:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  title1 j=c "Hi Roger" ;
+  title2 j=l "Good Morning" ;
+  title3 "How are you?" ;
+  title4 ;
+  title5 "Bye bye!" ;
+
+  %put %GetTitle() ;
+
+  %put %GetTitle(1 3,dlm=c, qt=[]) ;
+
+  %put %GetTitle(2:4,dlm=s, qt='') ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.**  Get footnotes in different forms:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  footnote1 "First little footnote";
+  footnote2 "Second little footnote";
+  footnote3 "Third little footnote";
+
+  %put %GetTitle(1 2,type=f,dlm=s, qt="") ;
+  %put %GetTitle(2 3,type=f,dlm=c, qt='') ;
+  %put %GetTitle(1 3,type=f,dlm=d, qt=[]) ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+
 
 ---
 
