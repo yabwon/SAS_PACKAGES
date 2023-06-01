@@ -61,8 +61,8 @@
   * [`%workPath()` macro](#workpath-macro)
   * [`%translate()` macro](#translate-macro)
   * [`%tranwrd()` macro](#tranwrd-macro)
-  * [`%findDSwithVarVal()` macro](finddswithvarval-macro)
-  * [`%getTitle()` macro](gettitle-macro) 
+  * [`%findDSwithVarVal()` macro](#finddswithvarval-macro)
+  * [`%getTitle()` macro](#gettitle-macro) 
 
   
   
