@@ -172,101 +172,47 @@ If you find the SPF useful **share info** about it or **give it a [star](https:/
 
 ## Available packages:
 
-**(!)** For "backward compatibility"/historical point of view the following packages are available under the `./packages` directory.
+This section presents some example of available SAS packages.
 
 **(!)** Since *September 2022* the default location for packages is **SASPAC - the SAS Packages Archive** located under: [`https://github.com/SASPAC`](https://github.com/SASPAC) where each package is stored as a separate repository with historical versions too.
 
+**(!)** For "backward compatibility"/historical point of view the following packages are also available under the `./packages` directory in this repository.
+
 Packages:
 
-- **SQLinDS**\[2.2.6\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
-```sas
-  data class;
-    set %SQL(select * from sashelp.class order by age);
-  run;
-```
-SHA256 digest for SQLinDS: F*3BB422E8C94515DEE9E13E674A0D119794F464D9597C28D5D536E71F64EB5298
+- **SQLinDS**
 
-[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
+  [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
 
-[SQLinDS in SASPAC](https://github.com/SASPAC/sqlinds "SQLinDS in SASPAC")
+  [SQLinDS in SASPAC](https://github.com/SASPAC/sqlinds "SQLinDS in SASPAC")
 
 
-- **DFA** (Dynamic Function Arrays)\[0.5.5\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)
 
-SHA256 digest for DFA: F*924711C77E413B8CFC18336DDA2293A9F5294D02E267C1BB7BC876B4AF0AABE4
+  [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
 
-[Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
+  [DFA in SASPAC](https://github.com/SASPAC/dfa "DFA in SASPAC")
 
-[DFA in SASPAC](https://github.com/SASPAC/dfa "DFA in SASPAC")
+- **macroArray**
 
-- **macroArray**\[1.0.5\], implementation of an array concept in a macrolanguage, e.g. 
-```sas
-  %array(ABC[17] (111:127), macarray=Y); 
-  
-  %macro test();
-    %do i = 1 %to 17; 
-      %put &i.) %ABC(&i.); 
-    %end;
-  %mend;
-  %test() 
-  
-  %let %ABC(13,i) = 99999; /* i = insert */
+  [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
 
-  %do_over(ABC, phrase=%nrstr( 
-      %put &_i_.%) %ABC(&_i_.); 
-      ),
-      which = 1:H:2
-  );
-```
-SHA256 digest for macroArray: F*85E3BE4D163AC5223B6EC9D3C25C46564A656E3830998B4555A963180D767160
+  [MacroArray in SASPAC](https://github.com/SASPAC/macroarray "MacroArray in SASPAC")
 
-[Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
+- **BasePlus**
 
-[MacroArray in SASPAC](https://github.com/SASPAC/macroarray "MacroArray in SASPAC")
+  [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
-- **BasePlus**\[1.26.1\] adds a bunch of functionalities I am missing in BASE SAS, such as:
-```sas
-call arrMissToRight(myArray); 
-call arrFillMiss(17, myArray); 
-call arrFill(42, myArray); 
+  [BasePlus in SASPAC](https://github.com/SASPAC/baseplus "BasePlus in SASPAC")
 
-rc = delDataset("DataSetToDrop"); 
+- **GSM** (Generate Secure Macros)
 
-string = catXFn("date9.", "#", myArray);
+  [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
 
-format x bool.;
+  [GSM in SASPAC](https://github.com/SASPAC/gsm "GSM in SASPAC")
 
-%put %getVars(sashelp.class, pattern = ght$, sep = +, varRange = _numeric_);
+- **dynMacroArray**
 
-%rainCloudPlot(sashelp.cars,DriveTrain,Invoice)
-
-%zipLibrary(sashelp,libOut=work)
-
-%bpPIPE(ls -la ~/)
-
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result)
-
-%put %repeatTxt(#,15,s=$) HELLO SAS! %repeatTxt(#,15,s=$);
-```
-SHA256 digest for BasePlus: F*D6DC5AD1B60A92AD300B639B3C361C1F7846EB01E5AB35BF4FDDA6E783408172
-
-[Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
-
-[BasePlus in SASPAC](https://github.com/SASPAC/baseplus "BasePlus in SASPAC")
-
-- **GSM** (Generate Secure Macros)\[0.21.0\], package allows
- to create secured macros stored in SAS Proc FCMP functions.
- The dataset with functions can be shared between different operating systems
- and allows to generate macros on site without showing their code.
-
-SHA256 digest for GSM: F*56DC0DCCE06B4281BF3FA6FA3875CBA87772BDA7FAB601B06740A7980FFB0E07
-
-[Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
-
-[GSM in SASPAC](https://github.com/SASPAC/gsm "GSM in SASPAC")
-
-- **dynMacroArray**\[0.2.5\], set of macros (wrappers for a hash table) emulating dynamic array in the data step (macro predecessor of DFA). Development of this package is currently on hold.
-
-SHA256 digest for dynMacroArray: F*6E087F38BB39B93CBF983124272812E14693C4EF5EE0A3A218BD2BAA069A74BF
+  Development of this package is currently on hold.
 
 ### ======
