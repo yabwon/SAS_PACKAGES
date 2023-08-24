@@ -62,15 +62,17 @@
   * [`%translate()` macro](#translate-macro)
   * [`%tranwrd()` macro](#tranwrd-macro)
   * [`%findDSwithVarVal()` macro](#finddswithvarval-macro)
-  * [`%getTitle()` macro](#gettitle-macro) 
-
+  * [`%getTitle()` macro](#gettitle-macro)
+  * [`%mInclude()` macro](#minclude-macro)
+  * [`%fmt()` macro](#fmt-macro) 
+  * [`%infmt()` macro](#infmt-macro)
   
   
   * [License](#license)
   
 ---
 
-# The BasePlus package [ver. 1.26.1] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.29.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -90,7 +92,8 @@ Kudos to all who inspired me to generate this package:
 *Anamaria Calai*,
 *Michal Ludwicki*,
 *Quentin McMullen*,
-*Kurt Bremser*.
+*Kurt Bremser*,
+*Leonid Batkhan*.
 
 Recording from the SAS Explore 2022 conference: [A BasePlus Package for SAS](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "A BasePlus Package for SAS") (September 27th-29th, 2022).
 
@@ -281,72 +284,101 @@ run;
   %put %GetTitle(1 2 3 5, dlm=s, qt='') ;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 20** Format and informat macro variables values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %fmt(12345, date9.) %fmt(12345, yymmdd10.);
+  
+  %put %infmt($111234,  dollar10.2);
+  %put %infmt($111.234, dollar10.2);
+  
+  %let text = ##%fmt(ABC, $char9., -C)##;
+  %put &text.;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 21** "Macro including" a text file:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename f "%workpath()/testFile1.txt";
+  data _null_;
+    file f;
+    put "13 14 15";
+  run;
+
+  data testDataset;
+    set sashelp.class;
+    where age in ( %mInclude(f) );
+  run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
 
 Package contains: 
-1.  macro      bppipe
-2.  macro      deduplistc
-3.  macro      deduplistp
-4.  macro      deduplists
-5.  macro      deduplistx
-6.  macro      dirsandfiles
-7.  macro      functionexists
-8.  macro      getvars
-9.  macro      intslist
-10. macro      ldsn
-11. macro      ldsnm
-12. macro      lvarnm
-13. macro      lvarnmlab
-14. macro      qdeduplistx
-15. macro      qgetvars
-16. macro      qzipevalf
-17. macro      raincloudplot
-18. macro      repeattxt
-19. macro      splitdsintoblocks
-20. macro      splitdsintoparts
-21. macro      symdelglobal
-22. macro      unziplibrary
-23. macro      zipevalf
-24. macro      ziplibrary
-25. format     bool
-26. format     boolz
-27. format     ceil
-28. format     floor
-29. format     int
-30. functions  arrfill
-31. functions  arrfillc
-32. functions  arrmissfill
-33. functions  arrmissfillc
-34. functions  arrmisstoleft
-35. functions  arrmisstoleftc
-36. functions  arrmisstoright
-37. functions  arrmisstorightc
-38. functions  bracketsc
-39. functions  bracketsn
-40. functions  catxfc
-41. functions  catxfi
-42. functions  catxfj
-43. functions  catxfn
-44. functions  deldataset
-45. functions  semicolonc
-46. functions  semicolonn
-47. format     brackets
-48. format     semicolon
-49. proto      qsortincbyprocproto
-50. functions  frommissingtonumberbs
-51. functions  fromnumbertomissing
-52. functions  quicksort4notmiss
-53. functions  quicksorthash
-54. functions  quicksorthashsddv
-55. functions  quicksortlight
-56. macro      filepath
-57. macro      finddswithvarval
-58. macro      gettitle
-59. macro      letters
-60. macro      libpath
-61. macro      translate
-62. macro      tranwrd
-63. macro      workpath
+1.   macro        bppipe
+2.   macro        deduplistc
+3.   macro        deduplistp
+4.   macro        deduplists
+5.   macro        deduplistx
+6.   macro        dirsandfiles
+7.   macro        functionexists
+8.   macro        getvars
+9.   macro        intslist
+10.  macro        ldsn
+11.  macro        ldsnm
+12.  macro        lvarnm
+13.  macro        lvarnmlab
+14.  macro        qdeduplistx
+15.  macro        qgetvars
+16.  macro        qzipevalf
+17.  macro        raincloudplot
+18.  macro        repeattxt
+19.  macro        splitdsintoblocks
+20.  macro        splitdsintoparts
+21.  macro        symdelglobal
+22.  macro        unziplibrary
+23.  macro        zipevalf
+24.  macro        ziplibrary
+25.  format       bool
+26.  format       boolz
+27.  format       ceil
+28.  format       floor
+29.  format       int
+30.  functions    arrfill
+31.  functions    arrfillc
+32.  functions    arrmissfill
+33.  functions    arrmissfillc
+34.  functions    arrmisstoleft
+35.  functions    arrmisstoleftc
+36.  functions    arrmisstoright
+37.  functions    arrmisstorightc
+38.  functions    bracketsc
+39.  functions    bracketsn
+40.  functions    catxfc
+41.  functions    catxfi
+42.  functions    catxfj
+43.  functions    catxfn
+44.  functions    deldataset
+45.  functions    semicolonc
+46.  functions    semicolonn
+47.  format       brackets
+48.  format       semicolon
+49.  proto        qsortincbyprocproto
+50.  functions    frommissingtonumberbs
+51.  functions    fromnumbertomissing
+52.  functions    quicksort4notmiss
+53.  functions    quicksorthash
+54.  functions    quicksorthashsddv
+55.  functions    quicksortlight
+56.  macro        filepath
+57.  macro        finddswithvarval
+58.  macro        fmt
+59.  macro        gettitle
+60.  macro        infmt
+61.  macro        letters
+62.  macro        libpath
+63.  macro        minclude
+64.  macro        translate
+65.  macro        tranwrd
+66.  macro        workpath
+
 
 
 Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load it
@@ -356,7 +388,7 @@ localization (only if additional content was deployed during the installation pr
 * SAS package generated by generatePackage, version 20230520 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*D6DC5AD1B60A92AD300B639B3C361C1F7846EB01E5AB35BF4FDDA6E783408172` 
+`F*9EEE4F4B99EA725B60141645AB6A50BFEBA32CE54848593F8D832D907D63CAD7` 
 
 ---
 # Content description ############################################################################################
@@ -5115,6 +5147,324 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+## >>> `%mInclude()` macro: <<< <a name="minclude-macro"></a> #######################  
+
+The mInclude() macro is a macrolanguage version of the SAS `%include` statement.
+But it allows for "embedding any code anywhere into SAS programs".
+
+Macro was inspired by *Leonid Batkhan* and his blog post:
+
+"Embedding any code anywhere into SAS programs" from May 30, 2023.
+
+Link: `https://blogs.sas.com/content/sgf/2023/05/30/embedding-any-code-anywhere-into-sas-programs/`
+
+The implementation presented, in contrary to inspiration source, is 
+based on the `doSubL()` function and a list of global
+macrovariables of the form `______<N>` (six underscores and a number).
+
+See examples below for the details.
+
+The `%mInclude()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%mInclude(
+  < f>
+  <,source=> 
+  <,lrecl=>
+  <,symdel=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `f`            - *Required*, a SAS `fileref` or a **quoted** path 
+                    to the included file.
+
+*. `source=0`     - *Optional*, default value is `0`.
+                    Set to `1` if the source should be printed in the log.
+
+*. `lrecl=32767`  - *Optional*, default value is `32767`.
+                    Sets the `lrecl` value for the file width.
+
+*. `symdel=1`     - *Optional*, default value is `1`.
+                    Indicates if the global macrovariables
+                    `______1` to `______N` should be deleted
+                    when the macro ends.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Embedding text in statements (the `%include` won't work here):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  resetline;
+  filename f "%workpath()/testFile1.txt";
+  filename f list;
+
+  data _null_;
+    file f;
+    put "13 14 15";
+  run;
+
+  resetline;
+  data testDataset;
+    set sashelp.class;
+    where age in ( %mInclude(f) );
+  run;
+
+  data testDataset2;
+    set sashelp.class;
+    where age in ( %mInclude(f,source=1) );
+  run;
+
+  filename f clear;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.**  Embedding with direct path (mind those quotes!):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  resetline;
+  filename f "%workpath()/testFile2.txt";
+  filename f list;
+
+  %let someGlobalMacroVariable=17;
+
+  data _null_;
+    file f;
+    put "options mprint;";
+    do i=1 to 3;
+      put "data y; x = " i "; run;";
+      put '%macro A' i +(-1) '(); %put ' i ' ** &someGlobalMacroVariable.; %mend; %A' i +(-1) '()';
+    end;
+    put "options nomprint;";
+  run;
+
+  resetline;
+  %mInclude("%workpath()/testFile2.txt")
+
+  %mInclude("%workpath()/testFile2.txt",source=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.**  Embedding SQL code inside the pass through execution:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  resetline;
+  filename f2 "%workpath()/testSql.txt";
+
+  data _null_;
+  file f2;
+  input;
+  put _infile_;
+  cards4;
+  select 
+    c2.make
+  , c2.model
+  , c2.type
+  , c2.invoice
+  , c2.date 
+   
+  from 
+    public.CARS_EU c2
+   
+  where 
+    c2.cylinders > 4 
+    and 
+    c2.date > '2023-04-02'
+  ;;;;
+  run;
+
+
+  title 'the %include fails';
+  proc sql;
+  connect to POSTGRES as PSGDB (
+    server="127.0.0.1" 
+    port=5432 
+    user="user" 
+    password="password" 
+    database="DB"
+  );
+
+  select * from connection to PSGDB
+    (
+      %Include f2 / source2;
+    )
+  ;
+
+  disconnect from PSGDB;
+  quit;
+
+  title 'the %mInclude works';
+  proc sql;
+  connect to POSTGRES as PSGDB (
+    server="127.0.0.1" 
+    port=5432 
+    user="user" 
+    password="password" 
+    database="DB"
+  );
+
+
+  select * from connection to PSGDB
+    (
+      %mInclude(f2, source=1)
+    )
+  ;
+
+  disconnect from PSGDB;
+  quit;
+
+  title;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** In a limited way and with help of the `resolve()` function, 
+               it even works with IML's interface to R:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+resetline;
+filename f3 TEMP;
+
+data _null_;
+  file f3;
+  infile cards4;
+  input;
+  put _infile_ ';'; %* a "semicolon" trick for R statements separation *;
+cards4;
+rModel <- lm(Weight ~ Height, data=Class, na.action="na.exclude")
+print (rModel$call)
+print (rModel)
+;;;;
+run;
+
+
+proc iml;
+  codeText = resolve(' %mInclude(f3, source=1) ');
+  print codeText;
+
+  call ExportDataSetToR("Sashelp.Class", "Class" );
+  submit codeText / R;
+     &codeText
+  endsubmit;
+quit;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%fmt()` macro: <<< <a name="fmt-macro"></a> #######################  
+
+The fmt() macro function returns a `value` formatted by a `format`,
+it is a wrapper to `putN()` and `putC()` functions.
+
+See examples below for the details.
+
+The `%fmt()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%fmt(
+  value
+ ,format
+ ,align
+ <,type=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `value`  - *Required*, a value to be formatted.
+
+2. `format` - *Required*, a name of a format to be used,
+              character format should be preceded by the `$`.
+
+3. `align`  - *Optional*, allows to use the `-L`, `-R` and `-C` modifiers.
+
+*  `type=n` - *Optional*, defines type of the format. If the format
+              name is preceded by the `$` then C is set automatically.
+              If the character format name is without `$` then set
+              value to `C` yourself.
+
+---
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Formatting values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %fmt(111, 7.2);
+
+  %put %fmt(111, dollar10.2);
+
+  %put %fmt(abc, $upcase.);
+
+  %put %fmt(12345, date9.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Align values (compare different results!):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%fmt(ABC, $char9., -L)*;
+  %put *%fmt(ABC, $char9., -R)*;
+  %put *%fmt(ABC, $char9., -C)*;
+
+  %put %fmt(ABC, $char9., -L);
+  %put %fmt(ABC, $char9., -R);
+  %put %fmt(ABC, $char9., -C);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%infmt()` macro: <<< <a name="infmt-macro"></a> #######################  
+
+The infmt() macro function returns a `value` read in by an `informat`,
+it is a wrapper to `inputN()` and `inputC()` functions.
+
+See examples below for the details.
+
+The `%infmt()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%infmt(
+  value
+ ,informat
+ <,type=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `value`    - *Required*, a value to be formatted.
+
+2. `informat` - *Required*, a name of a format to be used,
+                character format should be preceded by the `$`.
+
+*  `type=n`   - *Optional*, defines type of the informat. If the informat
+                name is preceded by the `$` then C is set automatically.
+                If the character format name is without `$` then set
+                value to `C` yourself.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Informatting values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %infmt(111, 7.2);
+  %put %infmt(111.234, 7.2);
+
+  %put %infmt($111, dollar10.2);
+  %put %infmt($111.234, dollar10.2);
+
+  %put %infmt(abc, $upcase.);
+
+  %put %infmt(12mar45, date9.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ---
