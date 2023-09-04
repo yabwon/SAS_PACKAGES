@@ -23,17 +23,18 @@
                                          if the zip is not available use a folder
                                          unpack data to "pipackage.disk" folder
                                          and use loadPackage in the form: 
-                                         %loadPackage(PiPackage, zip=disk, options=) 
-                                       */
+                                         %loadPackage(PiPackage, zip=disk, options=) */
 , cherryPick=*                        /* space separated list of selected elements of the package
                                          to be loaded into the session, default value "*" means
-                                         "load all elements of the package"
-                                       */
+                                         "load all elements of the package" */
 , loadAddCnt=0                        /* should the additional content be loaded?
                                          default is 0 - means No, 1 means Yes */
+, suppressExec=0                      /* indicates if loading of exec files 
+                                         should be suppressed, 1=suppress 
+                                       */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20230520. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20230904. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -49,7 +50,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20230520`                              #;
+    %put # Macro to *load* SAS packages, version `20230904`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -104,6 +105,10 @@ minoperator
     %put #                       means "Yes". Content is extracted into the **Work**     #;
     %put #                       directory in `<packageName>_AdditionalContent` folder.  #;
     %put #                       For other locations use `%nrstr(%%loadPackageAddCnt())` macro.   #;
+    %put #                                                                               #;
+    %put # - `suppressExec=`     *Optional.* Indicates if loading of `exec` type files   #;
+    %put #                       should be suppressed, default value is `0`,             #;
+    %put #                       when set to `1` `exec` files are *not* loaded           #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -199,6 +204,11 @@ minoperator
   %if %superq(loadAddCnt) NE 1 %then
     %do;
       %let loadAddCnt = 0;
+    %end;
+
+  %if %superq(suppressExec) NE 1 %then
+    %do;
+      %let suppressExec = 0;
     %end;
 
   filename &_PackageFileref_. &ZIP. 
