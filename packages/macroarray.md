@@ -278,6 +278,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   <,macarray=N>
   <,ds=>
   <,vars=>
+  <,q=>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -312,8 +313,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
                     `%array(myArr[*] x1-x3 (4:6), vnames=Y)`
                   will use `x1`, `x2`, and `x3` as values instead `4`, `5`, and `6`.
 
-* `macarray=N` -  *Optional*, default value `N`, if set to `Y`/`YES` then macro named with array 
-                  name is compiled to create convenient envelope for multiple ampersands, e.g. 
+* `macarray=N` -  *Optional*, default value `N`, if set to `Y`/`YES` then a macro, named with the array 
+                  name, is compiled to create convenient envelope for multiple ampersands, e.g. 
                     `%array(myArr[*] x1-x3 (4:6), macarray=Y)` 
                   will create `%myArr(J)` macro which will allow to extract "data" 
                   from macroarray like: 
@@ -325,8 +326,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
                   macrovariables with prefix like the array name and numeric suffixes, 
                   then the minimum and the maximum index is determined
                   and all not existing global macrovariables are created and
-                  a macro is generated in the same way as for the `Y` value
-                  
+                  a macro is generated in the same way as for the `Y` value.
+
 * `ds=` -        *Optional*, use a dataset as a basis for a macroarray data, 
                  if used by default overwrites use of the `array` parameter, honors `macarray=` 
                  argument, dataset options are allowed, e.g. `sashelp.class(obs=5)`
@@ -343,23 +344,27 @@ The basic syntax is the following, the `<...>` means optional parameters:
                   2) macroarray "WEIGHT" with ALL(no separator is equivalent to #) 
                      values of variable "weight" <br>
                   3) macroarray "W" with UNIQUE(|) values of variable "weight" and <br>
-                  4) macroarray "AGE" with UNIQUE(|) values of variable "age",
+                  4) macroarray "AGE" with UNIQUE(|) values of variable "age".
+
+* `q=` -        *Optional*, indicates (when set to `1`) if the value be surrounded by quotes.
+                It uses `quote(cats(...))` combo under the hood. Default value is `0`.
+                Ignored for `macarray=M`.
 
 
-
+---
  
 ### EXAMPLES AND USECASES: ####################################################
 
 
 **EXAMPLE 1.** Basic use-case. 
-    Creating macroarray like in the array statement;
-    values are used by default;
-    different types of brackets are allowed;
+    Creating macroarray like in the array statement.
+    Values not variables names are used by default.
+    Different types of brackets are allowed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %array(a[*] x1-x5 (1:5))
 
-  %array(b{5} (5*17))
+  %array(b{5} (5*17), q=1)
 
   %* Mind the $ since it is a character array!;
   %array(c(3) $ 10 ("a A" "b,B" "c;C"))
@@ -405,7 +410,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   %put &=g0. &=g1. &=g2.; 
 
   %* Or something more complex;
-  %array(gg[0:11] $ 11, function = put(intnx("MONTH", '1jun2018'd, _I_, "E"), yymmn.))
+  %array(gg[0:11] $ 11, function = put(intnx("MONTH", '1jun2018'd, _I_, "E"), yymmn.), q=1)
   %put &=ggLBOUND. &=ggHBOUND. &=ggN.;
   %put &=gg0 &=gg1 &=gg2 ... &=gg11;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -433,10 +438,10 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-**EXAMPLE 6a.** "Uppercas Letters"
+**EXAMPLE 6a.** Quoted "Uppercas Letters"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %array(UL[26] $, function = byte(rank("A")+_I_-1) )
+  %array(UL[26] $, function = byte(rank("A")+_I_-1) , q=1)
   %put &=UL1 &=UL2 ... &=UL25 &=UL26;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -451,7 +456,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
   %* The range handling, warning;
   %put *%ll(265)*;
-
+ 
   %* The input mode; 
   %put *before:*%ll(2)*;
   %let %ll(2,I) = bbbbb;
@@ -576,10 +581,10 @@ The basic syntax is the following, the `<...>` means optional parameters:
     Currently the only separator in VARS is a space.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %array(ds = sashelp.class, vars = height#h weight weight|w age|)
+  %array(ds = sashelp.class, vars = height#h weight weight|w age|, q=1)
   %put _user_;
 
-  %array(ds = sashelp.class, vars = height#hght weight weight|wght age|, macarray=Y)
+  %array(ds = sashelp.class, vars = height#hght weight weight|wght age|, macarray=Y, q=1)
   %put *%hght(&hghtLBOUND.)**%weight(2)**%wght(&wghtHBOUND.)**%age(3)*;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -599,7 +604,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   %let myTest6 = 16;
   %let myTest9 = 19;
   
-  %array(myTest, macarray=M)
+  %array(myTest, macarray=M, q=1)
   %do_over(myTest, phrase = %nrstr(%put *&_I_.*%myTest(&_I_.)*;))
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
