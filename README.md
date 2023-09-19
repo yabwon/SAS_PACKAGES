@@ -51,7 +51,7 @@ The first step to use a package with the SAS Packages Framework:
 
 - Create a folder for your packages, under Windows OS family e.g., `C:/SAS_PACKAGES` or under Linux/UNIX OS family e.g., `/home/<username>/SAS_PACKAGES`.
 
-and then either:
+Then either:
 
 - Manually download the `SPFinit.sas` file (the SAS Packages Framework) into the local packages folder.
 - \[Optional\] Manually download the `<packageName>.zip` file into the local packages folder.
@@ -90,6 +90,13 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main
 %include SPFinit; /* enable the framework */
 ```
 
+  or (shorter) with:
+
+```sas
+filename SPFinit url "https://bit.ly/SPFinit";
+%include SPFinit; /* enable the framework */
+```
+
 - Install the framework on your machine in the folder you created:
 
 ```sas
@@ -97,7 +104,7 @@ filename packages "<directory/containing/packages/>";
 %installPackage(SPFinit) /* install the framework */
 ```
 
-- And from now on run it like this:
+- From now on run it like this:
 
 ```sas
 filename packages "<directory/containing/packages/>";
@@ -109,7 +116,8 @@ filename packages "<directory/containing/packages/>";
 ```
 
 ---
-The "Workshop video for the User" got outdated (in general). Newer version is comming soon, in the mean time see some of the vedeos from the "Recordings and Presentations" section above. 
+
+The "Workshop video for the User" got outdated (in general). Newer version is coming soon, in the mean time see some of the videos from the "Recordings and Presentations" section above. 
 (You can watch the workshop if you wish, link is working and some parts are still valid source of information e.g., "`ICE` loading" or "`disk` loading")
 
  <s>[**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y) \[May 6th, 2020\] [~86 minutes, outdated (installPackage macro was not there yet) but gives the idea how it works especially load, help, unload, ICEload, and other details]</s>
@@ -128,7 +136,7 @@ To create your own package:
 
 - Read the **`My First SAS Package: A How-To - Paper 1079-2021`** article available at communities.sas.com [**`here`**](https://communities.sas.com/t5/SAS-Global-Forum-Proceedings/My-First-SAS-Package-A-How-To/ta-p/726319 "My First SAS Package: A How-To") or locally [**`here`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Paper_1079-2021/My%20First%20SAS%20Package%20-%20a%20How%20To.pdf "My First SAS Package: A How-To")
 
-The SAS Packages Framework [(short) documetation](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md) to quickly see macros options and parametera.
+The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md) to quickly see macros options and parameters.
 
 ---
 
