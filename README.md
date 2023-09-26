@@ -10,6 +10,7 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. 
 
+Don't forget to **STAR** (:star:) the repository! :-)
 ---
 
 ### Current version:
