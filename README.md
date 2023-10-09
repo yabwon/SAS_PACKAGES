@@ -180,6 +180,10 @@ If you find the SPF useful **share info** about it or **give it a [star (:star:)
 
 ---
 
+![SPF_sticker](https://github.com/yabwon/SAS_PACKAGES/assets/9314894/cb9b7380-cb75-4501-978d-7ade02eccca8 "I'm using SAS Packages Framework")
+
+---
+
 ## Available packages:
 
 This section presents some example of available SAS packages.
@@ -225,4 +229,4 @@ Packages:
 
   Development of this package is currently on hold.
 
-### ======
+
