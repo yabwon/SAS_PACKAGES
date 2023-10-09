@@ -10,11 +10,13 @@ The *purpose of a package* is to be a simple, and easy to access, code sharing m
 
 In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. 
 
+Don't forget to **STAR** (:star:) the repository! :-)
+
 ---
 
 ### Current version:
 
-**The latest version** of SPF is **`20230904`**.  
+**The latest version** of SPF is **`20231009`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -146,9 +148,9 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 
 ### Updates worth mentioning:
 
-**Update**\[February 7th, 2023\]**:** `ADDCNT` ** type for *additional content* feature and ** `%loadPackageAddCnt()` **macro added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20230207 "Additional Content"))**.
+**Update**\[February 7th, 2023\]**:** `ADDCNT` **type for *additional content* feature and ** `%loadPackageAddCnt()` **macro added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20230207 "Additional Content"))**.
 
-**Update**\[December 12th, 2022\]**:** `CASLUDF` ** type for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros"))**.
+**Update**\[December 12th, 2022\]**:** `CASLUDF` **type for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros"))**.
 
 **Update**\[November 21st, 2022\]**:** `%loadPackage()` **macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking"))**.
 
@@ -174,7 +176,7 @@ This is a list of locations where the SAS Packages Framework is used:
 
 If you want to share that you are using the SPF let me know and I'll update the list.
 
-If you find the SPF useful **share info** about it or **give it a [star](https://github.com/yabwon/SAS_PACKAGES/stargazers)** so more people will know.
+If you find the SPF useful **share info** about it or **give it a [star (:star:)](https://github.com/yabwon/SAS_PACKAGES/stargazers)** so more people will know.
 
 ---
 
