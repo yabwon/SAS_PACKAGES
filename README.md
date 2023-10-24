@@ -16,7 +16,7 @@ Don't forget to **STAR** (:star:) the repository! :-)
 
 ### Current version:
 
-**The latest version** of SPF is **`20231009`**.  
+**The latest version** of SPF is **`20231024`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -180,6 +180,10 @@ If you find the SPF useful **share info** about it or **give it a [star (:star:)
 
 ---
 
+![SPF_sticker](https://github.com/yabwon/SAS_PACKAGES/assets/9314894/cb9b7380-cb75-4501-978d-7ade02eccca8 "I'm using SAS Packages Framework")
+
+---
+
 ## Available packages:
 
 This section presents some example of available SAS packages.
@@ -225,4 +229,4 @@ Packages:
 
   Development of this package is currently on hold.
 
-### ======
+

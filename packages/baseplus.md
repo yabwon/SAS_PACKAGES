@@ -60,6 +60,10 @@
   * [`%filePath()` macro](#filepath-macro)
   * [`%libPath()` macro](#libpath-macro)
   * [`%workPath()` macro](#workpath-macro)
+  * [`%date()` macro](#date-macro)
+  * [`%today()` macro](#today-macro)
+  * [`%time()` macro](#time-macro)
+  * [`%datetime()` macro](#datetime-macro)
   * [`%translate()` macro](#translate-macro)
   * [`%tranwrd()` macro](#tranwrd-macro)
   * [`%findDSwithVarVal()` macro](#finddswithvarval-macro)
@@ -73,7 +77,7 @@
   
 ---
 
-# The BasePlus package [ver. 1.30.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.31.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -334,91 +338,97 @@ data Times2_A3B4C5;
     %repList(work.A work.B work.C, times = 2, each = 3 4 5)
   ;
 run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 23** Date and time one-liners:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %today() %date() %time() %datetime(); 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
 
 Package contains: 
-1.   macro        bppipe
-2.   macro        deduplistc
-3.   macro        deduplistp
-4.   macro        deduplists
-5.   macro        deduplistx
-6.   macro        dirsandfiles
-7.   macro        functionexists
-8.   macro        getvars
-9.   macro        intslist
-10.  macro        ldsn
-11.  macro        ldsnm
-12.  macro        lvarnm
-13.  macro        lvarnmlab
-14.  macro        qdeduplistx
-15.  macro        qgetvars
-16.  macro        qzipevalf
-17.  macro        raincloudplot
-18.  macro        repeattxt
-19.  macro        splitdsintoblocks
-20.  macro        splitdsintoparts
-21.  macro        symdelglobal
-22.  macro        unziplibrary
-23.  macro        zipevalf
-24.  macro        ziplibrary
-25.  format       bool
-26.  format       boolz
-27.  format       ceil
-28.  format       floor
-29.  format       int
-30.  functions    arrfill
-31.  functions    arrfillc
-32.  functions    arrmissfill
-33.  functions    arrmissfillc
-34.  functions    arrmisstoleft
-35.  functions    arrmisstoleftc
-36.  functions    arrmisstoright
-37.  functions    arrmisstorightc
-38.  functions    bracketsc
-39.  functions    bracketsn
-40.  functions    catxfc
-41.  functions    catxfi
-42.  functions    catxfj
-43.  functions    catxfn
-44.  functions    deldataset
-45.  functions    semicolonc
-46.  functions    semicolonn
-47.  format       brackets
-48.  format       semicolon
-49.  proto        qsortincbyprocproto
-50.  functions    frommissingtonumberbs
-51.  functions    fromnumbertomissing
-52.  functions    quicksort4notmiss
-53.  functions    quicksorthash
-54.  functions    quicksorthashsddv
-55.  functions    quicksortlight
-56.  macro        filepath
-57.  macro        finddswithvarval
-58.  macro        fmt
-59.  macro        gettitle
-60.  macro        infmt
-61.  macro        letters
-62.  macro        libpath
-63.  macro        minclude
-64.  macro        replist
-65.  macro        translate
-66.  macro        tranwrd
-67.  macro        workpath
-
-
+1.  macro    bppipe
+2.  macro    deduplistc
+3.  macro    deduplistp
+4.  macro    deduplists
+5.  macro    deduplistx
+6.  macro    dirsandfiles
+7.  macro    functionexists
+8.  macro    getvars
+9.  macro    intslist
+10. macro    ldsn
+11. macro    ldsnm
+12. macro    lvarnm
+13. macro    lvarnmlab
+14. macro    qdeduplistx
+15. macro    qgetvars
+16. macro    qzipevalf
+17. macro    raincloudplot
+18. macro    repeattxt
+19. macro    splitdsintoblocks
+20. macro    splitdsintoparts
+21. macro    symdelglobal
+22. macro    unziplibrary
+23. macro    zipevalf
+24. macro    ziplibrary
+25. format   bool
+26. format   boolz
+27. format   ceil
+28. format   floor
+29. format   int
+30. function arrfill
+31. function arrfillc
+32. function arrmissfill
+33. function arrmissfillc
+34. function arrmisstoleft
+35. function arrmisstoleftc
+36. function arrmisstoright
+37. function arrmisstorightc
+38. function bracketsc
+39. function bracketsn
+40. function catxfc
+41. function catxfi
+42. function catxfj
+43. function catxfn
+44. function deldataset
+45. function semicolonc
+46. function semicolonn
+47. format   brackets
+48. format   semicolon
+49. proto    qsortincbyprocproto
+50. function frommissingtonumberbs
+51. function fromnumbertomissing
+52. function quicksort4notmiss
+53. function quicksorthash
+54. function quicksorthashsddv
+55. function quicksortlight
+56. macro    date
+57. macro    datetime
+58. macro    filepath
+59. macro    finddswithvarval
+60. macro    fmt
+61. macro    gettitle
+62. macro    infmt
+63. macro    letters
+64. macro    libpath
+65. macro    minclude
+66. macro    replist
+67. macro    time
+68. macro    today
+69. macro    translate
+70. macro    tranwrd
+71. macro    workpath
 
 
 Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load it
 or look for the baseplus_AdditionalContent directory in the Packages fileref
 localization (only if additional content was deployed during the installation process).
 
-* SAS package generated by generatePackage, version 20230905 *
+* SAS package generated by generatePackage, version 20231009 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*B91771D45C781B6806DBB44A3B491A0784D7698B9F3BBBE1A86EE5594834315F` 
+`F*7EF23E80A2C03B29402183D97ECFF608B62BEDD9458848709B52DC362E6201B9` 
 
 ---
 # Content description ############################################################################################
@@ -4969,6 +4979,134 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
+
+## >>> `%date()` macro: <<< <a name="date-macro"></a> #######################  
+
+The date() macro function is a "lazy typer" wrapping up `%sysfunc(date())`.
+
+See examples below for the details.
+
+The `%date()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%date()
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+ No arguments.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get value of `date()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %date();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+ 
+## >>> `%today()` macro: <<< <a name="today-macro"></a> #######################  
+
+The today() macro function is a "lazy typer" wrapping up `%sysfunc(today())`.
+
+See examples below for the details.
+
+The `%today()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%today()
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+ No arguments.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get value of `today()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %today();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+ 
+## >>> `%time()` macro: <<< <a name="time-macro"></a> #######################  
+
+The time() macro function is a "lazy typer" wrapping up `%sysfunc(time())`.
+
+See examples below for the details.
+
+The `%time()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%time()
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+ No arguments.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get value of `time()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %time();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+ 
+## >>> `%datetime()` macro: <<< <a name="datetime-macro"></a> #######################  
+
+The datetime() macro function is a "lazy typer" wrapping up `%sysfunc(datetime())`.
+
+See examples below for the details.
+
+The `%datetime()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%datetime()
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+ No arguments.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get value of `datetime()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %datetime();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
 
 ## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
 
