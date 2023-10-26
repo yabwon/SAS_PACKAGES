@@ -114,7 +114,7 @@ format x bool.;
 
 %put %monthShift(2023,1,-5);
 ```
-SHA256 digest for BasePlus: F*81EF4FA7E1D9363A991B686F38C6569FFB22024CB9C67A9395EEF6D4257D508E
+SHA256 digest for BasePlus: F*3407AD8068C7528E129034144F9A44CFDF14B7DC34334C64C2F1D67351D1E01E
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
