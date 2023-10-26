@@ -64,6 +64,7 @@
   * [`%today()` macro](#today-macro)
   * [`%time()` macro](#time-macro)
   * [`%datetime()` macro](#datetime-macro)
+  * [`%monthShift()` macro](#monthshift-macro)
   * [`%translate()` macro](#translate-macro)
   * [`%tranwrd()` macro](#tranwrd-macro)
   * [`%findDSwithVarVal()` macro](#finddswithvarval-macro)
@@ -77,7 +78,7 @@
   
 ---
 
-# The BasePlus package [ver. 1.31.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.32.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -85,6 +86,7 @@ functions and functionalities I miss in the BASE SAS.
 It is inspired by various people, e.g.
 - at the SAS-L discussion list
 - at the communities.sas.com (SASware Ballot Ideas)
+- at StackOverflow
 - at the Office...
 - etc.
 
@@ -99,8 +101,6 @@ Kudos to all who inspired me to generate this package:
 *Quentin McMullen*,
 *Kurt Bremser*,
 *Leonid Batkhan*.
-
-Recording from the SAS Explore 2022 conference: [A BasePlus Package for SAS](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "A BasePlus Package for SAS") (September 27th-29th, 2022).
 
 ---
 
@@ -345,90 +345,101 @@ run;
 %put %today() %date() %time() %datetime(); 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 24** Months shifting:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put 
+  Past:    %monthShift(2023, 1, -1) 
+  Current: %monthShift(2023, 1    )
+  Future:  %monthShift(2023, 1, +1)
+;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
 
 Package contains: 
-1.  macro    bppipe
-2.  macro    deduplistc
-3.  macro    deduplistp
-4.  macro    deduplists
-5.  macro    deduplistx
-6.  macro    dirsandfiles
-7.  macro    functionexists
-8.  macro    getvars
-9.  macro    intslist
-10. macro    ldsn
-11. macro    ldsnm
-12. macro    lvarnm
-13. macro    lvarnmlab
-14. macro    qdeduplistx
-15. macro    qgetvars
-16. macro    qzipevalf
-17. macro    raincloudplot
-18. macro    repeattxt
-19. macro    splitdsintoblocks
-20. macro    splitdsintoparts
-21. macro    symdelglobal
-22. macro    unziplibrary
-23. macro    zipevalf
-24. macro    ziplibrary
-25. format   bool
-26. format   boolz
-27. format   ceil
-28. format   floor
-29. format   int
-30. function arrfill
-31. function arrfillc
-32. function arrmissfill
-33. function arrmissfillc
-34. function arrmisstoleft
-35. function arrmisstoleftc
-36. function arrmisstoright
-37. function arrmisstorightc
-38. function bracketsc
-39. function bracketsn
-40. function catxfc
-41. function catxfi
-42. function catxfj
-43. function catxfn
-44. function deldataset
-45. function semicolonc
-46. function semicolonn
-47. format   brackets
-48. format   semicolon
-49. proto    qsortincbyprocproto
-50. function frommissingtonumberbs
-51. function fromnumbertomissing
-52. function quicksort4notmiss
-53. function quicksorthash
-54. function quicksorthashsddv
-55. function quicksortlight
-56. macro    date
-57. macro    datetime
-58. macro    filepath
-59. macro    finddswithvarval
-60. macro    fmt
-61. macro    gettitle
-62. macro    infmt
-63. macro    letters
-64. macro    libpath
-65. macro    minclude
-66. macro    replist
-67. macro    time
-68. macro    today
-69. macro    translate
-70. macro    tranwrd
-71. macro    workpath
+1.  macro     bppipe
+2.  macro     deduplistc
+3.  macro     deduplistp
+4.  macro     deduplists
+5.  macro     deduplistx
+6.  macro     dirsandfiles
+7.  macro     functionexists
+8.  macro     getvars
+9.  macro     intslist
+10. macro     ldsn
+11. macro     ldsnm
+12. macro     lvarnm
+13. macro     lvarnmlab
+14. macro     qdeduplistx
+15. macro     qgetvars
+16. macro     qzipevalf
+17. macro     raincloudplot
+18. macro     repeattxt
+19. macro     splitdsintoblocks
+20. macro     splitdsintoparts
+21. macro     symdelglobal
+22. macro     unziplibrary
+23. macro     zipevalf
+24. macro     ziplibrary
+25. format    bool
+26. format    boolz
+27. format    ceil
+28. format    floor
+29. format    int
+30. function  arrfill
+31. function  arrfillc
+32. function  arrmissfill
+33. function  arrmissfillc
+34. function  arrmisstoleft
+35. function  arrmisstoleftc
+36. function  arrmisstoright
+37. function  arrmisstorightc
+38. function  bracketsc
+39. function  bracketsn
+40. function  catxfc
+41. function  catxfi
+42. function  catxfj
+43. function  catxfn
+44. function  deldataset
+45. function  semicolonc
+46. function  semicolonn
+47. format    brackets
+48. format    semicolon
+49. proto     qsortincbyprocproto
+50. function  frommissingtonumberbs
+51. function  fromnumbertomissing
+52. function  quicksort4notmiss
+53. function  quicksorthash
+54. function  quicksorthashsddv
+55. function  quicksortlight
+56. macro     date
+57. macro     datetime
+58. macro     filepath
+59. macro     finddswithvarval
+60. macro     fmt
+61. macro     gettitle
+62. macro     infmt
+63. macro     letters
+64. macro     libpath
+65. macro     minclude
+66. macro     monthshift
+67. macro     replist
+68. macro     time
+69. macro     today
+70. macro     translate
+71. macro     tranwrd
+72. macro     workpath
+
 
 
 Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load it
 or look for the baseplus_AdditionalContent directory in the Packages fileref
 localization (only if additional content was deployed during the installation process).
 
-* SAS package generated by generatePackage, version 20231009 *
+* SAS package generated by generatePackage, version 20231024 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*7EF23E80A2C03B29402183D97ECFF608B62BEDD9458848709B52DC362E6201B9` 
+`F*3407AD8068C7528E129034144F9A44CFDF14B7DC34334C64C2F1D67351D1E01E` 
 
 ---
 # Content description ############################################################################################
@@ -5103,6 +5114,149 @@ The basic syntax is the following, the `<...>` means optional parameters:
 **EXAMPLE 1.** Get value of `datetime()`:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %put %datetime();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+## >>> `%monthShift()` macro: <<< <a name="monthshift-macro"></a> #######################  
+
+The monthShift() macro is a utility macro 
+which allows to shift "year-month" period by 
+a given number of "periods" (months).
+
+The result is in the `YYYYMM` format but can be altered.
+
+See examples below for the details.
+
+The `%monthShift()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%monthShift(
+  < Y>
+  <,M>
+  <,shift>
+  <,ofmt=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `Y`           - *Optional*, a year from which counting starts.
+                   If null the value is set to *system year*.
+
+2. `M`           - *Optional*, a month from which counting starts.
+                   If null the value is set to `1`. Can be a number 
+                   (`1` to `12`) or a name (`June`, `OCTOBER`) or 
+                   a three letters short (`JAN`, `apr`).
+
+3. `shift`       - *Optional*, number of periods to shift.
+                   If null the value is set to `0`.
+                   Positive value shifts to the "future",
+                   negative value shifts to the "past",
+                   Can be an expression (e.g. `1+2*3`, see examples).
+
+* `ofmt=YYMMn6.` - *Optional*, it is a format name used to 
+                   display the result. Default value is `YYMMn6.`
+                   See examples.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Shift one up and one down:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put 
+  Past:    %monthShift(2023, 1, -1) 
+  Current: %monthShift(2023, 1    )
+  Future:  %monthShift(2023, 1, +1)
+;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Shift by expression:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let n = 2;
+  %put 
+    %monthShift(2023, 1, +1 + &n.*3)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Shift with default values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %monthShift();
+  %put %monthShift(2023);
+  %put %monthShift(2023,Jan);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Shift with months names:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put 
+    %monthShift(2023,Jan,-1)
+    %monthShift(2023,Feb,-2)
+    %monthShift(2023,Mar,-3)
+    %monthShift(2023,Apr,-4)
+    %monthShift(2023,May,-5)
+    %monthShift(2023,Jun,-6)
+    %monthShift(2023,Jul,-7)
+    %monthShift(2023,Aug,-8)
+    %monthShift(2023,Sep,-9)
+    %monthShift(2023,Oct,-10)
+    %monthShift(2023,Nov,-11)
+    %monthShift(2023,Dec,-12)
+  ;
+
+  %put 
+    %monthShift(2023,January,12)
+    %monthShift(2023,February,11)
+    %monthShift(2023,March,10)
+    %monthShift(2023,April,9)
+    %monthShift(2023,May,8)
+    %monthShift(2023,June,7)
+    %monthShift(2023,July,6)
+    %monthShift(2023,August,5)
+    %monthShift(2023,September,4)
+    %monthShift(2023,October,3)
+    %monthShift(2023,November,2)
+    %monthShift(2023,December,1)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Play with formatting:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put
+    %monthShift(2023, 1, +1                )
+    %monthShift(2023, 1, +1, ofmt=yymm7. )
+    %monthShift(2023, 1, +1, ofmt=yymmd7.)
+    %monthShift(2023, 1, +1, ofmt=yymms7.)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Read monthly data with `noDSNFERR` option:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  data
+    A202210 A202211 A202212
+    A202301 A202302 A202303
+    A202304 A202305 A202306
+    A202307 A202308 A202309
+  ;
+    set sashelp.class;
+  run;
+
+
+  options noDSNFERR; 
+  data ALL;
+    set 
+      A%monthShift(2023, 9, -12)  - A%monthShift(2023, 9)
+    ;
+  run;
+  options DSNFERR;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
