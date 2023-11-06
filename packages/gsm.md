@@ -42,7 +42,10 @@ run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 See examples for more details.
 
-Recording of presentation with "how it works" description, in Polish, is avaliable [here](https://www.youtube.com/watch?v=LtaWPe2sgRY&t=1s).
+[Recording of presentation with "how it works" description (in Polish)](https://www.youtube.com/watch?v=LtaWPe2sgRY&t=1s "YouTube").
+
+[The WUSS 2023 Conference article describing the idea](https://www.wuss.org/wuss-2023-conference-proceedings/ "Article about the idea GSM")
+
 
 *How to use it:* 
  - Copy all files with your secured macros code into a directory. 
