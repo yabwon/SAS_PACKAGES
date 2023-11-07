@@ -16,7 +16,7 @@ Don't forget to **STAR** (:star:) the repository! :-)
 
 ### Current version:
 
-**The latest version** of SPF is **`20231024`**.  
+**The latest version** of SPF is **`20231107`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -37,6 +37,21 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   - ["A BasePlus Package for SAS" - SAS Explore 2022](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "SASexplore2022 communities.sas.com") (September 27th-29th 2022, ~28 minutes, technical presentation with details about the BasePlus package), alternative video at YouTube is [here](https://www.youtube.com/watch?v=-Poxkx5WfOQ "SASexplore2022 TouTube")
   - ["SAS Packages - State of the Union" - SaSensei International Dojo No. 13](https://www.youtube.com/watch?v=1GEldZYQjj0&t=0s "SID no. 13") (November 10th 2022, ~50 minutes, general overview with the latest technical details)
   - ["SAS Packages Framework - an easy code sharing medium for SAS" - Warsaw IT Days 2023](https://youtu.be/T52Omisi0dk&t=0s "Warsaw IT Days 2023") (March 31st 2023, ~60 minutes, general overview with technical details for user and developer)
+
+
+### Tutorials:
+
+Here are links to some tutorials which may help you to start with the framework. 
+Order is dictated by the amount of details presented. 
+Letter "D" indicates tutorial dedicated for developers and "U" materials for users.
+
+1) (DU) The latest [video](https://youtu.be/T52Omisi0dk&t=0s) explaining the idea.
+
+2) (D) Very simple ["Hello World" example](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/HelloWorldPackage.md) tutorial for developers. As a support a [walk-through video](https://youtu.be/T52Omisi0dk&t=2160s)
+
+3) (D) Article and all required materials for ["My first SAS Package"](https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation/Paper_1079-2021) tutorial.
+
+4) (DU) Materials from Hands-on-Workshop (4+ hours) tutorial: [Share your code with SAS Packages](https://github.com/yabwon/HoW-SASPackages).
 
 
 ---
@@ -186,9 +201,9 @@ If you find the SPF useful **share info** about it or **give it a [star (:star:)
 
 ## Available packages:
 
-This section presents some example of available SAS packages.
+This section presents some examples of available SAS packages.
 
-**(!)** Since *September 2022* the default location for packages is **SASPAC - the SAS Packages Archive** located under: [`https://github.com/SASPAC`](https://github.com/SASPAC) where each package is stored as a separate repository with historical versions too.
+**(!)** Since *September 2022* the default and **official** location for packages is **SASPAC - the SAS Packages Archive** located under: [`https://github.com/SASPAC`](https://github.com/SASPAC) where each package is stored as a separate repository with historical versions.
 
 **(!)** For "backward compatibility"/historical point of view the following packages are also available under the `./packages` directory in this repository.
 

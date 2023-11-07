@@ -19,7 +19,7 @@
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20231024. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20231107. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -35,7 +35,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20231024`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20231107`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -298,14 +298,14 @@ minoperator
 
                                 pathname_f = pathname("f");
                                 rc1 = filename("in", strip(pathname_f), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
-                                length rc1txt $ 8192;
+                                length rc1msg $ 8192;
                                 rc1msg = sysmsg();
                                 rc2 = filename("out", catx("/", libText, scan(file, j , "/\")), "disk", "lrecl=1 recfm=n");
-                                length rc2txt $ 8192;
+                                length rc2msg $ 8192;
                                 rc2msg = sysmsg();
                               
                                 rc3 = fcopy("in", "out");
-                                length rc3txt $ 8192;
+                                length rc3msg $ 8192;
                                 rc3msg = sysmsg();
                           
                                 loadingProblem + (rc3 & 1);
