@@ -45,6 +45,7 @@
   * [`%RainCloudPlot()` macro](#raincloudplot-macro)
   * [`%zipLibrary()` macro](#ziplibrary-macro)
   * [`%unzipLibrary()` macro](#unziplibrary-macro)
+  * [`%unzipArch()` macro](#unzipatch-macro)
   * [`%LDSN()` macro](#ldsn-macro)
   * [`%LDsNm()` macro](#ldsnm-macro)
   * [`%LVarNm()` macro](#lvarnm-macro)
@@ -78,7 +79,7 @@
   
 ---
 
-# The BasePlus package [ver. 1.32.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.33.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -357,78 +358,79 @@ run;
 ---
 
 Package contains: 
-1.  macro     bppipe
-2.  macro     deduplistc
-3.  macro     deduplistp
-4.  macro     deduplists
-5.  macro     deduplistx
-6.  macro     dirsandfiles
-7.  macro     functionexists
-8.  macro     getvars
-9.  macro     intslist
-10. macro     ldsn
-11. macro     ldsnm
-12. macro     lvarnm
-13. macro     lvarnmlab
-14. macro     qdeduplistx
-15. macro     qgetvars
-16. macro     qzipevalf
-17. macro     raincloudplot
-18. macro     repeattxt
-19. macro     splitdsintoblocks
-20. macro     splitdsintoparts
-21. macro     symdelglobal
-22. macro     unziplibrary
-23. macro     zipevalf
-24. macro     ziplibrary
-25. format    bool
-26. format    boolz
-27. format    ceil
-28. format    floor
-29. format    int
-30. function  arrfill
-31. function  arrfillc
-32. function  arrmissfill
-33. function  arrmissfillc
-34. function  arrmisstoleft
-35. function  arrmisstoleftc
-36. function  arrmisstoright
-37. function  arrmisstorightc
-38. function  bracketsc
-39. function  bracketsn
-40. function  catxfc
-41. function  catxfi
-42. function  catxfj
-43. function  catxfn
-44. function  deldataset
-45. function  semicolonc
-46. function  semicolonn
-47. format    brackets
-48. format    semicolon
-49. proto     qsortincbyprocproto
-50. function  frommissingtonumberbs
-51. function  fromnumbertomissing
-52. function  quicksort4notmiss
-53. function  quicksorthash
-54. function  quicksorthashsddv
-55. function  quicksortlight
-56. macro     date
-57. macro     datetime
-58. macro     filepath
-59. macro     finddswithvarval
-60. macro     fmt
-61. macro     gettitle
-62. macro     infmt
-63. macro     letters
-64. macro     libpath
-65. macro     minclude
-66. macro     monthshift
-67. macro     replist
-68. macro     time
-69. macro     today
-70. macro     translate
-71. macro     tranwrd
-72. macro     workpath
+1.  macro     bppipe                 
+2.  macro     deduplistc             
+3.  macro     deduplistp             
+4.  macro     deduplists             
+5.  macro     deduplistx             
+6.  macro     dirsandfiles           
+7.  macro     functionexists         
+8.  macro     getvars                
+9.  macro     intslist               
+10. macro     ldsn                   
+11. macro     ldsnm                  
+12. macro     lvarnm                 
+13. macro     lvarnmlab              
+14. macro     qdeduplistx            
+15. macro     qgetvars               
+16. macro     qzipevalf              
+17. macro     raincloudplot          
+18. macro     repeattxt              
+19. macro     splitdsintoblocks      
+20. macro     splitdsintoparts       
+21. macro     symdelglobal           
+22. macro     unziparch              
+23. macro     unziplibrary           
+24. macro     zipevalf               
+25. macro     ziplibrary             
+26. format    bool                   
+27. format    boolz                  
+28. format    ceil                   
+29. format    floor                  
+30. format    int                    
+31. function  arrfill                
+32. function  arrfillc               
+33. function  arrmissfill            
+34. function  arrmissfillc           
+35. function  arrmisstoleft          
+36. function  arrmisstoleftc         
+37. function  arrmisstoright         
+38. function  arrmisstorightc        
+39. function  bracketsc              
+40. function  bracketsn              
+41. function  catxfc                 
+42. function  catxfi                 
+43. function  catxfj                 
+44. function  catxfn                 
+45. function  deldataset             
+46. function  semicolonc             
+47. function  semicolonn             
+48. format    brackets               
+49. format    semicolon              
+50. proto     qsortincbyprocproto    
+51. function  frommissingtonumberbs  
+52. function  fromnumbertomissing    
+53. function  quicksort4notmiss      
+54. function  quicksorthash          
+55. function  quicksorthashsddv      
+56. function  quicksortlight         
+57. macro     date                   
+58. macro     datetime               
+59. macro     filepath               
+60. macro     finddswithvarval       
+61. macro     fmt                    
+62. macro     gettitle               
+63. macro     infmt                  
+64. macro     letters                
+65. macro     libpath                
+66. macro     minclude               
+67. macro     monthshift             
+68. macro     replist                
+69. macro     time                   
+70. macro     today                  
+71. macro     translate              
+72. macro     tranwrd                
+73. macro     workpath               
 
 
 
@@ -436,10 +438,10 @@ Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load
 or look for the baseplus_AdditionalContent directory in the Packages fileref
 localization (only if additional content was deployed during the installation process).
 
-* SAS package generated by generatePackage, version 20231024 *
+* SAS package generated by generatePackage, version 20231107 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*3407AD8068C7528E129034144F9A44CFDF14B7DC34334C64C2F1D67351D1E01E` 
+`F*6214654B4575DC8E4BA3CF032924862C2F69A03A6384872BAA9F774EDF6A8DDA` 
 
 ---
 # Content description ############################################################################################
@@ -3770,6 +3772,92 @@ run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
+
+## >>> `%unzipArch()` macro: <<< <a name="unziparch-macro"></a> #######################  
+
+The unzipArch() macro allows to unzip content of a ZIP archive. 
+Macro is OS independent, the `XCMD` option is not required.
+
+The `dlCreateDir` option is used under the hood.
+
+Content of unzipped archive can be listed in the log.
+
+Source files can be deleted after decompression.
+Errors of decompression and are reported. If any occur
+the deletion is suspended.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%unzipArch(
+    archName
+  <,path=>
+  <,target=>
+  <,list=> 
+  <,clean=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `archName`      - *Required*, name of the ZIP archive to be extracted.
+                     Name should be full, i.e., with the extension.
+
+* `path=`          - *Optional*, a path pointing to zipped file location.
+                     The path should be provided unquoted.
+                     Default value is `WORK` location.
+
+* `target=`        - *Optional*, a path pointing to target location where
+                     files will be extracted.
+                     The path should be provided unquoted.
+                     Default value is `WORK` location.
+
+* `list = 0`       - *Optional*, default value is `0`,
+                     indicates if zip content should be listed in the log. 
+                     `1` means *yes*, `0` means *no*. 
+
+* `clean = 0`      - *Optional*, default value is `0`,
+                     indicates if zip file should be deleted after unzipping. 
+                     `1` means *yes*, `0` means *no*. 
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Unzip compressed archive. Example requires the `basePlus` package.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+filename arch ZIP "%workPath()/testArch.zip";
+
+data _null_;
+  file arch(abc/test1.txt);
+  put "text for test file 1";
+data _null_;
+  file arch(abc/subdir/test2.txt);
+  put "text for test file 2";
+data _null_;
+  file arch(abc/subdir/test3.txt);
+  put "text for test file 3";
+run;
+
+%unzipArch(
+  testArch.zip 
+, path = %workPath()
+, target = %workPath()
+, list=1
+);
+
+%unzipArch(
+  testArch.zip 
+, path = %workPath()
+, target = %workPath()
+, clean=1
+);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## >>> `%LDSN()` macro: <<< <a name="ldsn-macro"></a> #######################  
 
