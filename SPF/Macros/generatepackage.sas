@@ -23,7 +23,7 @@
                     default value 1 means "delete tests work" */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20231107. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20231111. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -38,7 +38,7 @@ des = 'Macro to generate SAS packages, version 20231107. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20231107`                            #;
+    %put # Macro to generate SAS packages, version `20231111`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -483,6 +483,16 @@ DESCRIPTION END:
    |             |
    |             +-abc.sas [a file with a code creating IML module ABC, _without_ "Proc IML" header]
    |
+   +-011_casludf [one file one CAS-L user defined function,
+   |             |  only plain code of the function, without "Proc CAS" header]
+   |             |
+   |             +-abc.sas [a file with a code creating CAS-L user defined function ABC, _without_ "Proc CAS" header]
+   |
+   +-012_kmfsnip [one file one KMF-abbreviation snippet,
+   |             |  code snipped propper tagging]
+   |             |
+   |             +-abc.sas [a file with a KMF-abbreviation snippet ABC, _with_ proper tagging, snippets names are in low-case]
+   |
    +-<sequential number>_<type [in lower case]>
    |
    +-00n_clean [if you need to clean something up after exec file execution,
@@ -564,7 +574,7 @@ data &filesWithCodes.;
        'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
        'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
        'LAZYDATA' 'TEST' 'CASLUDF'
-       'ADDCNT'
+       'ADDCNT' 'KMFSNIP'
       )) 
     then 
       do;
@@ -810,7 +820,7 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
     title8 "Required SAS packages: %qsysfunc(compress(%superq(packageReqPackages),%str(%'%")))" ;   /* " */
   %end;
 
-footnote1 "SAS Packages Framework, version 20231107";
+footnote1 "SAS Packages Framework, version 20231111";
 
 proc print data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent);
 run;
@@ -947,8 +957,8 @@ run;
     4) load package
 *//*
 
-  filename packages zip 'C:/SAS_PACKAGES/sqlinds.zip';
-  %include packages(iceloadpackage.sas);
+  filename ice ZIP 'C:/SAS_PACKAGES/sqlinds.zip';
+  %include ice(iceloadpackage.sas);
   filename packages 'C:/SAS_PACKAGES/';
   %ICEloadpackage(sqlinds)
 
@@ -1276,21 +1286,16 @@ data _null_;
       put '      put "ERROR: Loading package &packageName. will be aborted!";';
       put '      put "ERROR- Required components are missing.";              ';
       put '      put "ERROR- *** STOP ***";                                  ';
-      put '      call symputX("packageRequiredErrors",                ';
-      put '     ''options                                             ';
-      put '       ls = &ls_tmp.                                       ';
-      put '       ps = &ps_tmp.                                       ';
-      put '       &notes_tmp.                                         ';
-      put '       &stimer_tmp.                                        ';
-      put '       &fullstimer_tmp.                                    ';
-      put '       msglevel=&msglevel_tmp.                             ';
-      put '       &source_tmp.;                                       ';
-      put '       data _null_;abort;run;'', "L");                     ';
-      put '    end;                                                   ';
-      put '  else                                                     ';
-      put '    call symputX("packageRequiredErrors", " ", "L");       ';
-      put ' run;                                                      ';
-      put ' &packageRequiredErrors.                                   ';
+      put '      call symputX("packageRequiredErrors",';
+      put '     ''options ls = &ls_tmp. ps = &ps_tmp. ';
+      put '       &notes_tmp. &source_tmp. msglevel=&msglevel_tmp. ';
+      put '       &stimer_tmp. &fullstimer_tmp. ;';
+      put '       data _null_;abort;run;'', "L");              ';
+      put '    end;                                            ';
+      put '  else                                              ';
+      put '    call symputX("packageRequiredErrors", " ", "L");';
+      put ' run;                                               ';
+      put ' &packageRequiredErrors.                            ';
     %end;
 
 
@@ -1298,7 +1303,7 @@ data _null_;
 
     set &filesWithCodes. end = EOF nobs=NOBS;
     by TYPE notsorted;
-    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST' 'CASLUDF' 'ADDCNT')) 
+    if (upcase(type) in: ('CLEAN' 'LAZYDATA' 'TEST' 'CASLUDF' 'ADDCNT' 'KMFSNIP')) 
       then continue;                                          /* CASLUDF type will go in the next loop */
                                                               /* cleaning files are only included in unload.sas */
                                                               /* lazy data are only loaded on demand 
@@ -1310,7 +1315,7 @@ data _null_;
       ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 
        'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
        'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
-       'LAZYDATA' 'TEST' 'ADDCNT')) 
+       'LAZYDATA' 'TEST' 'ADDCNT' 'KMFSNIP')) 
     then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
@@ -1536,7 +1541,7 @@ data _null_;
             %end; 
       put +(-1) '`.;''' /
       ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20231107.;''' / 
+      ' !! ''      %put with the SAS Packages Framework version 20231111.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -1574,7 +1579,7 @@ data _null_;
     put '  %let cherryPick_CASLUDF = %eval(&cherryPick_CASLUDF. + 1);';
     put '%end; ' /; /* Cherry Pick test2 end */
 
-  end; /* loopOverTypes1 - start */
+  end; /* loopOverTypes1 - end */
 
   /* this is a footer for CASLudf macro */
   put ' !! "  options nonotes;"                      ' /
@@ -1613,8 +1618,6 @@ data _null_;
     end;
   put 'run;'/;
 
-
-
   /* cherry pick clean in cmplib for functions */
   if isFunction then
     do;
@@ -1641,12 +1644,7 @@ data _null_;
       put "proc delete data=work.%lowcase(&packageName.proto); run;";
       put '%end;';
     end;
-  /* list cmplib for functions */
-  if isFunction OR isProto then
-    do;      
-      put '%put NOTE- ;';
-      put '%put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
-    end;
+
 
   /* list fmtsearch for formats */
   if isFormat then
@@ -1660,7 +1658,6 @@ data _null_;
           ', %str(()) ))));';
       put '%end;';
       put '%put NOTE- ;';
-      put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));'/;
     end;
 
   /* create a macro loader for IML modules with dependencies */
@@ -1709,7 +1706,7 @@ data _null_;
             %end; 
       put +(-1) '`.; '' !!' /
           '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !!' / 
-          '''      %put with the SAS Packages Framework version 20231107.;                                  '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20231111.;                                  '' !! ' / 
           '''      %put ****************************************************************************;       '' !! ' /
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
@@ -1772,8 +1769,173 @@ data _null_;
       put '%end;';
     end;
 
+  /* KMF -------------------------------------------------------------------------------- start */
+  /*
+    The Key Macro Function Abbreviations part of the framework is based on PhUSE 2012 article:
+
+    "Dynamically generating macro invocations using SAS keyboard abbreviations" (Paper CC03)
+
+    by:
+      Tom Van Campen, SGS Life Science Services, Mechelen, Belgium
+      Benny Haemhouts, SGS Life Science Services, Mechelen, Belgium
+
+    Link to materials:
+      https://www.lexjansen.com/phuse/2012/cc/CC03.pdf
+  */
+
+  do until(eof2); /* loopOverKMF - start */
+    set &filesWithCodes. end = EOF2;
+    by TYPE notsorted;
+    if not (upcase(type) = 'KMFSNIP') then continue; /* only CASLUDF type in this loop */
+    isKMF + 1;
+    if 1=isKMF then
+      do; 
+        put 'data _null_;                                   '
+          / '  call symputX("cherryPick_KMF",      0, "L"); '
+          / 'run;                                           '
+          / "data work.%lowcase(&packageName.kmf);          "
+          / "length member $ 128; call missing(member);     "
+          / "if 0 then output;                              ";
+      end;
+
+    put ' '
+      / '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; ' /* Cherry Pick KMF start */
+      / '  %put NOTE- ;'
+      / '  %put NOTE: >> Element of type ' type 'from the file "' file +(-1) '" will be included <<;'
+      / '  member = "_' folder +(-1) "." file +(-1) '"; output;'
+      / '  %let cherryPick_KMF = %eval(&cherryPick_KMF. + 1);'
+      / '%end; ' /; /* Cherry Pick KMF end */
+  end; /* loopOverKMF - end */
+  put 'data _null_;';
+  put 'run;';
+
+  if isKMF then
+    do;
+      put '%let temp_noNotes_etc=%sysfunc(getoption(NOTES));'
+        / 'options noNotes;';
+      put '%if &cherryPick_KMF. %then %do;';
+      put 'filename __KMFgen temp;'
+        / 'data _null_;'
+        / "  set work.%lowcase(&packageName.kmf) nobs=nobs;"
+
+        / '  call symputX("numberKMF",nobs,"L");'
+        / '  file __KMFgen;'
+
+        / '  length _KMF_name_$ 130;'
+        / '  _KMF_name_ = quote(scan(member,-2,"."));'
+
+        / "  put 'end=0; append=0; i+1;'" 
+        / "    / '_KMF_name_[i]=' _KMF_name_ ';'"
+        / "    / 'do until(end);'"
+        / "    / ' infile &_PackageFileref_.(' member +(-1) ') end=end;'"
+        / "    / ' input codeLine $char2048. @;'"
+        / "    / ' if upcase(codeLine) =: ""KMFCODEDESC:"" then'"
+        / "    / '   _KMF_desc_[i] = strip(substr(codeLine,13));'"
+
+        / "    / ' if upcase(codeLine) =: ""KMFCODEEND:"" then append=0;'"
+        / "    / ' if append then'"
+        / "    / '   do;'"
+        / "    / '     if lengthn(codeLine) then'"
+        / "    / '       _KMF_code_[i] = trim(_KMF_code_[i]) !! trim(codeLine) !! CrNl;'"
+        / "    / '     else _KMF_code_[i] = trim(_KMF_code_[i]) !! CrNl;'"
+        / "    / '     _KMF_NoLi_[i]+1;'"
+        / "    / '   end;'"
+        / "    / ' if upcase(codeLine) =: ""KMFCODESTART:"" then append=1;'"
+        / "    / 'end;'"
+        / "    / '_KMF_code_[i]=substr(_KMF_code_[i],1,lengthn(_KMF_code_[i])-1);'"
+        / "    ;"
+        / "run;"
+        ;
+
+      put 'data _nulL_;'
+        / '  file "%sysfunc(pathname(WORK))/%lowcase(&packageName..kmf)" termstr=NL lrecl=32767;'
+        / '  putlog "INFO: The &packageName. package provides KMF-abbreviations."; '
+        / '  putlog   @7 "By default the file with abbreviations is located in:";'
+        / '  putlog / @9 "%sysfunc(pathname(WORK))/%lowcase(&packageName..kmf)";'
+        / '  putlog / @7 "To import code abbreviations to your SAS session:";'
+        / '  putlog   @7 "- in SAS DMS go to: Tools -> Keyboard Macros -> Macros... -> Import... ";'
+        / '  putlog   @7 "- in SAS EG go to: Program -> Manage Macros and Snippets -> Import... ";'
+        / '  putlog   @7 "and navigate to the location of the KMF file.";'
+
+        / '  putlog / @7 "Should you have any problem with finding the file consider moving";'
+        / '  putlog   @7 "it to a location of your choice with the help of the following snippet:";'
+        / '  putlog / @7 "  filename KMFin " "''%sysfunc(pathname(WORK))/%lowcase(&packageName..kmf)''" " lrecl=1 recfm=n;";'
+        / '  putlog   @7 "  filename KMFout ""</directory/of/your/choice>/testpackageclean.kmf"" lrecl=1 recfm=n;";'
+        / '  putlog   @7 ''  %put *%sysfunc(fcopy(KMFin, KMFout))*(0=success)*;'';'
+        / '  putlog / "0a"x / " ";'
+
+
+        / '  array _KMF_name_[&numberKMF.] $ 128;'
+        / '  array _KMF_desc_[&numberKMF.] $ 256;'
+        / '  array _KMF_seqn_[&numberKMF.] (1:&numberKMF.);'
+        / '  array _KMF_code_[&numberKMF.] $ 32767;'
+        / '  array _KMF_NoLi_[&numberKMF.] ;'
+        / '  array _KMF_Byte_[&numberKMF.] $ 7;'
+
+        / '  noDef = symgetn("numberKMF");'
+        / '  tmpByteD2 = floor(noDef/256);'
+        / '  tmpByteD1 = noDef - (tmpByteD2*256);'
+        / '  noDefByte = "KM" !! byte(0) !! byte(2) !! byte(tmpByteD1) !! byte(tmpByteD2) !! byte(0) !! byte(0);'
+
+        / '  CrNl=byte(13)!!byte(10);'
+
+        / '  %include __KMFgen / &source2.;'
+
+        / '  do i = 1 to &numberKMF.;'
+        / '    X1=lengthn(trim(_KMF_code_[i]));'
+        / '    X2=lengthn(strip(_KMF_name_[i]));'
+        / '    X3=lengthn(strip(_KMF_desc_[i]));'
+        / '    X4=lengthn(put(_KMF_seqn_[i], best3.-l));'
+        / '    X5=lengthn(put(_KMF_NoLi_[i], best12.-l));'
+        / '    noChar = sum(X1, X2, X3, X4, X5, 20);'
+        / '    tmpByteC2 = floor(noChar/256);'
+        / '    tmpByteC1 = noChar - (tmpByteC2*256);'
+
+        / '    _KMF_Byte_[i] = byte(tmpByteC1) !! byte(tmpByteC2) !! byte(0) !! byte(0) !! "252";'
+        / '  end;'
+
+        / '  do i = 1 to &numberKMF.;'
+        / '    if i=1 then put noDefByte +(-1) @@;'
+        / '    /* 1*/ put _KMF_Byte_[i];'
+        / '    /* 2*/ put "3";'
+        / '    /* 3*/ put _KMF_name_[i];'
+        / '    /* 4*/ if lengthn(_KMF_desc_[i]) then put _KMF_desc_[i]; else put;'
+        / '    /* 5*/ put "1"'
+        / '    /* 6*/   / "332"'
+        / '    /* 7*/   / "1";'
+        / '    /* 8*/ put _KMF_NoLi_[i];'
+        / '    /* 8*/ put _KMF_code_[i];'
+        / '    /*10*/ put _KMF_seqn_[i];'
+        / '    /*11*/ put "1";'
+        / '    ;'
+        / '  end;'
+        / 'stop;'
+        / 'run;'
+        / '%symdel numberKMF / noWarn;'
+        / 'filename __KMFgen clear;'
+        ;
+      put '%end;';
+      put "proc delete data=work.%lowcase(&packageName.kmf); run;";
+      put 'options &temp_noNotes_etc.;';
+    end;
+  put 'data _null_;';
+  put 'run;';
+  /* KMF -------------------------------------------------------------------------------- end */
+
+  /* list cmplib for functions and fmtsearch for formats*/
+  if isFunction OR isProto then
+    do;      
+      put '%put NOTE- ;';
+      put '%put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
+    end;
+  if isFormat then
+    do;
+      put '%put NOTE- ;';
+      put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));'/;
+    end;
 
   /* update SYSloadedPackages global macrovariable */
+  put 'options noNotes;';
   put '%if (%str(*)=%superq(cherryPick)) %then %do; '; /* Cherry Pick test3 start */
   put ' data _null_ ;                                                                                              ';
   put '  length SYSloadedPackages stringPCKG $ 32767;                                                              ';
@@ -1791,7 +1953,7 @@ data _null_;
   put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              ";
   put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               ';
   put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        ';
-  put '          put "NOTE: " SYSloadedPackages = ;                                                                ';
+  put '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             ';
   put '         end ;                                                                                              ';
   put "      else                                                                                                  ";
   put '         do;                                                                                                ';
@@ -1800,21 +1962,26 @@ data _null_;
   put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              ";
   put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               ';
   put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        ';
-  put '          put "NOTE: " SYSloadedPackages = ;                                                                ';
+  put '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             ';
   put '         end ;                                                                                              ';
   put '    end;                                                                                                    ';
   put '  else                                                                                                      ';
   put '    do;                                                                                                     ';
   put "      call symputX('SYSloadedPackages', '&packageName.(&packageVersion.)', 'G');                            ";
-  put "      put 'NOTE: SYSloadedPackages = &packageName.(&packageVersion.)';                                      ";
+  put "      put / 'INFO:[SYSLOADEDPACKAGES] &packageName.(&packageVersion.)';                                      ";
   put '    end;                                                                                                    ';
   put '  stop;                                                                                                     ';
-  put ' run;                                                                                                        ';
+  put ' run;                                                                                                       ';
   put '%end; ' / ; /* Cherry Pick test3 end */
-  
+
+  put 'options NOTES;';
   put '%put NOTE- ;';
   put '%put NOTE: '"Loading package &packageName., version &packageVersion., license &packageLicense.;";
   put '%put NOTE- *** END ***;' /;
+  
+  put 'options &temp_noNotes_etc.;'
+    / '%symdel temp_noNotes_etc / noWarn;';
+  
   put "/* load.sas end */" /;
   stop;
 run;
@@ -2325,7 +2492,7 @@ data _null_;
     put "put @3 'localization (only if additional content was deployed during the installation process).';" / "put ;";
   %end;
 
-  put 'put "***"; put "* SAS package generated by generatePackage, version 20231107 *"; put "***";';
+  put 'put "***"; put "* SAS package generated by generatePackage, version 20231111 *"; put "***";';
 
   put 'run;                                                                      ' /;
 

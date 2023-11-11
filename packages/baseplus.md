@@ -45,7 +45,8 @@
   * [`%RainCloudPlot()` macro](#raincloudplot-macro)
   * [`%zipLibrary()` macro](#ziplibrary-macro)
   * [`%unzipLibrary()` macro](#unziplibrary-macro)
-  * [`%unzipArch()` macro](#unzipatch-macro)
+  * [`%zipArch()` macro](#ziparch-macro)
+  * [`%unzipArch()` macro](#unziparch-macro)
   * [`%LDSN()` macro](#ldsn-macro)
   * [`%LDsNm()` macro](#ldsnm-macro)
   * [`%LVarNm()` macro](#lvarnm-macro)
@@ -79,7 +80,7 @@
   
 ---
 
-# The BasePlus package [ver. 1.33.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.34.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -355,82 +356,128 @@ run;
 ;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 25** Zipping and unzipping directories:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+options dlCreateDir;
+libname arch1 "%workPath()/testArch1";
+libname arch2 "%workPath()/testArch2";
+
+filename arch1 "%workPath()/testArch1";
+
+data _null_;
+  file arch1(test1.txt);
+  put "text for test file 1";
+data _null_;
+  file arch1(test2.txt);
+  put "text for test file 2";
+data _null_;
+  file arch1(test3.txt);
+  put "text for test file 3";
+run;
+
+data arch1.class(index=(name));
+  set sashelp.class;
+run;
+data arch1.cars(index=(model));
+  set sashelp.cars;
+run;
+
+%zipArch(
+  archName2.zip
+, pathRef = arch1
+, target = %workPath()/testArch2
+, list = 1 
+, overwrite = 1
+)
+
+%unzipArch(
+  archName2.zip 
+, path = %workPath()/testArch2
+, target = %workPath()/testArch2
+, clean=1
+, list=1
+);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 ---
 
 Package contains: 
-1.  macro     bppipe                 
-2.  macro     deduplistc             
-3.  macro     deduplistp             
-4.  macro     deduplists             
-5.  macro     deduplistx             
-6.  macro     dirsandfiles           
-7.  macro     functionexists         
-8.  macro     getvars                
-9.  macro     intslist               
-10. macro     ldsn                   
-11. macro     ldsnm                  
-12. macro     lvarnm                 
-13. macro     lvarnmlab              
-14. macro     qdeduplistx            
-15. macro     qgetvars               
-16. macro     qzipevalf              
-17. macro     raincloudplot          
-18. macro     repeattxt              
-19. macro     splitdsintoblocks      
-20. macro     splitdsintoparts       
-21. macro     symdelglobal           
-22. macro     unziparch              
-23. macro     unziplibrary           
-24. macro     zipevalf               
-25. macro     ziplibrary             
-26. format    bool                   
-27. format    boolz                  
-28. format    ceil                   
-29. format    floor                  
-30. format    int                    
-31. function  arrfill                
-32. function  arrfillc               
-33. function  arrmissfill            
-34. function  arrmissfillc           
-35. function  arrmisstoleft          
-36. function  arrmisstoleftc         
-37. function  arrmisstoright         
-38. function  arrmisstorightc        
-39. function  bracketsc              
-40. function  bracketsn              
-41. function  catxfc                 
-42. function  catxfi                 
-43. function  catxfj                 
-44. function  catxfn                 
-45. function  deldataset             
-46. function  semicolonc             
-47. function  semicolonn             
-48. format    brackets               
-49. format    semicolon              
-50. proto     qsortincbyprocproto    
-51. function  frommissingtonumberbs  
-52. function  fromnumbertomissing    
-53. function  quicksort4notmiss      
-54. function  quicksorthash          
-55. function  quicksorthashsddv      
-56. function  quicksortlight         
-57. macro     date                   
-58. macro     datetime               
-59. macro     filepath               
-60. macro     finddswithvarval       
-61. macro     fmt                    
-62. macro     gettitle               
-63. macro     infmt                  
-64. macro     letters                
-65. macro     libpath                
-66. macro     minclude               
-67. macro     monthshift             
-68. macro     replist                
-69. macro     time                   
-70. macro     today                  
-71. macro     translate              
-72. macro     tranwrd                
-73. macro     workpath               
+1.   macro      bppipe 
+2.   macro      deduplistc 
+3.   macro      deduplistp 
+4.   macro      deduplists 
+5.   macro      deduplistx 
+6.   macro      dirsandfiles 
+7.   macro      functionexists 
+8.   macro      getvars 
+9.   macro      intslist 
+10.  macro      ldsn 
+11.  macro      ldsnm 
+12.  macro      lvarnm 
+13.  macro      lvarnmlab 
+14.  macro      qdeduplistx 
+15.  macro      qgetvars 
+16.  macro      qzipevalf 
+17.  macro      raincloudplot 
+18.  macro      repeattxt 
+19.  macro      splitdsintoblocks 
+20.  macro      splitdsintoparts 
+21.  macro      symdelglobal 
+22.  macro      unziparch 
+23.  macro      unziplibrary 
+24.  macro      ziparch 
+25.  macro      zipevalf 
+26.  macro      ziplibrary 
+27.  format     bool 
+28.  format     boolz 
+29.  format     ceil 
+30.  format     floor 
+31.  format     int 
+32.  functions  arrfill 
+33.  functions  arrfillc 
+34.  functions  arrmissfill 
+35.  functions  arrmissfillc 
+36.  functions  arrmisstoleft 
+37.  functions  arrmisstoleftc 
+38.  functions  arrmisstoright 
+39.  functions  arrmisstorightc 
+40.  functions  bracketsc 
+41.  functions  bracketsn 
+42.  functions  catxfc 
+43.  functions  catxfi 
+44.  functions  catxfj 
+45.  functions  catxfn 
+46.  functions  deldataset 
+47.  functions  semicolonc 
+48.  functions  semicolonn 
+49.  format     brackets 
+50.  format     semicolon 
+51.  proto      qsortincbyprocproto 
+52.  functions  frommissingtonumberbs 
+53.  functions  fromnumbertomissing 
+54.  functions  quicksort4notmiss 
+55.  functions  quicksorthash 
+56.  functions  quicksorthashsddv 
+57.  functions  quicksortlight 
+58.  macro      date 
+59.  macro      datetime 
+60.  macro      filepath 
+61.  macro      finddswithvarval 
+62.  macro      fmt 
+63.  macro      gettitle 
+64.  macro      infmt 
+65.  macro      letters 
+66.  macro      libpath 
+67.  macro      minclude 
+68.  macro      monthshift 
+69.  macro      replist 
+70.  macro      time 
+71.  macro      today 
+72.  macro      translate 
+73.  macro      tranwrd 
+74.  macro      workpath 
 
 
 
@@ -441,7 +488,7 @@ localization (only if additional content was deployed during the installation pr
 * SAS package generated by generatePackage, version 20231107 *
 
 The SHA256 hash digest for package BasePlus: 
-`F*6214654B4575DC8E4BA3CF032924862C2F69A03A6384872BAA9F774EDF6A8DDA` 
+`F*D84CE41A550DC2D5C092C70C04A796E8329F34087A603BEF0CD366910C162E80` 
 
 ---
 # Content description ############################################################################################
@@ -3773,6 +3820,136 @@ run;
 
 ---
 
+## >>> `%zipArch()` macro: <<< <a name="ziparch-macro"></a> #######################  
+
+The zipArch() macro allows to ZIP content of a directory. 
+Macro is OS independent, the `XCMD` option is not required.
+
+Content of zipped archive can be listed in the log.
+
+Errors of decompression and are reported. 
+
+Macro **does not** include hidden files.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipArch(
+    archName
+   ,path = 
+  <,pathRef=>
+  <,target=>
+  <,targetRef=>
+  <,list=>
+  <,overwrite=>
+  <,dropList=> 
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `archName`      - *Required*, name of the archive to be generated.
+                     Name should be full, i.e., with the extension!
+
+2. `path=`         - *Required/Optional*, location of a directory to ZIP.
+                     The path should be provided unquoted.
+                     Has priority over the `pathRef` parameter.
+
+* `pathRef=`       - *Required/Optional*, fileref to location of a directory to ZIP.
+                     The reference **has** to be pointing to single directory.
+                     If provided with `path` - the `path` takes 
+                     priority over the `pathRef` parameter.
+
+* `target=`        - *Optional*, a path pointing to target location where
+                     the archive will be generated.
+                     The path should be provided unquoted.
+                     Default value is `WORK` location.
+                     Has priority over the `targetRef` parameter.
+
+* `targetRef=`     - *Optional*, fileref to a path pointing to target location 
+                     where the archive will be generated.
+                     The reference **has** to be pointing to single directory.
+                     If provided with `target` - the `target` takes 
+                     priority over the `targetRef` parameter.
+
+* `list = 0`       - *Optional*, default value is `0`,
+                     indicates if zip content should be listed in the log. 
+                     `1` means *yes*, `0` means *no*. 
+
+* `overwrite = 0`  - *Optional*, default value is `0`,
+                     indicates if existing archive file should be overwritten. 
+                     `1` means *yes*, `0` means *no*. 
+
+* `overwrite = 1`  - *Technical*, default value is `1`,
+                     indicates if the "to-be-zipped-files-list" 
+                     data set should be deleted. 
+                     `1` means *yes*, `0` means *no*.
+
+---
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Zip a directory . Example requires the `basePlus` package.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+options dlCreateDir;
+libname arch1 "%workPath()/testArch1";
+libname arch2 "%workPath()/testArch2";
+
+filename arch1 "%workPath()/testArch1";
+
+data _null_;
+  file arch1(test1.txt);
+  put "text for test file 1";
+data _null_;
+  file arch1(test2.txt);
+  put "text for test file 2";
+data _null_;
+  file arch1(test3.txt);
+  put "text for test file 3";
+run;
+
+data arch1.class(index=(name));
+  set sashelp.class;
+run;
+data arch1.cars(index=(model));
+  set sashelp.cars;
+run;
+
+
+
+%zipArch(
+  archName1.zip
+, path = %workPath()/testArch1
+, list = 1 
+, overwrite = 1
+
+)
+
+%zipArch(
+  archName2.zip
+, pathRef = arch1
+, target = %workPath()/testArch2
+, list = 1 
+, overwrite = 1
+)
+
+
+%unzipArch(
+  archName2.zip 
+, path = %workPath()/testArch2
+, target = %workPath()/testArch2
+, clean=1
+, list=1
+);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
 ## >>> `%unzipArch()` macro: <<< <a name="unziparch-macro"></a> #######################  
 
 The unzipArch() macro allows to unzip content of a ZIP archive. 
@@ -3795,7 +3972,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 %unzipArch(
     archName
   <,path=>
+  <,pathRef=>
   <,target=>
+  <,targetRef=>
   <,list=> 
   <,clean=>
 )
@@ -3804,16 +3983,23 @@ The basic syntax is the following, the `<...>` means optional parameters:
 **Arguments description**:
 
 1. `archName`      - *Required*, name of the ZIP archive to be extracted.
-                     Name should be full, i.e., with the extension.
+                     Name should be full, i.e., with the extension!
 
 * `path=`          - *Optional*, a path pointing to zipped file location.
                      The path should be provided unquoted.
                      Default value is `WORK` location.
 
+* `pathRef=`       - *Optional*, a fileref to path pointing to zipped file location.
+                     The `path`, if not null, has precedense over the `pathRef`.
+
 * `target=`        - *Optional*, a path pointing to target location where
                      files will be extracted.
                      The path should be provided unquoted.
                      Default value is `WORK` location.
+
+* `target=`        - *Optional*, a fileref to path pointing to target location where
+                     files will be extracted.
+                     The `target`, if not null, has precedense over the `targetRef`.
 
 * `list = 0`       - *Optional*, default value is `0`,
                      indicates if zip content should be listed in the log. 
@@ -3850,14 +4036,20 @@ run;
 , list=1
 );
 
+
+
+filename pR "%workPath()";
+
 %unzipArch(
   testArch.zip 
-, path = %workPath()
-, target = %workPath()
+, pathRef = pR
+, targetRef = pR
 , clean=1
 );
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
 
 ## >>> `%LDSN()` macro: <<< <a name="ldsn-macro"></a> #######################  
 
