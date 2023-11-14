@@ -47,7 +47,7 @@
   * [`%unzipLibrary()` macro](#unziplibrary-macro)
   * [`%zipArch()` macro](#ziparch-macro)
   * [`%unzipArch()` macro](#unziparch-macro)
-  * [`%findDSwithVarVal()` macro](#finddswithvarval-macro)
+  * [`%downloadFilesTo()` macro](#downloadfilesto-macro)
   * [`%LDSN()` macro](#ldsn-macro)
   * [`%LDsNm()` macro](#ldsnm-macro)
   * [`%LVarNm()` macro](#lvarnm-macro)
