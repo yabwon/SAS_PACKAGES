@@ -32,9 +32,9 @@
 , suppressExec=0                      /* indicates if loading of exec files 
                                          should be suppressed, 1=suppress 
                                        */
-)/secure 
+)/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20231107. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20231111. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -50,7 +50,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20231107`                              #;
+    %put # Macro to *load* SAS packages, version `20231111`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -250,7 +250,7 @@ minoperator
       ;
       %if %superq(lazyData) = %then
         %do;
-          %local tempLoad_minoperator;
+          %local tempLoad_minoperator temp_noNotes_etc /* for hiding notes */ ;
           %let tempLoad_minoperator = %sysfunc(getoption(minoperator));
           options minoperator; /* MinOperator option is required for cherryPicking to work */
           %include &_PackageFileref_.(load.sas) / &source2.;
