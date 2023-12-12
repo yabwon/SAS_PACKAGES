@@ -1,4 +1,4 @@
-
+  
 ## The "Hello World" Package
 
 ---
@@ -40,7 +40,9 @@ If it was - then continue.
 
 ```sas
 /*** HELP START ***//*
- This is a help info for the HelloWorldFormat. format
+ This is a help info for the `HelloWorldFormat.` format.
+ 
+ Category *other* is marked with exclamation mark (`!`).
 *//*** HELP END ***/
 
 value HelloWorldFormat
@@ -57,7 +59,11 @@ value HelloWorldFormat
           into that file:
 ```sas
 /*** HELP START ***//*
- This is a help info for the helloWorldMacro() macro
+ This is a help info for the `%helloWorldMacro()` macro.
+ 
+ Macro has the following parameter(s):
+ - `n` - *Required*, provides number of loop iterations.
+ 
 *//*** HELP END ***/
 
 %macro HelloWorldMacro(n);
@@ -86,10 +92,12 @@ Encoding: UTF8
 Required: "Base SAS Software"
 
 DESCRIPTION START:
-## My "Hello World" SAS package ##
+### My "Hello World" SAS package ###
 
 The "Hello World" is my first SAS package and 
 for sure it will not be the last package one!
+
+Using packages is a good idea!
 DESCRIPTION END:
 ```
 
@@ -107,13 +115,14 @@ DESCRIPTION END:
 ```sas
 %generatePackage(
   filesLocation=<put/folder/from/the/step/three/here>
+ ,markdownDoc=1
 )
 ```
 
 `Step 10.` See the information in the output window and in the log.
            The `WARNING:[License] No license.sas file provided, default (MIT) licence file will be generated.` can be ignored.
 
-`Step 11.` Check the directory from the `Step 3.` and look for the `helloworld.zip` package file.
+`Step 11.` Check the directory from the `Step 3.` and look for the `helloworld.zip` package file and `helloworld.md` documentation file.
 
 ---
 

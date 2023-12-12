@@ -1,7 +1,28 @@
 /*+listPackages+*/
+/*** HELP START ***//* 
+
+  Macro to list SAS packages in packages folder. 
+
+  Version 20231210 
+
+  A SAS package is a zip file containing a group 
+  of SAS codes (macros, functions, data steps generating 
+  data, etc.) wrapped up together and %INCLUDEed by
+  a single load.sas file (also embedded inside the zip).
+  
+
+ * Example 1: Set local packages directory, enable the framework,
+              and list packages in the local repository.
+
+  filename packages "C:\SAS_PACKAGES";
+  %include packages(SPFinit.sas);
+  %listPackages()
+
+*//*** HELP END ***/
+
 
 %macro listPackages()/secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20231123.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20231210.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -16,14 +37,14 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20231123`                                #;
+    %put # Macro to list available SAS packages, version `20231210`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
     %put # data, etc.) wrapped up together and embedded inside the zip.                            #;
     %put #                                                                                         #;
     %put # The `%nrstr(%%listPackages())` macro lists packages available                                    #;
-    %put # in the packages folder. List is printed inthe SAS Log.                                  #;
+    %put # in the packages folder. List is printed in the SAS Log.                                 #;
     %put #                                                                                         #;
     %put #### Parameters:                                                                          #;
     %put #                                                                                         #;
@@ -161,20 +182,4 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %ENDoflistPackages:
 %mend listPackages;
 
-
-/*** HELP START ***/
-
-/* Macro to generate SAS packages.
-
-   Version 20231111
-
-   A SAS package is a zip file containing a group 
-   of SAS codes (macros, functions, data steps generating 
-   data, etc.) wrapped up together and %INCLUDEed by
-   a single load.sas file (also embedded inside the zip).
-
-   See examples below.
-*/
-
-/*** HELP END ***/
 

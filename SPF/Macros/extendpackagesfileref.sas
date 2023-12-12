@@ -6,7 +6,7 @@
              when empty the "packages" value is used */
 )/secure
 /*** HELP END ***/
-des = 'Macro to list directories pointed by "packages" fileref, version 20231123. Run %extendPackagesFileref(HELP) for help info.'
+des = 'Macro to list directories pointed by "packages" fileref, version 20231210. Run %extendPackagesFileref(HELP) for help info.'
 ;
 
 %if %QUPCASE(&packages.) = HELP %then
@@ -22,14 +22,14 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20231123
     %put ###       This is short help information for the `extendPackagesFileref` macro            #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list directories pointed by 'packages' fileref, version `20231123`             #;
+    %put # Macro to list directories pointed by 'packages' fileref, version `20231210`             #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
     %put # data, etc.) wrapped up together and embedded inside the zip.                            #;
     %put #                                                                                         #;
     %put # The `%nrstr(%%extendPackagesFileref())` macro lists directories pointed by                       #;
-    %put # the packages fileref. It allows to add new dierctories to packages folder list.         #;
+    %put # the packages fileref. It allows to add new directories to packages folder list.         #;
     %put #                                                                                         #;
     %put #### Parameters:                                                                          #;
     %put #                                                                                         #;
