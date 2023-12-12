@@ -1,4 +1,10 @@
 /*+installPackage+*/
+/* Macros to install SAS packages, version 20231210  */
+/* A SAS package is a zip file containing a group of files
+   with SAS code (macros, functions, data steps generating 
+   data, etc.) wrapped up together and %INCLUDEed by
+   a single load.sas file (also embedded inside the zip).
+*/
 /*** HELP START ***/
 
 %macro installPackage(
@@ -16,7 +22,7 @@
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20231123. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20231210. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -31,7 +37,7 @@ des = 'Macro to install SAS package, version 20231123. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20231123`                                          #;
+    %put # Macro to install SAS packages, version `20231210`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -479,25 +485,4 @@ des = 'Macro to install SAS package, version 20231123. Run %%installPackage() fo
 
 /*** HELP END ***/
 
-/*** HELP START ***/
-
-/* Macro to list SAS packages in packages folder. 
-
-  Version 20231111 
-
-  A SAS package is a zip file containing a group 
-  of SAS codes (macros, functions, data steps generating 
-  data, etc.) wrapped up together and %INCLUDEed by
-  a single load.sas file (also embedded inside the zip).
-*/
-/*
- * Example 1: Set local packages directory, enable the framework,
-              and list packages in the local repository.
-
-  filename packages "C:\SAS_PACKAGES";
-  %include packages(SPFinit.sas);
-  %listPackages()
-
-*/
-/*** HELP END ***/
 
