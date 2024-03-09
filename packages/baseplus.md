@@ -1,87 +1,28 @@
-- [The BasePlus package](#baseplus-package)
-- [Content description](#content-description)
-  * [`%getVars()` macro](#getvars-macro)  
-  * [`%QgetVars()` macro](#qgetvars-macro)  
-  * [`%symdelGlobal()` macro](#symdelglobal-macro)
-  * [`bool.` format](#bool-format)
-  * [`boolz.` format](#boolz-format)
-  * [`ceil.` format](#ceil-format)
-  * [`floor.` format](#floor-format)
-  * [`int.` format](#int-format)
-  * [`arrFill()` subroutine](#arrfill-subroutine)  
-  * [`arrFillC()` subroutine](#arrfillc-subroutine)  
-  * [`arrMissFill()` subroutine](#arrmissfill-subroutine)  
-  * [`arrMissFillC()` subroutine](#arrmissfillc-subroutine)  
-  * [`arrMissToLeft()` subroutine](#arrmisstoleft-subroutine)  
-  * [`arrMissToLeftC()` subroutine](#arrmisstoleftc-subroutine)  
-  * [`arrMissToRight()` subroutine](#arrmisstoright-subroutine)  
-  * [`arrMissToRightC()` subroutine](#arrmisstorightc-subroutine)  
-  * [`catXFc()` function](#catxfc-function)  
-  * [`catXFi()` function](#catxfi-function)  
-  * [`catXFj()` function](#catxfj-function)  
-  * [`catXFn()` function](#catxfn-function)  
-  * [`delDataset()` function](#deldataset-function)  
-  * [`qsortInCbyProcProto()` proto function](#qsortincbyprocproto-proto-function)  
-  * [`fromMissingToNumberBS()` function](#frommissingtonumberbs-function)  
-  * [`fromNumberToMissing()` function](#fromnumbertomissing-function)  
-  * [`quickSort4NotMiss()` subroutine](#quicksort4notmiss-subroutine)  
-  * [`quickSortHash()` subroutine](#quicksorthash-subroutine)  
-  * [`quickSortHashSDDV()` subroutine](#quicksorthashsddv-subroutine)  
-  * [`quickSortLight()` subroutine](#quicksortlight-subroutine) 
-  * [`%dedupListS()` macro](#deduplists-macro)
-  * [`%dedupListC()` macro](#deduplistc-macro)
-  * [`%dedupListP()` macro](#deduplistp-macro)
-  * [`%dedupListX()` macro](#deduplistx-macro)
-  * [`%QdedupListX()` macro](#qdeduplistx-macro)
-  * [`brackets.` format](#brackets-format)
-  * [`semicolon.` format](#semicolon-format)
-  * [`bracketsC()` function](#bracketsc-function)  
-  * [`bracketsN()` function](#bracketsn-function)  
-  * [`semicolonC()` function](#semicolonc-function) 
-  * [`semicolonN()` function](#semicolonn-function)
-  * [`%zipEvalf()` macro](#zipevalf-macro) 
-  * [`%QzipEvalf()` macro](#qzipevalf-macro) 
-  * [`%functionExists()` macro](#functionexists-macro)
-  * [`%RainCloudPlot()` macro](#raincloudplot-macro)
-  * [`%zipLibrary()` macro](#ziplibrary-macro)
-  * [`%unzipLibrary()` macro](#unziplibrary-macro)
-  * [`%zipArch()` macro](#ziparch-macro)
-  * [`%unzipArch()` macro](#unziparch-macro)
-  * [`%downloadFilesTo()` macro](#downloadfilesto-macro)
-  * [`%LDSN()` macro](#ldsn-macro)
-  * [`%LDsNm()` macro](#ldsnm-macro)
-  * [`%LVarNm()` macro](#lvarnm-macro)
-  * [`%LVarNmLab()` macro](#lvarnmlab-macro)
-  * [`%bpPIPE()` macro](#bppipe-macro)
-  * [`%dirsAndFiles()` macro](#dirsandfiles-macro)
-  * [`%repeatTxt()` macro](#repeattxt-macro)
-  * [`%repList()` macro](#replist-macro)
-  * [`%intsList()` macro](#intslist-macro)
-  * [`%letters()` macro](#letters-macro)
-  * [`%splitDSIntoBlocks()` macro](#splitdsintoblocks-macro)
-  * [`%splitDSIntoParts()` macro](#splitdsintoparts-macro)
-  * [`%filePath()` macro](#filepath-macro)
-  * [`%libPath()` macro](#libpath-macro)
-  * [`%workPath()` macro](#workpath-macro)
-  * [`%date()` macro](#date-macro)
-  * [`%today()` macro](#today-macro)
-  * [`%time()` macro](#time-macro)
-  * [`%datetime()` macro](#datetime-macro)
-  * [`%monthShift()` macro](#monthshift-macro)
-  * [`%translate()` macro](#translate-macro)
-  * [`%tranwrd()` macro](#tranwrd-macro)
-  * [`%findDSwithVarVal()` macro](#finddswithvarval-macro)
-  * [`%getTitle()` macro](#gettitle-macro)
-  * [`%mInclude()` macro](#minclude-macro)
-  * [`%fmt()` macro](#fmt-macro) 
-  * [`%infmt()` macro](#infmt-macro)
-  
-  
-  * [License](#license)
+﻿# Documentation for the `BasePlus` package.
   
 ---
+ 
+### Version information:
+  
+ *The BASE SAS plus a bunch of functionalities I am missing in BASE SAS* 
+  
+- Package: BasePlus
+- Version: 1.37.0
+- Generated: 2024-03-09T13:28:58
+- Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
+- Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
+- License: MIT
+- File SHA256: `F*8155BFE82F7833E4B0DA24D81DBDFC58463906D6032B1F0161772DADE84BE790` for this version
+- Content SHA256: `C*7A4A85EB6C2C23E6A171DDCD8F61D7ED40E9A6751F9579DF893E148A95FFE188` for this version
+  
+---
+ 
+# The `BasePlus` package, version: `1.37.0`;
+  
+---
+ 
 
-# The BasePlus package [ver. 1.35.1] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.37.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -224,6 +165,10 @@ Kudos to all who inspired me to generate this package:
 %rainCloudPlot(sashelp.cars,DriveTrain,Invoice)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The output can be seen in the `md` file.
+![Example 1x](./baseplus_RainCloudPlot_Ex0.png)
+
+
 **Example 10**: Zip SAS library.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 %zipLibrary(sashelp, libOut=work)
@@ -346,7 +291,9 @@ run;
 
 **EXAMPLE 23** Date and time one-liners:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %today() %date() %time() %datetime(); 
+%put #%today()#%date()#%time()#%datetime()#; 
+
+%put @%today(yymmdd10.)@%date(date11.)@%time(time8.)@%datetime(e8601dt.)@; 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **EXAMPLE 24** Months shifting:
@@ -412,100 +359,597 @@ https://www.lexjansen.com/wuss/2023/WUSS-2023-Paper-189.zip
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 27** Conditional value assignment:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = A B C;
+%let y = %iffunc((%scan(&x.,1)=A),Stats with "A"., Does not start with "A".);
+%put &=y.;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
-
-Package contains: 
-1.   macro      bppipe 
-2.   macro      deduplistc 
-3.   macro      deduplistp 
-4.   macro      deduplists 
-5.   macro      deduplistx 
-6.   macro      dirsandfiles 
-7.   macro      functionexists 
-8.   macro      getvars 
-9.   macro      intslist 
-10.  macro      ldsn 
-11.  macro      ldsnm 
-12.  macro      lvarnm 
-13.  macro      lvarnmlab 
-14.  macro      qdeduplistx 
-15.  macro      qgetvars 
-16.  macro      qzipevalf 
-17.  macro      raincloudplot 
-18.  macro      repeattxt 
-19.  macro      splitdsintoblocks 
-20.  macro      splitdsintoparts 
-21.  macro      symdelglobal 
-22.  macro      unziparch 
-23.  macro      unziplibrary 
-24.  macro      ziparch 
-25.  macro      zipevalf 
-26.  macro      ziplibrary 
-27.  format     bool 
-28.  format     boolz 
-29.  format     ceil 
-30.  format     floor 
-31.  format     int 
-32.  functions  arrfill 
-33.  functions  arrfillc 
-34.  functions  arrmissfill 
-35.  functions  arrmissfillc 
-36.  functions  arrmisstoleft 
-37.  functions  arrmisstoleftc 
-38.  functions  arrmisstoright 
-39.  functions  arrmisstorightc 
-40.  functions  bracketsc 
-41.  functions  bracketsn 
-42.  functions  catxfc 
-43.  functions  catxfi 
-44.  functions  catxfj 
-45.  functions  catxfn 
-46.  functions  deldataset 
-47.  functions  semicolonc 
-48.  functions  semicolonn 
-49.  format     brackets 
-50.  format     semicolon 
-51.  proto      qsortincbyprocproto 
-52.  functions  frommissingtonumberbs 
-53.  functions  fromnumbertomissing 
-54.  functions  quicksort4notmiss 
-55.  functions  quicksorthash 
-56.  functions  quicksorthashsddv 
-57.  functions  quicksortlight 
-58.  macro      date 
-59.  macro      datetime 
-60.  macro      downloadfilesto 
-61.  macro      filepath 
-62.  macro      finddswithvarval 
-63.  macro      fmt 
-64.  macro      gettitle 
-65.  macro      infmt 
-66.  macro      letters 
-67.  macro      libpath 
-68.  macro      minclude 
-69.  macro      monthshift 
-70.  macro      replist 
-71.  macro      time 
-72.  macro      today 
-73.  macro      translate 
-74.  macro      tranwrd 
-75.  macro      workpath
-
-
-
-Package contains additional content, run:  %loadPackageAddCnt(BasePlus)  to load it
-or look for the baseplus_AdditionalContent directory in the Packages fileref
+  
+---
+ 
+  
+---
+ 
+  
+---
+ 
+Package contains additional content, run:  `%loadPackageAddCnt(BasePlus)`  to load it
+or look for the `baseplus_AdditionalContent` directory in the `packages` fileref
 localization (only if additional content was deployed during the installation process).
+ 
+--------------------------------------------------------------------
+ 
+*SAS package generated by SAS Package Framework, version `20231210`*
+ 
+--------------------------------------------------------------------
+ 
+# The `BasePlus` package content
+The `BasePlus` package consists of the following content:
+1. [`%bppipe()` macro ](#bppipe-macro-1 )
+2. [`%deduplistc()` macro ](#deduplistc-macro-2 )
+3. [`%deduplistp()` macro ](#deduplistp-macro-3 )
+4. [`%deduplists()` macro ](#deduplists-macro-4 )
+5. [`%deduplistx()` macro ](#deduplistx-macro-5 )
+6. [`%dirsandfiles()` macro ](#dirsandfiles-macro-6 )
+7. [`%functionexists()` macro ](#functionexists-macro-7 )
+8. [`%getvars()` macro ](#getvars-macro-8 )
+9. [`%intslist()` macro ](#intslist-macro-9 )
+10. [`%ldsn()` macro ](#ldsn-macro-10 )
+11. [`%ldsnm()` macro ](#ldsnm-macro-11 )
+12. [`%lvarnm()` macro ](#lvarnm-macro-12 )
+13. [`%lvarnmlab()` macro ](#lvarnmlab-macro-13 )
+14. [`%qdeduplistx()` macro ](#qdeduplistx-macro-14 )
+15. [`%qgetvars()` macro ](#qgetvars-macro-15 )
+16. [`%qzipevalf()` macro ](#qzipevalf-macro-16 )
+17. [`%raincloudplot()` macro ](#raincloudplot-macro-17 )
+18. [`%repeattxt()` macro ](#repeattxt-macro-18 )
+19. [`%splitdsintoblocks()` macro ](#splitdsintoblocks-macro-19 )
+20. [`%splitdsintoparts()` macro ](#splitdsintoparts-macro-20 )
+21. [`%symdelglobal()` macro ](#symdelglobal-macro-21 )
+22. [`%unziparch()` macro ](#unziparch-macro-22 )
+23. [`%unziplibrary()` macro ](#unziplibrary-macro-23 )
+24. [`%ziparch()` macro ](#ziparch-macro-24 )
+25. [`%zipevalf()` macro ](#zipevalf-macro-25 )
+26. [`%ziplibrary()` macro ](#ziplibrary-macro-26 )
+27. [`$bool.` format/informat ](#bool-format-27 )
+28. [`$boolz.` format/informat ](#boolz-format-28 )
+29. [`$ceil.` format/informat ](#ceil-format-29 )
+30. [`$floor.` format/informat ](#floor-format-30 )
+31. [`$int.` format/informat ](#int-format-31 )
+32. [`arrfill()` function ](#arrfill-functions-32 )
+33. [`arrfillc()` function ](#arrfillc-functions-33 )
+34. [`arrmissfill()` function ](#arrmissfill-functions-34 )
+35. [`arrmissfillc()` function ](#arrmissfillc-functions-35 )
+36. [`arrmisstoleft()` function ](#arrmisstoleft-functions-36 )
+37. [`arrmisstoleftc()` function ](#arrmisstoleftc-functions-37 )
+38. [`arrmisstoright()` function ](#arrmisstoright-functions-38 )
+39. [`arrmisstorightc()` function ](#arrmisstorightc-functions-39 )
+40. [`bracketsc()` function ](#bracketsc-functions-40 )
+41. [`bracketsn()` function ](#bracketsn-functions-41 )
+42. [`catxfc()` function ](#catxfc-functions-42 )
+43. [`catxfi()` function ](#catxfi-functions-43 )
+44. [`catxfj()` function ](#catxfj-functions-44 )
+45. [`catxfn()` function ](#catxfn-functions-45 )
+46. [`deldataset()` function ](#deldataset-functions-46 )
+47. [`semicolonc()` function ](#semicolonc-functions-47 )
+48. [`semicolonn()` function ](#semicolonn-functions-48 )
+49. [`$brackets.` format/informat ](#brackets-format-49 )
+50. [`$semicolon.` format/informat ](#semicolon-format-50 )
+51. [`qsortincbyprocproto()` proto ](#qsortincbyprocproto-proto-51 )
+52. [`frommissingtonumberbs()` function ](#frommissingtonumberbs-functions-52 )
+53. [`fromnumbertomissing()` function ](#fromnumbertomissing-functions-53 )
+54. [`quicksort4notmiss()` function ](#quicksort4notmiss-functions-54 )
+55. [`quicksorthash()` function ](#quicksorthash-functions-55 )
+56. [`quicksorthashsddv()` function ](#quicksorthashsddv-functions-56 )
+57. [`quicksortlight()` function ](#quicksortlight-functions-57 )
+58. [`%date()` macro ](#date-macro-58 )
+59. [`%datetime()` macro ](#datetime-macro-59 )
+60. [`%downloadfilesto()` macro ](#downloadfilesto-macro-60 )
+61. [`%filepath()` macro ](#filepath-macro-61 )
+62. [`%finddswithvarval()` macro ](#finddswithvarval-macro-62 )
+63. [`%fmt()` macro ](#fmt-macro-63 )
+64. [`%gettitle()` macro ](#gettitle-macro-64 )
+65. [`%iffunc()` macro ](#iffunc-macro-65 )
+66. [`%infmt()` macro ](#infmt-macro-66 )
+67. [`%letters()` macro ](#letters-macro-67 )
+68. [`%libpath()` macro ](#libpath-macro-68 )
+69. [`%minclude()` macro ](#minclude-macro-69 )
+70. [`%monthshift()` macro ](#monthshift-macro-70 )
+71. [`%replist()` macro ](#replist-macro-71 )
+72. [`%time()` macro ](#time-macro-72 )
+73. [`%today()` macro ](#today-macro-73 )
+74. [`%translate()` macro ](#translate-macro-74 )
+75. [`%tranwrd()` macro ](#tranwrd-macro-75 )
+76. [`%workpath()` macro ](#workpath-macro-76 )
+  
+ 
+95. [License note](#license)
+  
+---
+ 
+## `%bppipe()` macro <a name="bppipe-macro-1"></a> ######
+ 
+## >>> `%bpPIPE()` macro: <<< <a name="bppipe-macro"></a> #######################  
 
-* SAS package generated by generatePackage, version 20231107 *
+The bpPIPE() [Base Plus PIPE] macro executes OS command
+and print to the log output of the execution.
 
-The SHA256 hash digest for package BasePlus: 
-`F*BCD89EDF856762EB8E441BC53933774483258453D1F7D74185F8A1861E414B0E` 
+Under the hood it uses `_` filename reference to PIPE device.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%bpPIPE( <OS command goes here> )
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+* **NO Arguments**    - Everything inside brackets is treated as an OS command.
 
 ---
-# Content description ############################################################################################
 
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** List, to the log, content of D and C drives:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %bpPIPE(D: & dir & dir "C:\")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** List, to the log, content of `home` directory:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %bpPIPE(ls -halt ~/)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%deduplistc()` macro <a name="deduplistc-macro-2"></a> ######
+ 
+## >>> `%dedupListC()` macro: <<< <a name="deduplistc-macro"></a> #######################
+
+The `%dedupListC()` macro deletes duplicated values from 
+a *COMMA separated* list of values. List, including separators,
+can be no longer than a value carried by a single macrovariable.
+
+Returned value is *unquoted*. Leading and trailing spaces are ignored.
+
+The `%dedupListC()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%dedupListC(
+ list,of,comma,separated,values
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `list` - A list of *comma separated* values. 
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Basic use-case one. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListC(a,b,c,b,c)*;
+
+  %put *%dedupListC(a,b c,b c)*;
+
+  %put *%dedupListC(%str(a,b,c,b,c))*;
+
+  %put *%dedupListC(%str(a),%str(b),%str(c),b,c)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Leading and trailing spaces are ignored. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListC( a , b b ,  c , b b, c    )*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 3.** Macro variable as an argument. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let list = 4, 5, 6, 1, 2, 3, 1, 2, 3, 4, 5, 6;
+  %put *%dedupListC(&list.)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%deduplistp()` macro <a name="deduplistp-macro-3"></a> ######
+ 
+## >>> `%dedupListP()` macro: <<< <a name="deduplistp-macro"></a> #######################
+
+The `%dedupListP()` macro deletes duplicated values from 
+a *PIPE(`|`) separated* list of values. List, including separators,
+can be no longer than a value carried by a single macrovariable.
+
+Returned value is *unquoted*. Leading and trailing spaces are ignored.
+
+The `%dedupListP()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%dedupListP(
+ list|of|pipe|separated|values
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `list` - A list of *pipe separated* values. 
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Basic use-case one. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListP(a|b|c|b|c)*;
+
+  %put *%dedupListP(a|b c|b c)*;
+
+  %put *%dedupListP(%str(a|b|c|b|c))*;
+
+  %put *%dedupListP(%str(a)|%str(b)|%str(c)|b|c)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Leading and trailing spaces are ignored. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListP( a | b b |  c | b b| c    )*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 3.** Macro variable as an argument. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let list = 4|5|6|1|2|3|1|2|3|4|5|6;
+  %put *%dedupListP(&list.)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%deduplists()` macro <a name="deduplists-macro-4"></a> ######
+ 
+## >>> `%dedupListS()` macro: <<< <a name="deduplists-macro"></a> #######################
+
+The `%dedupListS()` macro deletes duplicated values from 
+a *SPACE separated* list of values. List, including separators,
+can be no longer than a value carried by a single macrovariable.
+
+Returned value is *unquoted*.
+
+The `%dedupListS()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%dedupListS(
+ list of space separated values
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `list` - A list of *space separated* values. 
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Basic use-case one. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListS(a b  c   b    c)*;
+
+  %put *%dedupListS(a b,c b,c)*;
+
+  %put *%dedupListS(%str(a b c b c))*;
+
+  %put *%dedupListS(%str(a) %str(b) %str(c) b c)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Macro variable as an argument. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let list = 4 5 6 1 2 3 1 2 3 4 5 6;
+  %put *%dedupListS(&list.)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%deduplistx()` macro <a name="deduplistx-macro-5"></a> ######
+ 
+## >>> `%dedupListX()` macro: <<< <a name="deduplistx-macro"></a> #######################
+
+The `%dedupListX()` macro deletes duplicated values from 
+a *X separated* list of values, where the `X` represents 
+a *single character* separator. List, including separators, 
+can be no longer than a value carried by a single macrovariable.
+
+**Caution.** The value of `X` *has to be* in **the first** byte of the list,
+             just after the opening bracket, i.e. `(X...)`.
+
+Returned value is *unquoted*. Leading and trailing spaces are ignored.
+
+The `%dedupListX()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%dedupListX(
+XlistXofXxXseparatedXvalues
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `list` - A list of *X separated* values. 
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Basic use-case one. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListX(|a|b|c|b|c)*;
+
+  %put *%dedupListX( a b c b c)*;
+
+  %put *%dedupListX(,a,b,c,b,c)*;
+
+  %put *%dedupListX(XaXbXcXbXc)*;
+
+  %put *%dedupListX(/a/b/c/b/c)*;
+
+  data _null_;
+    x = "%dedupListX(%str(;a;b;c;b;c))";
+    put x=;
+  run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Leading and trailing spaces are ignored. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%dedupListX(| a | b.b |  c | b.b| c    )*;
+
+  %put *%dedupListX(. a . b b .  c . b b. c    )*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 3.** Macro variable as an argument. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let list = 4$5.5$6$1$2$3$1$2$3$4$5.5$6;
+  %put *%dedupListX($&list.)*;
+
+  %let list = 4$ 5.5$ 6$ 1$ 2$ 3$ 1$ 2$ 3$ 4$ 5.5$ 6$;
+  %put *%dedupListX( &list.)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%dirsandfiles()` macro <a name="dirsandfiles-macro-6"></a> ######
+
+## >>> `%dirsAndFiles()` macro: <<< <a name="dirsandfiles-macro"></a> #######################  
+
+The `%dirsAndFiles()` macro allows to extract info about all files 
+and subdirectories of a given `root` directory. 
+
+The extracted info may be just a list of files and subdirectories or, if 
+the `details=` parameter is set to 1, additional operating system information 
+is extracted (information is OSS dependent and gives different results for Linux 
+and for Windows)
+
+The extracted info can be narrowed down to files (`keepFiles=1`) or to 
+directories (`keepDirs=1`) if need be.
+
+The extracted info can be presented in wide or long format (`longFormat=1`).
+
+The extracted info for files can be narrowed down to only files with particular
+extension, for example: `fileExt=sas7bdat`.
+
+The extracted info can be narrowed down maximal path depth 
+by setting up the `maxDepth=` parameter.
+
+See examples below for the details.
+
+### REFERENCES: ###################################################################
+
+The macro is based on Kurt Bremser's "*Talking to Your Host*" article 
+presented at WUSS 2022 conference.
+
+The article is available [here](https://communities.sas.com/t5/SAS-User-Groups-Library/WUSS-Presentation-Talking-to-Your-Host/ta-p/838344)
+and also as an additional content of this package.
+The paper was awarded the "Best Paper Award - Programming".
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(
+    root
+  <,ODS=>
+  <,details=>
+  <,keepDirs=>
+  <,keepFiles=>
+  <,longFormat=>
+  <,fileExt=>
+  <,maxDepth=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `root`                     - *Required*, path to be searched
+                                for information.
+
+* `ODS=work.dirsAndFilesInfo` - *Optional*, output data set, 
+                                name of a dataset to store information.
+
+* `details=0`                 - *Optional*, indicates if detailed info 
+                                 will be collected, `1` = yes, `0` = no.
+
+* `keepDirs=1`                - *Optional*, indicates if directories info 
+                                will be collected, `1` = yes, `0` = no.
+
+* `keepFiles=1`               - *Optional*, indicates if files info 
+                                will be collected, `1` = yes, `0` = no.
+
+* `longFormat=0`              - *Optional*, indicates if output be 
+                                in long format, `1` = yes, `0` = no.
+
+* `fileExt=`                  - *Optional*, if not missing then indicates 
+                                file extension to filter out results.
+                                
+* `maxDepth=0`                - *Optional*, if not zero then indicates
+                                maximum depth of search in the root path.
+
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get list of files and directories:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Get detailed info:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result2,details=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Get only files info:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result3,keepDirs=0)
+
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result5,keepDirs=0,details=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Get only directories info:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result4,keepFiles=0)
+
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result6,keepFiles=0,details=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Filter out by `sas` extension:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(~/,ODS=work.result7,fileExt=sas)
+
+%dirsAndFiles(~/,ODS=work.result8,fileExt=sas,details=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Keep result in the long format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(~/,ODS=work.result9,details=1,longFormat=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** Get info for maximum depth of 2:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(C:\SAS_WORK\,ODS=work.result10,details=1,maxDepth=2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 8.** How locked/unavailable files are handled:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(%sysfunc(pathname(WORK)),ODS=work.result11,details=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 9.** Not existing directory:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%dirsAndFiles(%sysfunc(pathname(WORK))/noSuchDir,ODS=work.result12,details=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  
+---
+ 
+## `%functionexists()` macro <a name="functionexists-macro-7"></a> ######
+ 
+## >>> `%functionExists()` macro: <<< <a name="functionexists-macro"></a> #######################  
+
+The functionExists() macro function tests
+if given funcion exists in the SAS session.
+The `sashelp.vfunc` view is used.
+
+See examples below for the details.
+
+The `%functionExists()` macro executes like a pure macro code.
+
+The function is a result of cooperation with [Allan Bowe](https://www.linkedin.com/in/allanbowe/)
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%functionExists(
+   funName
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `funName`        - *Required*, the name of the function 
+                       existence of which you are testing.
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Test if function exists:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %functionExists(HASHING);
+
+  %put %functionExists(COSsinLOG);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%getvars()` macro <a name="getvars-macro-8"></a> ######
+ 
 ## >>> `%getVars()` macro: <<< <a name="getvars-macro"></a> #######################  
 
 The getVars() and QgetVars() macro functions
@@ -564,6 +1008,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
                           an Explicit & Radical Refuse Of Run (aka ERROR).
 
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** A list of all variables from the 
@@ -793,6 +1238,621 @@ run;
 
 ---
 
+  
+---
+ 
+## `%intslist()` macro <a name="intslist-macro-9"></a> ######
+ 
+## >>> `%intsList()` macro: <<< <a name="intslist-macro"></a> #######################  
+
+The intsList() macro function allows to print a list of 
+integers starting from `start` up to `end` incremented by `by`
+and separated by `sep=`.
+
+If `start`, `end` or `by` are non-integers the are converted to integers.
+
+See examples below for the details.
+
+The `%intsList()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%intsList(
+    start
+  <,end>
+  <,by>
+  <,sep=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `start`       - *Required*, the first value of the list.
+                   If `end` is missing then the list is generated 
+                   from 1 to `start` by 1.
+
+2. `end`         - *Required/Optional*, the last value of the list.
+
+3. `by`          - *Required/Optional*, the increment of the list.
+                   If missing then set to `1`. 
+                   *Cannot* be equal to `0`.
+
+* `s = %str( )`  - *Optional*, it is a separator between 
+                   elements of the list. Default value is space.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple list of integers from 1 to 10 by 1:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %intsList(10);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Ten copies of `sashelp.class` in `test11` to `test20`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  data
+    %zipEvalf(test, %intsList(11,20))
+  ;
+    set sashelp.class;
+  run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Non-integers are converted to integers, the list is `1 3 5`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %intsList(1.1,5.2,2.3);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** A list with a separator:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %intsList(1,5,2,sep=+);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%ldsn()` macro <a name="ldsn-macro-10"></a> ######
+ 
+## >>> `%LDSN()` macro: <<< <a name="ldsn-macro"></a> #######################  
+
+The LDSN (Long DataSet Names) macro function 
+allows to use an "arbitrary" text string to name a dataset.
+
+The LDSN macro has some limitation described below, to overcome them 
+another macro, with different name: LDSNM (Long DataSet Names Modified) 
+was created. See its description to learn how to use it.
+
+---
+
+The idea for the macro came from the following story: 
+
+Good friend of mine, who didn't use SAS for quite some time, 
+told me that he lost a few hours for debugging because 
+he forgot that the SAS dataset name limitation is 32 bytes.
+ 
+I replied that it shouldn't be a problem to do a workaround 
+for this inconvenience with a macro and the `MD5()` hashing function. 
+
+I said: *The macro should take an "arbitrary string" for a dataset 
+name, convert it, with help of `MD5()`, to a hash digest, and 
+create a dataset with an "artificial" `hex16.` formated name.*
+
+Starting with something like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+data %LDSN(work. peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s (drop = sex rename=(name=first_name) where = (age in (12,13,14))) );
+  set sashelp.class;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+the macro would do:
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%sysfunc(MD5(peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s), hex16.)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+and (under the hood) return and execute the following code: 
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+data work.DSN_41D599EF51FBA58_(drop = sex rename=(name=first_name) where = (age in (12,13,14))) ;
+  set sashelp.class;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Also in the next data step user should be able to do:
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+data my_next_data_step;
+  set %DSN(work. peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s);
+run;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+and work without the "dataset-name-length-limitation" issue.
+
+---
+
+See examples below for the details.
+
+The `%LDSN()` macro executes like a pure macro code.
+
+**Known "Limitations":**
+
+- dataset name _cannot_ contain dots (`.`) since they are used as separators!
+
+- dataset name _cannot_ contain round brackets(`(` and `)`) since they are used as separators
+  (but `[]` and `{}` are allowed)!
+
+- dataset name _cannot_ contain unpaired quotes (`'` and `"`), 
+  text: `a "hot-dog"` is ok, but `John's dog` is not!
+
+**Behaviour:**
+
+- dataset name text is *converted to upcase*
+
+- dataset name text *leading and trailing spaces are ignored*, 
+  e.g. the following will give the same hash digest:
+  `%ldsn(work.test)`, `%ldsn( work.test)`, `%ldsn(work.test )`,
+  `%ldsn(work .test)`, `%ldsn(work. test)`, `%ldsn(work . test)`.
+
+- macro calls of the form:
+  `data %LDSN(); run;`, `data %LDSN(    ); run;`, `data %LDSN( . ); run;` or even
+  `data %LDSN( . (keep=x)); run;` are resolved to empty string, so the result is
+  equivalent to `data; run;`
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%LDSN(
+   arbitrary text string (in line with limitations)
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The text string is concider as *"fully qualified dataset name"*, i.e. macro
+assumes it may contain library as prefix and data set options as sufix.
+See the `%LDsNm()` macro for comparison.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+options nomprint source nomlogic nosymbolgen ls = max ps = max;
+
+data %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s (drop = sex rename=(name=first_name) where = (age in (12,13,14)))  );
+  set sashelp.class;
+run;
+
+proc print data  = %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  );
+run;
+
+data MyNextDataset;
+  set %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  );
+  where age > 12;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%ldsnm()` macro <a name="ldsnm-macro-11"></a> ######
+ 
+## >>> `%LDSNM()` macro: <<< <a name="ldsnm-macro"></a> #######################  
+
+The LDSNM (Long DataSet Names Modified) macro function 
+allows to use an "arbitrary" text string to name a dataset.
+
+The LDSN macro had some limitation (see its documentation), to overcome them 
+another `%LDSNM()` (Long DataSet Names Modified) macro was created.
+
+The main idea behind the `%LDSNM()` is the same as for `%LDSN()` - see the description there.
+
+---
+
+The `%LDSNM()` works differently then the `%LDSN()`.
+
+The `%LDSN()` assumed that *both* libname and dataset options *could*
+be passed as elements in macro argument, e.g.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data %LDSN( WORK.peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s (drop = sex) );
+  set sashelp.class;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `%LDSNM()`, in contrary, assumes that both libname and dataset options are
+passed **outside** the macro, i.e.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data WORK.%LDSNM( peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s ) (drop = sex);
+  set sashelp.class;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This approach reduces some limitations the LDSN has.
+
+The **additional** feature of the `%LDSNM()` is that when the macro is called 
+a global macrovariable, which name is the same as hashed dataset name, is created.
+The macrovariable value is the text of the argument of the macro. For example 
+the following macro call:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data %LDSNM(John "x" 'y' dog);
+  set sashelp.class;
+  where name = 'John';
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+creates `DSN_BF1F8C4D6495B34A_` macrovariable with value:  `JOHN "X" 'Y' DOG`.
+
+The macrovariable is useful when combined with `symget()` function and 
+the `indsname=` option to get the original text string value back, 
+like in this example:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data test;
+  set %LDSNM(John "x" 'y' dog) indsname = i;
+
+  indsname = symget(scan(i,-1,"."));
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See examples below for the details.
+
+---
+
+The `%LDSN()` macro executes like a pure macro code.
+
+**Known "Limitations":**
+
+- dataset name _cannot_ contain _unpaired_ round brackets(`(` and `)`) 
+  (but unmatched `[]` and `{}` are allowed)!
+
+- dataset name _cannot_ contain _unpaired_ quotes (`'` and `"`), 
+  text: `a "hot-dog"` is ok, but `John's dog` is not!
+
+**Behaviour:**
+
+- dataset name text is *converted to upcase*
+
+- dataset name text *leading and trailing spaces are ignored*, 
+  e.g. the following will give the same hash digest:
+  `%ldsn(test)`, `%ldsn( test)`, `%ldsn(test )`.
+
+- macro calls of the form:
+  `data %LDSN(); run;` or `data %LDSN(    ); run;` are resolved 
+  to empty string, so the result is equivalent to `data; run;`
+
+- created macrovariable is _global_ in scope.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%LDSNM(
+   arbitrary text string (in line with limitations)
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The text string is concider as *"only dataset name"*, i.e. macro does not 
+assume it contain library as prefix or data set options as sufix.
+See the `%LDSN()` macro for comparison.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data %LDSNM(John "x" 'y' & dog);
+  set sashelp.class;
+  where name = 'John';
+run;
+
+data %LDSNM(John "x"[ 'y' & dog);
+  set sashelp.class;
+  where name = 'John';
+run;
+
+data %LDSNM(John "x" 'y'} & dog);
+  set sashelp.class;
+  where name = 'John';
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data work.%LDsNm(  peanut butter & jelly, a hot-dog in [a box], and s(*)t(*)a(*)r(*)s!!   ) (drop = sex rename=(name=first_name) where = (age in (12,13,14)))
+;
+  set sashelp.class;
+run;
+
+data test;
+  set work.%LDsNm(  peanut butter & jelly, a hot-dog in [a box], and s(*)t(*)a(*)r(*)s!!   ) indsname=i;
+
+  indsname=symget(scan(i,-1,"."));
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data work.%LDsNm(  . );
+  set sashelp.class;
+run;
+
+data %LDsNm(  );
+  set sashelp.class;
+run;
+
+
+data %LDsNm();
+  set sashelp.class;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%lvarnm()` macro <a name="lvarnm-macro-12"></a> ######
+ 
+## >>> `%LVarNm()` macro: <<< <a name="lvarnm-macro"></a> #######################  
+
+The LVarNm() macro function works like the LDSN() macro function, but for variables.
+Supported by LVarNmLab() macro function which allows to remember "user names" in labels.
+
+The motivation for the macro was similar one as for the LDSN() macro. 
+
+---
+
+See examples below for the details.
+
+The `%LVarNm()` macro executes like a pure macro code.
+
+**Known "Limitations":**
+
+- variable name _cannot_ contain unpaired quotes (`'` and `"`), 
+  text: `a "hot-dog"` is ok, but `John's dog` is not!
+
+**Behaviour:**
+
+- variable name text is *converted to upcase*
+
+- variable name text *leading and trailing spaces are ignored*, 
+  e.g. the following will give the same hash digest:
+  `%LVarNm(test)`, `%LVarNm( test)`, `%LVarNm(test )`.
+
+- if the user want to add an extra suffix to the variable, 
+  e.g. to get a numerical suffix, the `%LVarNm()` macro
+  **has** to be wrapped inside the `%unquote()` macro function.
+~~~~~~~~~~~~~~~~~~~~~~~sas
+data test4;
+  array X[*] %unquote(%LVarNm(some strange! name))_0 - %unquote(%LVarNm(some strange! name))_10;
+
+  do i = lbound(X) to hbound(X);
+    X[i] = 2**(i-1);    
+    put X[i]=;
+  end;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~
+  The reason for this is a "bug" like behaviour of SAS tokenizer/macroprocesor.
+  See the following SAS-L discussion thread:
+  `https://listserv.uga.edu/scripts/wa-UGA.exe?A2=SAS-L;4b2bcf80.2205A&S=`
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%LVarNm(
+   arbitrary text string (in line with limitations)
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+options ls=max;
+data test;
+  %LVarNmLab( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  )
+
+  do %LVarNm( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  ) = 1 to 10;
+
+    y = 5 + %LVarNm( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  ) * 17; 
+    output;
+  end;
+run;
+
+data test2;
+  set test;
+  where %LVarNm( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  ) < 5;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data test3;
+  %LVarNmLab() = 17;
+  
+  %LVarNm() = 17;
+
+  %LVarNm( ) = 42;
+
+  %LVarNm(  ) = 303;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data test3;
+  %LVarNm(test) = 1;
+
+  %LVarNm( test) = 2;
+
+  %LVarNm(test ) = 3;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data test4;
+  array X[*] %LVarNm(some strange! name)_0 - %LVarNm(some strange! name)_10;
+
+  do i = lbound(X) to hbound(X);
+    X[i] = 2**(i-1);    
+    put X[i]=;
+  end;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%lvarnmlab()` macro <a name="lvarnmlab-macro-13"></a> ######
+ 
+## >>> `%LVarNmLab()` macro: <<< <a name="lvarnmlab-macro"></a> #######################  
+
+The LVarNmLab() macro function supports LVarNm() and allows to remember "user names" in labels.
+
+The motivation for the macro was similar one as for the LDSN() macro. 
+
+---
+
+See examples in LVarNm() documentation for the details.
+
+The `%LVarNmLab()` macro executes like a pure macro code.
+
+**Known "Limitations":**
+
+- variable name _cannot_ contain unpaired quotes (`'` and `"`), 
+  text: `a "hot-dog"` is ok, but `John's dog` is not!
+
+**Behaviour:**
+
+- variable name text is *converted to upcase*
+
+- variable name text *leading and trailing spaces are ignored*, 
+  e.g. the following will give the same hash digest:
+  `%LVarNmLab(test)`, `%LVarNmLab( test)`, `%LVarNmLab(test )`.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%LVarNmLab(
+   arbitrary text string (in line with limitations)
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%qdeduplistx()` macro <a name="qdeduplistx-macro-14"></a> ######
+ 
+## >>> `%QdedupListX()` macro: <<< <a name="qdeduplistx-macro"></a> #######################
+
+The `%QdedupListX()` macro deletes duplicated values from 
+a *X separated* list of values, where the `X` represents 
+a *single character* separator. List, including separators, 
+can be no longer than a value carried by a single macrovariable.
+
+**Caution.** The value of `X` *has to be* in **the first** byte of the list,
+             just after the opening bracket, i.e. `(X...)`.
+
+Returned value is **quoted** with `%superq()`. Leading and trailing spaces are ignored.
+
+The `%QdedupListX()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%QdedupListX(
+XlistXofXxXseparatedXvalues
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `list` - A list of *X separated* values. 
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Basic use-case one. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%QdedupListX(|a|b|c|b|c)*;
+
+  %put *%QdedupListX( a b c b c)*;
+
+  %put *%QdedupListX(,a,b,c,b,c)*;
+
+  %put *%QdedupListX(XaXbXcXbXc)*;
+
+  %put *%QdedupListX(/a/b/c/b/c)*;
+
+  %put *%QdedupListX(%str(;a;b;c;b;c))*;
+
+  %put *%QdedupListX(%nrstr(&a&b&c&b&c))*;
+
+  %put *%QdedupListX(%nrstr(%a%b%c%b%c))*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Leading and trailing spaces are ignored. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%QdedupListX(| a | b.b |  c | b.b| c    )*;
+
+  %put *%QdedupListX(. a . b b .  c . b b. c    )*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 3.** Macro variable as an argument. 
+    Delete duplicated values from a list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let list = 4$5.5$6$1$2$3$1$2$3$4$5.5$6;
+  %put *%QdedupListX($&list.)*;
+
+  %let list = 4$ 5.5$ 6$ 1$ 2$ 3$ 1$ 2$ 3$ 4$ 5.5$ 6$;
+  %put *%QdedupListX( &list.)*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%qgetvars()` macro <a name="qgetvars-macro-15"></a> ######
+ 
 ## >>> `%QgetVars()` macro: <<< <a name="qgetvars-macro"></a> #######################  
 
 The getVars() and QgetVars() macro functions
@@ -834,12 +1894,756 @@ The basic syntax is the following, the `<...>` means optional parameters:
 * `quote =`          - *Optional*, default value is blank, a quotation 
                        symbol to be used around values.
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 See examples in `%getVars()` help for the details.
 
 ---
 
+  
+---
+ 
+## `%qzipevalf()` macro <a name="qzipevalf-macro-16"></a> ######
+ 
+## >>> `%QzipEvalf()` macro: <<< <a name="qzipevalf-macro"></a> #######################  
+
+The zipEvalf() and QzipEvalf() macro functions
+allow to use a function on elements of pair of 
+space separated lists. 
+
+For two space separated lists of text strings the corresponding 
+elements are taken and the macro applies a function, provided by user, 
+to calculate result of the function on taken elements. 
+
+When one of the lists is shorter then elements are "reused" starting 
+from the beginning.
+
+The zipEvalf() returns unquoted value [by %unquote()].
+The QzipEvalf() returns quoted value [by %superq()].
+
+See examples below for the details.
+
+The `%QzipEvalf()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%QzipEvalf(
+    first
+   ,second
+  <,function=>
+  <,operator=> 
+  <,argBf=>
+  <,argMd=>
+  <,argAf=>
+  <,format=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `first`         - *Required*, a space separated list of texts.
+
+2. `second`        - *Required*, a space separated list of texts.
+
+* `function = cat` - *Optional*, default value is `cat`, 
+                     a function which will be applied 
+                     to corresponding pairs of elements of 
+                     the first and the second list. 
+
+* `operator =`     - *Optional*, default value is empty,
+                     arithmetic infix operator used with elements 
+                     the first and the second list. The first
+                     list is used on the left side of the operator
+                     the second list is used on the right side
+                     of the operator. 
+
+* `argBf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *before* elements the first list.
+                     If multiple should be comma separated.
+
+* `argMd =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *between* elements the first list and 
+                     the second list.
+                     If multiple should be comma separated.
+
+* `argAf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *after* elements the second list.
+                     If multiple should be comma separated.
+
+* `format=`        - *Optional*, default value is empty,
+                     indicates a format which should be used
+                     to format the result, does not work when 
+                     the `operator=` is used.
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+See examples in `%zipEvalf()` help for the details.
+
+---
+
+  
+---
+ 
+## `%raincloudplot()` macro <a name="raincloudplot-macro-17"></a> ######
+ 
+## >>> `%RainCloudPlot()` macro: <<< <a name="raincloudplot-macro"></a> #######################  
+
+The RainCloudPlot() macro allow to plot Rain Cloud plots, i.e. pots of 
+kernel density estimates, jitter data values, and box-and-whiskers plot.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%RainCloudPlot(
+   DS
+  ,gr
+  ,vars
+
+ <,WidthPX=>
+ <,HeightPX=>
+ <,boxPlot=>
+ <,roundFactor=>
+ <,rainDropSize=>
+ <,boxPlotSymbolSize=>
+ <,colorsList=>
+ <,monochrome=>
+ <,antialiasMax=>
+ <,title=>
+ <,footnote=>
+ <,catLabels=>
+ <,xLabels=>
+ <,catLabelPos=> 
+ <,xLabelPos=>
+ <,catLabelAttrs=>
+ <,xLabelAttrs=>
+ <,formated=>
+ <,y2axis=>
+ <,y2axisLevels=>
+ <,y2axisValueAttrs=>
+ <,y2axisFormat=>
+ <,y2axisLines=>
+ <,catAxisValueAttrs=>
+ <,xaxisValueAttrs=>
+ <,xaxisTickstyle=>
+ <,sganno=>
+ <,odsGraphicsOptions=>
+ <,sgPlotOptions=>
+
+ <,VSCALE=>
+ <,KERNEL_K=>
+ <,KERNEL_C=>
+ <,VSCALEmax=>
+
+ <,cleanTempData=>
+ <,codePreview=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `DS`                - *Required*, name of the dataset from 
+                         which variables are to be taken.
+
+2. `gr`                - *Required*, name of the grouping variable. 
+                         When more than one variable is specified 
+                         separate plots are rendered.
+                         Can be numeric or character.
+
+3. `vars`              - *Required*, name of the aggregated numeric variable.
+                         When more than one variable is specified 
+                         separate plots are rendered.
+
+***Plot related options***:
+
+* `WidthPX`            - *Optional*, default value `1200`. 
+                         Total width of the plot in pixels. 
+
+* `HeightPX`           - *Optional*, default value `220`. 
+                         Partial height of the plot in pixels.
+                         Total height is calculated as `#GROUPS x HeightPX`.
+
+* `boxPlot`            - *Optional*, default value `1`.
+                         Indicates if the Box Plot should be added. 
+                          
+* `roundFactor`        - *Optional*, default value `0.000001`.
+                         Rounding level when calculating maximum value 
+                         of the cloud chart. Should be adjusted to data
+                         granularity level, e.g. for data with value 
+                         around `1e-8` should be decreased. 
+
+* `rainDropSize`       - *Optional*, default value `5px`.
+                         Size of data points in the "rain" plot.
+
+* `boxPlotSymbolSize`  - *Optional*, default value `8px`.
+                         Size of symbols on the box plot.
+
+* `colorsList`         - *Optional*, default value is empty.
+                         List of colours for plotting.
+                         Empty indicates that the default list will be used.
+
+* `monochrome`         - *Optional*, default value `0`.
+                         Indicates if the default list of colours should be gray-scale.
+
+* `antialiasMax`       - *Optional*, default value is empty.
+                         Sets a value to the ODS graphics `ANTIALIASMAX` option.
+                         When empty the value is calculated from data.
+
+* `title`              - *Optional*, default value - see notes below.
+                         Provides a list of titles printed on the plot.
+                         For details see notes below.
+
+* `footnote`           - *Optional*, default value - see notes below.
+                         Provides a list of titles printed on the plot.
+                         For details see notes below.
+
+* `catLabels`          - *Optional*, default value is empty. 
+                         List of values for group axis labels (vertical).
+                         When empty a grouping variable name is used.
+                         For details see notes below.
+
+* `xLabels`            - *Optional*, default value is empty. 
+                         List of values for data variable axis labels (horizontal).
+                         When empty a data variable name is used.
+                         For details see notes below.
+
+* `catLabelPos`        - *Optional*, default value `DATACENTER`.
+                         Indicates position of the label on group axis (vertical).
+                         Allowed values are `BOTTOM`, `CENTER`, `DATACENTER`, and `TOP`.
+
+* `xLabelPos`          - *Optional*, default value `DATACENTER`.
+                         Indicates position of the label on data axis (horizontal).
+                         Allowed values are `LEFT`, `CENTER`, `DATACENTER`, and `RIGHT`.
+
+* `catLabelAttrs`      - *Optional*, default value is empty. 
+                         List of attributes for group axis labels (vertical).
+                         For details see notes below.
+
+* `xLabelAttrs`        - *Optional*, default value is empty. 
+                         List of attributes for data variable axis labels (horizontal).
+                         For details see notes below.
+
+* `formated`           - *Optional*, default value `0`.
+                         Indicates if values of the grouping variable should be formatted.
+
+* `y2axis`             - *Optional*, default value `1`.
+                         Indicates if the right vertical axis should be displayed.
+
+* `y2axisLevels`       - *Optional*, default value `4`.
+                         Indicates if the number of expected levels of values printed 
+                         on the right vertical axis.
+
+* `y2axisValueAttrs`   - *Optional*, default value `Color=Grey`.
+                         Allows to modify Y2 axis values attributes.
+
+* `y2axisFormat`       - *Optional*, default value `12.2-L`.
+                         Allows to modify Y2 axis values format.
+
+* `y2axisLines`        - *Optional*, default value `0`.
+                         If `1`, adds horizontal lines for Y2 axis values.
+
+* `catAxisValueAttrs`  - *Optional*, default value `Color=Black`.
+                         Allows to modify category (Y) axis values attributes.
+
+* `xaxisValueAttrs`    - *Optional*, default value `Color=Grey`.
+                         Allows to modify X axis values attributes.
+
+* `xaxisTickstyle`     - *Optional*, default value `INSIDE`.
+                         Allows to modify X axis tick style. 
+                         Allowed values are `OUTSIDE`, `INSIDE`, `ACROSS`, and `INBETWEEN`. 
+                         *For SAS previous to* **9.4M5** *set to missing!*
+
+* `sganno`             - *Optional*, default value is empty.
+                         keeps name of a data set for the `sganno=` option
+                         of the SGPLOT procedure.
+
+* `sgPlotOptions`      - *Optional*, default value is `noautolegend noborder`.
+                         List of additional options values for SGPLOT procedure.
+
+* `odsGraphicsOptions` - *Optional*, default value is empty.
+                         List of additional options values for `ODS Graphics` statement.
+                         By default only the: `width=`, `height=`, and `antialiasmax=`
+                         are modified.
+
+
+***Stat related options***:
+
+* `VSCALE`             - *Optional*, default value `Proportion`.
+                         Specifies the scale of the vertical axis.
+                         Allowed values are `PROPORTION`, `PERCENT`, and `COUNT`.
+                         `PROPORTION` scales the data in units of proportion of observations per data unit. 
+                         `PERCENT` scales the data in units of percent of observations per data unit. 
+                         `COUNT` scales the data in units of the number of observations per data unit.
+
+* `KERNEL_K`           - *Optional*, default value `NORMAL`. 
+                         Specifies type of kernel function to compute kernel density estimates.
+                         Allowed values are `NORMAL`, `QUADRATIC`, and `TRIANGULAR`. 
+
+
+* `KERNEL_C`           - *Optional*, default value `1`.
+                         Specifies standardized bandwidth parameter *C* to compute kernel density estimates.
+                         Allowed values are between `0` and `1`,
+
+* `VSCALEmax`          - *Optional*, default value is empty.
+                         Provides maximal value for Y2 axis scale. When used an information
+                         note is displayed in the log. Recommended values are:
+                         For `VSCALE=PERCENT` between 0 and 100,
+                         for `VSCALE=PROPORTION` between 0 and 1, and
+                         for `VSCALE=COUNT` between 0 and N (sample size).
+
+***Other options***:
+
+* `cleanTempData`      - *Optional*, default value `1`.
+                         Indicates if temporary data sets should be deleted.
+
+* `codePreview`        - *Optional*, default value `0`.
+                         Indicates if source code should be MPRINTed to log.
+
+---
+
+### NOTES: ###################################################################
+
+* Default value of the `title` option is:
+  `%nrstr(title1 JUSTIFY=C "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);)`
+  Use the `%str()` or `%nrstr()` macro-function to handle special characters.
+  The `%unquote()` is used when resolving the parameter.
+
+* Default value of the `footnote` option is:
+  `%nrstr(footnote1 JUSTIFY=L COLOR=lightGray HEIGHT=1 "by RainCloudPlot macro from the BasePlus package";)`
+  Use the `%str()` or `%nrstr()` macro-function to handle special characters.
+  The `%unquote()` is used when resolving the parameter.
+
+* The `catLabels` and `xLabels` should be quoted comma separated lists enclosed with brackets, 
+  e.g. `catLabels=("Continent of Origin", "Car Type")`, see Example below.
+
+* The `catLabelAttrs` and `xLabelAttrs` should be space separated lists of `key=value` pairs,
+  e.g. `xLabelAttrs=size=12 color=Pink weight=bold`, see Example below.
+
+* Kernel density estimates and basic statistics are calculated with `PROC UNIVARIATE`.
+
+* Plot is generated by `PROC SGPLOT` with `BAND`, `SCATTER`, and `POLYGON` plots.
+
+* After execution the ODS graphics dimension parameters are set to `800px` by `600px`.
+
+* SAS notes (`NOTE:`) are disabled for the execution time.
+
+* List of predefined colours is: 
+  `BlueViolet`, `RoyalBlue`, `OliveDrab`, `Gold`, `HotPink`, `Crimson`,  
+  `MediumPurple`, `CornflowerBlue`, `YellowGreen`, `Goldenrod`, `Orchid`, `IndianRed`.
+
+### BOX-AND-WHISKERS PLOT: ###################################################################
+
+The box-and-whiskers plot has the following interpretation: 
+- left vertical bar indicates the *minimum*,
+- left whisker line starts at `max(Q1 - 1.5IQR, minimum)` and ends at lower quartile (Q1),
+- diamond indicates mean,
+- vertical bar inside of the box indicates median,
+- right whisker line starts at upper quartile (Q3) and ends at `min(Q3 + 1.5IQR, maximum)`,
+- right vertical bar indicates the *maximum*.
+
+With above setup it may happen that 
+there is a gap between the minimum marker and the beginning of the left whisker 
+or 
+there is a gap between the end of the right whisker and the maximum marker. 
+See examples below.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple Rain Cloud Plot for a `have` dataset:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+  data have;
+    g = "Aaa";
+    do _N_ = 1 to 50;
+      x = rannor(42);
+      y = ranuni(42);
+      output;
+    end;
+
+    g = "Bb";
+    do _N_ = 1 to 120;
+      select (mod(_N_,9)); 
+        when(1,2,3,4,5) x = 0.5*rannor(42)+1;
+        when(6,7,8)   x = 0.5*rannor(42)+3;
+        otherwise   x = 0.5*rannor(42)+5;
+      end; 
+      y = ranuni(42)+1;
+      output;
+    end;
+
+    g = "C";
+    do _N_ = 1 to 60;
+      x = 3*rannor(42)+7;
+      y = ranuni(42)+2;
+      output;
+    end;
+  run;
+
+  %RainCloudPlot(have, g, x y)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The output can be seen in the `md` file.
+![Example 1x](./baseplus_RainCloudPlot_Ex1x.png)
+![Example 1y](./baseplus_RainCloudPlot_Ex1y.png)
+
+
+**EXAMPLE 2.** Rain Cloud plot for `sashelp.cars` dataset
+               with groups by Origin or Type 
+               for Invoice variables:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+  %RainCloudPlot(
+    sashelp.cars(where=(Type ne "Hybrid"))
+  , Origin Type
+  , Invoice 
+  , HeightPX=300 
+  , y2axisLevels=3
+  , catLabels=("Continent of Origin", "Car Type")
+  , xLabels="Invoice, [$]"
+  , xLabelAttrs=size=12 color=Pink weight=bold
+  )
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The output can be seen in the `md` file.
+![Example 2a](./baseplus_RainCloudPlot_Ex2a.png)
+![Example 2b](./baseplus_RainCloudPlot_Ex2b.png)
+
+**EXAMPLE 3.** Rain Cloud plot with formated groups:
+               and annotations.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+  data annotation; 
+    function="text";
+    label="This graph is full(*ESC*){sup '2'} of annotations!";
+    drawspace="graphpercent";
+    rotate=30;
+    anchor="center";
+    textsize=32;
+    x1=50;
+    y1=50;
+    textcolor="red"; 
+    justify="center";
+    textweight="bold";
+    width=100;
+    widthunit="percent";
+  run; 
+
+  proc format;
+    value system
+    1="Windows"
+    2="MacOS"
+    3="Linux"
+    ;
+  run;
+
+  data test;
+    do system = 1 to 3;
+      do i = 1 to 50;
+        x = 2*rannor(123)/system - system;
+        output;
+      end;
+    end;
+    format system system.;
+  run;
+
+  %RainCloudPlot(test, system, x
+  , colorslist=CX88CCEE CX44AA99 CX117733
+  , formated=1
+  , sganno=annotation
+  , sgPlotOptions=noborder
+  , WidthPX=1000
+  , HeightPX=380
+  , catAxisValueAttrs=Color=Green weight=bold
+  , VSCALE=percent
+  , cleanTempData=0
+  , y2axisLevels=5
+  , y2axisFormat=words20.-L
+  , VSCALEmax=60
+  , codePreview=1
+  , y2axisValueAttrs=Color=Grey size=10px
+  , y2axisLines=1
+  , xLabels="variable X"
+  , title = %nrstr(title1;
+                   title2 JUSTIFY=L "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);
+                   title3 JUSTIFY=C "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);
+                   title4 JUSTIFY=R "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);
+            )
+  )
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The output can be seen in the `md` file.
+![Example 3](./baseplus_RainCloudPlot_Ex3.png)
+
+---
+
+  
+---
+ 
+## `%repeattxt()` macro <a name="repeattxt-macro-18"></a> ######
+ 
+## >>> `%repeatTxt()` macro: <<< <a name="repeattxt-macro"></a> #######################  
+
+The repeatTxt() macro function allows to repeat `n` 
+times a `text` string separated by string `s=`.
+
+The repeatTxt() returns unquoted value [by %unquote()].
+
+See examples below for the details.
+
+The `%repeatTxt()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%repeatTxt(
+    text
+  <,n>
+  <,s=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `text`       - *Required*, a text to be repeated.
+
+2. `n`          - *Required/Optional*, the number of repetitions.
+                  If missing then set to `1`;
+
+* `s = %str( )` - *Optional*, it is a separator between 
+                  repeated elements. Default value is space.
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple repetition of dataset name:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+options mprint;
+data work.test5;
+  set 
+   %repeatTxt(sashelp.cars, 5) 
+    ;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Simple repetition of data step:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+options mprint;
+%repeatTxt(data _null_; set sashelp.cars; run;, 3)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** "Nice" output:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %repeatTxt(#,15,s=$) HELLO SAS! %repeatTxt(#,15,s=$);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ 
+**EXAMPLE 4.** Macroquote a text with commas:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%repeatTxt( 
+  %str(proc sql; create table wh as select weight,height from sashelp.class; quit;)
+  ,3
+) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 5.** Empty `n` repeats `text` one time:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+options mprint;
+data work.test1;
+  set 
+   %repeatTxt(sashelp.cars) 
+    ;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 6.** Dynamic "formatting":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%macro printWork();
+ %let work=%sysfunc(pathname(work));
+ %put +%repeatTxt(~,%length(&work.)+5,s=)+; 
+ %put {&=work.}; 
+ %put +%repeatTxt(~,%length(&work.)+5,s=)+;
+%mend printWork;
+
+%printWork()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%splitdsintoblocks()` macro <a name="splitdsintoblocks-macro-19"></a> ######
+ 
+## >>> `%splitDSIntoBlocks()` macro: <<< <a name="splitdsintoblocks-macro"></a> #######################  
+
+The splitDSIntoBlocks() macro allows to split the `set` dataset into blocks 
+of size `blockSize` in datasets: `prefix1` to `prefixN`.
+
+The last dataset may have less observations then the `blockSize`.
+
+Macro covers `BASE` engine (`v9`, `v8`, `v7`, `v6`) and `SPDE` engine datasets.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%splitDSIntoBlocks(
+    blockSize
+  <,set>
+  <,prefix>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `blockSize`   - *Required*, the size of the block of data,
+                   in other words number of observations in 
+                   one block of split data.
+                   Block size must be positive integer.
+
+2. `set`         - *Required/Optional*, the name of the dataset to split.
+                   If empty then `&syslast.` is used.
+
+3. `prefix`      - *Required/Optional*, the name-prefix for new datasets.
+                   If missing then set to `part`. 
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Split `sashelp.class` into 5 elements datasets ABC1 to ABC4:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %splitDSIntoBlocks(5,sashelp.class,ABC)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** By default splits the `_last_` dataset into `part1` to `partN` datasets:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  data lastData;
+    set sashelp.cars;
+  run;
+
+  %splitDSIntoBlocks(123)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Works with `SPDE` engine too:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  options dlcreatedir;
+  libname test "%sysfunc(pathname(work))/testSPDE";
+  libname test;
+  libname test SPDE "%sysfunc(pathname(work))/testSPDE";
+
+  data test.test;
+    set sashelp.cars;
+  run;
+
+  %splitDSIntoBlocks(100,test.test,work.spde)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%splitdsintoparts()` macro <a name="splitdsintoparts-macro-20"></a> ######
+ 
+## >>> `%splitDSIntoParts()` macro: <<< <a name="splitdsintoparts-macro"></a> #######################  
+
+The splitDSIntoParts() macro allows to split the `set` dataset into `parts` parts 
+of approximately `NOBS/parts` size in datasets: `prefix1` to `prefixN`.
+
+The splitDSIntoParts() macro internally runs the splitDSIntoBlocks() macro.
+
+Macro covers `BASE` engine (`v9`, `v8`, `v7`, `v6`) and `SPDE` engine datasets.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%splitDSIntoParts(
+    parts
+  <,set>
+  <,prefix>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `parts`       - *Required*, the number of parts to split data into.
+                   Number of parts must be positive integer.
+
+2. `set`         - *Required/Optional*, the name of the dataset to split.
+                   If empty then `&syslast.` is used.
+
+3. `prefix`      - *Required/Optional*, the name-prefix for new datasets.
+                   If missing then set to `part`. 
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Split `sashelp.cars` into 7 parts: datasets carsInParts1 to carsInParts7:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %splitDSIntoParts(7,sashelp.cars, carsInParts)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** By default splits the `_last_` dataset into `part1` to `part3` datasets:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  data lastData;
+    set sashelp.cars;
+  run;
+
+  %splitDSIntoBlocks(3)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Works with `SPDE` engine too:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  options dlcreatedir;
+  libname test "%sysfunc(pathname(work))/testSPDE";
+  libname test;
+  libname test SPDE "%sysfunc(pathname(work))/testSPDE";
+
+  data test.test;
+    set sashelp.cars;
+  run;
+
+  %splitDSIntoParts(3,test.test,work.spde)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%symdelglobal()` macro <a name="symdelglobal-macro-21"></a> ######
+ 
 ## >>> `%symdelGlobal()` macro: <<< <a name="symdelglobal-macro"></a> #######################
 
 The `%symdelGlobal()` macro deletes all global macrovariables
@@ -910,6 +2714,714 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 
+  
+---
+ 
+## `%unziparch()` macro <a name="unziparch-macro-22"></a> ######
+ 
+## >>> `%unzipArch()` macro: <<< <a name="unziparch-macro"></a> #######################  
+
+The unzipArch() macro allows to unzip content of a ZIP archive. 
+Macro is OS independent, the `XCMD` option is not required.
+
+The `dlCreateDir` option is used under the hood.
+
+Content of unzipped archive can be listed in the log.
+
+Source files can be deleted after decompression.
+Errors of decompression and are reported. If any occur
+the deletion is suspended.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%unzipArch(
+    archName
+  <,path=>
+  <,pathRef=>
+  <,target=>
+  <,targetRef=>
+  <,list=> 
+  <,clean=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `archName`      - *Required*, name of the ZIP archive to be extracted.
+                     Name should be full, i.e., with the extension!
+
+* `path=`          - *Optional*, a path pointing to zipped file location.
+                     The path should be provided unquoted.
+                     Default value is `WORK` location.
+
+* `pathRef=`       - *Optional*, a fileref to path pointing to zipped file location.
+                     The `path`, if not null, has precedense over the `pathRef`.
+
+* `target=`        - *Optional*, a path pointing to target location where
+                     files will be extracted.
+                     The path should be provided unquoted.
+                     Default value is `WORK` location.
+
+* `target=`        - *Optional*, a fileref to path pointing to target location where
+                     files will be extracted.
+                     The `target`, if not null, has precedense over the `targetRef`.
+
+* `list = 0`       - *Optional*, default value is `0`,
+                     indicates if zip content should be listed in the log. 
+                     `1` means *yes*, `0` means *no*. 
+
+* `clean = 0`      - *Optional*, default value is `0`,
+                     indicates if zip file should be deleted after unzipping. 
+                     `1` means *yes*, `0` means *no*. 
+
+---
+
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Unzip compressed archive. Example requires the `basePlus` package.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+filename arch ZIP "%workPath()/testArch.zip";
+
+data _null_;
+  file arch(abc/test1.txt);
+  put "text for test file 1";
+data _null_;
+  file arch(abc/subdir/test2.txt);
+  put "text for test file 2";
+data _null_;
+  file arch(abc/subdir/test3.txt);
+  put "text for test file 3";
+run;
+
+%unzipArch(
+  testArch.zip 
+, path = %workPath()
+, target = %workPath()
+, list=1
+);
+
+
+
+filename pR "%workPath()";
+
+%unzipArch(
+  testArch.zip 
+, pathRef = pR
+, targetRef = pR
+, clean=1
+);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%unziplibrary()` macro <a name="unziplibrary-macro-23"></a> ######
+ 
+## >>> `%unzipLibrary()` macro: <<< <a name="unziplibrary-macro"></a> #######################  
+
+The unzipLibrary() macro allows to unzip content of a SAS library. 
+It is a *counterpart* to the `%zipLibrary()` macro and is *not* intended to work 
+with zip files generated by other software (though it may in some cases).
+
+Files can be unzipped from a single file
+or from multiple files (named e.g. "dataset.sas7bdat.zip"). 
+If a file is indexed also the index file is unzipped.
+
+Source files can be deleted after decompression.
+
+Status of decompression and processing time is reported. 
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%unzipLibrary(
+    path
+  <,zip=>
+  <,mode=>
+  <,clean=> 
+  <,libOut=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `path`          - *Required*, a path pointing to zipped file(s) location.
+                     The path should be unquoted, e.g. `%unzipLibrary(/some/dir, ...)`.
+
+* `zip =`          - *Optional*, When `mode=S` a name of the 
+                     zip file containing SAS files to be unzipped.
+                     
+* `mode  = S`      - *Optional*, default value is `S`, 
+                     indicates mode of decompression 
+                     read from a single zip file (`SINGLE/S`) 
+                     or from multiple files (`MULTI/M`)
+
+* `clean = 0`      - *Optional*, default value is `0`,
+                     should zip files be deleted after unzipping? 
+                     `1` means *yes*, `0` means *no*. 
+
+* `libOut =`       - *Optional*, default value is empty,
+                     output library for a single zip file
+                     decompression.
+
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Generate data:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+options dlcreatedir;
+  libname test1 "%sysfunc(pathname(work))/test1";
+  libname test2 "%sysfunc(pathname(work))/test2";
+  libname test3 (test1 test2);
+  libname test4 "%sysfunc(pathname(work))/test4";
+options nodlcreatedir;
+
+%put %sysfunc(pathname(test3));
+%put %sysfunc(pathname(test4));
+
+data 
+  test1.A(index=(model)) 
+  test1.B 
+  test2.C 
+  test2.D(index=(model make io=(invoice origin))) 
+;
+  set sashelp.cars;
+run;
+
+data test1.B2 / view=test1.B2;
+  set test1.B;
+  output;
+  output;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Use data from Example 1.
+               First zip content of the `test3` library
+               to `test4` location into one zip file
+               and delete source files.
+               Next unzip `test3.zip` library into the 
+               `test4` location and delete the zip file.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(test3, clean=1, libOut=test4)
+
+
+%unzipLibrary(%sysfunc(pathname(test4)), zip=test3, clean=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Use data from Example 1.
+               First zip content of the `test1` library
+               into multiple zip files and delete source files.
+               Next unzip `*.zip` files in `test1` 
+               location and delete zipped files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(test1, mode=M, clean=1)
+
+
+%unzipLibrary(%sysfunc(pathname(test1)), mode=M, clean=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** First zip content of the `sashelp` library
+               into `work` library.
+               Next unzip `sashelp.zip` file in `work` 
+               location and delete zip file.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(sashelp, mode=S, clean=0, libOut=work)
+
+
+%unzipLibrary(%sysfunc(pathname(work)), zip=sashelp, mode=S, clean=1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  
+---
+ 
+## `%ziparch()` macro <a name="ziparch-macro-24"></a> ######
+ 
+## >>> `%zipArch()` macro: <<< <a name="ziparch-macro"></a> #######################  
+
+The zipArch() macro allows to ZIP content of a directory. 
+Macro is OS independent, the `XCMD` option is not required.
+
+Content of zipped archive can be listed in the log.
+
+Errors of decompression and are reported. 
+
+Macro **does not** include hidden files.
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipArch(
+    archName
+   ,path = 
+  <,pathRef=>
+  <,target=>
+  <,targetRef=>
+  <,list=>
+  <,overwrite=>
+  <,dropList=> 
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `archName`      - *Required*, name of the archive to be generated.
+                     Name should be full, i.e., with the extension!
+
+2. `path=`         - *Required/Optional*, location of a directory to ZIP.
+                     The path should be provided unquoted.
+                     Has priority over the `pathRef` parameter.
+
+* `pathRef=`       - *Required/Optional*, fileref to location of a directory to ZIP.
+                     The reference **has** to be pointing to single directory.
+                     If provided with `path` - the `path` takes 
+                     priority over the `pathRef` parameter.
+
+* `target=`        - *Optional*, a path pointing to target location where
+                     the archive will be generated.
+                     The path should be provided unquoted.
+                     Default value is `WORK` location.
+                     Has priority over the `targetRef` parameter.
+
+* `targetRef=`     - *Optional*, fileref to a path pointing to target location 
+                     where the archive will be generated.
+                     The reference **has** to be pointing to single directory.
+                     If provided with `target` - the `target` takes 
+                     priority over the `targetRef` parameter.
+
+* `list = 0`       - *Optional*, default value is `0`,
+                     indicates if zip content should be listed in the log. 
+                     `1` means *yes*, `0` means *no*. 
+
+* `overwrite = 0`  - *Optional*, default value is `0`,
+                     indicates if existing archive file should be overwritten. 
+                     `1` means *yes*, `0` means *no*. 
+
+* `overwrite = 1`  - *Technical*, default value is `1`,
+                     indicates if the "to-be-zipped-files-list" 
+                     data set should be deleted. 
+                     `1` means *yes*, `0` means *no*.
+
+---
+
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Zip a directory . Example requires the `basePlus` package.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+options dlCreateDir;
+libname arch1 "%workPath()/testArch1";
+libname arch2 "%workPath()/testArch2";
+
+filename arch1 "%workPath()/testArch1";
+
+data _null_;
+  file arch1(test1.txt);
+  put "text for test file 1";
+data _null_;
+  file arch1(test2.txt);
+  put "text for test file 2";
+data _null_;
+  file arch1(test3.txt);
+  put "text for test file 3";
+run;
+
+data arch1.class(index=(name));
+  set sashelp.class;
+run;
+data arch1.cars(index=(model));
+  set sashelp.cars;
+run;
+
+
+
+%zipArch(
+  archName1.zip
+, path = %workPath()/testArch1
+, list = 1 
+, overwrite = 1
+
+)
+
+%zipArch(
+  archName2.zip
+, pathRef = arch1
+, target = %workPath()/testArch2
+, list = 1 
+, overwrite = 1
+)
+
+
+%unzipArch(
+  archName2.zip 
+, path = %workPath()/testArch2
+, target = %workPath()/testArch2
+, clean=1
+, list=1
+);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%zipevalf()` macro <a name="zipevalf-macro-25"></a> ######
+ 
+## >>> `%zipEvalf()` macro: <<< <a name="zipevalf-macro"></a> #######################  
+
+The zipEvalf() and QzipEvalf() macro functions
+allow to use a function on elements of pair of 
+space separated lists. 
+
+For two space separated lists of text strings the corresponding 
+elements are taken and the macro applies a function, provided by user, 
+to calculate result of the function on taken elements. 
+
+When one of the lists is shorter then elements are "reused" starting 
+from the beginning.
+
+The zipEvalf() returns unquoted value [by %unquote()].
+The QzipEvalf() returns quoted value [by %superq()].
+
+See examples below for the details.
+
+The `%zipEvalf()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipEvalf(
+    first
+   ,second
+  <,function=>
+  <,operator=> 
+  <,argBf=>
+  <,argMd=>
+  <,argAf=>
+  <,format=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `first`         - *Required*, a space separated list of texts.
+
+2. `second`        - *Required*, a space separated list of texts.
+
+* `function = cat` - *Optional*, default value is `cat`, 
+                     a function which will be applied 
+                     to corresponding pairs of elements of 
+                     the first and the second list. 
+
+* `operator =`     - *Optional*, default value is empty,
+                     arithmetic infix operator used with elements 
+                     the first and the second list. The first
+                     list is used on the left side of the operator
+                     the second list is used on the right side
+                     of the operator. 
+
+* `argBf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *before* elements the first list.
+                     If multiple should be comma separated.
+
+* `argMd =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *between* elements the first list and 
+                     the second list.
+                     If multiple should be comma separated.
+
+* `argAf =`        - *Optional*, default value is empty,
+                     arguments of the function inserted
+                     *after* elements the second list.
+                     If multiple should be comma separated.
+
+* `format=`        - *Optional*, default value is empty,
+                     indicates a format which should be used
+                     to format the result, does not work when 
+                     the `operator=` is used.
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple concatenation of elements:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = %zipEvalf(1 2 3 4 5 6, q w e r t y);
+%put &=x;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Shorter list is "reused":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = %zipEvalf(1 2 3 4 5 6, a b c);
+%put &=x;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Use of the `operator=`, shorter list is "reused":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let y = %zipEvalf(1 2 3 4 5 6, 100 200, operator = +);
+%put &=y;
+
+%let z = %zipEvalf(1 2 3 4 5 6 8 9 10, 1 2 3 4 5 6 8 9 10, operator = **);
+%put &=z;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Format result:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = %zipEvalf(1 2 3 4 5 6, q w e r t y, format=$upcase.);
+%put &=x;
+
+%put *
+%zipEvalf(
+ ą ż ś ź ę ć ń ó ł
+,Ą Ż Ś Ź Ę Ć Ń Ó Ł
+,format = $brackets.
+)
+*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Use with macrovariables:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let abc = 10 100 1000;
+%put *
+%zipEvalf(
+%str(1 2 3 4 5 6 7 8 9)
+,&abc.
+,function = sum
+)
+*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** If one of elements is empty:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put *
+%zipEvalf(
+ abc efg
+,
+)
+*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** Use of the `function=`, shorter list is "reused":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put *
+%zipEvalf(
+ a b c
+,efg
+,function = catx
+,argBf = %str(,)
+,format = $brackets.
+)
+*;
+
+%put *
+%zipEvalf(
+ a b c
+,efg
+,function = catx
+,argBf = %str( )
+,format = $upcase.
+)
+*;
+
+%put *
+%zipEvalf(
+ %str(! @ # $ [ ] % ^ & * )
+,1 2 3 4 5 6 7 8 9
+,function = catx
+,argBf = %str( )
+,format = $quote.
+)
+*;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 8.** Use inside resolve:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data _null_;
+z = resolve('
+%zipEvalf(
+ %nrstr(! @ # $ [ ] % ^ & *)
+,1 2 3 4 5 6 7 8 9
+,function = catx
+,argBf = %str(.)
+,format = $quote.
+)');
+put z=;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 9.** Use in data step:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data test;
+  %zipEvalf(
+     a b c d e f g 
+    ,1 2 3 4 5 6 7
+    ,function = catx
+    ,argBf    = =
+    ,format   = $semicolon.
+  )
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 10.** With 9.4M6 hashing() function:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %zipEvalf(MD5 SHA1 SHA256 SHA384 SHA512 CRC32, abcd, function = HASHING);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 11.** Use middle argument:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = %zipEvalf(1 2 3 4 5 6, 2020, argMd=5, function=MDY, format=date11.);
+%put &=x;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%ziplibrary()` macro <a name="ziplibrary-macro-26"></a> ######
+ 
+## >>> `%zipLibrary()` macro: <<< <a name="ziplibrary-macro"></a> #######################  
+
+The zipLibrary() macro allows to zip content of a SAS library. 
+
+Files can be zipped into a single file (named as the input library)
+or into multiple files (named as "dataset.sas7bdat.zip"). 
+If a file is indexed also the index file is zipped.
+
+Source files can be deleted after compression.
+
+Status of compression and processing time is reported. 
+
+See examples below for the details.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(
+    lib
+  <,mode=>
+  <,clean=> 
+  <,libOut=>
+  <,compression=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `lib`           - *Required*, a name of the library to be zipped.
+                     Must be a valid SAS V7, V8, or V9 library.
+
+
+* `mode  = S`      - *Optional*, default value is `S`, 
+                     indicates mode of compression 
+                     generates single zip file (`SINGLE/S`) 
+                     or multiple files (`MULTI/M`)
+
+* `clean = 0`      - *Optional*, default value is `0`,
+                     should datasets be deleted after zipping? 
+                     `1` means *yes*, `0` means *no*. 
+
+* `libOut =`       - *Optional*, default value is empty,
+                     output library for a single zip file.
+
+* `compression =`  - *Optional*, default value is `6`,
+                     specifies the compression level
+                     `0` to `9`, where `0` is no compression
+                     and `9` is maximum compression.
+
+
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Generate data:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+options dlcreatedir;
+  libname test1 "%sysfunc(pathname(work))/test1";
+  libname test2 "%sysfunc(pathname(work))/test2";
+  libname test3 (test1 test2);
+  libname test4 "%sysfunc(pathname(work))/test4";
+options nodlcreatedir;
+
+%put %sysfunc(pathname(test3));
+%put %sysfunc(pathname(test4));
+
+data 
+  test1.A(index=(model)) 
+  test1.B 
+  test2.C 
+  test2.D(index=(model make io=(invoice origin))) 
+;
+  set sashelp.cars;
+run;
+
+data test1.B2 / view=test1.B2;
+  set test1.B;
+  output;
+  output;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Zip content of test3 library 
+               into the same location in one zip file:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(test3)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Zip content of test3 library 
+               into the same location in multiple zip files:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(test3, mode=MULTI)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Zip content of test3 library
+               with maximum compression level 
+               into different location in one zip file
+               and delete source files:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%zipLibrary(test3, clean=1, libOut=test4, compression=9)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  
+---
+ 
+## `$bool.` format/informat <a name="bool-format-27"></a> ######
+ 
 ## >>> `bool.` format: <<< <a name="bool-format"></a> #######################
 
 The **bool** format returns: 
@@ -917,13 +3429,18 @@ The **bool** format returns:
 *one* for other values.
 
 ### EXAMPLES AND USECASES: #################################################### 
-
+  
 It allows for a %sysevalf()'ish
 conversion-type [i.e. `%sysevalf(1.7 & 4.2, boolean)`]
 inside the `%sysfunc()` [e.g. `%sysfunc(aFunction(), bool.)`]
 
 --- 
 
+  
+---
+ 
+## `$boolz.` format/informat <a name="boolz-format-28"></a> ######
+ 
 ## >>> `boolz.` format: <<< <a name="boolz-format"></a> #######################
 
 The **boolz** format returns:
@@ -933,25 +3450,35 @@ The **boolz** format returns:
 *Fuzz* value is 0.
 
 ### EXAMPLES AND USECASES: #################################################### 
-
+ 
 It allows for a %sysevalf()'ish
 conversion-type [i.e. `%sysevalf(1.7 & 4.2, boolean)`]
 inside the `%sysfunc()` [e.g. `%sysfunc(aFunction(), boolz.)`]
 
 --- 
 
+  
+---
+ 
+## `$ceil.` format/informat <a name="ceil-format-29"></a> ######
+ 
 ## >>> `ceil.` format: <<< <a name="ceil-format"></a> #######################
 
 The **ceil** format is a "wrapper" for the `ceil()` function. 
 
 ### EXAMPLES AND USECASES: #################################################### 
-
+ 
 It allows for a %sysevalf()'ish
 conversion-type [i.e. `%sysevalf(1.7 + 4.2, ceil)`]
 inside the `%sysfunc()` [e.g. `%sysfunc(aFunction(), ceil.)`]
 
 --- 
 
+  
+---
+ 
+## `$floor.` format/informat <a name="floor-format-30"></a> ######
+ 
 ## >>> `floor.` format: <<< <a name="floor-format"></a> #######################
 
 The **floor** format is a "wrapper" for the `floor()` function.
@@ -964,6 +3491,11 @@ inside the `%sysfunc()` [e.g. `%sysfunc(aFunction(), floor.)`]
 
 --- 
 
+  
+---
+ 
+## `$int.` format/informat <a name="int-format-31"></a> ######
+ 
 ## >>> `int.` format: <<< <a name="int-format"></a> #######################
 
 The **int** format is a "wrapper" for the `int()` function. 
@@ -976,6 +3508,11 @@ inside the `%sysfunc()` [e.g. `%sysfunc(aFunction(), int.)`]
 
 --- 
 
+  
+---
+ 
+## `arrfill()` function <a name="arrfill-functions-32"></a> ######
+ 
 ## >>> `arrFill()` subroutine: <<< <a name="arrfill-subroutine"></a> #######################  
 
 The **arrFill()** subroutine is a wrapper 
@@ -987,7 +3524,7 @@ for array `A = [. . . .]` the subroutine
 `call arrFill(42, A)` returns `A = [42 42 42 42]`
 
 *Caution!* Array parameters to subroutine calls *must* be 1-based.
-
+  
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
@@ -1018,6 +3555,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `arrfillc()` function <a name="arrfillc-functions-33"></a> ######
+ 
 ## >>> `arrFillC()` subroutine: <<< <a name="arrfillc-subroutine"></a> #######################  
 
 The **arrFillC()** subroutine fills 
@@ -1027,7 +3569,7 @@ for array `A = [" ", " ", " "]` the subroutine
 `call arrFillC("B", A)` returns `A = ["B", "B", "B"]`
 
 *Caution!* Array parameters to subroutine calls *must* be 1-based.
-
+  
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
@@ -1058,6 +3600,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `arrmissfill()` function <a name="arrmissfill-functions-34"></a> ######
+ 
 ## >>> `arrMissFill()` subroutine: <<< <a name="arrmissfill-subroutine"></a> #######################  
 
 The **arrMissFill()** subroutine fills 
@@ -1109,6 +3656,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `arrmissfillc()` function <a name="arrmissfillc-functions-35"></a> ######
+ 
 ## >>> `arrMissFillC()` subroutine: <<< <a name="arrmissfillc-subroutine"></a> #######################  
 
 The **arrMissFillC()** subroutine fills 
@@ -1161,6 +3713,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `arrmisstoleft()` function <a name="arrmisstoleft-functions-36"></a> ######
+ 
 ## >>> `arrMissToLeft()` subroutine: <<< <a name="arrmisstoleft-subroutine"></a> #######################  
 
 The **arrMissToLeft()** subroutine shifts 
@@ -1186,7 +3743,7 @@ call arrMissToLeft(A)
 
 1. `A` - Numeric array.
 
-
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **Example 1.**
@@ -1213,6 +3770,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `arrmisstoleftc()` function <a name="arrmisstoleftc-functions-37"></a> ######
+ 
 ## >>> `arrMissToLeftC()` subroutine: <<< <a name="arrmisstoleftc-subroutine"></a> #######################  
 
 The **arrMissToLeftC()** subroutine shifts 
@@ -1263,6 +3825,11 @@ run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
+
+  
+---
+ 
+## `arrmisstoright()` function <a name="arrmisstoright-functions-38"></a> ######
 
 ## >>> `arrMissToRight()` subroutine: <<< <a name="arrmisstoright-subroutine"></a> #######################  
 
@@ -1316,6 +3883,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `arrmisstorightc()` function <a name="arrmisstorightc-functions-39"></a> ######
+ 
 ## >>> `arrMissToRightC()` subroutine: <<< <a name="arrmisstorightc-subroutine"></a> #######################  
 
 The **arrMissToRightC()** subroutine shifts 
@@ -1367,6 +3939,55 @@ run;
 
 ---
 
+  
+---
+ 
+## `bracketsc()` function <a name="bracketsc-functions-40"></a> ######
+ 
+## >>> `bracketsC()` function: <<< <a name="bracketsc-function"></a> #######################  
+
+The **bracketsC()** function is internal function used by the *brackets* format.
+Returns character value of length 32767.
+ 
+### SYNTAX: ###################################################################
+
+The basic syntax is the following:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+bracketsC(X)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `X` - Character value.
+
+---
+  
+---
+ 
+## `bracketsn()` function <a name="bracketsn-functions-41"></a> ######
+ 
+## >>> `bracketsN()` function: <<< <a name="bracketsn-function"></a> #######################  
+
+The **bracketsN()** function is internal function used by the *brackets* format.
+Returns character value of length 34.
+ 
+### SYNTAX: ###################################################################
+
+The basic syntax is the following:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+bracketsN(X)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `X` - Numeric value.
+
+---
+  
+---
+ 
+## `catxfc()` function <a name="catxfc-functions-42"></a> ######
+
 ## >>> `catXFc()` function: <<< <a name="catxfc-function"></a> #######################  
 
 The **catXFc()** function is a wrapper 
@@ -1415,6 +4036,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `catxfi()` function <a name="catxfi-functions-43"></a> ######
+ 
 ## >>> `catXFi()` function: <<< <a name="catxfi-function"></a> #######################  
 
 The **catXFi()** function is a wrapper 
@@ -1463,6 +4089,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `catxfj()` function <a name="catxfj-functions-44"></a> ######
+ 
 ## >>> `catXFj()` function: <<< <a name="catxfj-function"></a> #######################  
 
 The **catXFj()** function is a wrapper 
@@ -1512,6 +4143,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `catxfn()` function <a name="catxfn-functions-45"></a> ######
+ 
 ## >>> `catXFn()` function: <<< <a name="catxfn-function"></a> #######################  
 
 The **catXFn()** function is a wrapper 
@@ -1559,6 +4195,11 @@ run;
 
 ---
 
+  
+---
+ 
+## `deldataset()` function <a name="deldataset-functions-46"></a> ######
+ 
 ## >>> `delDataset()` function: <<< <a name="deldataset-function"></a> #######################  
 
 The **delDataset()** function is a "wrapper" 
@@ -1591,6 +4232,7 @@ delDataset(lbds_)
 1. `lbds_` - *Required*, character argument containing 
              name of the dataset/view to be deleted.
              The `_last_` special name is honored.
+
  
 ### EXAMPLES AND USECASES: ####################################################
 
@@ -1677,6 +4319,112 @@ delDataset(lbds_)
 
 ---
 
+  
+---
+ 
+## `semicolonc()` function <a name="semicolonc-functions-47"></a> ######
+ 
+## >>> `semicolonC()` function: <<< <a name="semicolonc-function"></a> #######################  
+
+The **semicolonC()** function is internal function used by the *semicolon* format.
+Returns character value of length 32767.
+ 
+### SYNTAX: ###################################################################
+
+The basic syntax is the following:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+semicolonC(X)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `X` - Character value.
+
+---
+
+  
+---
+ 
+## `semicolonn()` function <a name="semicolonn-functions-48"></a> ######
+ 
+## >>> `semicolonN()` function: <<< <a name="semicolonn-function"></a> #######################  
+
+The **semicolonN()** function is internal function used by the *semicolon* format.
+Returns character value of length 33.
+ 
+### SYNTAX: ###################################################################
+
+The basic syntax is the following:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+semicolonN(X)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `X` - Numeric value.
+
+---
+
+  
+---
+ 
+## `$brackets.` format/informat <a name="brackets-format-49"></a> ######
+ 
+## >>> `brackets.` format: <<< <a name="brackets-format"></a> #######################
+
+The **brackets** format adds brackets around a text or a number. 
+Leading and trailing spaces are dropped before adding brackets.
+
+### EXAMPLES AND USECASES: #################################################### 
+
+**Example 1.**
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data _null_;
+  input x;
+  if x < 0 then put x= brackets.;
+           else put x= best32.;
+cards;
+2
+1
+0
+-1
+-2
+;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--- 
+
+  
+---
+ 
+## `$semicolon.` format/informat <a name="semicolon-format-50"></a> ######
+ 
+## >>> `semicolon.` format: <<< <a name="semicolon-format"></a> #######################
+
+The **semicolon** format adds semicolon after text or number. 
+Leading and trailing spaces are dropped before adding semicolon.
+
+### EXAMPLES AND USECASES: #################################################### 
+
+**Example 1.**
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data _null_;
+  x = 1;
+  y = "A";
+  put x= semicolon. y= $semicolon.;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--- 
+
+  
+---
+ 
+## `qsortincbyprocproto()` proto <a name="qsortincbyprocproto-proto-51"></a> ######
+ 
 ## >>> `qsortInCbyProcProto()` proto function: <<< <a name="qsortincbyprocproto-proto-function"></a> #######################  
 
 The **qsortInCbyProcProto()** is external *C* function, 
@@ -1720,7 +4468,7 @@ Insertion sort for arrays smaller then 11 elements:
 Based on the code from the following WikiBooks page [2020.08.14]:
 
 [https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Sortowanie_przez_wstawianie](https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Sortowanie_przez_wstawianie)
-
+  
  
 *Reference 2.*
 
@@ -1731,9 +4479,14 @@ Based on the code from the following pages [2020.08.14]:
 [https://www.geeksforgeeks.org/iterative-quick-sort/](https://www.geeksforgeeks.org/iterative-quick-sort/)
 
 [https://www.geeksforgeeks.org/c-program-for-iterative-quick-sort/](https://www.geeksforgeeks.org/c-program-for-iterative-quick-sort/)
-
+  
 ---
 
+  
+---
+ 
+## `frommissingtonumberbs()` function <a name="frommissingtonumberbs-functions-52"></a> ######
+ 
 ## >>> `fromMissingToNumberBS()` function: <<< <a name="frommissingtonumberbs-function"></a> #######################  
 
 The **fromMissingToNumberBS()** function 
@@ -1782,6 +4535,11 @@ fromMissingToNumberBS(x)
 
 ---
 
+  
+---
+ 
+## `fromnumbertomissing()` function <a name="fromnumbertomissing-functions-53"></a> ######
+ 
 ## >>> `fromNumberToMissing()` function: <<< <a name="fromnumbertomissing-function"></a> #######################  
 
 The **fromNumberToMissing()** function 
@@ -1828,6 +4586,11 @@ fromNumberToMissing(x)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
+
+  
+---
+ 
+## `quicksort4notmiss()` function <a name="quicksort4notmiss-functions-54"></a> ######
  
 ## >>> `quickSort4NotMiss()` subroutine: <<< <a name="quicksort4notmiss-subroutine"></a> #######################  
 
@@ -1917,6 +4680,11 @@ call quickSort4NotMiss(A)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
+
+  
+---
+ 
+## `quicksorthash()` function <a name="quicksorthash-functions-55"></a> ######
  
 ## >>> `quickSortHash()` subroutine: <<< <a name="quicksorthash-subroutine"></a> #######################  
 
@@ -1965,7 +4733,7 @@ call quickSortHash(A)
 
   data _null_;
     array test[&size.] _temporary_ ;
-
+    
     array m[0:27] _temporary_ 
       (._ .  .A .B .C .D .E .F .G .H .I .J .K .L 
        .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z);
@@ -2008,7 +4776,7 @@ call quickSortHash(A)
 
   data _null_;
     array test[&size.] _temporary_ ;
-
+    
     array m[0:27] _temporary_ 
       (._ .  .A .B .C .D .E .F .G .H .I .J .K .L 
        .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z);
@@ -2153,6 +4921,11 @@ call quickSortHash(A)
     memory is in fact much less then reported.
 
 ---
+
+  
+---
+ 
+## `quicksorthashsddv()` function <a name="quicksorthashsddv-functions-56"></a> ######
  
 ## >>> `quickSortHashSDDV()` subroutine: <<< <a name="quicksorthashsddv-subroutine"></a> #######################  
 
@@ -2176,7 +4949,7 @@ be adjusted to use the hash sort instead of the quick sort.
   tables in FCMP procedure the report memory used after running 
   the function may not be in line with the RAM memory required 
   for processing.
-
+  
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
@@ -2203,7 +4976,7 @@ call quickSortHashSDDV(A, SDDV)
 
   data _null_;
     array test[&size.] _temporary_ ;
-
+    
     array m[0:27] _temporary_ 
       (._ .  .A .B .C .D .E .F .G .H .I .J .K .L 
        .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z);
@@ -2246,7 +5019,7 @@ call quickSortHashSDDV(A, SDDV)
 
   data _null_;
     array test[&size.] _temporary_ ;
-
+    
     array m[0:27] _temporary_ 
       (._ .  .A .B .C .D .E .F .G .H .I .J .K .L 
        .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z);
@@ -2279,6 +5052,11 @@ call quickSortHashSDDV(A, SDDV)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
+
+  
+---
+ 
+## `quicksortlight()` function <a name="quicksortlight-functions-57"></a> ######
  
 ## >>> `quickSortLight()` subroutine: <<< <a name="quicksortlight-subroutine"></a> #######################  
 
@@ -2316,7 +5094,7 @@ call quickSortLight(A)
 
   data _null_;
     array test[&size.] _temporary_ ;
-
+    
     array m[0:27] _temporary_ 
       (._ .  .A .B .C .D .E .F .G .H .I .J .K .L 
        .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z);
@@ -2484,1586 +5262,111 @@ call quickSortLight(A)
 
 ---
 
-## >>> `%dedupListS()` macro: <<< <a name="deduplists-macro"></a> #######################
-
-The `%dedupListS()` macro deletes duplicated values from 
-a *SPACE separated* list of values. List, including separators,
-can be no longer than a value carried by a single macrovariable.
-
-Returned value is *unquoted*.
-
-The `%dedupListS()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%dedupListS(
- list of space separated values
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `list` - A list of *space separated* values. 
-
+  
+---
  
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Basic use-case one. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListS(a b  c   b    c)*;
-
-  %put *%dedupListS(a b,c b,c)*;
-
-  %put *%dedupListS(%str(a b c b c))*;
-
-  %put *%dedupListS(%str(a) %str(b) %str(c) b c)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 2.** Macro variable as an argument. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %let list = 4 5 6 1 2 3 1 2 3 4 5 6;
-  %put *%dedupListS(&list.)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%dedupListC()` macro: <<< <a name="deduplistc-macro"></a> #######################
-
-The `%dedupListC()` macro deletes duplicated values from 
-a *COMMA separated* list of values. List, including separators,
-can be no longer than a value carried by a single macrovariable.
-
-Returned value is *unquoted*. Leading and trailing spaces are ignored.
-
-The `%dedupListC()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%dedupListC(
- list,of,comma,separated,values
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `list` - A list of *comma separated* values. 
-
+## `%date()` macro <a name="date-macro-58"></a> ######
  
-### EXAMPLES AND USECASES: ####################################################
+## >>> `%date()` macro: <<< <a name="date-macro"></a> #######################  
 
-**EXAMPLE 1.** Basic use-case one. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListC(a,b,c,b,c)*;
-
-  %put *%dedupListC(a,b c,b c)*;
-
-  %put *%dedupListC(%str(a,b,c,b,c))*;
-
-  %put *%dedupListC(%str(a),%str(b),%str(c),b,c)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 2.** Leading and trailing spaces are ignored. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListC( a , b b ,  c , b b, c    )*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 3.** Macro variable as an argument. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %let list = 4, 5, 6, 1, 2, 3, 1, 2, 3, 4, 5, 6;
-  %put *%dedupListC(&list.)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%dedupListP()` macro: <<< <a name="deduplistp-macro"></a> #######################
-
-The `%dedupListP()` macro deletes duplicated values from 
-a *PIPE(`|`) separated* list of values. List, including separators,
-can be no longer than a value carried by a single macrovariable.
-
-Returned value is *unquoted*. Leading and trailing spaces are ignored.
-
-The `%dedupListP()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%dedupListP(
- list|of|pipe|separated|values
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `list` - A list of *pipe separated* values. 
-
- 
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Basic use-case one. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListP(a|b|c|b|c)*;
-
-  %put *%dedupListP(a|b c|b c)*;
-
-  %put *%dedupListP(%str(a|b|c|b|c))*;
-
-  %put *%dedupListP(%str(a)|%str(b)|%str(c)|b|c)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 2.** Leading and trailing spaces are ignored. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListP( a | b b |  c | b b| c    )*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 3.** Macro variable as an argument. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %let list = 4|5|6|1|2|3|1|2|3|4|5|6;
-  %put *%dedupListP(&list.)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%dedupListX()` macro: <<< <a name="deduplistx-macro"></a> #######################
-
-The `%dedupListX()` macro deletes duplicated values from 
-a *X separated* list of values, where the `X` represents 
-a *single character* separator. List, including separators, 
-can be no longer than a value carried by a single macrovariable.
-
-**Caution.** The value of `X` *has to be* in **the first** byte of the list,
-             just after the opening bracket, i.e. `(X...)`.
-
-Returned value is *unquoted*. Leading and trailing spaces are ignored.
-
-The `%dedupListX()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%dedupListX(
-XlistXofXxXseparatedXvalues
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `list` - A list of *X separated* values. 
-
- 
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Basic use-case one. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListX(|a|b|c|b|c)*;
-
-  %put *%dedupListX( a b c b c)*;
-
-  %put *%dedupListX(,a,b,c,b,c)*;
-
-  %put *%dedupListX(XaXbXcXbXc)*;
-
-  %put *%dedupListX(/a/b/c/b/c)*;
-
-  data _null_;
-    x = "%dedupListX(%str(;a;b;c;b;c))";
-    put x=;
-  run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 2.** Leading and trailing spaces are ignored. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%dedupListX(| a | b.b |  c | b.b| c    )*;
-
-  %put *%dedupListX(. a . b b .  c . b b. c    )*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 3.** Macro variable as an argument. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %let list = 4$5.5$6$1$2$3$1$2$3$4$5.5$6;
-  %put *%dedupListX($&list.)*;
-
-  %let list = 4$ 5.5$ 6$ 1$ 2$ 3$ 1$ 2$ 3$ 4$ 5.5$ 6$;
-  %put *%dedupListX( &list.)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%QdedupListX()` macro: <<< <a name="qdeduplistx-macro"></a> #######################
-
-The `%QdedupListX()` macro deletes duplicated values from 
-a *X separated* list of values, where the `X` represents 
-a *single character* separator. List, including separators, 
-can be no longer than a value carried by a single macrovariable.
-
-**Caution.** The value of `X` *has to be* in **the first** byte of the list,
-             just after the opening bracket, i.e. `(X...)`.
-
-Returned value is **quoted** with `%superq()`. Leading and trailing spaces are ignored.
-
-The `%QdedupListX()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%QdedupListX(
-XlistXofXxXseparatedXvalues
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `list` - A list of *X separated* values. 
-
- 
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Basic use-case one. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%QdedupListX(|a|b|c|b|c)*;
-
-  %put *%QdedupListX( a b c b c)*;
-
-  %put *%QdedupListX(,a,b,c,b,c)*;
-
-  %put *%QdedupListX(XaXbXcXbXc)*;
-
-  %put *%QdedupListX(/a/b/c/b/c)*;
-
-  %put *%QdedupListX(%str(;a;b;c;b;c))*;
-
-  %put *%QdedupListX(%nrstr(&a&b&c&b&c))*;
-
-  %put *%QdedupListX(%nrstr(%a%b%c%b%c))*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 2.** Leading and trailing spaces are ignored. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%QdedupListX(| a | b.b |  c | b.b| c    )*;
-
-  %put *%QdedupListX(. a . b b .  c . b b. c    )*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 3.** Macro variable as an argument. 
-    Delete duplicated values from a list.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %let list = 4$5.5$6$1$2$3$1$2$3$4$5.5$6;
-  %put *%QdedupListX($&list.)*;
-
-  %let list = 4$ 5.5$ 6$ 1$ 2$ 3$ 1$ 2$ 3$ 4$ 5.5$ 6$;
-  %put *%QdedupListX( &list.)*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `brackets.` format: <<< <a name="brackets-format"></a> #######################
-
-The **brackets** format adds brackets around a text or a number. 
-Leading and trailing spaces are dropped before adding brackets.
-
-### EXAMPLES AND USECASES: #################################################### 
-
-**Example 1.**
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data _null_;
-  input x;
-  if x < 0 then put x= brackets.;
-           else put x= best32.;
-cards;
-2
-1
-0
--1
--2
-;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `semicolon.` format: <<< <a name="semicolon-format"></a> #######################
-
-The **semicolon** format adds semicolon after text or number. 
-Leading and trailing spaces are dropped before adding semicolon.
-
-### EXAMPLES AND USECASES: #################################################### 
-
-**Example 1.**
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data _null_;
-  x = 1;
-  y = "A";
-  put x= semicolon. y= $semicolon.;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `bracketsC()` function: <<< <a name="bracketsc-function"></a> #######################  
-
-The **bracketsC()** function is internal function used by the *brackets* format.
-Returns character value of length 32767.
- 
-### SYNTAX: ###################################################################
-
-The basic syntax is the following:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-bracketsC(X)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `X` - Character value.
-
----
-
-## >>> `bracketsN()` function: <<< <a name="bracketsn-function"></a> #######################  
-
-The **bracketsN()** function is internal function used by the *brackets* format.
-Returns character value of length 34.
- 
-### SYNTAX: ###################################################################
-
-The basic syntax is the following:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-bracketsN(X)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `X` - Numeric value.
-
----
-
-## >>> `semicolonC()` function: <<< <a name="semicolonc-function"></a> #######################  
-
-The **semicolonC()** function is internal function used by the *semicolon* format.
-Returns character value of length 32767.
- 
-### SYNTAX: ###################################################################
-
-The basic syntax is the following:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-semicolonC(X)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `X` - Character value.
-
----
-
-## >>> `semicolonN()` function: <<< <a name="semicolonn-function"></a> #######################  
-
-The **semicolonN()** function is internal function used by the *semicolon* format.
-Returns character value of length 33.
- 
-### SYNTAX: ###################################################################
-
-The basic syntax is the following:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-semicolonN(X)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `X` - Numeric value.
-
----
-
-## >>> `%QzipEvalf()` macro: <<< <a name="qzipevalf-macro"></a> #######################  
-
-The zipEvalf() and QzipEvalf() macro functions
-allow to use a function on elements of pair of 
-space separated lists. 
-
-For two space separated lists of text strings the corresponding 
-elements are taken and the macro applies a function, provided by user, 
-to calculate result of the function on taken elements. 
-
-When one of the lists is shorter then elements are "reused" starting 
-from the beginning.
-
-The zipEvalf() returns unquoted value [by %unquote()].
-The QzipEvalf() returns quoted value [by %superq()].
+The date() macro function is a "lazy typer" wrapping up `%sysfunc(date())`.
 
 See examples below for the details.
 
-The `%QzipEvalf()` macro executes like a pure macro code.
+The `%date()` macro executes like a pure macro code.
 
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~sas
-%QzipEvalf(
-    first
-   ,second
-  <,function=>
-  <,operator=> 
-  <,argBf=>
-  <,argMd=>
-  <,argAf=>
-  <,format=>
-)
+%date(<format>)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Arguments description**:
 
-1. `first`         - *Required*, a space separated list of texts.
-
-2. `second`        - *Required*, a space separated list of texts.
-
-* `function = cat` - *Optional*, default value is `cat`, 
-                     a function which will be applied 
-                     to corresponding pairs of elements of 
-                     the first and the second list. 
-
-* `operator =`     - *Optional*, default value is empty,
-                     arithmetic infix operator used with elements 
-                     the first and the second list. The first
-                     list is used on the left side of the operator
-                     the second list is used on the right side
-                     of the operator. 
-
-* `argBf =`        - *Optional*, default value is empty,
-                     arguments of the function inserted
-                     *before* elements the first list.
-                     If multiple should be comma separated.
-
-* `argMd =`        - *Optional*, default value is empty,
-                     arguments of the function inserted
-                     *between* elements the first list and 
-                     the second list.
-                     If multiple should be comma separated.
-
-* `argAf =`        - *Optional*, default value is empty,
-                     arguments of the function inserted
-                     *after* elements the second list.
-                     If multiple should be comma separated.
-
-* `format=`        - *Optional*, default value is empty,
-                     indicates a format which should be used
-                     to format the result, does not work when 
-                     the `operator=` is used.
-
-### EXAMPLES AND USECASES: ####################################################
-
-See examples in `%zipEvalf()` help for the details.
+ - `format` - *Optional*, if a value is provided 
+              it should be a valid SAS format capable of handling
+              values produced by the `date()` function.
 
 ---
 
-## >>> `%zipEvalf()` macro: <<< <a name="zipevalf-macro"></a> #######################  
+ 
+### EXAMPLES AND USECASES: ####################################################
 
-The zipEvalf() and QzipEvalf() macro functions
-allow to use a function on elements of pair of 
-space separated lists. 
+**EXAMPLE 1.** Get value of `date()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %date();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For two space separated lists of text strings the corresponding 
-elements are taken and the macro applies a function, provided by user, 
-to calculate result of the function on taken elements. 
+**EXAMPLE 2.** Get value of `date()` with a format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %date(date11.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When one of the lists is shorter then elements are "reused" starting 
-from the beginning.
+---
 
-The zipEvalf() returns unquoted value [by %unquote()].
-The QzipEvalf() returns quoted value [by %superq()].
+  
+---
+ 
+## `%datetime()` macro <a name="datetime-macro-59"></a> ######
+ 
+## >>> `%datetime()` macro: <<< <a name="datetime-macro"></a> #######################  
+
+The datetime() macro function is a "lazy typer" wrapping up `%sysfunc(datetime())`.
 
 See examples below for the details.
 
-The `%zipEvalf()` macro executes like a pure macro code.
+The `%datetime()` macro executes like a pure macro code.
 
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipEvalf(
-    first
-   ,second
-  <,function=>
-  <,operator=> 
-  <,argBf=>
-  <,argMd=>
-  <,argAf=>
-  <,format=>
-)
+%datetime(<format>)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Arguments description**:
 
-1. `first`         - *Required*, a space separated list of texts.
+ - `format` - *Optional*, if a value is provided 
+              it should be a valid SAS format capable of handling
+              values produced by the `datetime()` function.
 
-2. `second`        - *Required*, a space separated list of texts.
+---
 
-* `function = cat` - *Optional*, default value is `cat`, 
-                     a function which will be applied 
-                     to corresponding pairs of elements of 
-                     the first and the second list. 
-
-* `operator =`     - *Optional*, default value is empty,
-                     arithmetic infix operator used with elements 
-                     the first and the second list. The first
-                     list is used on the left side of the operator
-                     the second list is used on the right side
-                     of the operator. 
-
-* `argBf =`        - *Optional*, default value is empty,
-                     arguments of the function inserted
-                     *before* elements the first list.
-                     If multiple should be comma separated.
-
-* `argMd =`        - *Optional*, default value is empty,
-                     arguments of the function inserted
-                     *between* elements the first list and 
-                     the second list.
-                     If multiple should be comma separated.
-
-* `argAf =`        - *Optional*, default value is empty,
-                     arguments of the function inserted
-                     *after* elements the second list.
-                     If multiple should be comma separated.
-
-* `format=`        - *Optional*, default value is empty,
-                     indicates a format which should be used
-                     to format the result, does not work when 
-                     the `operator=` is used.
-
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
-**EXAMPLE 1.** Simple concatenation of elements:
+**EXAMPLE 1.** Get value of `datetime()`:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%let x = %zipEvalf(1 2 3 4 5 6, q w e r t y);
-%put &=x;
+  %put %datetime();
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-**EXAMPLE 2.** Shorter list is "reused":
+**EXAMPLE 1.** Get value of `datetime()` as "long" and "short" ISO-8601:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%let x = %zipEvalf(1 2 3 4 5 6, a b c);
-%put &=x;
+  %put %datetime(e8601dt.);
+  %put %datetime(b8601dt.);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-**EXAMPLE 3.** Use of the `operator=`, shorter list is "reused":
+**EXAMPLE 1.** Get value of `datetime()` with user defined format:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%let y = %zipEvalf(1 2 3 4 5 6, 100 200, operator = +);
-%put &=y;
-
-%let z = %zipEvalf(1 2 3 4 5 6 8 9 10, 1 2 3 4 5 6 8 9 10, operator = **);
-%put &=z;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Format result:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%let x = %zipEvalf(1 2 3 4 5 6, q w e r t y, format=$upcase.);
-%put &=x;
-
-%put *
-%zipEvalf(
- ą ż ś ź ę ć ń ó ł
-,Ą Ż Ś Ź Ę Ć Ń Ó Ł
-,format = $brackets.
-)
-*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 5.** Use with macrovariables:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%let abc = 10 100 1000;
-%put *
-%zipEvalf(
-%str(1 2 3 4 5 6 7 8 9)
-,&abc.
-,function = sum
-)
-*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 6.** If one of elements is empty:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put *
-%zipEvalf(
- abc efg
-,
-)
-*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 7.** Use of the `function=`, shorter list is "reused":
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put *
-%zipEvalf(
- a b c
-,efg
-,function = catx
-,argBf = %str(,)
-,format = $brackets.
-)
-*;
-
-%put *
-%zipEvalf(
- a b c
-,efg
-,function = catx
-,argBf = %str( )
-,format = $upcase.
-)
-*;
-
-%put *
-%zipEvalf(
- %str(! @ # $ [ ] % ^ & * )
-,1 2 3 4 5 6 7 8 9
-,function = catx
-,argBf = %str( )
-,format = $quote.
-)
-*;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 8.** Use inside resolve:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data _null_;
-z = resolve('
-%zipEvalf(
- %nrstr(! @ # $ [ ] % ^ & *)
-,1 2 3 4 5 6 7 8 9
-,function = catx
-,argBf = %str(.)
-,format = $quote.
-)');
-put z=;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 9.** Use in data step:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data test;
-  %zipEvalf(
-     a b c d e f g 
-    ,1 2 3 4 5 6 7
-    ,function = catx
-    ,argBf    = =
-    ,format   = $semicolon.
-  )
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 10.** With 9.4M6 hashing() function:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %zipEvalf(MD5 SHA1 SHA256 SHA384 SHA512 CRC32, abcd, function = HASHING);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 11.** Use middle argument:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%let x = %zipEvalf(1 2 3 4 5 6, 2020, argMd=5, function=MDY, format=date11.);
-%put &=x;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%functionExists()` macro: <<< <a name="functionexists-macro"></a> #######################  
-
-The functionExists() macro function tests
-if given funcion exists in the SAS session.
-The `sashelp.vfunc` view is used.
-
-See examples below for the details.
-
-The `%functionExists()` macro executes like a pure macro code.
-
-The function is a result of cooperation with [Allan Bowe](https://www.linkedin.com/in/allanbowe/)
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%functionExists(
-   funName
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `funName`        - *Required*, the name of the function 
-                       existence of which you are testing.
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Test if function exists:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %functionExists(HASHING);
-
-  %put %functionExists(COSsinLOG);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%RainCloudPlot()` macro: <<< <a name="raincloudplot-macro"></a> #######################  
-
-The RainCloudPlot() macro allow to plot Rain Cloud plots, i.e. pots of 
-kernel density estimates, jitter data values, and box-and-whiskers plot.
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%RainCloudPlot(
-   DS
-  ,gr
-  ,vars
-
- <,WidthPX=>
- <,HeightPX=>
- <,boxPlot=>
- <,roundFactor=>
- <,rainDropSize=>
- <,boxPlotSymbolSize=>
- <,colorsList=>
- <,monochrome=>
- <,antialiasMax=>
- <,title=>
- <,footnote=>
- <,catLabels=>
- <,xLabels=>
- <,catLabelPos=> 
- <,xLabelPos=>
- <,catLabelAttrs=>
- <,xLabelAttrs=>
- <,formated=>
- <,y2axis=>
- <,y2axisLevels=>
- <,y2axisValueAttrs=>
- <,catAxisValueAttrs=>
- <,xaxisValueAttrs=>
- <,xaxisTickstyle=>
- <,sganno=>
- <,odsGraphicsOptions=>
- <,sgPlotOptions=>
-
- <,VSCALE=>
- <,KERNEL_K=>
- <,KERNEL_C=>
-
- <,cleanTempData=> 
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `DS`                - *Required*, name of the dataset from 
-                         which variables are to be taken.
-
-2. `gr`                - *Required*, name of the grouping variable. 
-                         When more than one variable is specified 
-                         separate plots are rendered.
-                         Can be numeric or character.
-
-3. `vars`              - *Required*, name of the aggregated numeric variable.
-                         When more than one variable is specified 
-                         separate plots are rendered.
-
-***Plot related options***:
-
-* `WidthPX`            - *Optional*, default value `1200`. 
-                         Total width of the plot in pixels. 
-
-* `HeightPX`           - *Optional*, default value `220`. 
-                         Partial height of the plot in pixels.
-                         Total height is calculated as `#GROUPS x HeightPX`.
-
-* `boxPlot`            - *Optional*, default value `1`.
-                         Indicates if the Box Plot should be added. 
-                          
-* `roundFactor`        - *Optional*, default value `0.000001`.
-                         Rounding level when calculating maximum value 
-                         of the cloud chart. Should be adjusted to data
-                         granularity level, e.g. for data with value 
-                         around `1e-8` should be decreased. 
-
-* `rainDropSize`       - *Optional*, default value `5px`.
-                         Size of data points in the "rain" plot.
-
-* `boxPlotSymbolSize`  - *Optional*, default value `8px`.
-                         Size of symbols on the box plot.
-
-* `colorsList`         - *Optional*, default value is empty.
-                         List of colours for plotting.
-                         Empty indicates that the default list will be used.
-
-* `monochrome`         - *Optional*, default value `0`.
-                         Indicates if the default list of colours should be gray-scale.
-
-* `antialiasMax`       - *Optional*, default value is empty.
-                         Sets a value to the ODS graphics `ANTIALIASMAX` option.
-                         When empty the value is calculated from data.
-
-* `title`              - *Optional*, default value - see notes below.
-                         Provides a list of titles printed on the plot.
-                         For details see notes below.
-
-* `footnote`           - *Optional*, default value - see notes below.
-                         Provides a list of titles printed on the plot.
-                         For details see notes below.
-
-* `catLabels`          - *Optional*, default value is empty. 
-                         List of values for group axix labels (vertical).
-                         When empty a grouping variable name is used.
-                         For details see notes below.
-
-* `xLabels`            - *Optional*, default value is empty. 
-                         List of values for data variable axix labels (horizontal).
-                         When empty a data variable name is used.
-                         For details see notes below.
-
-* `catLabelPos`        - *Optional*, default value `DATACENTER`.
-                         Indicates position of the label on group axix (vertical).
-                         Allowed values are `BOTTOM`, `CENTER`, `DATACENTER`, and `TOP`.
-
-* `xLabelPos`          - *Optional*, default value `DATACENTER`.
-                         Indicates position of the label on data axix (horizontal).
-                         Allowed values are `LEFT`, `CENTER`, `DATACENTER`, and `RIGHT`.
-
-* `catLabelAttrs`      - *Optional*, default value is empty. 
-                         List of attributes for group axix labels (vertical).
-                         For details see notes below.
-
-* `xLabelAttrs`        - *Optional*, default value is empty. 
-                         List of attributes for data variable axix labels (horizontal).
-                         For details see notes below.
-
-* `formated`           - *Optional*, default value `0`.
-                         Indicates if values of the grouping variable should be formated.
-
-* `y2axis`             - *Optional*, default value `1`.
-                         Indicates if the right vertical axix should be displayed.
-
-* `y2axisLevels`       - *Optional*, default value `4`.
-                         Indicates if the number of expected levels of values printed 
-                         on the right vertical axix.
-
-* `y2axisValueAttrs`   - *Optional*, default value `Color=Grey`.
-                         Allows to modify Y2 axis values attributes.
-
-* `catAxisValueAttrs`  - *Optional*, default value `Color=Black`.
-                         Allows to modify category (Y) axis values attributes.
-
-* `xaxisValueAttrs`    - *Optional*, default value `Color=Grey`.
-                         Allows to modify X axis values attributes.
-
-* `xaxisTickstyle`     - *Optional*, default value `INSIDE`.
-                         Allows to modify X axis tick style. 
-                         Allowed values are `OUTSIDE`, `INSIDE`, `ACROSS`, and `INBETWEEN`. 
-                         *For SAS previous to* **9.4M5** *set to missing!*
-
-* `sganno`             - *Optional*, default value is empty.
-                         keeps name of a data set for the `sganno=` option
-                         of the SGPLOT procedure.
-
-* `sgPlotOptions`      - *Optional*, default value is `noautolegend noborder`.
-                         List of additional options values for SGPLOT procedure.
-
-* `odsGraphicsOptions` - *Optional*, default value is empty.
-                         List of additional options values for `ODS Graphics` statement.
-                         By default only the: `width=`, `height=`, and `antialiasmax=`
-                         are modified.
-
-
-***Stat related options***:
-
-* `VSCALE`             - *Optional*, default value `Proportion`.
-                         Specifies the scale of the vertical axis.
-                         Allowed values are `PROPORTION`, `PERCENT`, and `COUNT`.
-                         `PROPORTION` scales the data in units of proportion of observations per data unit. 
-                         `PERCENT` scales the data in units of percent of observations per data unit. 
-                         `COUNT` scales the data in units of the number of observations per data unit.
-
-* `KERNEL_K`           - *Optional*, default value `NORMAL`. 
-                         Specifies type of kernel function to compute kernel density estimates.
-                         Allowed values are `NORMAL`, `QUADRATIC`, and `TRIANGULAR`. 
-
-
-* `KERNEL_C`           - *Optional*, default value `1`.
-                         Specifies standardized bandwidth parameter *C* to compute kernel density estimates.
-                         Allowed values are between `0` and `1`,
-
-***Other options***:
-
-* `cleanTempData`      - *Optional*, default value `1`.
-                         Indicates if temporary data sets should be deleted.
-
----
-
-### NOTES: ###################################################################
-
-* Default value of the `title` option is:
-  `%nrstr(title1 JUSTIFY=C "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);)`
-  Use the `%str()` or `%nrstr()` macro-function to handle special characters.
-  The `%unquote()` is used when resolving the parameter.
-
-* Default value of the `footnote` option is:
-  `%nrstr(footnote1 JUSTIFY=L COLOR=lightGray HEIGHT=1 "by RainCloudPlot macro from the BasePlus package";)`
-  Use the `%str()` or `%nrstr()` macro-function to handle special characters.
-  The `%unquote()` is used when resolving the parameter.
-
-* The `catLabels` and `xLabels` should be quoted comma separated lists enclosed with brackets, 
-  e.g. `catLabels=("Continent of Origin", "Car Type")`, see Example below.
-
-* The `catLabelAttrs` and `xLabelAttrs` should be space separated lists of `key=value` pairs,
-  e.g. `xLabelAttrs=size=12 color=Pink weight=bold`, see Example below.
-
-* Kernel density estimates and basic statistics are calculated with `PROC UNIVARIATE`.
-
-* Plot is generated by `PROC SGPLOT` with `BAND`, `SCATTE`, and `POLYGON` plots.
-
-* After execution the ODS graphics dimension parameters are set to `800px` by `600px`.
-
-* SAS notes (`NOTE:`) are disabled for the execution time.
-
-* List of predefined colours is: 
-  `BlueViolet`, `RoyalBlue`, `OliveDrab`, `Gold`, `HotPink`, `Crimson`,  
-  `MediumPurple`, `CornflowerBlue`, `YellowGreen`, `Goldenrod`, `Orchid`, `IndianRed`.
-
-### BOX-AND-WHISKERS PLOT: ###################################################################
-
-The box-and-whiskers plot has the following interpretation: 
-- left vertical bar indicates the minimum,
-- left whisker line starts at `max(Q1 - 1.5IQR, minimum)` and ends at lower quartile (Q1),
-- diamond indicates mean,
-- vertical bar inside of the box indicates median,
-- right whisker line starts at upper quartile (Q3) and ends at `min(Q3 + 1.5IQR, maximum)`,
-- right vertical bar indicates the maximum.
-
-With above setup it may happen that 
-there is a gap between the minimum marker and the beginning of the left whisker 
-or 
-there is a gap between the end of the right whisker and the maximum marker. 
-See examples below.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Simple Rain Cloud Plot for a `have` dataset:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-  data have;
-    g = "Aaa";
-    do _N_ = 1 to 50;
-      x = rannor(42);
-      output;
-    end;
-
-    g = "Bb";
-    do _N_ = 1 to 120;
-      select (mod(_N_,9)); 
-        when(1,2,3,4,5) x = 0.5*rannor(42)+1;
-        when(6,7,8)   x = 0.5*rannor(42)+3;
-        otherwise   x = 0.5*rannor(42)+5;
-      end; 
-      output;
-    end;
-
-    g = "C";
-    do _N_ = 1 to 60;
-      x = 3*rannor(42)+7;
-      output;
-    end;
-  run;
-
-  %RainCloudPlot(have, g, x)
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The output:
-![Example 1](./baseplus_RainCloudPlot_Ex1.png)
-
-
-
-**EXAMPLE 2.** Rain Cloud plot for `sashelp.cars` dataset
-               with groups by Origin or Type 
-               for Invoice variables:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-  %RainCloudPlot(
-    sashelp.cars(where=(Type ne "Hybrid"))
-  , Origin Type
-  , Invoice 
-  , HeightPX=300 
-  , y2axisLevels=3
-  , catLabels=("Continent of Origin", "Car Type")
-  , xLabels="Invoice, [$]"
-  , xLabelAttrs=size=12 color=Pink weight=bold
-  )
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The output:
-![Example 2a](./baseplus_RainCloudPlot_Ex2a.png)
-![Example 2b](./baseplus_RainCloudPlot_Ex2b.png)
-
-
-
-**EXAMPLE 3.** Rain Cloud plot with formatted groups
-               and annotations.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-  data annotation; 
-    function="text";
-    label="This graph is full(*ESC*){sup '2'} of annotations!";
-    drawspace="graphpercent";
-    rotate=30;
-    anchor="center";
-    textsize=32;
-    x1=50;
-    y1=50;
-    textcolor="red"; 
-    justify="center";
-    textweight="bold";
-    width=100;
-    widthunit="percent";
-  run; 
-
   proc format;
-    value system
-    1="Windows"
-    2="MacOS"
-    3="Linux"
+    picture myCrazyDT (default=50)
+      other='%0Ssec. %0Mmin. %0Hhour %0dday %0mmonth %Yyear' (datatype=datetime)
     ;
   run;
 
-  data test;
-    do system = 1 to 3;
-      do i = 1 to 50;
-        x = rannor(123)/system;
-        output;
-      end;
-    end;
-    format system system.;
-  run;
-
-
-  %RainCloudPlot(test, system, x
-  , colorslist=CX88CCEE CX44AA99 CX117733
-  , formated=1
-  , sganno=annotation
-  , sgPlotOptions=noborder
-  , WidthPX=1000
-  , HeightPX=320
-  , catAxisValueAttrs=Color=Green weight=bold
-  )
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The output:
-![Example 3](./baseplus_RainCloudPlot_Ex3.png)
-
----
-
-## >>> `%zipLibrary()` macro: <<< <a name="ziplibrary-macro"></a> #######################  
-
-The zipLibrary() macro allows to zip content of a SAS library. 
-
-Files can be zipped into a single file (named as the input library)
-or into multiple files (named as "dataset.sas7bdat.zip"). 
-If a file is indexed also the index file is zipped.
-
-Source files can be deleted after compression.
-
-Status of compression and processing time is reported. 
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(
-    lib
-  <,mode=>
-  <,clean=> 
-  <,libOut=>
-  <,compression=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `lib`           - *Required*, a name of the library to be zipped.
-                     Must be a valid SAS V7, V8, or V9 library.
-
-
-* `mode  = S`      - *Optional*, default value is `S`, 
-                     indicates mode of compression 
-                     generates single zip file (`SINGLE/S`) 
-                     or multiple files (`MULTI/M`)
-
-* `clean = 0`      - *Optional*, default value is `0`,
-                     should datasets be deleted after zipping? 
-                     `1` means *yes*, `0` means *no*. 
-
-* `libOut =`       - *Optional*, default value is empty,
-                     output library for a single zip file.
-
-* `compression =`  - *Optional*, default value is `6`,
-                     specifies the compression level
-                     `0` to `9`, where `0` is no compression
-                     and `9` is maximum compression.
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Generate data:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-options dlcreatedir;
-  libname test1 "%sysfunc(pathname(work))/test1";
-  libname test2 "%sysfunc(pathname(work))/test2";
-  libname test3 (test1 test2);
-  libname test4 "%sysfunc(pathname(work))/test4";
-options nodlcreatedir;
-
-%put %sysfunc(pathname(test3));
-%put %sysfunc(pathname(test4));
-
-data 
-  test1.A(index=(model)) 
-  test1.B 
-  test2.C 
-  test2.D(index=(model make io=(invoice origin))) 
-;
-  set sashelp.cars;
-run;
-
-data test1.B2 / view=test1.B2;
-  set test1.B;
-  output;
-  output;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Zip content of test3 library 
-               into the same location in one zip file:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(test3)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Zip content of test3 library 
-               into the same location in multiple zip files:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(test3, mode=MULTI)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Zip content of test3 library
-               with maximum compression level 
-               into different location in one zip file
-               and delete source files:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(test3, clean=1, libOut=test4, compression=9)
+  %put %datetime(myCrazyDT.);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
 
-## >>> `%unzipLibrary()` macro: <<< <a name="unziplibrary-macro"></a> #######################  
-
-The unzipLibrary() macro allows to unzip content of a SAS library. 
-It is a *counterpart* to the `%zipLibrary()` macro and is *not* intended to work 
-with zip files generated by other software (though it may in some cases).
-
-Files can be unzipped from a single file
-or from multiple files (named e.g. "dataset.sas7bdat.zip"). 
-If a file is indexed also the index file is unzipped.
-
-Source files can be deleted after decompression.
-
-Status of decompression and processing time is reported. 
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%unzipLibrary(
-    path
-  <,zip=>
-  <,mode=>
-  <,clean=> 
-  <,libOut=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `path`          - *Required*, a path pointing to zipped file(s) location.
-
-* `zip =`          - *Optional*, When `mode=S` a name of the 
-                     zip file containing SAS files to be unzipped.
-                     
-* `mode  = S`      - *Optional*, default value is `S`, 
-                     indicates mode of decompression 
-                     read from a single zip file (`SINGLE/S`) 
-                     or from multiple files (`MULTI/M`)
-
-* `clean = 0`      - *Optional*, default value is `0`,
-                     should zip files be deleted after unzipping? 
-                     `1` means *yes*, `0` means *no*. 
-
-* `libOut =`       - *Optional*, default value is empty,
-                     output library for a single zip file
-                     decompression.
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Generate data:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-options dlcreatedir;
-  libname test1 "%sysfunc(pathname(work))/test1";
-  libname test2 "%sysfunc(pathname(work))/test2";
-  libname test3 (test1 test2);
-  libname test4 "%sysfunc(pathname(work))/test4";
-options nodlcreatedir;
-
-%put %sysfunc(pathname(test3));
-%put %sysfunc(pathname(test4));
-
-data 
-  test1.A(index=(model)) 
-  test1.B 
-  test2.C 
-  test2.D(index=(model make io=(invoice origin))) 
-;
-  set sashelp.cars;
-run;
-
-data test1.B2 / view=test1.B2;
-  set test1.B;
-  output;
-  output;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Use data from Example 1.
-               First zip content of the `test3` library
-               to `test4` location into one zip file
-               and delete source files.
-               Next unzip `test3.zip` library into the 
-               `test4` location and delete the zip file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(test3, clean=1, libOut=test4)
-
-
-%unzipLibrary(%sysfunc(pathname(test4)), zip=test3, clean=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Use data from Example 1.
-               First zip content of the `test1` library
-               into multiple zip files and delete source files.
-               Next unzip `*.zip` files in `test1` 
-               location and delete zipped files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(test1, mode=M, clean=1)
-
-
-%unzipLibrary(%sysfunc(pathname(test1)), mode=M, clean=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** First zip content of the `sashelp` library
-               into `work` library.
-               Next unzip `sashelp.zip` file in `work` 
-               location and delete zip file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipLibrary(sashelp, mode=S, clean=0, libOut=work)
-
-
-%unzipLibrary(%sysfunc(pathname(work)), zip=sashelp, mode=S, clean=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+  
 ---
-
-## >>> `%zipArch()` macro: <<< <a name="ziparch-macro"></a> #######################  
-
-The zipArch() macro allows to ZIP content of a directory. 
-Macro is OS independent, the `XCMD` option is not required.
-
-Content of zipped archive can be listed in the log.
-
-Errors of decompression and are reported. 
-
-Macro **does not** include hidden files.
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%zipArch(
-    archName
-   ,path = 
-  <,pathRef=>
-  <,target=>
-  <,targetRef=>
-  <,list=>
-  <,overwrite=>
-  <,dropList=> 
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `archName`      - *Required*, name of the archive to be generated.
-                     Name should be full, i.e., with the extension!
-
-2. `path=`         - *Required/Optional*, location of a directory to ZIP.
-                     The path should be provided unquoted.
-                     Has priority over the `pathRef` parameter.
-
-* `pathRef=`       - *Required/Optional*, fileref to location of a directory to ZIP.
-                     The reference **has** to be pointing to single directory.
-                     If provided with `path` - the `path` takes 
-                     priority over the `pathRef` parameter.
-
-* `target=`        - *Optional*, a path pointing to target location where
-                     the archive will be generated.
-                     The path should be provided unquoted.
-                     Default value is `WORK` location.
-                     Has priority over the `targetRef` parameter.
-
-* `targetRef=`     - *Optional*, fileref to a path pointing to target location 
-                     where the archive will be generated.
-                     The reference **has** to be pointing to single directory.
-                     If provided with `target` - the `target` takes 
-                     priority over the `targetRef` parameter.
-
-* `list = 0`       - *Optional*, default value is `0`,
-                     indicates if zip content should be listed in the log. 
-                     `1` means *yes*, `0` means *no*. 
-
-* `overwrite = 0`  - *Optional*, default value is `0`,
-                     indicates if existing archive file should be overwritten. 
-                     `1` means *yes*, `0` means *no*. 
-
-* `overwrite = 1`  - *Technical*, default value is `1`,
-                     indicates if the "to-be-zipped-files-list" 
-                     data set should be deleted. 
-                     `1` means *yes*, `0` means *no*.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Zip a directory . Example requires the `basePlus` package.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-options dlCreateDir;
-libname arch1 "%workPath()/testArch1";
-libname arch2 "%workPath()/testArch2";
-
-filename arch1 "%workPath()/testArch1";
-
-data _null_;
-  file arch1(test1.txt);
-  put "text for test file 1";
-data _null_;
-  file arch1(test2.txt);
-  put "text for test file 2";
-data _null_;
-  file arch1(test3.txt);
-  put "text for test file 3";
-run;
-
-data arch1.class(index=(name));
-  set sashelp.class;
-run;
-data arch1.cars(index=(model));
-  set sashelp.cars;
-run;
-
-
-
-%zipArch(
-  archName1.zip
-, path = %workPath()/testArch1
-, list = 1 
-, overwrite = 1
-
-)
-
-%zipArch(
-  archName2.zip
-, pathRef = arch1
-, target = %workPath()/testArch2
-, list = 1 
-, overwrite = 1
-)
-
-
-%unzipArch(
-  archName2.zip 
-, path = %workPath()/testArch2
-, target = %workPath()/testArch2
-, clean=1
-, list=1
-);
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%unzipArch()` macro: <<< <a name="unziparch-macro"></a> #######################  
-
-The unzipArch() macro allows to unzip content of a ZIP archive. 
-Macro is OS independent, the `XCMD` option is not required.
-
-The `dlCreateDir` option is used under the hood.
-
-Content of unzipped archive can be listed in the log.
-
-Source files can be deleted after decompression.
-Errors of decompression and are reported. If any occur
-the deletion is suspended.
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%unzipArch(
-    archName
-  <,path=>
-  <,pathRef=>
-  <,target=>
-  <,targetRef=>
-  <,list=> 
-  <,clean=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `archName`      - *Required*, name of the ZIP archive to be extracted.
-                     Name should be full, i.e., with the extension!
-
-* `path=`          - *Optional*, a path pointing to zipped file location.
-                     The path should be provided unquoted.
-                     Default value is `WORK` location.
-
-* `pathRef=`       - *Optional*, a fileref to path pointing to zipped file location.
-                     The `path`, if not null, has precedense over the `pathRef`.
-
-* `target=`        - *Optional*, a path pointing to target location where
-                     files will be extracted.
-                     The path should be provided unquoted.
-                     Default value is `WORK` location.
-
-* `target=`        - *Optional*, a fileref to path pointing to target location where
-                     files will be extracted.
-                     The `target`, if not null, has precedense over the `targetRef`.
-
-* `list = 0`       - *Optional*, default value is `0`,
-                     indicates if zip content should be listed in the log. 
-                     `1` means *yes*, `0` means *no*. 
-
-* `clean = 0`      - *Optional*, default value is `0`,
-                     indicates if zip file should be deleted after unzipping. 
-                     `1` means *yes*, `0` means *no*. 
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Unzip compressed archive. Example requires the `basePlus` package.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-
-filename arch ZIP "%workPath()/testArch.zip";
-
-data _null_;
-  file arch(abc/test1.txt);
-  put "text for test file 1";
-data _null_;
-  file arch(abc/subdir/test2.txt);
-  put "text for test file 2";
-data _null_;
-  file arch(abc/subdir/test3.txt);
-  put "text for test file 3";
-run;
-
-%unzipArch(
-  testArch.zip 
-, path = %workPath()
-, target = %workPath()
-, list=1
-);
-
-
-
-filename pR "%workPath()";
-
-%unzipArch(
-  testArch.zip 
-, pathRef = pR
-, targetRef = pR
-, clean=1
-);
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
+ 
+## `%downloadfilesto()` macro <a name="downloadfilesto-macro-60"></a> ######
+ 
 ## >>> `%downloadFilesTo()` macro: <<< <a name="downloadfilesto-macro"></a> #######################  
 
 The downloadFilesTo() macro copy files (in binary mode
@@ -4145,6 +5448,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Download data from web with diect list and then copy between directories:
@@ -4183,1121 +5487,11 @@ run;
 
 ---
 
-## >>> `%LDSN()` macro: <<< <a name="ldsn-macro"></a> #######################  
-
-The LDSN (Long DataSet Names) macro function 
-allows to use an "arbitrary" text string to name a dataset.
-
-The LDSN macro has some limitation described below, to overcome them 
-another macro, with different name: LDSNM (Long DataSet Names Modified) 
-was created. See its description to learn how to use it.
-
----
-
-The idea for the macro came from the following story: 
-
-Good friend of mine, who didn't use SAS for quite some time, 
-told me that he lost a few hours for debugging because 
-he forgot that the SAS dataset name limitation is 32 bytes.
- 
-I replied that it shouldn't be a problem to do a workaround 
-for this inconvenience with a macro and the `MD5()` hashing function. 
-
-I said: *The macro should take an "arbitrary string" for a dataset 
-name, convert it, with help of `MD5()`, to a hash digest, and 
-create a dataset with an "artificial" `hex16.` formated name.*
-
-Starting with something like this:
-
-~~~~~~~~~~~~~~~~~~~~~~~sas
-data %LDSN(work. peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s (drop = sex rename=(name=first_name) where = (age in (12,13,14))) );
-  set sashelp.class;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~
-
-the macro would do:
-
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%sysfunc(MD5(peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s), hex16.)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-and (under the hood) return and execute the following code: 
-
-~~~~~~~~~~~~~~~~~~~~~~~sas
-data work.DSN_41D599EF51FBA58_(drop = sex rename=(name=first_name) where = (age in (12,13,14))) ;
-  set sashelp.class;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Also in the next data step user should be able to do:
-
-~~~~~~~~~~~~~~~~~~~~~~~sas
-data my_next_data_step;
-  set %DSN(work. peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s);
-run;
-~~~~~~~~~~~~~~~~~~~~~~~
-
-and work without the "dataset-name-length-limitation" issue.
-
----
-
-See examples below for the details.
-
-The `%LDSN()` macro executes like a pure macro code.
-
-**Known "Limitations":**
-
-- dataset name _cannot_ contain dots (`.`) since they are used as separators!
-
-- dataset name _cannot_ contain round brackets(`(` and `)`) since they are used as separators
-  (but `[]` and `{}` are allowed)!
-
-- dataset name _cannot_ contain unpaired quotes (`'` and `"`), 
-  text: `a "hot-dog"` is ok, but `John's dog` is not!
-
-**Behaviour:**
-
-- dataset name text is *converted to upcase*
-
-- dataset name text *leading and trailing spaces are ignored*, 
-  e.g. the following will give the same hash digest:
-  `%ldsn(work.test)`, `%ldsn( work.test)`, `%ldsn(work.test )`,
-  `%ldsn(work .test)`, `%ldsn(work. test)`, `%ldsn(work . test)`.
-
-- macro calls of the form:
-  `data %LDSN(); run;`, `data %LDSN(    ); run;`, `data %LDSN( . ); run;` or even
-  `data %LDSN( . (keep=x)); run;` are resolved to empty string, so the result is
-  equivalent to `data; run;`
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%LDSN(
-   arbitrary text string (in line with limitations)
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-The text string is concider as *"fully qualified dataset name"*, i.e. macro
-assumes it may contain library as prefix and data set options as sufix.
-See the `%LDsNm()` macro for comparison.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-options nomprint source nomlogic nosymbolgen ls = max ps = max;
-
-data %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s (drop = sex rename=(name=first_name) where = (age in (12,13,14)))  );
-  set sashelp.class;
-run;
-
-proc print data  = %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  );
-run;
-
-data MyNextDataset;
-  set %LDSN(  work. peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  );
-  where age > 12;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%LDSNM()` macro: <<< <a name="ldsnm-macro"></a> #######################  
-
-The LDSNM (Long DataSet Names Modified) macro function 
-allows to use an "arbitrary" text string to name a dataset.
-
-The LDSN macro had some limitation (see its documentation), to overcome them 
-another `%LDSNM()` (Long DataSet Names Modified) macro was created.
-
-The main idea behind the `%LDSNM()` is the same as for `%LDSN()` - see the description there.
-
----
-
-The `%LDSNM()` macro works differently than the `%LDSN()` macro.
-
-The `%LDSN()` macro assumes that *both* libname and dataset options *are*
-be passed as elements **inside** the macro argument, together with the data set name. E.g.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data %LDSN( WORK.peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s (drop = sex) );
-  set sashelp.class;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The `%LDSNM()` macro, in contrary, assumes that both libname and dataset options are
-passed **outside** the macro parameter, i.e.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data WORK.%LDSNM( peanut butter & jelly with a hot-dog in [a box] and s*t*a*r*s ) (drop = sex);
-  set sashelp.class;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This approach overcomes some limitations the LDSN has.
-
-The **additional** feature of the `%LDSNM()` is that when the macro is called, 
-a global macrovariable is created.
-The macro variable name is the text of the hashed data set name. 
-The macro variable value is the text of the unhashed data set name (i.e. the argument of the macro). 
-For example the following macro call:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data %LDSNM(John "x" 'y' dog);
-  set sashelp.class;
-  where name = 'John';
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-creates macro variable with name `DSN_BF1F8C4D6495B34A_` and with value:  `JOHN "X" 'Y' DOG`.
-
-The macrovariable is useful when combined with `symget()` function and 
-the `indsname=` option to get the original text string value back, 
-like in this example:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data test;
-  set %LDSNM(John "x" 'y' dog) indsname = i;
   
-  indsname = symget(scan(i,-1,"."));
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-See examples below for the details.
-
----
-
-The `%LDSN()` macro executes like a pure macro code.
-
-**Known "Limitations":**
-
-- dataset name _cannot_ contain _unpaired_ round brackets(`(` and `)`) 
-  (but unmatched `[]` and `{}` are allowed)!
-
-- dataset name _cannot_ contain _unpaired_ quotes (`'` and `"`), 
-  text: `a "hot-dog"` is ok, but `John's dog` is not!
-
-**Behaviour:**
-
-- dataset name text is *converted to upcase*
-
-- dataset name text *leading and trailing spaces are ignored*, 
-  e.g. the following will give the same hash digest:
-  `%ldsn(test)`, `%ldsn( test)`, `%ldsn(test )`.
-
-- macro calls of the form:
-  `data %LDSN(); run;` or `data %LDSN(    ); run;` are resolved 
-  to empty string, so the result is equivalent to `data; run;`
-
-- created macrovariable is _global_ in scope.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%LDSNM(
-   arbitrary text string (in line with limitations)
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-The text string is considered as *"only dataset name"*, i.e. the macro does not 
-assume it contains library as prefix or data set options as suffix.
-See the `%LDSN()` macro for comparison.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data %LDSNM(John "x" 'y' & dog);
-  set sashelp.class;
-  where name = 'John';
-run;
-
-data %LDSNM(John "x"[ 'y' & dog);
-  set sashelp.class;
-  where name = 'John';
-run;
-
-data %LDSNM(John "x" 'y'} & dog);
-  set sashelp.class;
-  where name = 'John';
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data work.%LDsNm(  peanut butter & jelly, a hot-dog in [a box], and s(*)t(*)a(*)r(*)s!!   ) (drop = sex rename=(name=first_name) where = (age in (12,13,14)))
-;
-  set sashelp.class;
-run;
-
-data test;
-  set work.%LDsNm(  peanut butter & jelly, a hot-dog in [a box], and s(*)t(*)a(*)r(*)s!!   ) indsname=i;
-
-  indsname=symget(scan(i,-1,"."));
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data work.%LDsNm(  . );
-  set sashelp.class;
-run;
-
-data %LDsNm(  );
-  set sashelp.class;
-run;
-
-
-data %LDsNm();
-  set sashelp.class;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%LVarNm()` macro: <<< <a name="lvarnm-macro"></a> #######################  
-
-The LVarNm() macro function works like the LDSN() macro function, but for variables.
-Supported by LVarNmLab() macro function which allows to remember "user names" in labels.
-
-The motivation for the macro was similar to that for the LDSN() macro. 
-
----
-
-See examples below for the details.
-
-The `%LVarNm()` macro executes like a pure macro code.
-
-**Known "Limitations":**
-
-- variable name _cannot_ contain unpaired quotes (`'` and `"`), 
-  text: `a "hot-dog"` is ok, but `John's dog` is not!
-
-**Behaviour:**
-
-- variable name text is *converted to upcase*
-
-- variable name text *leading and trailing spaces are ignored*, 
-  e.g. the following will give the same hash digest:
-  `%LVarNm(test)`, `%LVarNm( test)`, `%LVarNm(test )`.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%LVarNm(
-   arbitrary text string (in line with limitations)
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-
-### EXAMPLES AND USE CASES: ####################################################
-
-**EXAMPLE 1.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-options ls=max;
-data test;
-  %LVarNmLab( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  )
-
-  do %LVarNm( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  ) = 1 to 10;
-
-    y = 5 + %LVarNm( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  ) * 17; 
-    output;
-  end;
-run;
-
-data test2;
-  set test;
-  where %LVarNm( peanut butter & jelly with a "Hot-Dog" in [a box], popcorn, and s*t*a*r*s  ) < 5;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data test3;
-  %LVarNmLab() = 17;
-  
-  %LVarNm() = 17;
-
-  %LVarNm( ) = 42;
-
-  %LVarNm(  ) = 303;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data test3;
-  %LVarNm(test) = 1;
-
-  %LVarNm( test) = 2;
-
-  %LVarNm(test ) = 3;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data test4;
-  array X[*] %LVarNm(some strange! name)_0 - %LVarNm(some strange! name)_10;
-
-  do i = lbound(X) to hbound(X);
-    X[i] = 2**(i-1);    
-    put X[i]=;
-  end;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-## >>> `%LVarNmLab()` macro: <<< <a name="lvarnmlab-macro"></a> #######################  
-
-The LVarNmLab() macro function supports LVarNm() and allows to remember "user names" in labels.
-
-The motivation for the macro was similar one as for the LDSN() macro. 
-
----
-
-See examples in LVarNm() documentation for the details.
-
-The `%LVarNmLab()` macro executes like a pure macro code.
-
-**Known "Limitations":**
-
-- variable name _cannot_ contain unpaired quotes (`'` and `"`), 
-  text: `a "hot-dog"` is ok, but `John's dog` is not!
-
-**Behaviour:**
-
-- variable name text is *converted to upcase*
-
-- variable name text *leading and trailing spaces are ignored*, 
-  e.g. the following will give the same hash digest:
-  `%LVarNmLab(test)`, `%LVarNmLab( test)`, `%LVarNmLab(test )`.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%LVarNmLab(
-   arbitrary text string (in line with limitations)
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%bpPIPE()` macro: <<< <a name="bppipe-macro"></a> #######################  
-
-The bpPIPE() [Base Plus PIPE] macro executes OS command
-and print to the log output of the execution.
-
-Under the hood it uses `_` filename reference to PIPE device.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%bpPIPE( <OS command goes here> )
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-* **NO Arguments**    - Everything inside brackets is treated as an OS command.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** List, to the log, content of D and C drives:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %bpPIPE(D: & dir & dir "C:\")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** List, to the log, content of `home` directory:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %bpPIPE(ls -halt ~/)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%dirsAndFiles()` macro: <<< <a name="dirsandfiles-macro"></a> #######################  
-
-The `%dirsAndFiles()` macro allows to extract info about all files 
-and subdirectories of a given `root` directory. 
-
-The extracted info may be just a list of files and subdirectories or, if 
-the `details=` parameter is set to 1, additional operating system information 
-is extracted (information is OSS dependent and gives different results for Linux 
-and for Windows)
-
-The extracted info can be narrowed down to files (`keepFiles=1`) or to 
-directories (`keepDirs=1`) if need be.
-
-The extracted info can be presented in wide or long format (`longFormat=1`).
-
-The extracted info for files can be narrowed down to only files with particular
-extension, for example: `fileExt=sas7bdat`.
-
-The extracted info can be narrowed down maximal path depth 
-by setting up the `maxDepth=` parameter.
-
-See examples below for the details.
-
-### REFERENCES: ###################################################################
-
-The macro is based on Kurt Bremser's "*Talking to Your Host*" article 
-presented at WUSS 2022 conference.
-
-The article is available [here](https://communities.sas.com/t5/SAS-User-Groups-Library/WUSS-Presentation-Talking-to-Your-Host/ta-p/838344)
-and also as an additional content of this package.
-The paper was awarded the "Best Paper Award - Programming".
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(
-    root
-  <,ODS=>
-  <,details=>
-  <,keepDirs=>
-  <,keepFiles=>
-  <,longFormat=>
-  <,fileExt=>
-  <,maxDepth=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `root`                     - *Required*, path to be searched
-                                for information.
-
-* `ODS=work.dirsAndFilesInfo` - *Optional*, output data set, 
-                                name of a dataset to store information.
-
-* `details=0`                 - *Optional*, indicates if detailed info 
-                                 will be collected, `1` = yes, `0` = no.
-
-* `keepDirs=1`                - *Optional*, indicates if directories info 
-                                will be collected, `1` = yes, `0` = no.
-
-* `keepFiles=1`               - *Optional*, indicates if files info 
-                                will be collected, `1` = yes, `0` = no.
-
-* `longFormat=0`              - *Optional*, indicates if output be 
-                                in long format, `1` = yes, `0` = no.
-
-* `fileExt=`                  - *Optional*, if not missing then indicates 
-                                file extension to filter out results.
-                                
-* `maxDepth=0`                - *Optional*, if not zero then indicates
-                                maximum depth of search in the root path.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Get list of files and directories:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Get detailed info:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result2,details=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Get only files info:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result3,keepDirs=0)
-
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result5,keepDirs=0,details=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Get only directories info:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result4,keepFiles=0)
-
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result6,keepFiles=0,details=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 5.** Filter out by `sas` extension:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(~/,ODS=work.result7,fileExt=sas)
-
-%dirsAndFiles(~/,ODS=work.result8,fileExt=sas,details=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 6.** Keep result in the long format:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(~/,ODS=work.result9,details=1,longFormat=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 7.** Get info for maximum depth of 2:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(C:\SAS_WORK\,ODS=work.result10,details=1,maxDepth=2)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 8.** How locked/unavailable files are handled:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(%sysfunc(pathname(WORK)),ODS=work.result11,details=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 9.** Not existing directory:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%dirsAndFiles(%sysfunc(pathname(WORK))/noSuchDir,ODS=work.result12,details=1)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%repeatTxt()` macro: <<< <a name="repeattxt-macro"></a> #######################  
-
-The repeatTxt() macro function allows to repeat `n` 
-times a `text` string separated by string `s=`.
-
-The repeatTxt() returns unquoted value [by %unquote()].
-
-See examples below for the details.
-
-The `%repeatTxt()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%repeatTxt(
-    text
-  <,n>
-  <,s=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `text`       - *Required*, a text to be repeated.
-
-2. `n`          - *Required/Optional*, the number of repetitions.
-                  If missing then set to `1`;
-
-* `s = %str( )` - *Optional*, it is a separator between 
-                  repeated elements. Default value is space.
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Simple repetition of dataset name:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-options mprint;
-data work.test5;
-  set 
-   %repeatTxt(sashelp.cars, 5) 
-    ;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Simple repetition of data step:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-options mprint;
-%repeatTxt(data _null_; set sashelp.cars; run;, 3)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** "Nice" output:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %repeatTxt(#,15,s=$) HELLO SAS! %repeatTxt(#,15,s=$);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- 
-**EXAMPLE 4.** Macroquote a text with commas:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%repeatTxt( 
-  %str(proc sql; create table wh as select weight,height from sashelp.class; quit;)
-  ,3
-) 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 5.** Empty `n` repeats `text` one time:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-options mprint;
-data work.test1;
-  set 
-   %repeatTxt(sashelp.cars) 
-    ;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 6.** Dynamic "formatting":
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%macro printWork();
- %let work=%sysfunc(pathname(work));
- %put +%repeatTxt(~,%length(&work.)+5,s=)+; 
- %put {&=work.}; 
- %put +%repeatTxt(~,%length(&work.)+5,s=)+;
-%mend printWork;
-
-%printWork()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%repList()` macro: <<< <a name="replist-macro"></a> #######################
-
-The repList() macro function allows to repeat `T`
-times elements of a `L` list, possibly `E` times each element,
-separated by string `S`.
-
-See examples below for the details.
-
-The `%repList()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%repList(
-   list
- <,times=>
- <,each=>
- <,lenghtOut=>
- <,sep=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `list`       - *Required*, a list of elements to be repeated.
-                  List can be space or comma separated. 
-                  Elements can be in quotes.
-                  For comma separated list add brackets 
-                  e.g., `%repList((A,B,C,D),times=5)`.
-                  The list separators are: `<{[( ,;)]}>`.
-
-*  `times=`     - *Optional*, An integer indicating 
-                  the number of repetitions.
-                  By default set to `1`.
-
-
-*  `each=`      - *Optional*, A list of integers indicating 
-                  the number of repetitions of each element of the list
-                  e.g., for a list `A B C` and the `each=2 4` the result 
-                  is `A A B B B B C C`. If the number of integers is less
-                  then the length of the list values are recycled from 
-                  the beginning.
-                  By default set to `1`.
-
-*  `lenghtOut=` - *Optional*, An integer indicating 
-                  after what the number of repetitions process will stop.
-                  By default set to `0` which means "do not stop".
-
-*  `sep=`       - *Optional*, it is a separator printed between 
-                  repeated elements. Mnemonics for *space* is `s`,
-                  for *comma* is `c`, and for semicolon in `q`.
-                  Default value is a single space.
-
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Simple repetition of all elements:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %repList((A,B,C,D), times=3);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Simple repetition of each element:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %repList(("A",'B',"C",'D'), each=3);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Simple repetition with a separator:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %repList(A10;B20;C30, times=3, each=2, sep=Q);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Recycle elements up to 8 with a comma as a separator:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put %repList(1 2 3, lenghtOut=8, sep=c);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 5.** Separate number of repetitions for each element:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put [%repList([D][C][B][A], each = 2 3 5 7, sep=] [)];
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**EXAMPLE 6.** "ASCII art" butterflies:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put {>%repList(! $ |, times = 2, each =2 1, sep=<} ... {>)<};
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 7.** Data repeating:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-data A;
-  x=17;
-data B;
-  x=42;
-data C;
-  x=303;
-run;
-
-data Times2_A10B11C12;
-  set
-    %repList(A B C, times = 2, each =10 11 12)
-  ;
-run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
----
-
-
-## >>> `%intsList()` macro: <<< <a name="intslist-macro"></a> #######################  
-
-The intsList() macro function allows to print a list of 
-integers starting from `start` up to `end` incremented by `by`
-and separated by `sep=`.
-
-If `start`, `end` or `by` are non-integers the are converted to integers.
-
-See examples below for the details.
-
-The `%intsList()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%intsList(
-    start
-  <,end>
-  <,by>
-  <,sep=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `start`       - *Required*, the first value of the list.
-                   If `end` is missing then the list is generated 
-                   from 1 to `start` by 1.
-
-2. `end`         - *Required/Optional*, the last value of the list.
-
-3. `by`          - *Required/Optional*, the increment of the list.
-                   If missing then set to `1`. 
-                   *Cannot* be equal to `0`.
-
-* `s = %str( )`  - *Optional*, it is a separator between 
-                   elements of the list. Default value is space.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Simple list of integers from 1 to 10 by 1:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %intsList(10);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Ten copies of `sashelp.class` in `test11` to `test20`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  data
-    %zipEvalf(test, %intsList(11,20))
-  ;
-    set sashelp.class;
-  run;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Non-integers are converted to integers, the list is `1 3 5`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %intsList(1.1,5.2,2.3);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** A list with a separator:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %intsList(1,5,2,sep=+);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%letters()` macro: <<< <a name="letters-macro"></a> #######################  
-
-The letters() macro function allows to print a list of Roman
-letters starting from `start` up to `end` incremented by `by`.
-The letters list can be uppercases or lowercase (parameter `c=U` or `c=L`), 
-can be quoted (e.g. `q=""` or `q=[]`), and can be separated by `s=`.
-
-Values of `start`, `end`, and `by` have to be integers in range between 1 ad 26.
-
-See examples below for the details.
-
-The `%letters()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%letters(
-    range
-  <,c=>
-  <,q=>
-  <,s=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `range`       - *Required*, letters selector in form `start:end:by`.
-                   Lists letters from `start` to `end` by `by`. 
-                   Values of `start`, `end`, and `by` are separated by 
-                   colon and must be between 1 ad 26.
-                   If value is outside range it is set to 
-                   `start=1`, `en=26`, and `by=1`. If `end` is missing
-                   then is set to value of `start`.
-                   If `end` is smaller than `start` list is reversed
-
-* `c = U`        - *Optional*, it is a lowercase letters indicator. 
-                   Select `L` or `l`. Default value is `U` for upcase.
-
-* `q = `         - *Optional*, it is a quite around elements of the list. 
-                   Default value is empty. Use `%str()` for one quote symbol.
-                   If there are multiple symbols, only the first and the 
-                   second are selected as a preceding and trailing one, 
-                   e.g. `q=[]` gives `[A] [B] ... [Z]`.
-
-* `s = %str( )`  - *Optional*, it is a separator between 
-                   elements of the list. Default value is space.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Space separated list of capital letters from A to Z:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(1:26:1);
-
-  %put %letters();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** First, thirteenth, and last letter:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(1) %letters(13) %letters(26);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Every third lowercase letter, i.e. `a d g j m p s v y`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(1:26:3,c=L);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Lists with separators:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(1:26:2,s=#);
-  %put %letters(1:26:3,s=%str(;));
-  %put %letters(1:26:4,s=%str(,));
-  %put %letters(1:26,s=);
-  %put %letters(1:26,s==);
-  %put %letters(1:26,s=/);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 5.** Every second letter with quotes:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(1:26:2,q=%str(%'));
-  %put %letters(2:26:2,q=%str(%"));
-
-  %put %letters(1:26:2,q='');
-  %put %letters(2:26:2,q="");
-
-  %put %letters(1:26:2,q=<>);
-  %put %letters(2:26:2,q=\/);
-
-  %put %letters(1:26:2,q=());
-  %put %letters(2:26:2,q=][);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 6.** Mix of examples 4, 5, and 6:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(1:26,c=L,q='',s=%str(, ));
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 7.** If `end` is smaller than `start` list is reversed:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %letters(26:1:2,q='');
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%splitDSIntoBlocks()` macro: <<< <a name="splitdsintoblocks-macro"></a> #######################  
-
-The splitDSIntoBlocks() macro allows to split the `set` dataset into blocks 
-of size `blockSize` in datasets: `prefix1` to `prefixN`.
-
-The last dataset may have less observations then the `blockSize`.
-
-Macro covers `BASE` engine (`v9`, `v8`, `v7`, `v6`) and `SPDE` engine datasets.
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%splitDSIntoBlocks(
-    blockSize
-  <,set>
-  <,prefix>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `blockSize`   - *Required*, the size of the block of data,
-                   in other words number of observations in 
-                   one block of split data.
-                   Block size must be positive integer.
-
-2. `set`         - *Required/Optional*, the name of the dataset to split.
-                   If empty then `&syslast.` is used.
-
-3. `prefix`      - *Required/Optional*, the name-prefix for new datasets.
-                   If missing then set to `part`. 
-
 ---
  
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Split `sashelp.class` into 5 elements datasets ABC1 to ABC4:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %splitDSIntoBlocks(5,sashelp.class,ABC)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** By default splits the `_last_` dataset into `part1` to `partN` datasets:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  data lastData;
-    set sashelp.cars;
-  run;
-
-  %splitDSIntoBlocks(123)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Works with `SPDE` engine too:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  options dlcreatedir;
-  libname test "%sysfunc(pathname(work))/testSPDE";
-  libname test;
-  libname test SPDE "%sysfunc(pathname(work))/testSPDE";
-
-  data test.test;
-    set sashelp.cars;
-  run;
-
-  %splitDSIntoBlocks(100,test.test,work.spde)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%splitDSIntoParts()` macro: <<< <a name="splitdsintoparts-macro"></a> #######################  
-
-The splitDSIntoParts() macro allows to split the `set` dataset into `parts` parts 
-of approximately `NOBS/parts` size in datasets: `prefix1` to `prefixN`.
-
-The splitDSIntoParts() macro internally runs the splitDSIntoBlocks() macro.
-
-Macro covers `BASE` engine (`v9`, `v8`, `v7`, `v6`) and `SPDE` engine datasets.
-
-See examples below for the details.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%splitDSIntoParts(
-    parts
-  <,set>
-  <,prefix>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `parts`       - *Required*, the number of parts to split data into.
-                   Number of parts must be positive integer.
-
-2. `set`         - *Required/Optional*, the name of the dataset to split.
-                   If empty then `&syslast.` is used.
-
-3. `prefix`      - *Required/Optional*, the name-prefix for new datasets.
-                   If missing then set to `part`. 
-
----
+## `%filepath()` macro <a name="filepath-macro-61"></a> ######
  
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Split `sashelp.cars` into 7 parts: datasets carsInParts1 to carsInParts7:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %splitDSIntoParts(7,sashelp.cars, carsInParts)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** By default splits the `_last_` dataset into `part1` to `part3` datasets:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  data lastData;
-    set sashelp.cars;
-  run;
-
-  %splitDSIntoBlocks(3)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Works with `SPDE` engine too:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  options dlcreatedir;
-  libname test "%sysfunc(pathname(work))/testSPDE";
-  libname test;
-  libname test SPDE "%sysfunc(pathname(work))/testSPDE";
-
-  data test.test;
-    set sashelp.cars;
-  run;
-
-  %splitDSIntoParts(3,test.test,work.spde)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
 ## >>> `%filePath()` macro: <<< <a name="filepath-macro"></a> #######################  
 
 The filePath() macro function returns path to a file,
@@ -5322,6 +5516,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Return path to temporary file:
@@ -5332,465 +5527,11 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
-## >>> `%libPath()` macro: <<< <a name="libpath-macro"></a> #######################  
-
-The libPath() macro function returns path to a library,
-it is a wrapper to `pathname()` function for libraries.
-
-See examples below for the details.
-
-The `%libPath()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%libPath(
-    libref
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `libref` - *Required*, a libref from the `libname` statement.
-
+  
 ---
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Return path to `WORK` library:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %libPath(WORK);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Return path to `SASHELP` library:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %libPath(SASHELP);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
-
-The workPath() macro function returns path to the `WORK` library,
-it is a wrapper to `pathname("work", "L")` function.
-
-See examples below for the details.
-
-The `%workPath()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%workPath()
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-*) No arguments.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Create new library inside `WORK` library:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  options dlCreateDir;
-  libname NEW "%workPath()/new";
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%date()` macro: <<< <a name="date-macro"></a> #######################  
-
-The date() macro function is a "lazy typer" wrapping up `%sysfunc(date())`.
-
-See examples below for the details.
-
-The `%date()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%date()
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
- No arguments.
-
----
-
  
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Get value of `date()`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %date();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
+## `%finddswithvarval()` macro <a name="finddswithvarval-macro-62"></a> ######
  
-## >>> `%today()` macro: <<< <a name="today-macro"></a> #######################  
-
-The today() macro function is a "lazy typer" wrapping up `%sysfunc(today())`.
-
-See examples below for the details.
-
-The `%today()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%today()
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
- No arguments.
-
----
-
- 
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Get value of `today()`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %today();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
- 
-## >>> `%time()` macro: <<< <a name="time-macro"></a> #######################  
-
-The time() macro function is a "lazy typer" wrapping up `%sysfunc(time())`.
-
-See examples below for the details.
-
-The `%time()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%time()
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
- No arguments.
-
----
-
- 
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Get value of `time()`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %time();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
- 
-## >>> `%datetime()` macro: <<< <a name="datetime-macro"></a> #######################  
-
-The datetime() macro function is a "lazy typer" wrapping up `%sysfunc(datetime())`.
-
-See examples below for the details.
-
-The `%datetime()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%datetime()
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
- No arguments.
-
----
-
- 
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Get value of `datetime()`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %datetime();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%monthShift()` macro: <<< <a name="monthshift-macro"></a> #######################  
-
-The monthShift() macro is a utility macro 
-which allows to shift "year-month" period by 
-a given number of "periods" (months).
-
-The result is in the `YYYYMM` format but can be altered.
-
-See examples below for the details.
-
-The `%monthShift()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%monthShift(
-  < Y>
-  <,M>
-  <,shift>
-  <,ofmt=>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `Y`           - *Optional*, a year from which counting starts.
-                   If null the value is set to *system year*.
-
-2. `M`           - *Optional*, a month from which counting starts.
-                   If null the value is set to `1`. Can be a number 
-                   (`1` to `12`) or a name (`June`, `OCTOBER`) or 
-                   a three letters short (`JAN`, `apr`).
-
-3. `shift`       - *Optional*, number of periods to shift.
-                   If null the value is set to `0`.
-                   Positive value shifts to the "future",
-                   negative value shifts to the "past",
-                   Can be an expression (e.g. `1+2*3`, see examples).
-
-* `ofmt=YYMMn6.` - *Optional*, it is a format name used to 
-                   display the result. Default value is `YYMMn6.`
-                   See examples.
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Shift one up and one down:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-%put 
-  Past:    %monthShift(2023, 1, -1) 
-  Current: %monthShift(2023, 1    )
-  Future:  %monthShift(2023, 1, +1)
-;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Shift by expression:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %let n = 2;
-  %put 
-    %monthShift(2023, 1, +1 + &n.*3)
-  ;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Shift with default values:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %monthShift();
-  %put %monthShift(2023);
-  %put %monthShift(2023,Jan);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Shift with months names:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put 
-    %monthShift(2023,Jan,-1)
-    %monthShift(2023,Feb,-2)
-    %monthShift(2023,Mar,-3)
-    %monthShift(2023,Apr,-4)
-    %monthShift(2023,May,-5)
-    %monthShift(2023,Jun,-6)
-    %monthShift(2023,Jul,-7)
-    %monthShift(2023,Aug,-8)
-    %monthShift(2023,Sep,-9)
-    %monthShift(2023,Oct,-10)
-    %monthShift(2023,Nov,-11)
-    %monthShift(2023,Dec,-12)
-  ;
-
-  %put 
-    %monthShift(2023,January,12)
-    %monthShift(2023,February,11)
-    %monthShift(2023,March,10)
-    %monthShift(2023,April,9)
-    %monthShift(2023,May,8)
-    %monthShift(2023,June,7)
-    %monthShift(2023,July,6)
-    %monthShift(2023,August,5)
-    %monthShift(2023,September,4)
-    %monthShift(2023,October,3)
-    %monthShift(2023,November,2)
-    %monthShift(2023,December,1)
-  ;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 5.** Play with formatting:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put
-    %monthShift(2023, 1, +1                )
-    %monthShift(2023, 1, +1, ofmt=yymm7. )
-    %monthShift(2023, 1, +1, ofmt=yymmd7.)
-    %monthShift(2023, 1, +1, ofmt=yymms7.)
-  ;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 6.** Read monthly data with `noDSNFERR` option:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  data
-    A202210 A202211 A202212
-    A202301 A202302 A202303
-    A202304 A202305 A202306
-    A202307 A202308 A202309
-  ;
-    set sashelp.class;
-  run;
-
-
-  options noDSNFERR; 
-  data ALL;
-    set 
-      A%monthShift(2023, 9, -12)  - A%monthShift(2023, 9)
-    ;
-  run;
-  options DSNFERR;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-
-## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
-
-The translate() macro function allows to replace bytes with bytes in text string.
-
-See examples below for the details.
-
-The `%translate()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%translate(
-    string
-   ,from
-   ,to
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `string`       - *Required*, string to modify.
-
-2. `from`         - *Required*, list of bytes to be replaced with 
-                    corresponding bytes from `to`.
-
-3. `to`           - *Required*, list of bytes replacing
-                    corresponding bytes from `from`. 
-
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Replace quotes and commas with apostrophes and spaces:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %translate(%str("A", "B", "C"),%str(%",),%str(%' ));
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Unify all brackets;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %translate(%str([A] {B} (C) <D>),{[(<>)]},(((()))));
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Replace all digits with `*`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-    %put %translate(QAZ1WSSX2EDC3RFV4TGB5YHN6UJM7IK8OL9P0,1234567890,**********);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 4.** Letters change:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-    %put %translate(%str(A=B),AB,BA);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
----
-
-## >>> `%tranwrd()` macro: <<< <a name="tranwrd-macro"></a> #######################  
-
-The tranwrd() macro function allows to replace substrings 
-with other substrings in text string.
-
-Returned string is unquoted by `%unquote()`.
-
-See examples below for the details.
-
-The `%tranwrd()` macro executes like a pure macro code.
-
-### SYNTAX: ###################################################################
-
-The basic syntax is the following, the `<...>` means optional parameters:
-~~~~~~~~~~~~~~~~~~~~~~~sas
-%tranwrd(
-    string
-   ,from
-   ,to
-  <,repeat>
-)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**Arguments description**:
-
-1. `string`       - *Required*, string to modify.
-
-2. `from`         - *Required*, substring replaced with 
-                    corresponding string from `to`.
-
-3. `to`           - *Required*, substring replacing
-                    corresponding substring from `from`. 
-
-4. `repeat`       - *Optional*, number of times the replacing
-                    should be repeated, default is 1.
-                    Useful while removing multiple adjacent 
-                    characters, e.g. compress all multiple 
-                    spaces (see example 2).
----
-
-### EXAMPLES AND USECASES: ####################################################
-
-**EXAMPLE 1.** Simple text replacement:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %tranwrd(Miss Joan Smith,Miss,Ms.);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 2.** Delete multiple spaces;
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %tranwrd(%str(A      B   C),%str(  ),%str( ),5);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-**EXAMPLE 3.** Remove substring:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-    %put %tranwrd(ABCxyzABCABCxyzABC,ABC);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 ## >>> `%findDSwithVarVal()` macro: <<< <a name="finddswithvarval-macro"></a> #######################  
 
 The findDSwithVarVal() macro searches for all 
@@ -5869,6 +5610,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Search variable `NAME` containing value `John`:
@@ -5913,6 +5655,80 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+  
+---
+ 
+## `%fmt()` macro <a name="fmt-macro-63"></a> ######
+ 
+## >>> `%fmt()` macro: <<< <a name="fmt-macro"></a> #######################  
+
+The fmt() macro function returns a `value` formatted by a `format`,
+it is a wrapper to `putN()` and `putC()` functions.
+
+See examples below for the details.
+
+The `%fmt()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%fmt(
+  value
+ ,format
+ ,align
+ <,type=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `value`  - *Required*, a value to be formatted.
+
+2. `format` - *Required*, a name of a format to be used,
+              character format should be preceded by the `$`.
+
+3. `align`  - *Optional*, allows to use the `-L`, `-R` and `-C` modifiers.
+
+*  `type=n` - *Optional*, defines type of the format. If the format
+              name is preceded by the `$` then C is set automatically.
+              If the character format name is without `$` then set
+              value to `C` yourself.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Formatting values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %fmt(111, 7.2);
+
+  %put %fmt(111, dollar10.2);
+
+  %put %fmt(abc, $upcase.);
+
+  %put %fmt(12345, date9.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Align values (compare different results!):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put *%fmt(ABC, $char9., -L)*;
+  %put *%fmt(ABC, $char9., -R)*;
+  %put *%fmt(ABC, $char9., -C)*;
+
+  %put %fmt(ABC, $char9., -L);
+  %put %fmt(ABC, $char9., -R);
+  %put %fmt(ABC, $char9., -C);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%gettitle()` macro <a name="gettitle-macro-64"></a> ######
+ 
 ## >>> `%getTitle()` macro: <<< <a name="gettitle-macro"></a> #######################  
 
 The getTitle() macro extract text of titles or footnotes
@@ -5962,6 +5778,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Get titles in different forms:
@@ -5993,6 +5810,432 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+  
+---
+ 
+## `%iffunc()` macro <a name="iffunc-macro-65"></a> ######
+ 
+## >>> `%iffunc()` macro: <<< <a name="iffunc-macro"></a> #######################  
+
+The iffunc() macro function is a "lazy typer" wrapping up conditional execution.
+
+Instead typing:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = 1;
+
+%if (1=&x.) %then
+  %do;
+    %let test = TRUE;
+  %end;
+%else 
+  %do;
+    %let test = FALSE;
+  %end;
+
+%put &=test.;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+you can make it:
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = 1;
+
+%let test = %iffunc((1=&x.),TRUE,FALSE);
+
+%put &=test.;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The `%iffunc()` macro ca be nested in open code 
+in contrary to standard `%IF-%THEN-%ELSE`.
+
+The `minoperator` option is used to handle `IN` operator,
+but the `IN` operator in the condition *has* to be surrounded 
+by spaces, e.g. `&x. in (1 2 3)`. 
+Condition of the form `&x. in(1 2 3)` (no space after `in`) will
+result with an error.
+
+See examples below for the details.
+
+The `%iffunc()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%iffunc(
+   cond
+  ,true
+  ,false
+ <,v=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `cond`  - *Required*, is a condition to be evaluated.
+             It **has** to be provided in brackets,
+             e.g., `(1=&x.)` or `(%scan(&x.,1)=A)`.
+
+2. `true`  - *Required*, value returned when condition is true.
+
+3. `false` - *Required*, value returned when condition is false.
+
+4 `v=`     - *Optional*, v for verbose. If set to `1` extra notes
+              are printed.
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple test:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = 1;
+  %let test = %iffunc((&x.=1),True,False);
+  %put &=test.;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Verbose with `v=` in the `%put` statement:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %iffunc((TRUE=true),TRUE,FALSE,v=1);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Condition can be with decimals or text:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put True: %iffunc((9.9<10),TRUE,FALSE);
+
+  %put False: %iffunc((A>B),TRUE,FALSE);
+
+  %put True: %iffunc((1=1.0),TRUE,FALSE);
+
+  %put False: %iffunc((1/3 = 0.5),TRUE,FALSE);
+
+  %put True: %iffunc((.1+.1+.1+.1+.1+.1+.1+.1+.1+.1 = 1),TRUE,FALSE);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Macro-Functions works too:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = A B C;
+  %put %iffunc((%scan(&x.,1)=A),Stats with "A"., Does not start with "A".);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Simple nesting (in open code):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x=0;
+  %let y=0;
+
+  %put
+    %iffunc((&x.)
+      ,It is X.
+      ,%iffunc((&y.)
+        ,It is Y.
+        ,It is Z.
+      ,v=1)
+    ,v=1)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Special characters have to be masked:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %iffunc(1,%str(,),%str(;));
+  %put %iffunc(0,%str(,),%str(;));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** If you want to call macros there is a price. 
+  The `%nrstr()` and `%unquote()` are required:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %macro doX(a,b);
+    %put >>> &a. &b;
+    data do_X;
+      set sashelp.class;
+    run;
+  %mend;
+  %macro doY(a,b);
+    %put ### &a. &b;
+    data do_Y;
+      set sashelp.cars;
+    run;
+  %mend;
+  %macro doZ(a,b);
+    %put @@@ &a. &b;
+    data do_Z;
+      set sashelp.iris;
+    run;
+  %mend;
+
+  %let x=0;
+  %let y=0;
+
+  %unquote(
+  %iffunc((&x.)
+    ,%nrstr(%doX(1,2))
+    ,%iffunc((&y.)
+      ,%nrstr(%doY(3,4))
+      ,%nrstr(%doZ(5,6))
+    ,v=1)
+  ,v=1)
+  )
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 8.** Traffic lights with `NOTE:` and `ERROR:`,
+  Remember to handle the `IN` operator with an extra care.
+  Spaces are required around the `IN` operator.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = A;
+  %put %iffunc((&x. IN (A B C)),NOTE:,ERROR:) x=%superq(x);
+
+  %let x = 7;
+  %put %iffunc((&x. IN (1 3 5)),NOTE:,ERROR:) x=%superq(x);
+
+  %let x = 1.1;
+  %put %iffunc((&x. IN (1.1 2.1 3.1)),NOTE:,ERROR:) x=%superq(x);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 9.** Mixing `IN` operator with non-integer evaluation
+  requires `%sysevalf()` function:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = Y;
+  %let y = 9.9;
+
+  %put THIS will be False: %iffunc((&x. in (y Y) AND &y.<10),TRUE,FALSE);
+
+  %put THIS will be True: %iffunc((&x. in (y Y) AND %sysevalf(&y.<10)),TRUE,FALSE);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%infmt()` macro <a name="infmt-macro-66"></a> ######
+ 
+## >>> `%infmt()` macro: <<< <a name="infmt-macro"></a> #######################  
+
+The infmt() macro function returns a `value` read in by an `informat`,
+it is a wrapper to `inputN()` and `inputC()` functions.
+
+See examples below for the details.
+
+The `%infmt()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%infmt(
+  value
+ ,informat
+ <,type=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `value`    - *Required*, a value to be formatted.
+
+2. `informat` - *Required*, a name of a format to be used,
+                character format should be preceded by the `$`.
+
+*  `type=n`   - *Optional*, defines type of the informat. If the informat
+                name is preceded by the `$` then C is set automatically.
+                If the character format name is without `$` then set
+                value to `C` yourself.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Informatting values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %infmt(111, 7.2);
+  %put %infmt(111.234, 7.2);
+
+  %put %infmt($111, dollar10.2);
+  %put %infmt($111.234, dollar10.2);
+
+  %put %infmt(abc, $upcase.);
+
+  %put %infmt(12mar45, date9.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%letters()` macro <a name="letters-macro-67"></a> ######
+ 
+## >>> `%letters()` macro: <<< <a name="letters-macro"></a> #######################  
+
+The letters() macro function allows to print a list of Roman
+letters starting from `start` up to `end` incremented by `by`.
+The letters list can be uppercases or lowercase (parameter `c=U` or `c=L`), 
+can be quoted (e.g. `q=""` or `q=[]`), and can be separated by `s=`.
+
+Values of `start`, `end`, and `by` have to be integers in range between 1 ad 26.
+
+See examples below for the details.
+
+The `%letters()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%letters(
+    range
+  <,c=>
+  <,q=>
+  <,s=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `range`       - *Required*, letters selector in form `start:end:by`.
+                   Lists letters from `start` to `end` by `by`. 
+                   Values of `start`, `end`, and `by` are separated by 
+                   colon and must be between 1 ad 26.
+                   If value is outside range it is set to 
+                   `start=1`, `en=26`, and `by=1`. If `end` is missing
+                   then is set to value of `start`.
+                   If `end` is smaller than `start` list is reversed
+
+* `c = U`        - *Optional*, it is a lowercase letters indicator. 
+                   Select `L` or `l`. Default value is `U` for upcase.
+
+* `q = `         - *Optional*, it is a quite around elements of the list. 
+                   Default value is empty. Use `%str()` for one quote symbol.
+                   If there are multiple symbols, only the first and the 
+                   second are selected as a preceding and trailing one, 
+                   e.g. `q=[]` gives `[A] [B] ... [Z]`.
+
+* `s = %str( )`  - *Optional*, it is a separator between 
+                   elements of the list. Default value is space.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Space separated list of capital letters from A to Z:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:1);
+
+  %put %letters();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** First, thirteenth, and last letter:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1) %letters(13) %letters(26);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Every third lowercase letter, i.e. `a d g j m p s v y`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:3,c=L);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Lists with separators:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:2,s=#);
+  %put %letters(1:26:3,s=%str(;));
+  %put %letters(1:26:4,s=%str(,));
+  %put %letters(1:26,s=);
+  %put %letters(1:26,s==);
+  %put %letters(1:26,s=/);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Every second letter with quotes:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26:2,q=%str(%'));
+  %put %letters(2:26:2,q=%str(%"));
+
+  %put %letters(1:26:2,q='');
+  %put %letters(2:26:2,q="");
+
+  %put %letters(1:26:2,q=<>);
+  %put %letters(2:26:2,q=\/);
+
+  %put %letters(1:26:2,q=());
+  %put %letters(2:26:2,q=][);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Mix of examples 4, 5, and 6:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(1:26,c=L,q='',s=%str(, ));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** If `end` is smaller than `start` list is reversed:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %letters(26:1:2,q='');
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%libpath()` macro <a name="libpath-macro-68"></a> ######
+ 
+## >>> `%libPath()` macro: <<< <a name="libpath-macro"></a> #######################  
+
+The libPath() macro function returns path to a library,
+it is a wrapper to `pathname()` function for libraries.
+
+See examples below for the details.
+
+The `%libPath()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%libPath(
+    libref
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `libref` - *Required*, a libref from the `libname` statement.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Return path to `WORK` library:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %libPath(WORK);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Return path to `SASHELP` library:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %libPath(SASHELP);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%minclude()` macro <a name="minclude-macro-69"></a> ######
+ 
 ## >>> `%mInclude()` macro: <<< <a name="minclude-macro"></a> #######################  
 
 The mInclude() macro is a macrolanguage version of the SAS `%include` statement.
@@ -6042,6 +6285,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 ---
 
+ 
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Embedding text in statements (the `%include` won't work here):
@@ -6200,128 +6444,535 @@ quit;
 
 ---
 
-## >>> `%fmt()` macro: <<< <a name="fmt-macro"></a> #######################  
+  
+---
+ 
+## `%monthshift()` macro <a name="monthshift-macro-70"></a> ######
+ 
+## >>> `%monthShift()` macro: <<< <a name="monthshift-macro"></a> #######################  
 
-The fmt() macro function returns a `value` formatted by a `format`,
-it is a wrapper to `putN()` and `putC()` functions.
+The monthShift() macro is a utility macro 
+which allows to shift "year-month" period by 
+a given number of "periods" (months).
+
+The result is in the `YYYYMM` format but can be altered.
 
 See examples below for the details.
 
-The `%fmt()` macro executes like a pure macro code.
+The `%monthShift()` macro executes like a pure macro code.
 
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~sas
-%fmt(
-  value
- ,format
- ,align
- <,type=>
+%monthShift(
+  < Y>
+  <,M>
+  <,shift>
+  <,ofmt=>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Arguments description**:
 
-1. `value`  - *Required*, a value to be formatted.
+1. `Y`           - *Optional*, a year from which counting starts.
+                   If null the value is set to *system year*.
 
-2. `format` - *Required*, a name of a format to be used,
-              character format should be preceded by the `$`.
+2. `M`           - *Optional*, a month from which counting starts.
+                   If null the value is set to `1`. Can be a number 
+                   (`1` to `12`) or a name (`June`, `OCTOBER`) or 
+                   a three letters short (`JAN`, `apr`).
 
-3. `align`  - *Optional*, allows to use the `-L`, `-R` and `-C` modifiers.
+3. `shift`       - *Optional*, number of periods to shift.
+                   If null the value is set to `0`.
+                   Positive value shifts to the "future",
+                   negative value shifts to the "past",
+                   Can be an expression (e.g. `1+2*3`, see examples).
 
-*  `type=n` - *Optional*, defines type of the format. If the format
-              name is preceded by the `$` then C is set automatically.
-              If the character format name is without `$` then set
-              value to `C` yourself.
+* `ofmt=YYMMn6.` - *Optional*, it is a format name used to 
+                   display the result. Default value is `YYMMn6.`
+                   See examples.
 
 ---
+
  
 ### EXAMPLES AND USECASES: ####################################################
 
-**EXAMPLE 1.** Formatting values:
+**EXAMPLE 1.** Shift one up and one down:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %fmt(111, 7.2);
-
-  %put %fmt(111, dollar10.2);
-
-  %put %fmt(abc, $upcase.);
-
-  %put %fmt(12345, date9.);
+%put 
+  Past:    %monthShift(2023, 1, -1) 
+  Current: %monthShift(2023, 1    )
+  Future:  %monthShift(2023, 1, +1)
+;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**EXAMPLE 2.** Align values (compare different results!):
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put *%fmt(ABC, $char9., -L)*;
-  %put *%fmt(ABC, $char9., -R)*;
-  %put *%fmt(ABC, $char9., -C)*;
 
-  %put %fmt(ABC, $char9., -L);
-  %put %fmt(ABC, $char9., -R);
-  %put %fmt(ABC, $char9., -C);
+**EXAMPLE 2.** Shift by expression:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let n = 2;
+  %put 
+    %monthShift(2023, 1, +1 + &n.*3)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Shift with default values:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %monthShift();
+  %put %monthShift(2023);
+  %put %monthShift(2023,Jan);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Shift with months names:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put 
+    %monthShift(2023,Jan,-1)
+    %monthShift(2023,Feb,-2)
+    %monthShift(2023,Mar,-3)
+    %monthShift(2023,Apr,-4)
+    %monthShift(2023,May,-5)
+    %monthShift(2023,Jun,-6)
+    %monthShift(2023,Jul,-7)
+    %monthShift(2023,Aug,-8)
+    %monthShift(2023,Sep,-9)
+    %monthShift(2023,Oct,-10)
+    %monthShift(2023,Nov,-11)
+    %monthShift(2023,Dec,-12)
+  ;
+
+  %put 
+    %monthShift(2023,January,12)
+    %monthShift(2023,February,11)
+    %monthShift(2023,March,10)
+    %monthShift(2023,April,9)
+    %monthShift(2023,May,8)
+    %monthShift(2023,June,7)
+    %monthShift(2023,July,6)
+    %monthShift(2023,August,5)
+    %monthShift(2023,September,4)
+    %monthShift(2023,October,3)
+    %monthShift(2023,November,2)
+    %monthShift(2023,December,1)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Play with formatting:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put
+    %monthShift(2023, 1, +1                )
+    %monthShift(2023, 1, +1, ofmt=yymm7. )
+    %monthShift(2023, 1, +1, ofmt=yymmd7.)
+    %monthShift(2023, 1, +1, ofmt=yymms7.)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Read monthly data with `noDSNFERR` option:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  data
+    A202210 A202211 A202212
+    A202301 A202302 A202303
+    A202304 A202305 A202306
+    A202307 A202308 A202309
+  ;
+    set sashelp.class;
+  run;
+
+
+  options noDSNFERR; 
+  data ALL;
+    set 
+      A%monthShift(2023, 9, -12)  - A%monthShift(2023, 9)
+    ;
+  run;
+  options DSNFERR;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---
 
-## >>> `%infmt()` macro: <<< <a name="infmt-macro"></a> #######################  
+  
+---
+ 
+## `%replist()` macro <a name="replist-macro-71"></a> ######
 
-The infmt() macro function returns a `value` read in by an `informat`,
-it is a wrapper to `inputN()` and `inputC()` functions.
+## >>> `%repList()` macro: <<< <a name="replist-macro"></a> #######################
+
+The repList() macro function allows to repeat `T`
+times elements of a `L` list, possibly `E` times each element,
+separated by string `S`.
 
 See examples below for the details.
 
-The `%infmt()` macro executes like a pure macro code.
+The `%repList()` macro executes like a pure macro code.
 
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~sas
-%infmt(
-  value
- ,informat
- <,type=>
+%repList(
+   list
+ <,times=>
+ <,each=>
+ <,lenghtOut=>
+ <,sep=>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Arguments description**:
 
-1. `value`    - *Required*, a value to be formatted.
+1. `list`       - *Required*, a list of elements to be repeated.
+                  List can be space or comma separated. 
+                  Elements can be in quotes.
+                  For comma separated list add brackets 
+                  e.g., `%repList((A,B,C,D),times=5)`.
+                  The list separators are: `<{[( ,;)]}>`.
 
-2. `informat` - *Required*, a name of a format to be used,
-                character format should be preceded by the `$`.
+*  `times=`     - *Optional*, An integer indicating 
+                  the number of repetitions.
+                  By default set to `1`.
 
-*  `type=n`   - *Optional*, defines type of the informat. If the informat
-                name is preceded by the `$` then C is set automatically.
-                If the character format name is without `$` then set
-                value to `C` yourself.
 
----
+*  `each=`      - *Optional*, A list of integers indicating 
+                  the number of repetitions of each element of the list
+                  e.g., for a list `A B C` and the `each=2 4` the result 
+                  is `A A B B B B C C`. If the number of integers is less
+                  then the length of the list values are recycled from 
+                  the beginning.
+                  By default set to `1`.
+
+*  `lenghtOut=` - *Optional*, An integer indicating 
+                  after what the number of repetitions process will stop.
+                  By default set to `0` which means "do not stop".
+
+*  `sep=`       - *Optional*, it is a separator printed between 
+                  repeated elements. Mnemonics for *space* is `s`,
+                  for *comma* is `c`, and for semicolon in `q`.
+                  Default value is a single space.
+
 
 ### EXAMPLES AND USECASES: ####################################################
 
-**EXAMPLE 1.** Informatting values:
+**EXAMPLE 1.** Simple repetition of all elements:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
-  %put %infmt(111, 7.2);
-  %put %infmt(111.234, 7.2);
+%put %repList((A,B,C,D), times=3);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  %put %infmt($111, dollar10.2);
-  %put %infmt($111.234, dollar10.2);
 
-  %put %infmt(abc, $upcase.);
+**EXAMPLE 2.** Simple repetition of each element:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %repList(("A",'B',"C",'D'), each=3);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  %put %infmt(12mar45, date9.);
+
+**EXAMPLE 3.** Simple repetition with a separator:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %repList(A10;B20;C30, times=3, each=2, sep=Q);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Recycle elements up to 8 with a comma as a separator:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put %repList(1 2 3, lenghtOut=8, sep=c);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 5.** Separate number of repetitions for each element:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put [%repList([D][C][B][A], each = 2 3 5 7, sep=] [)];
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 6.** "ASCII art" butterflies:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%put {>%repList(! $ |, times = 2, each =2 1, sep=<} ... {>)<};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** Data repeating:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data A;
+  x=17;
+data B;
+  x=42;
+data C;
+  x=303;
+run;
+
+data Times2_A10B11C12;
+  set
+    %repList(A B C, times = 2, each =10 11 12)
+  ;
+run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ---
 
+  
+---
+ 
+## `%time()` macro <a name="time-macro-72"></a> ######
+ 
+## >>> `%time()` macro: <<< <a name="time-macro"></a> #######################  
+
+The time() macro function is a "lazy typer" wrapping up `%sysfunc(time())`.
+
+See examples below for the details.
+
+The `%time()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%time(<format>)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+ - `format` - *Optional*, if a value is provided 
+              it should be a valid SAS format capable of handling
+              values produced by the `time()` function.
+
 ---
 
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get value of `time()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %time();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Get value of `time()` with a format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %time(time8.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
 
-## License ####################################################################
+  
+---
+ 
+## `%today()` macro <a name="today-macro-73"></a> ######
+ 
+## >>> `%today()` macro: <<< <a name="today-macro"></a> #######################  
 
-Copyright (c) since 2020 Bartosz Jablonski
+The today() macro function is a "lazy typer" wrapping up `%sysfunc(today())`.
+
+See examples below for the details.
+
+The `%today()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%today(<format>)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+ - `format` - *Optional*, if a value is provided 
+              it should be a valid SAS format capable of handling
+              values produced by the `today()` function.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Get value of `today()`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %today();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Get value of `today()` with a format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %today(yymmdd10.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%translate()` macro <a name="translate-macro-74"></a> ######
+ 
+## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
+
+The translate() macro function allows to replace bytes with bytes in text string.
+
+See examples below for the details.
+
+The `%translate()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%translate(
+    string
+   ,from
+   ,to
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `string`       - *Required*, string to modify.
+
+2. `from`         - *Required*, list of bytes to be replaced with 
+                    corresponding bytes from `to`.
+
+3. `to`           - *Required*, list of bytes replacing
+                    corresponding bytes from `from`. 
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Replace quotes and commas with apostrophes and spaces:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %translate(%str("A", "B", "C"),%str(%",),%str(%' ));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Unify all brackets;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %translate(%str([A] {B} (C) <D>),{[(<>)]},(((()))));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Replace all digits with `*`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    %put %translate(QAZ1WSSX2EDC3RFV4TGB5YHN6UJM7IK8OL9P0,1234567890,**********);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Letters change:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    %put %translate(%str(A=B),AB,BA);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%tranwrd()` macro <a name="tranwrd-macro-75"></a> ######
+ 
+## >>> `%tranwrd()` macro: <<< <a name="tranwrd-macro"></a> #######################  
+
+The tranwrd() macro function allows to replace substrings 
+with other substrings in text string.
+
+Returned string is unquoted by `%unquote()`.
+
+See examples below for the details.
+
+The `%tranwrd()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%tranwrd(
+    string
+   ,from
+   ,to
+  <,repeat>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `string`       - *Required*, string to modify.
+
+2. `from`         - *Required*, substring replaced with 
+                    corresponding string from `to`.
+
+3. `to`           - *Required*, substring replacing
+                    corresponding substring from `from`. 
+
+4. `repeat`       - *Optional*, number of times the replacing
+                    should be repeated, default is 1.
+                    Useful while removing multiple adjacent 
+                    characters, e.g. compress all multiple 
+                    spaces (see example 2).
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple text replacement:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %tranwrd(Miss Joan Smith,Miss,Ms.);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Delete multiple spaces;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %tranwrd(%str(A      B   C),%str(  ),%str( ),5);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Remove substring:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+    %put %tranwrd(ABCxyzABCABCxyzABC,ABC);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%workpath()` macro <a name="workpath-macro-76"></a> ######
+ 
+## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
+
+The workPath() macro function returns path to the `WORK` library,
+it is a wrapper to `pathname("work", "L")` function.
+
+See examples below for the details.
+
+The `%workPath()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%workPath()
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+*) No arguments.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Create new library inside `WORK` library:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  options dlCreateDir;
+  libname NEW "%workPath()/new";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+  
+---
+ 
+# License <a name="license"></a> ######
+ 
+Copyright (c) 2020 - 2023 Bartosz Jablonski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -6340,5 +6991,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
+  
 ---
+ 
