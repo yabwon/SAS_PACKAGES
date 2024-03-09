@@ -7,22 +7,22 @@
  *The BASE SAS plus a bunch of functionalities I am missing in BASE SAS* 
   
 - Package: BasePlus
-- Version: 1.36.0
-- Generated: 2024-01-12T10:32:46
+- Version: 1.37.0
+- Generated: 2024-03-09T13:28:58
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*B9F1B3243FD3956F0B68652C21EA1EBC19F3EB0931774A57FECE1F02A9448108` for this version
-- Content SHA256: `C*5A51FA3E5B3A6E9AE2AF37D6604B49B8656D4CC50AFF1F975E546D4419AA0461` for this version
+- File SHA256: `F*8155BFE82F7833E4B0DA24D81DBDFC58463906D6032B1F0161772DADE84BE790` for this version
+- Content SHA256: `C*7A4A85EB6C2C23E6A171DDCD8F61D7ED40E9A6751F9579DF893E148A95FFE188` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.36.0`;
+# The `BasePlus` package, version: `1.37.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.36.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.37.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -164,6 +164,10 @@ Kudos to all who inspired me to generate this package:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 %rainCloudPlot(sashelp.cars,DriveTrain,Invoice)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The output can be seen in the `md` file.
+![Example 1x](./baseplus_RainCloudPlot_Ex0.png)
+
 
 **Example 10**: Zip SAS library.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
@@ -355,6 +359,13 @@ https://www.lexjansen.com/wuss/2023/WUSS-2023-Paper-189.zip
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 27** Conditional value assignment:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = A B C;
+%let y = %iffunc((%scan(&x.,1)=A),Stats with "A"., Does not start with "A".);
+%put &=y.;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
   
 ---
@@ -441,20 +452,21 @@ The `BasePlus` package consists of the following content:
 62. [`%finddswithvarval()` macro ](#finddswithvarval-macro-62 )
 63. [`%fmt()` macro ](#fmt-macro-63 )
 64. [`%gettitle()` macro ](#gettitle-macro-64 )
-65. [`%infmt()` macro ](#infmt-macro-65 )
-66. [`%letters()` macro ](#letters-macro-66 )
-67. [`%libpath()` macro ](#libpath-macro-67 )
-68. [`%minclude()` macro ](#minclude-macro-68 )
-69. [`%monthshift()` macro ](#monthshift-macro-69 )
-70. [`%replist()` macro ](#replist-macro-70 )
-71. [`%time()` macro ](#time-macro-71 )
-72. [`%today()` macro ](#today-macro-72 )
-73. [`%translate()` macro ](#translate-macro-73 )
-74. [`%tranwrd()` macro ](#tranwrd-macro-74 )
-75. [`%workpath()` macro ](#workpath-macro-75 )
+65. [`%iffunc()` macro ](#iffunc-macro-65 )
+66. [`%infmt()` macro ](#infmt-macro-66 )
+67. [`%letters()` macro ](#letters-macro-67 )
+68. [`%libpath()` macro ](#libpath-macro-68 )
+69. [`%minclude()` macro ](#minclude-macro-69 )
+70. [`%monthshift()` macro ](#monthshift-macro-70 )
+71. [`%replist()` macro ](#replist-macro-71 )
+72. [`%time()` macro ](#time-macro-72 )
+73. [`%today()` macro ](#today-macro-73 )
+74. [`%translate()` macro ](#translate-macro-74 )
+75. [`%tranwrd()` macro ](#tranwrd-macro-75 )
+76. [`%workpath()` macro ](#workpath-macro-76 )
   
  
-93. [License note](#license)
+95. [License note](#license)
   
 ---
  
@@ -2018,6 +2030,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,y2axis=>
  <,y2axisLevels=>
  <,y2axisValueAttrs=>
+ <,y2axisFormat=>
+ <,y2axisLines=>
  <,catAxisValueAttrs=>
  <,xaxisValueAttrs=>
  <,xaxisTickstyle=>
@@ -2028,8 +2042,10 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,VSCALE=>
  <,KERNEL_K=>
  <,KERNEL_C=>
+ <,VSCALEmax=>
 
- <,cleanTempData=> 
+ <,cleanTempData=>
+ <,codePreview=>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2091,43 +2107,49 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          For details see notes below.
 
 * `catLabels`          - *Optional*, default value is empty. 
-                         List of values for group axix labels (vertical).
+                         List of values for group axis labels (vertical).
                          When empty a grouping variable name is used.
                          For details see notes below.
 
 * `xLabels`            - *Optional*, default value is empty. 
-                         List of values for data variable axix labels (horizontal).
+                         List of values for data variable axis labels (horizontal).
                          When empty a data variable name is used.
                          For details see notes below.
 
 * `catLabelPos`        - *Optional*, default value `DATACENTER`.
-                         Indicates position of the label on group axix (vertical).
+                         Indicates position of the label on group axis (vertical).
                          Allowed values are `BOTTOM`, `CENTER`, `DATACENTER`, and `TOP`.
 
 * `xLabelPos`          - *Optional*, default value `DATACENTER`.
-                         Indicates position of the label on data axix (horizontal).
+                         Indicates position of the label on data axis (horizontal).
                          Allowed values are `LEFT`, `CENTER`, `DATACENTER`, and `RIGHT`.
 
 * `catLabelAttrs`      - *Optional*, default value is empty. 
-                         List of attributes for group axix labels (vertical).
+                         List of attributes for group axis labels (vertical).
                          For details see notes below.
 
 * `xLabelAttrs`        - *Optional*, default value is empty. 
-                         List of attributes for data variable axix labels (horizontal).
+                         List of attributes for data variable axis labels (horizontal).
                          For details see notes below.
 
 * `formated`           - *Optional*, default value `0`.
-                         Indicates if values of the grouping variable should be formated.
+                         Indicates if values of the grouping variable should be formatted.
 
 * `y2axis`             - *Optional*, default value `1`.
-                         Indicates if the right vertical axix should be displayed.
+                         Indicates if the right vertical axis should be displayed.
 
 * `y2axisLevels`       - *Optional*, default value `4`.
                          Indicates if the number of expected levels of values printed 
-                         on the right vertical axix.
+                         on the right vertical axis.
 
 * `y2axisValueAttrs`   - *Optional*, default value `Color=Grey`.
                          Allows to modify Y2 axis values attributes.
+
+* `y2axisFormat`       - *Optional*, default value `12.2-L`.
+                         Allows to modify Y2 axis values format.
+
+* `y2axisLines`        - *Optional*, default value `0`.
+                         If `1`, adds horizontal lines for Y2 axis values.
 
 * `catAxisValueAttrs`  - *Optional*, default value `Color=Black`.
                          Allows to modify category (Y) axis values attributes.
@@ -2171,10 +2193,20 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          Specifies standardized bandwidth parameter *C* to compute kernel density estimates.
                          Allowed values are between `0` and `1`,
 
+* `VSCALEmax`          - *Optional*, default value is empty.
+                         Provides maximal value for Y2 axis scale. When used an information
+                         note is displayed in the log. Recommended values are:
+                         For `VSCALE=PERCENT` between 0 and 100,
+                         for `VSCALE=PROPORTION` between 0 and 1, and
+                         for `VSCALE=COUNT` between 0 and N (sample size).
+
 ***Other options***:
 
 * `cleanTempData`      - *Optional*, default value `1`.
                          Indicates if temporary data sets should be deleted.
+
+* `codePreview`        - *Optional*, default value `0`.
+                         Indicates if source code should be MPRINTed to log.
 
 ---
 
@@ -2198,7 +2230,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 * Kernel density estimates and basic statistics are calculated with `PROC UNIVARIATE`.
 
-* Plot is generated by `PROC SGPLOT` with `BAND`, `SCATTE`, and `POLYGON` plots.
+* Plot is generated by `PROC SGPLOT` with `BAND`, `SCATTER`, and `POLYGON` plots.
 
 * After execution the ODS graphics dimension parameters are set to `800px` by `600px`.
 
@@ -2211,12 +2243,12 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ### BOX-AND-WHISKERS PLOT: ###################################################################
 
 The box-and-whiskers plot has the following interpretation: 
-- left vertical bar indicates the minimum,
+- left vertical bar indicates the *minimum*,
 - left whisker line starts at `max(Q1 - 1.5IQR, minimum)` and ends at lower quartile (Q1),
 - diamond indicates mean,
 - vertical bar inside of the box indicates median,
 - right whisker line starts at upper quartile (Q3) and ends at `min(Q3 + 1.5IQR, maximum)`,
-- right vertical bar indicates the maximum.
+- right vertical bar indicates the *maximum*.
 
 With above setup it may happen that 
 there is a gap between the minimum marker and the beginning of the left whisker 
@@ -2236,6 +2268,7 @@ See examples below.
     g = "Aaa";
     do _N_ = 1 to 50;
       x = rannor(42);
+      y = ranuni(42);
       output;
     end;
 
@@ -2246,22 +2279,26 @@ See examples below.
         when(6,7,8)   x = 0.5*rannor(42)+3;
         otherwise   x = 0.5*rannor(42)+5;
       end; 
+      y = ranuni(42)+1;
       output;
     end;
 
     g = "C";
     do _N_ = 1 to 60;
       x = 3*rannor(42)+7;
+      y = ranuni(42)+2;
       output;
     end;
   run;
 
-  %RainCloudPlot(have, g, x)
+  %RainCloudPlot(have, g, x y)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The output:
-![Example 1](./baseplus_RainCloudPlot_Ex1.png)
+The output can be seen in the `md` file.
+![Example 1x](./baseplus_RainCloudPlot_Ex1x.png)
+![Example 1y](./baseplus_RainCloudPlot_Ex1y.png)
+
 
 **EXAMPLE 2.** Rain Cloud plot for `sashelp.cars` dataset
                with groups by Origin or Type 
@@ -2281,7 +2318,7 @@ The output:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The output:
+The output can be seen in the `md` file.
 ![Example 2a](./baseplus_RainCloudPlot_Ex2a.png)
 ![Example 2b](./baseplus_RainCloudPlot_Ex2b.png)
 
@@ -2316,13 +2353,12 @@ The output:
   data test;
     do system = 1 to 3;
       do i = 1 to 50;
-        x = rannor(123)/system;
+        x = 2*rannor(123)/system - system;
         output;
       end;
     end;
     format system system.;
   run;
-
 
   %RainCloudPlot(test, system, x
   , colorslist=CX88CCEE CX44AA99 CX117733
@@ -2330,13 +2366,27 @@ The output:
   , sganno=annotation
   , sgPlotOptions=noborder
   , WidthPX=1000
-  , HeightPX=320
+  , HeightPX=380
   , catAxisValueAttrs=Color=Green weight=bold
+  , VSCALE=percent
+  , cleanTempData=0
+  , y2axisLevels=5
+  , y2axisFormat=words20.-L
+  , VSCALEmax=60
+  , codePreview=1
+  , y2axisValueAttrs=Color=Grey size=10px
+  , y2axisLines=1
+  , xLabels="variable X"
+  , title = %nrstr(title1;
+                   title2 JUSTIFY=L "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);
+                   title3 JUSTIFY=C "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);
+                   title4 JUSTIFY=R "Rain Cloud plot for &list_g. by "  %unquote(&xLabel.);
+            )
   )
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The output:
+The output can be seen in the `md` file.
 ![Example 3](./baseplus_RainCloudPlot_Ex3.png)
 
 ---
@@ -5763,7 +5813,208 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%infmt()` macro <a name="infmt-macro-65"></a> ######
+## `%iffunc()` macro <a name="iffunc-macro-65"></a> ######
+ 
+## >>> `%iffunc()` macro: <<< <a name="iffunc-macro"></a> #######################  
+
+The iffunc() macro function is a "lazy typer" wrapping up conditional execution.
+
+Instead typing:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = 1;
+
+%if (1=&x.) %then
+  %do;
+    %let test = TRUE;
+  %end;
+%else 
+  %do;
+    %let test = FALSE;
+  %end;
+
+%put &=test.;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+you can make it:
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%let x = 1;
+
+%let test = %iffunc((1=&x.),TRUE,FALSE);
+
+%put &=test.;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The `%iffunc()` macro ca be nested in open code 
+in contrary to standard `%IF-%THEN-%ELSE`.
+
+The `minoperator` option is used to handle `IN` operator,
+but the `IN` operator in the condition *has* to be surrounded 
+by spaces, e.g. `&x. in (1 2 3)`. 
+Condition of the form `&x. in(1 2 3)` (no space after `in`) will
+result with an error.
+
+See examples below for the details.
+
+The `%iffunc()` macro executes like a pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%iffunc(
+   cond
+  ,true
+  ,false
+ <,v=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `cond`  - *Required*, is a condition to be evaluated.
+             It **has** to be provided in brackets,
+             e.g., `(1=&x.)` or `(%scan(&x.,1)=A)`.
+
+2. `true`  - *Required*, value returned when condition is true.
+
+3. `false` - *Required*, value returned when condition is false.
+
+4 `v=`     - *Optional*, v for verbose. If set to `1` extra notes
+              are printed.
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Simple test:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = 1;
+  %let test = %iffunc((&x.=1),True,False);
+  %put &=test.;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Verbose with `v=` in the `%put` statement:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %iffunc((TRUE=true),TRUE,FALSE,v=1);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** Condition can be with decimals or text:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put True: %iffunc((9.9<10),TRUE,FALSE);
+
+  %put False: %iffunc((A>B),TRUE,FALSE);
+
+  %put True: %iffunc((1=1.0),TRUE,FALSE);
+
+  %put False: %iffunc((1/3 = 0.5),TRUE,FALSE);
+
+  %put True: %iffunc((.1+.1+.1+.1+.1+.1+.1+.1+.1+.1 = 1),TRUE,FALSE);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Macro-Functions works too:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = A B C;
+  %put %iffunc((%scan(&x.,1)=A),Stats with "A"., Does not start with "A".);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Simple nesting (in open code):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x=0;
+  %let y=0;
+
+  %put
+    %iffunc((&x.)
+      ,It is X.
+      ,%iffunc((&y.)
+        ,It is Y.
+        ,It is Z.
+      ,v=1)
+    ,v=1)
+  ;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 6.** Special characters have to be masked:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %put %iffunc(1,%str(,),%str(;));
+  %put %iffunc(0,%str(,),%str(;));
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 7.** If you want to call macros there is a price. 
+  The `%nrstr()` and `%unquote()` are required:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %macro doX(a,b);
+    %put >>> &a. &b;
+    data do_X;
+      set sashelp.class;
+    run;
+  %mend;
+  %macro doY(a,b);
+    %put ### &a. &b;
+    data do_Y;
+      set sashelp.cars;
+    run;
+  %mend;
+  %macro doZ(a,b);
+    %put @@@ &a. &b;
+    data do_Z;
+      set sashelp.iris;
+    run;
+  %mend;
+
+  %let x=0;
+  %let y=0;
+
+  %unquote(
+  %iffunc((&x.)
+    ,%nrstr(%doX(1,2))
+    ,%iffunc((&y.)
+      ,%nrstr(%doY(3,4))
+      ,%nrstr(%doZ(5,6))
+    ,v=1)
+  ,v=1)
+  )
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 8.** Traffic lights with `NOTE:` and `ERROR:`,
+  Remember to handle the `IN` operator with an extra care.
+  Spaces are required around the `IN` operator.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = A;
+  %put %iffunc((&x. IN (A B C)),NOTE:,ERROR:) x=%superq(x);
+
+  %let x = 7;
+  %put %iffunc((&x. IN (1 3 5)),NOTE:,ERROR:) x=%superq(x);
+
+  %let x = 1.1;
+  %put %iffunc((&x. IN (1.1 2.1 3.1)),NOTE:,ERROR:) x=%superq(x);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 9.** Mixing `IN` operator with non-integer evaluation
+  requires `%sysevalf()` function:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %let x = Y;
+  %let y = 9.9;
+
+  %put THIS will be False: %iffunc((&x. in (y Y) AND &y.<10),TRUE,FALSE);
+
+  %put THIS will be True: %iffunc((&x. in (y Y) AND %sysevalf(&y.<10)),TRUE,FALSE);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%infmt()` macro <a name="infmt-macro-66"></a> ######
  
 ## >>> `%infmt()` macro: <<< <a name="infmt-macro"></a> #######################  
 
@@ -5820,7 +6071,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%letters()` macro <a name="letters-macro-66"></a> ######
+## `%letters()` macro <a name="letters-macro-67"></a> ######
  
 ## >>> `%letters()` macro: <<< <a name="letters-macro"></a> #######################  
 
@@ -5938,7 +6189,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%libpath()` macro <a name="libpath-macro-67"></a> ######
+## `%libpath()` macro <a name="libpath-macro-68"></a> ######
  
 ## >>> `%libPath()` macro: <<< <a name="libpath-macro"></a> #######################  
 
@@ -5983,7 +6234,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%minclude()` macro <a name="minclude-macro-68"></a> ######
+## `%minclude()` macro <a name="minclude-macro-69"></a> ######
  
 ## >>> `%mInclude()` macro: <<< <a name="minclude-macro"></a> #######################  
 
@@ -6196,7 +6447,7 @@ quit;
   
 ---
  
-## `%monthshift()` macro <a name="monthshift-macro-69"></a> ######
+## `%monthshift()` macro <a name="monthshift-macro-70"></a> ######
  
 ## >>> `%monthShift()` macro: <<< <a name="monthshift-macro"></a> #######################  
 
@@ -6345,7 +6596,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%replist()` macro <a name="replist-macro-70"></a> ######
+## `%replist()` macro <a name="replist-macro-71"></a> ######
 
 ## >>> `%repList()` macro: <<< <a name="replist-macro"></a> #######################
 
@@ -6461,7 +6712,7 @@ run;
   
 ---
  
-## `%time()` macro <a name="time-macro-71"></a> ######
+## `%time()` macro <a name="time-macro-72"></a> ######
  
 ## >>> `%time()` macro: <<< <a name="time-macro"></a> #######################  
 
@@ -6504,7 +6755,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%today()` macro <a name="today-macro-72"></a> ######
+## `%today()` macro <a name="today-macro-73"></a> ######
  
 ## >>> `%today()` macro: <<< <a name="today-macro"></a> #######################  
 
@@ -6547,7 +6798,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%translate()` macro <a name="translate-macro-73"></a> ######
+## `%translate()` macro <a name="translate-macro-74"></a> ######
  
 ## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
 
@@ -6611,7 +6862,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%tranwrd()` macro <a name="tranwrd-macro-74"></a> ######
+## `%tranwrd()` macro <a name="tranwrd-macro-75"></a> ######
  
 ## >>> `%tranwrd()` macro: <<< <a name="tranwrd-macro"></a> #######################  
 
@@ -6678,7 +6929,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%workpath()` macro <a name="workpath-macro-75"></a> ######
+## `%workpath()` macro <a name="workpath-macro-76"></a> ######
  
 ## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
 
