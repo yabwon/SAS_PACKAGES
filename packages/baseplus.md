@@ -362,7 +362,7 @@ run;
 **EXAMPLE 27** Conditional value assignment:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 %let x = A B C;
-%let y = %iffunc((%scan(&x.,1)=A),Stats with "A"., Does not start with "A".);
+%let y = %iffunc((%scan(&x.,1)=A),Starts with "A"., Does not start with "A".);
 %put &=y.;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1995,7 +1995,7 @@ See examples in `%zipEvalf()` help for the details.
  
 ## >>> `%RainCloudPlot()` macro: <<< <a name="raincloudplot-macro"></a> #######################  
 
-The RainCloudPlot() macro allow to plot Rain Cloud plots, i.e. pots of 
+The RainCloudPlot() macro allow to plot Rain Cloud plots, i.e. plots of 
 kernel density estimates, jitter data values, and box-and-whiskers plot.
 
 See examples below for the details.
@@ -5918,7 +5918,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 **EXAMPLE 4.** Macro-Functions works too:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %let x = A B C;
-  %put %iffunc((%scan(&x.,1)=A),Stats with "A"., Does not start with "A".);
+  %put %iffunc((%scan(&x.,1)=A),Starts with "A"., Does not start with "A".);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
