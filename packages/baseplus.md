@@ -7,22 +7,22 @@
  *The BASE SAS plus a bunch of functionalities I am missing in BASE SAS* 
   
 - Package: BasePlus
-- Version: 1.37.0
-- Generated: 2024-03-09T13:28:58
+- Version: 1.38.0
+- Generated: 2024-03-12T14:26:19
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*8155BFE82F7833E4B0DA24D81DBDFC58463906D6032B1F0161772DADE84BE790` for this version
-- Content SHA256: `C*7A4A85EB6C2C23E6A171DDCD8F61D7ED40E9A6751F9579DF893E148A95FFE188` for this version
+- File SHA256: `F*209FB8198270DEAB6151CE31391A352A065B4EE2689F40433FA9550A7F4AAC18` for this version
+- Content SHA256: `C*14C505C4EF488A8BE2404A692D55C8B81FC5A6075D8A35F8B6767B34ACF5E48E` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.37.0`;
+# The `BasePlus` package, version: `1.38.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.37.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.38.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -349,7 +349,7 @@ run;
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**EXAMPLE 26** Downloading data from the internet to a local dirrectory:
+**EXAMPLE 26** Downloading data from the internet to a local directory:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 %downloadFilesTo(~/directoryA)
 datalines4;
@@ -516,8 +516,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ## >>> `%dedupListC()` macro: <<< <a name="deduplistc-macro"></a> #######################
 
 The `%dedupListC()` macro deletes duplicated values from 
-a *COMMA separated* list of values. List, including separators,
-can be no longer than a value carried by a single macrovariable.
+a *COMMA-separated* list of values. List, including separators,
+can be no longer than a value carried by a single macro variable.
 
 Returned value is *unquoted*. Leading and trailing spaces are ignored.
 
@@ -534,7 +534,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 **Arguments description**:
 
-1. `list` - A list of *comma separated* values. 
+1. `list` - A list of *comma-separated* values. 
 
  
 ### EXAMPLES AND USECASES: ####################################################
@@ -577,8 +577,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ## >>> `%dedupListP()` macro: <<< <a name="deduplistp-macro"></a> #######################
 
 The `%dedupListP()` macro deletes duplicated values from 
-a *PIPE(`|`) separated* list of values. List, including separators,
-can be no longer than a value carried by a single macrovariable.
+a *PIPE(`|`)-separated* list of values. List, including separators,
+can be no longer than a value carried by a single macro variable.
 
 Returned value is *unquoted*. Leading and trailing spaces are ignored.
 
@@ -595,7 +595,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 **Arguments description**:
 
-1. `list` - A list of *pipe separated* values. 
+1. `list` - A list of *pipe-separated* values. 
 
  
 ### EXAMPLES AND USECASES: ####################################################
@@ -638,8 +638,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ## >>> `%dedupListS()` macro: <<< <a name="deduplists-macro"></a> #######################
 
 The `%dedupListS()` macro deletes duplicated values from 
-a *SPACE separated* list of values. List, including separators,
-can be no longer than a value carried by a single macrovariable.
+a *SPACE-separated* list of values. List, including separators,
+can be no longer than a value carried by a single macro variable.
 
 Returned value is *unquoted*.
 
@@ -650,13 +650,13 @@ The `%dedupListS()` macro executes like a pure macro code.
 The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~sas
 %dedupListS(
- list of space separated values
+ list of space-separated values
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Arguments description**:
 
-1. `list` - A list of *space separated* values. 
+1. `list` - A list of *space-separated* values. 
 
  
 ### EXAMPLES AND USECASES: ####################################################
@@ -692,9 +692,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ## >>> `%dedupListX()` macro: <<< <a name="deduplistx-macro"></a> #######################
 
 The `%dedupListX()` macro deletes duplicated values from 
-a *X separated* list of values, where the `X` represents 
+a *X-separated* list of values, where the `X` represents 
 a *single character* separator. List, including separators, 
-can be no longer than a value carried by a single macrovariable.
+can be no longer than a value carried by a single macro variable.
 
 **Caution.** The value of `X` *has to be* in **the first** byte of the list,
              just after the opening bracket, i.e. `(X...)`.
@@ -714,7 +714,7 @@ XlistXofXxXseparatedXvalues
 
 **Arguments description**:
 
-1. `list` - A list of *X separated* values. 
+1. `list` - A list of *X-separated* values. 
 
  
 ### EXAMPLES AND USECASES: ####################################################
@@ -773,7 +773,7 @@ and subdirectories of a given `root` directory.
 
 The extracted info may be just a list of files and subdirectories or, if 
 the `details=` parameter is set to 1, additional operating system information 
-is extracted (information is OSS dependent and gives different results for Linux 
+is extracted (information is OS-dependent and gives different results for Linux 
 and for Windows)
 
 The extracted info can be narrowed down to files (`keepFiles=1`) or to 
@@ -1093,12 +1093,12 @@ The basic syntax is the following, the `<...>` means optional parameters:
   %put *%str(%')%bquote(%getVars(sashelp.class,sep=''))%str(%')*;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- c) coma separated double quote list:
+ c) comma-separated double quote list:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %put *"%getVars(sashelp.class,sep=%str(", "))"*;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- d) coma separated single quote list:
+ d) comma-separated single quote list:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %put *%str(%')%getVars(sashelp.class,sep=', ')%str(%')*;
   %let x = %str(%')%getVars(sashelp.class,sep=', ')%str(%');
@@ -1163,12 +1163,12 @@ a) one single or double qiote:
   %put *%QgetVars(sashelp.class,quote='')*;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- c) coma separated double quote list:
+ c) comma-separated double quote list:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %put *%getVars(sashelp.class,sep=%str(,),quote=%str(%"))*;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- d) coma separated single quote list:
+ d) comma-separated single quote list:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %let x = %getVars(sashelp.class,sep=%str(,),quote=%str(%'));
   %put &=x.;
@@ -1484,8 +1484,8 @@ run;
 This approach reduces some limitations the LDSN has.
 
 The **additional** feature of the `%LDSNM()` is that when the macro is called 
-a global macrovariable, which name is the same as hashed dataset name, is created.
-The macrovariable value is the text of the argument of the macro. For example 
+a global macro variable, which name is the same as hashed dataset name, is created.
+The macro variable value is the text of the argument of the macro. For example 
 the following macro call:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
@@ -1495,9 +1495,9 @@ data %LDSNM(John "x" 'y' dog);
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-creates `DSN_BF1F8C4D6495B34A_` macrovariable with value:  `JOHN "X" 'Y' DOG`.
+creates `DSN_BF1F8C4D6495B34A_` macro variable with value:  `JOHN "X" 'Y' DOG`.
 
-The macrovariable is useful when combined with `symget()` function and 
+The macro variable is useful when combined with `symget()` function and 
 the `indsname=` option to get the original text string value back, 
 like in this example:
 
@@ -1535,7 +1535,7 @@ The `%LDSN()` macro executes like a pure macro code.
   `data %LDSN(); run;` or `data %LDSN(    ); run;` are resolved 
   to empty string, so the result is equivalent to `data; run;`
 
-- created macrovariable is _global_ in scope.
+- created macro variable is _global_ in scope.
 
 ### SYNTAX: ###################################################################
 
@@ -1546,8 +1546,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The text string is concider as *"only dataset name"*, i.e. macro does not 
-assume it contain library as prefix or data set options as sufix.
+The text string is consider as *"only dataset name"*, i.e. macro does not 
+assume it contain library as prefix or data set options as suffix.
 See the `%LDSN()` macro for comparison.
 
 ---
@@ -1778,9 +1778,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ## >>> `%QdedupListX()` macro: <<< <a name="qdeduplistx-macro"></a> #######################
 
 The `%QdedupListX()` macro deletes duplicated values from 
-a *X separated* list of values, where the `X` represents 
+a *X-separated* list of values, where the `X` represents 
 a *single character* separator. List, including separators, 
-can be no longer than a value carried by a single macrovariable.
+can be no longer than a value carried by a single macro variable.
 
 **Caution.** The value of `X` *has to be* in **the first** byte of the list,
              just after the opening bracket, i.e. `(X...)`.
@@ -1800,7 +1800,7 @@ XlistXofXxXseparatedXvalues
 
 **Arguments description**:
 
-1. `list` - A list of *X separated* values. 
+1. `list` - A list of *X-separated* values. 
 
  
 ### EXAMPLES AND USECASES: ####################################################
@@ -1910,9 +1910,9 @@ See examples in `%getVars()` help for the details.
 
 The zipEvalf() and QzipEvalf() macro functions
 allow to use a function on elements of pair of 
-space separated lists. 
+space-separated lists. 
 
-For two space separated lists of text strings the corresponding 
+For two space-separated lists of text strings the corresponding 
 elements are taken and the macro applies a function, provided by user, 
 to calculate result of the function on taken elements. 
 
@@ -1944,9 +1944,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 **Arguments description**:
 
-1. `first`         - *Required*, a space separated list of texts.
+1. `first`         - *Required*, a space-separated list of texts.
 
-2. `second`        - *Required*, a space separated list of texts.
+2. `second`        - *Required*, a space-separated list of texts.
 
 * `function = cat` - *Optional*, default value is `cat`, 
                      a function which will be applied 
@@ -1963,18 +1963,18 @@ The basic syntax is the following, the `<...>` means optional parameters:
 * `argBf =`        - *Optional*, default value is empty,
                      arguments of the function inserted
                      *before* elements the first list.
-                     If multiple should be comma separated.
+                     If multiple should be comma-separated.
 
 * `argMd =`        - *Optional*, default value is empty,
                      arguments of the function inserted
                      *between* elements the first list and 
                      the second list.
-                     If multiple should be comma separated.
+                     If multiple should be comma-separated.
 
 * `argAf =`        - *Optional*, default value is empty,
                      arguments of the function inserted
                      *after* elements the second list.
-                     If multiple should be comma separated.
+                     If multiple should be comma-separated.
 
 * `format=`        - *Optional*, default value is empty,
                      indicates a format which should be used
@@ -1995,8 +1995,8 @@ See examples in `%zipEvalf()` help for the details.
  
 ## >>> `%RainCloudPlot()` macro: <<< <a name="raincloudplot-macro"></a> #######################  
 
-The RainCloudPlot() macro allow to plot Rain Cloud plots, i.e. plots of 
-kernel density estimates, jitter data values, and box-and-whiskers plot.
+The RainCloudPlot() macro allow to plot Rain Cloud plots, i.e. 
+plots of kernel density estimates, jitter data values, and box-and-whiskers plot.
 
 See examples below for the details.
 
@@ -2174,6 +2174,12 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          By default only the: `width=`, `height=`, and `antialiasmax=`
                          are modified.
 
+* `vertical`           - *Optional*, default value is `0`.
+                         Set value to `1` to plot "clouds & boxes" vertically.
+                         **NOTE:** *Before setting the parameter to `1`, first
+                         prepare the plot in the "horizontal" version since all
+                         other parameters assume that orientation(!) and then are 
+                         converted accordingly.*
 
 ***Stat related options***:
 
@@ -2222,10 +2228,10 @@ The basic syntax is the following, the `<...>` means optional parameters:
   Use the `%str()` or `%nrstr()` macro-function to handle special characters.
   The `%unquote()` is used when resolving the parameter.
 
-* The `catLabels` and `xLabels` should be quoted comma separated lists enclosed with brackets, 
+* The `catLabels` and `xLabels` should be quoted comma-separated lists enclosed with brackets, 
   e.g. `catLabels=("Continent of Origin", "Car Type")`, see Example below.
 
-* The `catLabelAttrs` and `xLabelAttrs` should be space separated lists of `key=value` pairs,
+* The `catLabelAttrs` and `xLabelAttrs` should be space-separated lists of `key=value` pairs,
   e.g. `xLabelAttrs=size=12 color=Pink weight=bold`, see Example below.
 
 * Kernel density estimates and basic statistics are calculated with `PROC UNIVARIATE`.
@@ -2235,6 +2241,10 @@ The basic syntax is the following, the `<...>` means optional parameters:
 * After execution the ODS graphics dimension parameters are set to `800px` by `600px`.
 
 * SAS notes (`NOTE:`) are disabled for the execution time.
+
+* Before setting the `vertical=` parameter to `1`, first prepare the plot 
+  in the "horizontal" version since all other parameters assume that orientation(!) 
+  and then are converted accordingly.
 
 * List of predefined colours is: 
   `BlueViolet`, `RoyalBlue`, `OliveDrab`, `Gold`, `HotPink`, `Crimson`,  
@@ -2388,6 +2398,35 @@ The output can be seen in the `md` file.
 
 The output can be seen in the `md` file.
 ![Example 3](./baseplus_RainCloudPlot_Ex3.png)
+
+
+**EXAMPLE 4.** Rain Cloud plot for `sashelp.cars` dataset
+               with groups by Drive Train for Weight (LBS) 
+               variable ploted "vertically":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+
+  %RainCloudPlot(
+    sashelp.cars
+  , DriveTrain
+  , Weight 
+  , HeightPX=400 
+  , colorslist=Red Green Blue
+  , y2axisLevels=5
+  , catLabels=("DriveTrain")
+  , xLabels="Weight (LBS)"
+  , xLabelAttrs=size=12 color=Black weight=bold
+  , y2axisLines=1
+  , vscale=percent
+  , vscalemax=50
+  , vertical = 1
+  , title = %nrstr(title1 J=C HEIGHT=3 "The VERTICAL plotting is cool, ...";)
+  , footnote = %nrstr(footnote1 J=L HEIGHT=2 "... isn't it?";)
+  )
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The output can be seen in the `md` file.
+![Example 4](./baseplus_RainCloudPlot_Ex4.png)
 
 ---
 
@@ -2646,12 +2685,12 @@ The basic syntax is the following, the `<...>` means optional parameters:
  
 ## >>> `%symdelGlobal()` macro: <<< <a name="symdelglobal-macro"></a> #######################
 
-The `%symdelGlobal()` macro deletes all global macrovariables
+The `%symdelGlobal()` macro deletes all global macro variables
 created by the user. The only exceptions are read only variables
 and variables the one which starts with SYS, AF, or FSP.
 In that case a warning is printed in the log.
 
-One temporary global macrovariable `________________98_76_54_32_10_` 
+One temporary global macro variable `________________98_76_54_32_10_` 
 and a dataset, in `work` library, named `_%sysfunc(datetime(),hex7.)`
 are created and deleted during the process.
 
@@ -2676,7 +2715,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ### EXAMPLES AND USECASES: ####################################################
 
 **EXAMPLE 1.** Basic use-case one. 
-    Delete global macrovariables, info notes 
+    Delete global macro variables, info notes 
     and warnings are printed in the log.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
@@ -2696,7 +2735,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **EXAMPLE 2.** Basic use-case two. 
-    Delete global macrovariables in quite mode
+    Delete global macro variables in quite mode
     No info notes and warnings are printed in the log.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
@@ -2722,7 +2761,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ## >>> `%unzipArch()` macro: <<< <a name="unziparch-macro"></a> #######################  
 
 The unzipArch() macro allows to unzip content of a ZIP archive. 
-Macro is OS independent, the `XCMD` option is not required.
+Macro is OS-independent, the `XCMD` option is not required.
 
 The `dlCreateDir` option is used under the hood.
 
@@ -2955,7 +2994,7 @@ run;
 ## >>> `%zipArch()` macro: <<< <a name="ziparch-macro"></a> #######################  
 
 The zipArch() macro allows to ZIP content of a directory. 
-Macro is OS independent, the `XCMD` option is not required.
+Macro is OS-independent, the `XCMD` option is not required.
 
 Content of zipped archive can be listed in the log.
 
@@ -3092,9 +3131,9 @@ run;
 
 The zipEvalf() and QzipEvalf() macro functions
 allow to use a function on elements of pair of 
-space separated lists. 
+space-separated lists. 
 
-For two space separated lists of text strings the corresponding 
+For two space-separated lists of text strings the corresponding 
 elements are taken and the macro applies a function, provided by user, 
 to calculate result of the function on taken elements. 
 
@@ -3126,9 +3165,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 **Arguments description**:
 
-1. `first`         - *Required*, a space separated list of texts.
+1. `first`         - *Required*, a space-separated list of texts.
 
-2. `second`        - *Required*, a space separated list of texts.
+2. `second`        - *Required*, a space-separated list of texts.
 
 * `function = cat` - *Optional*, default value is `cat`, 
                      a function which will be applied 
@@ -3145,18 +3184,18 @@ The basic syntax is the following, the `<...>` means optional parameters:
 * `argBf =`        - *Optional*, default value is empty,
                      arguments of the function inserted
                      *before* elements the first list.
-                     If multiple should be comma separated.
+                     If multiple should be comma-separated.
 
 * `argMd =`        - *Optional*, default value is empty,
                      arguments of the function inserted
                      *between* elements the first list and 
                      the second list.
-                     If multiple should be comma separated.
+                     If multiple should be comma-separated.
 
 * `argAf =`        - *Optional*, default value is empty,
                      arguments of the function inserted
                      *after* elements the second list.
-                     If multiple should be comma separated.
+                     If multiple should be comma-separated.
 
 * `format=`        - *Optional*, default value is empty,
                      indicates a format which should be used
@@ -3205,7 +3244,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-**EXAMPLE 5.** Use with macrovariables:
+**EXAMPLE 5.** Use with macro variables:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 %let abc = 10 100 1000;
 %put *
@@ -5759,7 +5798,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 1. `number`       - *Optional*, default value is empty,
                     indicates numbers of titles to be extracted.
-                    Space separated list is expected.
+                    Space-separated list is expected.
                     If empty or `_ALL_` extract all non-missing.
 
 *. `type`         - *Optional*, default value is `T`.
@@ -6126,7 +6165,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
  
 ### EXAMPLES AND USECASES: ####################################################
 
-**EXAMPLE 1.** Space separated list of capital letters from A to Z:
+**EXAMPLE 1.** Space-separated list of capital letters from A to Z:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %put %letters(1:26:1);
 
@@ -6249,7 +6288,7 @@ Link: `https://blogs.sas.com/content/sgf/2023/05/30/embedding-any-code-anywhere-
 
 The implementation presented, in contrary to inspiration source, is 
 based on the `doSubL()` function and a list of global
-macrovariables of the form `______<N>` (six underscores and a number).
+macro variables of the form `______<N>` (six underscores and a number).
 
 See examples below for the details.
 
@@ -6279,7 +6318,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
                     Sets the `lrecl` value for the file width.
 
 *. `symdel=1`     - *Optional*, default value is `1`.
-                    Indicates if the global macrovariables
+                    Indicates if the global macro variables
                     `______1` to `______N` should be deleted
                     when the macro ends.
 
@@ -6624,9 +6663,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 **Arguments description**:
 
 1. `list`       - *Required*, a list of elements to be repeated.
-                  List can be space or comma separated. 
+                  List can be space or comma-separated. 
                   Elements can be in quotes.
-                  For comma separated list add brackets 
+                  For comma-separated list add brackets 
                   e.g., `%repList((A,B,C,D),times=5)`.
                   The list separators are: `<{[( ,;)]}>`.
 
