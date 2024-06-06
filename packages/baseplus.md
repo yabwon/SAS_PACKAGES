@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 1.39.0
-- Generated: 2024-05-29T16:15:54
+- Version: 1.40.0
+- Generated: 2024-06-06T21:47:12
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*3C3A2050E3FF46E1FC0F936634A66FC3F294A3531EFE0A7DC9CE74F2EF17C687` for this version
-- Content SHA256: `C*2396916BBB5BC1FA832FB85EDAF14173D528A6C823BA0BACB84FC9E99A8CFC1B` for this version
+- File SHA256: `F*BD0333B92D7CB639A136CD4994DE0C63F8396E449E45BC714D71D2E15318F42D` for this version
+- Content SHA256: `C*A35E716739EC4FF9767C363E840458FB7D5212605982276632F59FD26AB43594` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.39.0`;
+# The `BasePlus` package, version: `1.40.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.39.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.40.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -466,9 +466,7 @@ The `BasePlus` package consists of the following content:
 74. [`%translate()` macro ](#translate-macro-74 )
 75. [`%tranwrd()` macro ](#tranwrd-macro-75 )
 76. [`%workpath()` macro ](#workpath-macro-76 )
-  
- 
-95. [License note](#license)
+77. [License note](#license)
   
 ---
  
@@ -2018,6 +2016,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,roundFactor=>
  <,rainDropSize=>
  <,boxPlotSymbolSize=>
+ <,boxPlotLineSize=>
+ <,boxPlotFill=>
  <,colorsList=>
  <,monochrome=>
  <,antialiasMax=>
@@ -2025,6 +2025,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,footnote=>
  <,catLabels=>
  <,xLabels=>
+ <,xBothAxis=>
  <,catLabelPos=> 
  <,xLabelPos=>
  <,catLabelAttrs=>
@@ -2046,6 +2047,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,KERNEL_K=>
  <,KERNEL_C=>
  <,VSCALEmax=>
+ <,minRange=>
+ <,maxRange=>
 
  <,cleanTempData=>
  <,codePreview=>
@@ -2089,6 +2092,17 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 * `boxPlotSymbolSize`  - *Optional*, default value `8px`.
                          Size of symbols on the box plot.
+                         If two values are provided, e.g., `16px 8px`,
+                         the first is used for diamond size (the mean), 
+                         the second for "min/max" bars.
+
+* `boxPlotLineSize`    - *Optional*, default value `1px`.
+                         Thickness of lines of the box plot.
+
+* `boxPlotFill`        - *Optional*, default value `1`.
+                         Transparency of the box plot.
+                         Ranges from 0.0 (opaque) to 1.0 (full translucent).
+
 
 * `colorsList`         - *Optional*, default value is empty.
                          List of colours for plotting.
@@ -2119,6 +2133,10 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          When empty a data variable name is used.
                          For details see notes below.
 
+* `xBothAxis`          - *Optional*, default value is `1`. 
+                         Indicates if both (top and bootom) axis (horizontal) should be printed.
+                         If not `1` then only bottom axis is displayed.
+
 * `catLabelPos`        - *Optional*, default value `DATACENTER`.
                          Indicates position of the label on group axis (vertical).
                          Allowed values are `BOTTOM`, `CENTER`, `DATACENTER`, and `TOP`.
@@ -2142,7 +2160,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          Indicates if the right vertical axis should be displayed.
 
 * `y2axisLevels`       - *Optional*, default value `4`.
-                         Indicates if the number of expected levels of values printed 
+                         Sets the number of expected levels of values printed 
                          on the right vertical axis.
 
 * `y2axisValueAttrs`   - *Optional*, default value `Color=Grey`.
@@ -2208,6 +2226,14 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          For `VSCALE=PERCENT` between 0 and 100,
                          for `VSCALE=PROPORTION` between 0 and 1, and
                          for `VSCALE=COUNT` between 0 and N (sample size).
+
+* `minRange`           - *Optional*, default value is `.` (numerical missing).
+                         Indicates minimum value for x-axis on the plot, by default calculated form data.
+                         Is a global parameter used for all plots.
+
+* `maxRange`           - *Optional*, default value is `.` (numerical missing).
+                         Indicates maximum value for x-axis on the plot, by default calculated form data.
+                         Is a global parameter used for all plots.
 
 ***Other options***:
 
