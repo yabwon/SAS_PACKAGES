@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 1.40.0
-- Generated: 2024-06-06T21:47:12
+- Version: 1.41.0
+- Generated: 2024-06-09T18:22:04
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*BD0333B92D7CB639A136CD4994DE0C63F8396E449E45BC714D71D2E15318F42D` for this version
-- Content SHA256: `C*A35E716739EC4FF9767C363E840458FB7D5212605982276632F59FD26AB43594` for this version
+- File SHA256: `F*6760DDF382E7CA9A1291F028FA7F2BACB68A3D31CEA3A85104E13EA08645AEF1` for this version
+- Content SHA256: `C*850DEDF85E36C971713B7E3B29AC703C570A89479D47799F1482216E4F1F52FC` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.40.0`;
+# The `BasePlus` package, version: `1.41.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.40.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.41.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -466,7 +466,9 @@ The `BasePlus` package consists of the following content:
 74. [`%translate()` macro ](#translate-macro-74 )
 75. [`%tranwrd()` macro ](#tranwrd-macro-75 )
 76. [`%workpath()` macro ](#workpath-macro-76 )
-77. [License note](#license)
+  
+ 
+98. [License note](#license)
   
 ---
  
@@ -2018,6 +2020,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,boxPlotSymbolSize=>
  <,boxPlotLineSize=>
  <,boxPlotFill=>
+ <,meanShiftLine=>
+ <,meanShiftStep=>
+ <,meanShiftColors=>
  <,colorsList=>
  <,monochrome=>
  <,antialiasMax=>
@@ -2039,9 +2044,15 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,catAxisValueAttrs=>
  <,xaxisValueAttrs=>
  <,xaxisTickstyle=>
+ <,xaxisValues=>
+ <,xaxisValuesDisplay=>
+ <,xaxisValuesFormat=>
+ <,xaxisValuesRotate=>
+ <,xaxisOther=>
  <,sganno=>
  <,odsGraphicsOptions=>
  <,sgPlotOptions=>
+ <,vertical=>
 
  <,VSCALE=>
  <,KERNEL_K=>
@@ -2052,6 +2063,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
  <,cleanTempData=>
  <,codePreview=>
+ <,reuseN=>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2103,6 +2115,17 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          Transparency of the box plot.
                          Ranges from 0.0 (opaque) to 1.0 (full translucent).
 
+* `meanShiftLine`      - *Optional*, default value `0`.
+                         Indicates if a line connecting mean symbol 
+                         on the Box Plot should be added.
+
+* `meanShiftStep`      - *Optional*, default value `0.1`.
+                         Sets how smooth gradient should be
+                         on the "mean-shift" line.
+
+* `meanShiftColors`    - *Optional*, default value is empty.
+                         List of colours for plotting the "mean-shift" line.
+                         Empty indicates that the `colorsList` value will be used.
 
 * `colorsList`         - *Optional*, default value is empty.
                          List of colours for plotting.
@@ -2134,7 +2157,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          For details see notes below.
 
 * `xBothAxis`          - *Optional*, default value is `1`. 
-                         Indicates if both (top and bootom) axis (horizontal) should be printed.
+                         Indicates if both (top and bottom) axis (horizontal) should be printed.
                          If not `1` then only bottom axis is displayed.
 
 * `catLabelPos`        - *Optional*, default value `DATACENTER`.
@@ -2183,11 +2206,34 @@ The basic syntax is the following, the `<...>` means optional parameters:
                          Allowed values are `OUTSIDE`, `INSIDE`, `ACROSS`, and `INBETWEEN`. 
                          *For SAS previous to* **9.4M5** *set to missing!*
 
+* `xaxisValues`        - *Optional*, default value is empty.
+                         It is a wrapper to provide value for 
+                         the `XAXIS` statement, for `Values` option.
+
+* `xaxisValuesDisplay` - *Optional*, default value is empty.
+                         It is a wrapper to provide value for 
+                         the `XAXIS` statement, for `ValuesDisplay` option.
+
+* `xaxisValuesFormat`  - *Optional*, default value is empty.
+                         It is a wrapper to provide value for 
+                         the `XAXIS` statement, for `ValuesFormat` option.
+                         Instead using `w.d` format, use its alias `Fw.d`.
+
+* `xaxisValuesRotate`  - *Optional*, default value is empty.
+                         It is a wrapper to provide value for 
+                         the `XAXIS` statement, for `ValuesRotate` option.
+
+* `xaxisOther`         - *Optional*, default value is empty.
+                         It is a wrapper to provide value for 
+                         the `XAXIS` statement options not mentioned above.
+                         You can use it to provide, e.g., `GRID`, 'MINOR',
+                         `MINORGRID`, `GRIDATTRS=`, or `MINORGRIDATTRS=`.
+
 * `sganno`             - *Optional*, default value is empty.
                          keeps name of a data set for the `sganno=` option
                          of the SGPLOT procedure.
 
-* `sgPlotOptions`      - *Optional*, default value is `noautolegend noborder`.
+* `sgPlotOptions`      - *Optional*, default value is `noautolegend noborder subpixel`.
                          List of additional options values for SGPLOT procedure.
 
 * `odsGraphicsOptions` - *Optional*, default value is empty.
@@ -2242,6 +2288,11 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 * `codePreview`        - *Optional*, default value `0`.
                          Indicates if source code should be MPRINTed to log.
+
+* `reuseN`             - *Optional*, default value `6`.
+                         Indicates how many times colours list should be repeated
+                         so that colours could be reused in case the number of groups
+                         is greater than the colours list length.
 
 ---
 
