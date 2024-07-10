@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 1.41.0
-- Generated: 2024-06-09T18:22:04
+- Version: 1.42.0
+- Generated: 2024-07-10T22:42:55
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*6760DDF382E7CA9A1291F028FA7F2BACB68A3D31CEA3A85104E13EA08645AEF1` for this version
-- Content SHA256: `C*850DEDF85E36C971713B7E3B29AC703C570A89479D47799F1482216E4F1F52FC` for this version
+- File SHA256: `F*6012D1475AE22A4445C032D8EAE092BE515D8CD2AE390CC087F5987ACB8BCB13` for this version
+- Content SHA256: `C*3A52B9CB12C454868DAF29AE1E73F8E296E730EA6BF1B9CD22C1A990985EE191` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.41.0`;
+# The `BasePlus` package, version: `1.42.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.41.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.42.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -453,22 +453,23 @@ The `BasePlus` package consists of the following content:
 61. [`%filepath()` macro ](#filepath-macro-61 )
 62. [`%finddswithvarval()` macro ](#finddswithvarval-macro-62 )
 63. [`%fmt()` macro ](#fmt-macro-63 )
-64. [`%gettitle()` macro ](#gettitle-macro-64 )
-65. [`%iffunc()` macro ](#iffunc-macro-65 )
-66. [`%infmt()` macro ](#infmt-macro-66 )
-67. [`%letters()` macro ](#letters-macro-67 )
-68. [`%libpath()` macro ](#libpath-macro-68 )
-69. [`%minclude()` macro ](#minclude-macro-69 )
-70. [`%monthshift()` macro ](#monthshift-macro-70 )
-71. [`%replist()` macro ](#replist-macro-71 )
-72. [`%time()` macro ](#time-macro-72 )
-73. [`%today()` macro ](#today-macro-73 )
-74. [`%translate()` macro ](#translate-macro-74 )
-75. [`%tranwrd()` macro ](#tranwrd-macro-75 )
-76. [`%workpath()` macro ](#workpath-macro-76 )
+64. [`%generateoneliners()` macro ](#generateoneliners-macro-64 )
+65. [`%gettitle()` macro ](#gettitle-macro-65 )
+66. [`%iffunc()` macro ](#iffunc-macro-66 )
+67. [`%infmt()` macro ](#infmt-macro-67 )
+68. [`%letters()` macro ](#letters-macro-68 )
+69. [`%libpath()` macro ](#libpath-macro-69 )
+70. [`%minclude()` macro ](#minclude-macro-70 )
+71. [`%monthshift()` macro ](#monthshift-macro-71 )
+72. [`%replist()` macro ](#replist-macro-72 )
+73. [`%time()` macro ](#time-macro-73 )
+74. [`%today()` macro ](#today-macro-74 )
+75. [`%translate()` macro ](#translate-macro-75 )
+76. [`%tranwrd()` macro ](#tranwrd-macro-76 )
+77. [`%workpath()` macro ](#workpath-macro-77 )
   
  
-98. [License note](#license)
+99. [License note](#license)
   
 ---
  
@@ -5853,7 +5854,125 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%gettitle()` macro <a name="gettitle-macro-64"></a> ######
+## `%generateoneliners()` macro <a name="generateoneliners-macro-64"></a> ######
+ 
+## >>> `%GenerateOneLiners()` macro: <<< <a name="generateoneliners-macro"></a> #######################  
+
+The `%GenerateOneLiners()` macro is a "macro-generator" dedicated 
+to "lazy typers".
+
+It allows to generate macro wrappers for functions 
+that have the following form:
+
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%macro FUNCTION()/parmbuff;
+%sysfunc(FUNCTION&syspbuff)
+%mend FUNCTION;
+
+%macro qFUNCTION()/parmbuff;
+%qsysfunc(FUNCTION&syspbuff)
+%mend qFUNCTION;
+~~~~~~~~~~~~~~~~~~~~~~~
+
+See examples below for the details.
+
+The `%GenerateOneLiners()` macro is not pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%GenerateOneLiners(
+  <,listOfFunctions=>
+  <,prefix=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `listOfFunctions`  - *Required*, is a space separated list of 
+                         valid SAS functions. Default value is:
+                         `CATX CATQ CATT CAT COMPRESS REVERSE REPEAT`.
+
+2. `prefix`           - *Optional*, a prefix added to the name 
+                         of a created macro.
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Create list of macrofunctions for
+               `CATX CATQ CATT CAT COMPRESS REVERSE REPEAT`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%GenerateOneLiners(prefix=_)
+
+%let a = 1,2,3,4,5,6;
+%put %_CATX(%str( ),&a.);
+%put %_CATQ(2A,&a.);
+%put %_QCATQ(1AMD,%str(,),&a.);
+
+%let x=a 1 b 2 c 3 d 4 e 5 f 6 g;
+%put %_COMPRESS(&x.);
+%put %_COMPRESS(&x.,,ka);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Create list of macrofunctions for
+               `SUM MEAN MEDIAN VAR STD USS CSS RANGE IQR MAD SUMABS`:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%GenerateOneLiners(
+  listOfFunctions=SUM MEAN MEDIAN VAR STD USS CSS RANGE IQR MAD SUMABS
+, prefix=_)
+
+%put 
+%_SUM(1,2,3,4,5,6) 
+%_MEAN(1,2,3,4,5,6)
+%_MEDIAN(1,2,3,4,5,6)
+%_VAR(1,2,3,4,5,6)
+;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 3.** Some other lists:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%GenerateOneLiners(prefix=_
+, listOfFunctions=CDF PDF RAND QUANTILE SQUANTILE SDF logCDF logPDF logSDF RMS
+)
+
+%GenerateOneLiners(prefix=_
+, listOfFunctions=YEAR QTR MONTH WEEK DAY HOUR MINUTE SECOND
+)
+
+%GenerateOneLiners(prefix=_
+, listOfFunctions=PCTL1 PCTL2 PCTL3 PCTL4 PCTL5 PCTL
+)
+
+%GenerateOneLiners(prefix=_
+, listOfFunctions=YYQ MDY HMS INTCK INTNX SLEEP
+)
+
+%GenerateOneLiners(prefix=_
+, listOfFunctions=WHICHC WHICHN 
+)
+
+%GenerateOneLiners(prefix=_
+, listOfFunctions=SYMEXIST SYMGLOBL SYMLOCAL 
+)
+ 
+%GenerateOneLiners(prefix=_
+, listOfFunctions=PRXCHANGE PRXMATCH PRXPAREN PRXPARSE
+)
+ 
+%GenerateOneLiners(prefix=_
+, listOfFunctions=MD5 SHA256 HASHING
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%gettitle()` macro <a name="gettitle-macro-65"></a> ######
  
 ## >>> `%getTitle()` macro: <<< <a name="gettitle-macro"></a> #######################  
 
@@ -5939,7 +6058,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%iffunc()` macro <a name="iffunc-macro-65"></a> ######
+## `%iffunc()` macro <a name="iffunc-macro-66"></a> ######
  
 ## >>> `%iffunc()` macro: <<< <a name="iffunc-macro"></a> #######################  
 
@@ -6140,7 +6259,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%infmt()` macro <a name="infmt-macro-66"></a> ######
+## `%infmt()` macro <a name="infmt-macro-67"></a> ######
  
 ## >>> `%infmt()` macro: <<< <a name="infmt-macro"></a> #######################  
 
@@ -6197,7 +6316,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%letters()` macro <a name="letters-macro-67"></a> ######
+## `%letters()` macro <a name="letters-macro-68"></a> ######
  
 ## >>> `%letters()` macro: <<< <a name="letters-macro"></a> #######################  
 
@@ -6315,7 +6434,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%libpath()` macro <a name="libpath-macro-68"></a> ######
+## `%libpath()` macro <a name="libpath-macro-69"></a> ######
  
 ## >>> `%libPath()` macro: <<< <a name="libpath-macro"></a> #######################  
 
@@ -6360,7 +6479,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%minclude()` macro <a name="minclude-macro-69"></a> ######
+## `%minclude()` macro <a name="minclude-macro-70"></a> ######
  
 ## >>> `%mInclude()` macro: <<< <a name="minclude-macro"></a> #######################  
 
@@ -6573,7 +6692,7 @@ quit;
   
 ---
  
-## `%monthshift()` macro <a name="monthshift-macro-70"></a> ######
+## `%monthshift()` macro <a name="monthshift-macro-71"></a> ######
  
 ## >>> `%monthShift()` macro: <<< <a name="monthshift-macro"></a> #######################  
 
@@ -6722,7 +6841,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%replist()` macro <a name="replist-macro-71"></a> ######
+## `%replist()` macro <a name="replist-macro-72"></a> ######
 
 ## >>> `%repList()` macro: <<< <a name="replist-macro"></a> #######################
 
@@ -6838,7 +6957,7 @@ run;
   
 ---
  
-## `%time()` macro <a name="time-macro-72"></a> ######
+## `%time()` macro <a name="time-macro-73"></a> ######
  
 ## >>> `%time()` macro: <<< <a name="time-macro"></a> #######################  
 
@@ -6881,7 +7000,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%today()` macro <a name="today-macro-73"></a> ######
+## `%today()` macro <a name="today-macro-74"></a> ######
  
 ## >>> `%today()` macro: <<< <a name="today-macro"></a> #######################  
 
@@ -6924,7 +7043,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%translate()` macro <a name="translate-macro-74"></a> ######
+## `%translate()` macro <a name="translate-macro-75"></a> ######
  
 ## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
 
@@ -6988,7 +7107,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%tranwrd()` macro <a name="tranwrd-macro-75"></a> ######
+## `%tranwrd()` macro <a name="tranwrd-macro-76"></a> ######
  
 ## >>> `%tranwrd()` macro: <<< <a name="tranwrd-macro"></a> #######################  
 
@@ -7055,7 +7174,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%workpath()` macro <a name="workpath-macro-76"></a> ######
+## `%workpath()` macro <a name="workpath-macro-77"></a> ######
  
 ## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
 
