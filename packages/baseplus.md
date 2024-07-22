@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 1.42.1
-- Generated: 2024-07-19T10:19:18
+- Version: 1.43.0
+- Generated: 2024-07-22T08:50:35
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*2129F372D72A34A4FB1F368A581EA33D64AD4D8F3707213D5B9553F3C3122003` for this version
-- Content SHA256: `C*565555B57455548ABAFB1E30A77C9BEE008F601697300B01518FD05A97A1F9F9` for this version
+- File SHA256: `F*68BB953CD732EB43119A3339656670292317FE1C3B764EC57484C7D5C9DF23EB` for this version
+- Content SHA256: `C*7436BD6446CDA2F57163B7BA45482750D460CA9AEFDCA4012253D742B8EE5E65` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.42.1`;
+# The `BasePlus` package, version: `1.43.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.42.1] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 1.43.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -979,6 +979,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,varRange=>
  <,quote=>
  <,mcArray=> 
+ <,ignoreCases>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -991,7 +992,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
                        a variables separator on the created list. 
 
 * `pattern = .*`     - *Optional*, default value `.*` (i.e. any text), 
-                       a variable name regexp pattern, case INSENSITIVE! 
+                       a variable name regexp pattern, by default case INSENSITIVE! 
 
 * `varRange = _all_` - *Optional*, default value `_all_`, 
                        a named range list of variables. 
@@ -1012,6 +1013,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
                            `%put %getVars(..., mcArray=XXX);` will result with  
                           an Explicit & Radical Refuse Of Run (aka ERROR).
 
+* `ignoreCases=`     - *Optional*, default value is 1.  
+                        Indicates if search should be case insensitive.
 
  
 ### EXAMPLES AND USECASES: ####################################################
@@ -1878,7 +1881,8 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,sep=>
  <,pattern=>
  <,varRange=>
- <,quote=>          
+ <,quote=>
+ <,ignoreCases=> 
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1898,6 +1902,9 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 * `quote =`          - *Optional*, default value is blank, a quotation 
                        symbol to be used around values.
+
+* `ignoreCases=`     - *Optional*, default value is 1.  
+                        Indicates if search should be case insensitive.
 
  
 ### EXAMPLES AND USECASES: ####################################################
