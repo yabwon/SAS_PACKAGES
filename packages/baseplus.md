@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 1.43.0
-- Generated: 2024-07-22T08:50:35
+- Version: 2.0.0
+- Generated: 2024-07-23T21:51:33
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*68BB953CD732EB43119A3339656670292317FE1C3B764EC57484C7D5C9DF23EB` for this version
-- Content SHA256: `C*7436BD6446CDA2F57163B7BA45482750D460CA9AEFDCA4012253D742B8EE5E65` for this version
+- File SHA256: `F*0730DD793516E5C193842126A7EC9D339ADADD19F0F40B071F938CABDE4E66AD` for this version
+- Content SHA256: `C*0352F7BB04B99D620BEFD33FF1B1FF1835E6F8F21CC6A764D05EEE51E77E57E0` for this version
   
 ---
  
-# The `BasePlus` package, version: `1.43.0`;
+# The `BasePlus` package, version: `2.0.0`;
   
 ---
  
 
-# The BasePlus package [ver. 1.43.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 2.0.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -368,6 +368,25 @@ run;
 %put &=y.;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 28** Converting variables names to lowercases:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data a1 a2 a3 b_x b_y b_z;
+  set sashelp.class(obs=1);
+run;
+
+%put #%expandDataSetsList(lib=work,datasets=a1-a3 b_:)#;
+
+proc print data=a1;
+proc print data=b_x;
+run;
+
+%unifyVarsCaseSize(work,a1-a3 b_:)
+
+proc print data=a1;
+proc print data=b_x;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
   
 ---
@@ -439,38 +458,42 @@ The `BasePlus` package consists of the following content:
 46. [`deldataset()` function ](#deldataset-functions-46 )
 47. [`semicolonc()` function ](#semicolonc-functions-47 )
 48. [`semicolonn()` function ](#semicolonn-functions-48 )
-49. [`$brackets.` format/informat ](#brackets-format-49 )
-50. [`$semicolon.` format/informat ](#semicolon-format-50 )
-51. [`qsortincbyprocproto()` proto ](#qsortincbyprocproto-proto-51 )
-52. [`frommissingtonumberbs()` function ](#frommissingtonumberbs-functions-52 )
-53. [`fromnumbertomissing()` function ](#fromnumbertomissing-functions-53 )
-54. [`quicksort4notmiss()` function ](#quicksort4notmiss-functions-54 )
-55. [`quicksorthash()` function ](#quicksorthash-functions-55 )
-56. [`quicksorthashsddv()` function ](#quicksorthashsddv-functions-56 )
-57. [`quicksortlight()` function ](#quicksortlight-functions-57 )
-58. [`%date()` macro ](#date-macro-58 )
-59. [`%datetime()` macro ](#datetime-macro-59 )
-60. [`%downloadfilesto()` macro ](#downloadfilesto-macro-60 )
-61. [`%filepath()` macro ](#filepath-macro-61 )
-62. [`%finddswithvarval()` macro ](#finddswithvarval-macro-62 )
-63. [`%fmt()` macro ](#fmt-macro-63 )
-64. [`%generateoneliners()` macro ](#generateoneliners-macro-64 )
-65. [`%gettitle()` macro ](#gettitle-macro-65 )
-66. [`%iffunc()` macro ](#iffunc-macro-66 )
-67. [`%infmt()` macro ](#infmt-macro-67 )
-68. [`%letters()` macro ](#letters-macro-68 )
-69. [`%libpath()` macro ](#libpath-macro-69 )
-70. [`%minclude()` macro ](#minclude-macro-70 )
-71. [`%monthshift()` macro ](#monthshift-macro-71 )
-72. [`%replist()` macro ](#replist-macro-72 )
-73. [`%time()` macro ](#time-macro-73 )
-74. [`%today()` macro ](#today-macro-74 )
-75. [`%translate()` macro ](#translate-macro-75 )
-76. [`%tranwrd()` macro ](#tranwrd-macro-76 )
-77. [`%workpath()` macro ](#workpath-macro-77 )
+49. [`$bpklenght.` format/informat ](#bpklenght-formats-49 )
+50. [`$bplenght.` format/informat ](#bplenght-formats-50 )
+51. [`$brackets.` format/informat ](#brackets-formats-51 )
+52. [`$semicolon.` format/informat ](#semicolon-formats-52 )
+53. [`qsortincbyprocproto()` proto ](#qsortincbyprocproto-proto-53 )
+54. [`frommissingtonumberbs()` function ](#frommissingtonumberbs-functions-54 )
+55. [`fromnumbertomissing()` function ](#fromnumbertomissing-functions-55 )
+56. [`quicksort4notmiss()` function ](#quicksort4notmiss-functions-56 )
+57. [`quicksorthash()` function ](#quicksorthash-functions-57 )
+58. [`quicksorthashsddv()` function ](#quicksorthashsddv-functions-58 )
+59. [`quicksortlight()` function ](#quicksortlight-functions-59 )
+60. [`%date()` macro ](#date-macro-60 )
+61. [`%datetime()` macro ](#datetime-macro-61 )
+62. [`%downloadfilesto()` macro ](#downloadfilesto-macro-62 )
+63. [`%expanddatasetslist()` macro ](#expanddatasetslist-macro-63 )
+64. [`%filepath()` macro ](#filepath-macro-64 )
+65. [`%finddswithvarval()` macro ](#finddswithvarval-macro-65 )
+66. [`%fmt()` macro ](#fmt-macro-66 )
+67. [`%generateoneliners()` macro ](#generateoneliners-macro-67 )
+68. [`%gettitle()` macro ](#gettitle-macro-68 )
+69. [`%iffunc()` macro ](#iffunc-macro-69 )
+70. [`%infmt()` macro ](#infmt-macro-70 )
+71. [`%letters()` macro ](#letters-macro-71 )
+72. [`%libpath()` macro ](#libpath-macro-72 )
+73. [`%minclude()` macro ](#minclude-macro-73 )
+74. [`%monthshift()` macro ](#monthshift-macro-74 )
+75. [`%replist()` macro ](#replist-macro-75 )
+76. [`%time()` macro ](#time-macro-76 )
+77. [`%today()` macro ](#today-macro-77 )
+78. [`%translate()` macro ](#translate-macro-78 )
+79. [`%tranwrd()` macro ](#tranwrd-macro-79 )
+80. [`%unifyvarscasesize()` macro ](#unifyvarscasesize-macro-80 )
+81. [`%workpath()` macro ](#workpath-macro-81 )
   
  
-78. [License note](#license)
+82. [License note](#license)
   
 ---
  
@@ -4496,7 +4519,129 @@ semicolonN(X)
   
 ---
  
-## `$brackets.` format/informat <a name="brackets-format-49"></a> ######
+## `$bpklenght.` format/informat <a name="bpklenght-formats-49"></a> ######
+ 
+## >>> `bpklenght` format/informat: <<< <a name="bpklenght-format"></a> #######################
+
+The **bpklenght** format and informats uses the `klength()` function
+to count the number of letters in a word. For empty string returns 0.
+
+
+### EXAMPLES AND USECASES: #################################################### 
+
+**Example 1.** Informats and format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data work.count_letters;
+  input x $ 32.;
+  n = input (x, bpklenght.);
+  c = input (x, $bpklenght.);
+  format x $bpklenght.;
+cards;
+ż
+żó
+żół
+żółć
+a 
+ab 
+abc 
+abcd
+空
+空手
+空手道
+1
+12
+123
+1234
+12345
+123456
+1234567
+12345678
+123456789
+1234567890
+;
+run;
+proc print data=work.count_letters;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Example 2.** Format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data _null_;
+  length x $ 32767;
+  do i = 32767/3 to 0 by -1111, 10 to 0 by -1;
+    x=repeat("空",i);
+    put x $bpklenght.;
+  end;
+run; 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--- 
+
+  
+---
+ 
+## `$bplenght.` format/informat <a name="bplenght-formats-50"></a> ######
+ 
+## >>> `bplenght` format/informat: <<< <a name="bplenght-format"></a> #######################
+
+The **bplenght** format and informats use the `lengthn()` function
+to count the number of bytes in a word.
+
+
+### EXAMPLES AND USECASES: #################################################### 
+
+**Example 1.** Informats and format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data work.count_bytes;
+  input x $ 32.;
+  n = input (x, bplenght.);
+  c = input (x, $bplenght.);
+  format x $bplenght.;
+cards;
+ż
+żó
+żół
+żółć
+a 
+ab 
+abc 
+abcd
+空
+空手
+空手道
+1
+12
+123
+1234
+12345
+123456
+1234567
+12345678
+123456789
+1234567890
+;
+run;
+proc print data=work.count_bytes;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Example 2.** Format:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data _null_;
+  length x $ 32767;
+  do i = 32767/3 to 0 by -1111, 10 to 0 by -1;
+    x=repeat("空",i);
+    put x $bplenght.;
+  end;
+run; 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--- 
+
+  
+---
+ 
+## `$brackets.` format/informat <a name="brackets-formats-51"></a> ######
  
 ## >>> `brackets.` format: <<< <a name="brackets-format"></a> #######################
 
@@ -4527,7 +4672,7 @@ run;
   
 ---
  
-## `$semicolon.` format/informat <a name="semicolon-format-50"></a> ######
+## `$semicolon.` format/informat <a name="semicolon-formats-52"></a> ######
  
 ## >>> `semicolon.` format: <<< <a name="semicolon-format"></a> #######################
 
@@ -4551,7 +4696,7 @@ run;
   
 ---
  
-## `qsortincbyprocproto()` proto <a name="qsortincbyprocproto-proto-51"></a> ######
+## `qsortincbyprocproto()` proto <a name="qsortincbyprocproto-proto-53"></a> ######
  
 ## >>> `qsortInCbyProcProto()` proto function: <<< <a name="qsortincbyprocproto-proto-function"></a> #######################  
 
@@ -4613,7 +4758,7 @@ Based on the code from the following pages [2020.08.14]:
   
 ---
  
-## `frommissingtonumberbs()` function <a name="frommissingtonumberbs-functions-52"></a> ######
+## `frommissingtonumberbs()` function <a name="frommissingtonumberbs-functions-54"></a> ######
  
 ## >>> `fromMissingToNumberBS()` function: <<< <a name="frommissingtonumberbs-function"></a> #######################  
 
@@ -4666,7 +4811,7 @@ fromMissingToNumberBS(x)
   
 ---
  
-## `fromnumbertomissing()` function <a name="fromnumbertomissing-functions-53"></a> ######
+## `fromnumbertomissing()` function <a name="fromnumbertomissing-functions-55"></a> ######
  
 ## >>> `fromNumberToMissing()` function: <<< <a name="fromnumbertomissing-function"></a> #######################  
 
@@ -4718,7 +4863,7 @@ fromNumberToMissing(x)
   
 ---
  
-## `quicksort4notmiss()` function <a name="quicksort4notmiss-functions-54"></a> ######
+## `quicksort4notmiss()` function <a name="quicksort4notmiss-functions-56"></a> ######
  
 ## >>> `quickSort4NotMiss()` subroutine: <<< <a name="quicksort4notmiss-subroutine"></a> #######################  
 
@@ -4812,7 +4957,7 @@ call quickSort4NotMiss(A)
   
 ---
  
-## `quicksorthash()` function <a name="quicksorthash-functions-55"></a> ######
+## `quicksorthash()` function <a name="quicksorthash-functions-57"></a> ######
  
 ## >>> `quickSortHash()` subroutine: <<< <a name="quicksorthash-subroutine"></a> #######################  
 
@@ -5053,7 +5198,7 @@ call quickSortHash(A)
   
 ---
  
-## `quicksorthashsddv()` function <a name="quicksorthashsddv-functions-56"></a> ######
+## `quicksorthashsddv()` function <a name="quicksorthashsddv-functions-58"></a> ######
  
 ## >>> `quickSortHashSDDV()` subroutine: <<< <a name="quicksorthashsddv-subroutine"></a> #######################  
 
@@ -5184,7 +5329,7 @@ call quickSortHashSDDV(A, SDDV)
   
 ---
  
-## `quicksortlight()` function <a name="quicksortlight-functions-57"></a> ######
+## `quicksortlight()` function <a name="quicksortlight-functions-59"></a> ######
  
 ## >>> `quickSortLight()` subroutine: <<< <a name="quicksortlight-subroutine"></a> #######################  
 
@@ -5393,7 +5538,7 @@ call quickSortLight(A)
   
 ---
  
-## `%date()` macro <a name="date-macro-58"></a> ######
+## `%date()` macro <a name="date-macro-60"></a> ######
  
 ## >>> `%date()` macro: <<< <a name="date-macro"></a> #######################  
 
@@ -5436,7 +5581,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%datetime()` macro <a name="datetime-macro-59"></a> ######
+## `%datetime()` macro <a name="datetime-macro-61"></a> ######
  
 ## >>> `%datetime()` macro: <<< <a name="datetime-macro"></a> #######################  
 
@@ -5493,7 +5638,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%downloadfilesto()` macro <a name="downloadfilesto-macro-60"></a> ######
+## `%downloadfilesto()` macro <a name="downloadfilesto-macro-62"></a> ######
  
 ## >>> `%downloadFilesTo()` macro: <<< <a name="downloadfilesto-macro"></a> #######################  
 
@@ -5625,7 +5770,111 @@ run;
   
 ---
  
-## `%filepath()` macro <a name="filepath-macro-61"></a> ######
+## `%expanddatasetslist()` macro <a name="expanddatasetslist-macro-63"></a> ######
+ 
+## >>> `%expandDataSetsList()` macro: <<< <a name="expanddatasetslist-macro"></a> #######################  
+
+The `%expandDataSetsList()` macro is dedicated to "lazy typers".
+
+It allows to expand data set names provides in form of a SAS list for a given library.
+
+See examples below for the details.
+
+The `%expandDataSetsList()` macro works as pure macro code.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%expandDataSetsList(
+    lib
+   ,datasets
+  <,quote=>
+  <,views=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `lib`              - *Required*, is a name of a library
+                         where data sets are looked-up.  
+
+2. `datasets`         - *Required*, is a list of data sets or views 
+                         to be expanded. Can be named list (e.g. `x_:`),
+                         can be enumerated list (e.g. `y_1-y_5`), or both.
+                         Also the `_ALL_` value is accepted. 
+
+*. `quote`            - *Optional*, binary indicator (default `0` means "no").
+                         Tells if data set names should be quoted. 
+
+*. `views`            - *Optional*, binary indicator (default `1` means "yes").
+                         Tells if views names should be listed too. 
+
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 0.** Create data sets for tests:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data x_a x_b x_c x_d x_e x_f;
+  x=17;
+run;
+data y1 y2 y3 y4 y9 y10 y11 y12; 
+  y=42;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 1.** Display names of listed datasets, handle not existing too:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%PUT #%expandDataSetsList(lib=work,datasets=x_: y1-y4 y9)#;
+
+%PUT #%expandDataSetsList(lib=work,datasets=x_: y1-y4 notExist_1-notExist_10)#;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Display one and all datasets from `WORK`, names quoted:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%PUT %expandDataSetsList(lib=work,datasets=_ALL_, quote=1);
+
+%PUT %expandDataSetsList(lib=work,datasets=x_a, quote=1);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** In tandem with the `resolve()` function:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data _null_;
+  test=resolve('%expandDataSetsList(lib=work,datasets=x_:, quote=1)');
+  put test / test hex72.;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Workaround for `proc delete` not working with colon operator,
+               observe a warning info for `x_:` list:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+proc delete lib=work data=%expandDataSetsList(lib=work,datasets=x_:)
+;
+run;
+
+%PUT #%expandDataSetsList(lib=work,datasets=x_: y1-y4 y9)#;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 5.** Including and excluding views:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%PUT %expandDataSetsList(lib=sashelp,datasets=_ALL_);
+
+%PUT %expandDataSetsList(lib=sashelp,datasets=_ALL_,views=0);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%filepath()` macro <a name="filepath-macro-64"></a> ######
  
 ## >>> `%filePath()` macro: <<< <a name="filepath-macro"></a> #######################  
 
@@ -5665,7 +5914,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%finddswithvarval()` macro <a name="finddswithvarval-macro-62"></a> ######
+## `%finddswithvarval()` macro <a name="finddswithvarval-macro-65"></a> ######
  
 ## >>> `%findDSwithVarVal()` macro: <<< <a name="finddswithvarval-macro"></a> #######################  
 
@@ -5793,7 +6042,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%fmt()` macro <a name="fmt-macro-63"></a> ######
+## `%fmt()` macro <a name="fmt-macro-66"></a> ######
  
 ## >>> `%fmt()` macro: <<< <a name="fmt-macro"></a> #######################  
 
@@ -5862,7 +6111,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%generateoneliners()` macro <a name="generateoneliners-macro-64"></a> ######
+## `%generateoneliners()` macro <a name="generateoneliners-macro-67"></a> ######
  
 ## >>> `%GenerateOneLiners()` macro: <<< <a name="generateoneliners-macro"></a> #######################  
 
@@ -5980,7 +6229,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%gettitle()` macro <a name="gettitle-macro-65"></a> ######
+## `%gettitle()` macro <a name="gettitle-macro-68"></a> ######
  
 ## >>> `%getTitle()` macro: <<< <a name="gettitle-macro"></a> #######################  
 
@@ -6066,7 +6315,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%iffunc()` macro <a name="iffunc-macro-66"></a> ######
+## `%iffunc()` macro <a name="iffunc-macro-69"></a> ######
  
 ## >>> `%iffunc()` macro: <<< <a name="iffunc-macro"></a> #######################  
 
@@ -6267,7 +6516,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%infmt()` macro <a name="infmt-macro-67"></a> ######
+## `%infmt()` macro <a name="infmt-macro-70"></a> ######
  
 ## >>> `%infmt()` macro: <<< <a name="infmt-macro"></a> #######################  
 
@@ -6324,7 +6573,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%letters()` macro <a name="letters-macro-68"></a> ######
+## `%letters()` macro <a name="letters-macro-71"></a> ######
  
 ## >>> `%letters()` macro: <<< <a name="letters-macro"></a> #######################  
 
@@ -6442,7 +6691,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%libpath()` macro <a name="libpath-macro-69"></a> ######
+## `%libpath()` macro <a name="libpath-macro-72"></a> ######
  
 ## >>> `%libPath()` macro: <<< <a name="libpath-macro"></a> #######################  
 
@@ -6487,7 +6736,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%minclude()` macro <a name="minclude-macro-70"></a> ######
+## `%minclude()` macro <a name="minclude-macro-73"></a> ######
  
 ## >>> `%mInclude()` macro: <<< <a name="minclude-macro"></a> #######################  
 
@@ -6700,7 +6949,7 @@ quit;
   
 ---
  
-## `%monthshift()` macro <a name="monthshift-macro-71"></a> ######
+## `%monthshift()` macro <a name="monthshift-macro-74"></a> ######
  
 ## >>> `%monthShift()` macro: <<< <a name="monthshift-macro"></a> #######################  
 
@@ -6849,7 +7098,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%replist()` macro <a name="replist-macro-72"></a> ######
+## `%replist()` macro <a name="replist-macro-75"></a> ######
 
 ## >>> `%repList()` macro: <<< <a name="replist-macro"></a> #######################
 
@@ -6965,7 +7214,7 @@ run;
   
 ---
  
-## `%time()` macro <a name="time-macro-73"></a> ######
+## `%time()` macro <a name="time-macro-76"></a> ######
  
 ## >>> `%time()` macro: <<< <a name="time-macro"></a> #######################  
 
@@ -7008,7 +7257,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%today()` macro <a name="today-macro-74"></a> ######
+## `%today()` macro <a name="today-macro-77"></a> ######
  
 ## >>> `%today()` macro: <<< <a name="today-macro"></a> #######################  
 
@@ -7051,7 +7300,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%translate()` macro <a name="translate-macro-75"></a> ######
+## `%translate()` macro <a name="translate-macro-78"></a> ######
  
 ## >>> `%translate()` macro: <<< <a name="translate-macro"></a> #######################  
 
@@ -7115,7 +7364,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%tranwrd()` macro <a name="tranwrd-macro-76"></a> ######
+## `%tranwrd()` macro <a name="tranwrd-macro-79"></a> ######
  
 ## >>> `%tranwrd()` macro: <<< <a name="tranwrd-macro"></a> #######################  
 
@@ -7182,7 +7431,118 @@ The basic syntax is the following, the `<...>` means optional parameters:
   
 ---
  
-## `%workpath()` macro <a name="workpath-macro-77"></a> ######
+## `%unifyvarscasesize()` macro <a name="unifyvarscasesize-macro-80"></a> ######
+ 
+## >>> `%unifyVarsCaseSize()` macro: <<< <a name="unifyvarscasesize-macro"></a> #######################  
+
+The `%unifyVarsCaseSize()` macro converts *all* variables names into low-case or
+upcase letters for given library and list of datasets. Only necessary conversion is
+done, i.e., variable `abc` will not be converted to low-case letters. 
+
+See examples below for the details.
+
+The `%unifyVarsCaseSize()` macro works as pure macro code.
+
+[NOTE:] The macro internally uses the `%expandDataSetsList()` macro.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%unifyVarsCaseSize(
+    lib
+   ,ds
+  <,case=>
+  <,debug=>
+)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+
+1. `lib`              - *Required*, is a name of a library
+                         where data sets are looked-up.  
+
+2. `ds`               - *Required*, is a list of data sets 
+                         to be expanded. Can be named list (e.g. `x_:`),
+                         can be enumerated list (e.g. `y_1-y_5`), or both.
+                         Also the `_ALL_` value is accepted. 
+
+*. `case`             - *Optional*, single letter indicator (default `L` means "low-case").
+                         Tells if variables names should low-cased (`l`,`L`) or upcased ("u", "U"). 
+
+*. `debug`            - *Optional*, binary indicator (default `0` means "no").
+                         Tells if processing notes should be printed. 
+---
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 0.** Create data sets for tests:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data aclass1 aclass2 aclass3 bclass4 bclass5 bclass6;
+  set sashelp.class(obs=6);
+  Nn=_N_;
+  if 1=_N_ then output aclass1;
+  if 2=_N_ then output aclass2;
+  if 3=_N_ then output aclass3;
+  if 4=_N_ then output bclass4;
+  if 5=_N_ then output bclass5;
+  if 6=_N_ then output bclass6;
+run;
+proc print data=aclass1;
+run;
+proc print data=bclass6;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 1.** Convert all variables names to low-case:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%unifyVarsCaseSize(work,aclass:)
+
+proc print data=aclass1;
+proc print data=aclass2;
+proc print data=aclass3;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 2.** Convert all variables names to upcase:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%unifyVarsCaseSize(work,bclass4-bclass6,case=U) 
+
+proc print data=bclass4;
+proc print data=bclass5;
+proc print data=bclass6;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 3.** No conversion done:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+data work.abc;
+  abc=42;
+run;
+
+%unifyVarsCaseSize(work,abc,debug=1)
+
+proc print data=abc;
+run;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**EXAMPLE 4.** Variables in all data sets in `WORK` converted to upcase:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%unifyVarsCaseSize(work,_ALL_,case=L) 
+%unifyVarsCaseSize(work,_ALL_,case=U) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%workpath()` macro <a name="workpath-macro-81"></a> ######
  
 ## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
 
