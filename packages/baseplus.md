@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 2.0.0
-- Generated: 2024-07-23T21:51:33
+- Version: 2.0.1
+- Generated: 2024-07-24T07:58:59
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*0730DD793516E5C193842126A7EC9D339ADADD19F0F40B071F938CABDE4E66AD` for this version
-- Content SHA256: `C*0352F7BB04B99D620BEFD33FF1B1FF1835E6F8F21CC6A764D05EEE51E77E57E0` for this version
+- File SHA256: `F*FB102C9B12E870666C15A651017D48E0141E47D64C11437350D0EC75A7E9E609` for this version
+- Content SHA256: `C*0444AC5B54150AE5424D335FF89A03D831F00F60898C99250CD59E0C5C5B0398` for this version
   
 ---
  
-# The `BasePlus` package, version: `2.0.0`;
+# The `BasePlus` package, version: `2.0.1`;
   
 ---
  
 
-# The BasePlus package [ver. 2.0.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 2.0.1] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -4521,9 +4521,9 @@ semicolonN(X)
  
 ## `$bpklenght.` format/informat <a name="bpklenght-formats-49"></a> ######
  
-## >>> `bpklenght` format/informat: <<< <a name="bpklenght-format"></a> #######################
+## >>> `bpklength` format/informat: <<< <a name="bpklength-format"></a> #######################
 
-The **bpklenght** format and informats uses the `klength()` function
+The **bpklength** format and informats uses the `klength()` function
 to count the number of letters in a word. For empty string returns 0.
 
 
@@ -4533,9 +4533,9 @@ to count the number of letters in a word. For empty string returns 0.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 data work.count_letters;
   input x $ 32.;
-  n = input (x, bpklenght.);
-  c = input (x, $bpklenght.);
-  format x $bpklenght.;
+  n = input (x, bpklength.);
+  c = input (x, $bpklength.);
+  format x $bpklength.;
 cards;
 ż
 żó
@@ -4570,7 +4570,7 @@ data _null_;
   length x $ 32767;
   do i = 32767/3 to 0 by -1111, 10 to 0 by -1;
     x=repeat("空",i);
-    put x $bpklenght.;
+    put x $bpklength.;
   end;
 run; 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4582,9 +4582,9 @@ run;
  
 ## `$bplenght.` format/informat <a name="bplenght-formats-50"></a> ######
  
-## >>> `bplenght` format/informat: <<< <a name="bplenght-format"></a> #######################
+## >>> `bplength` format/informat: <<< <a name="bplength-format"></a> #######################
 
-The **bplenght** format and informats use the `lengthn()` function
+The **bplength** format and informats use the `lengthn()` function
 to count the number of bytes in a word.
 
 
@@ -4594,9 +4594,9 @@ to count the number of bytes in a word.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
 data work.count_bytes;
   input x $ 32.;
-  n = input (x, bplenght.);
-  c = input (x, $bplenght.);
-  format x $bplenght.;
+  n = input (x, bplength.);
+  c = input (x, $bplength.);
+  format x $bplength.;
 cards;
 ż
 żó
@@ -4631,7 +4631,7 @@ data _null_;
   length x $ 32767;
   do i = 32767/3 to 0 by -1111, 10 to 0 by -1;
     x=repeat("空",i);
-    put x $bplenght.;
+    put x $bplength.;
   end;
 run; 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
