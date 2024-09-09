@@ -86,7 +86,7 @@ SHA256 digest for macroArray: F*3F3893F1FCD78719543703E4353F4CC19811D247C016F220
 
 ---
 
-- **BasePlus**\[2.0.1\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[2.1.0\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -118,7 +118,7 @@ format x bool.;
 
 %put #%expandDataSetsList(lib=sashelp,datasets=_all_)#;
 ```
-SHA256 digest for BasePlus: F*FB102C9B12E870666C15A651017D48E0141E47D64C11437350D0EC75A7E9E609
+SHA256 digest for BasePlus: F*DFA83F8E0D7424DEB63D49620392068BC68D766552E2804CB6B01DE8E5A87769
 
 [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
 
