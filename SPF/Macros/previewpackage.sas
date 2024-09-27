@@ -23,7 +23,7 @@
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to preview content of a SAS package, version 20240711. Run %previewPackage() for help info.'
+des = 'Macro to preview content of a SAS package, version 20240927. Run %previewPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -38,7 +38,7 @@ des = 'Macro to preview content of a SAS package, version 20240711. Run %preview
     %put ###    This is short help information for the `previewPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get preview of a SAS packages, version `20240711`                    #;
+    %put # Macro to get preview of a SAS packages, version `20240927`                    #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -106,13 +106,15 @@ des = 'Macro to preview content of a SAS package, version 20240711. Run %preview
     %GOTO ENDofpreviewPackage;
   %end;
   
-  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp mautocomploc_tmp;
   %let ls_tmp       = %sysfunc(getoption(ls));
   %let ps_tmp       = %sysfunc(getoption(ps));
   %let notes_tmp    = %sysfunc(getoption(notes));
   %let source_tmp   = %sysfunc(getoption(source));
   %let msglevel_tmp = %sysfunc(getoption(msglevel));
-  options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+  %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
+
+  options NOnotes NOsource ls=MAX ps=MAX msglevel=N NOmautocomploc;
   
   %local _PackageFileref_;
   /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
@@ -152,7 +154,8 @@ des = 'Macro to preview content of a SAS package, version 20240711. Run %preview
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist!;
   filename &_PackageFileref_. clear;
   
-  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. msglevel = &msglevel_tmp.;
+  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. 
+          msglevel = &msglevel_tmp. &mautocomploc_tmp.;
   
 %ENDofpreviewPackage:
 %mend previewPackage;

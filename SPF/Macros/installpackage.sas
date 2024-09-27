@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20240711  */
+/* Macros to install SAS packages, version 20240927  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -18,11 +18,12 @@
 , URLoptions =  /* options for the `sourcePath` URLs */
 , loadAddCnt=0  /* should the additional content be loaded?
                    default is 0 - means No, 1 means Yes */
+, SFRCVN =      /* name of a macro variable to store success-failure return code value */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20240711. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20240927. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -37,7 +38,7 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20240711`                                          #;
+    %put # Macro to install SAS packages, version `20240927`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -81,7 +82,7 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
     %put # - `version=`      Indicates which historical version of a package to install.              #;
     %put #                   Historical version are available only if `mirror=0` is set.              #;
     %put #                   Default value is null which means "install the latest".                  #;
-    %put #                   When there are multiple packages to install version                      #;
+    %put #                   When there are multiple packages to install version variable             #;
     %put #                   is scan sequentially.                                                    #;
     %put #                                                                                            #;
     %put # - `replace=`      With default value of `1` it causes existing package file                #;
@@ -100,6 +101,11 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
     %put #                   means "Yes". Content is extracted into the **packages** fileref          #;
     %put #                   directory in `<packageName>_AdditionalContent` folder.                   #;
     %put #                   For other locations use `%nrstr(%%loadPackageAddCnt())` macro.                    #;
+    %put #                                                                                            #;
+    %put # - `SFRCVN=`      *Optional.* Provides a NAME for a macro variable to store value of the    #;
+    %put #                  *success-failure return code* of the installation process. Return value   #;
+    %put #                  has the following form: `<number of successes>.<number of failures>`      #;
+    %put #                  The macro variable is created as a *global* macro variable.               #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;
     %put #                                                                                            #;
@@ -149,7 +155,7 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
   %end;
 
   /* local variables for options */ 
-  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp mautocomploc_tmp;
 
   %let ls_tmp         = %sysfunc(getoption(ls));
   %let ps_tmp         = %sysfunc(getoption(ps));
@@ -158,8 +164,9 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
   %let stimer_tmp     = %sysfunc(getoption(stimer));
   %let fullstimer_tmp = %sysfunc(getoption(fullstimer));
   %let msglevel_tmp   = %sysfunc(getoption(msglevel));
+  %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
 
-  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N;
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   /*
   Reference:
@@ -233,6 +240,10 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
   %put ;
   %put INFO: Calling: &packagesNames.;
   
+  %Local PackagesInstalledSussess PackagesInstalledFail;
+  %Let PackagesInstalledSussess=;
+  %let PackagesInstalledFail=;
+
   %do i = 1 %to %sysfunc(countw(&packagesNames., , S));
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
     %local packageName packageSubDir vers versA versB;
@@ -266,7 +277,9 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
           %do;
             %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.sas;
           %end;
-        
+        %if %superq(mirror) > 1 %then
+          %put %str( )Mirror %superq(mirror) does not support versioning.;
+ 
         filename &in URL 
           "&SPFinitMirror." 
           recfm=N lrecl=1;
@@ -286,6 +299,12 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
                 %let packageSubDir = %lowcase(&packageName.)/raw/&vers./;
               %end;
           %end;
+        %else
+          %do;
+            %if %superq(mirror) > 0 %then
+              %put %str( )Mirror %superq(mirror) does not support versioning.;
+          %end;
+
         filename &in URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).zip" 
         %if (%superq(URLuser) ne ) %then
           %do;
@@ -360,6 +379,21 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
     filename &in  clear;
     filename &out clear;
 
+    %if 0 = &installationRC. %then
+      %do;
+        %if %superq(vers)= %then
+          %Let PackagesInstalledSussess=&PackagesInstalledSussess. &packageName.;
+        %else
+          %Let PackagesInstalledSussess=&PackagesInstalledSussess. &packageName.(&vers.);
+      %end;
+    %else
+      %do;
+        %if %superq(vers)= %then
+          %Let PackagesInstalledFail=&PackagesInstalledFail. &packageName.;
+        %else
+          %let PackagesInstalledFail=&PackagesInstalledFail. &packageName.(&vers.);
+      %end;
+
     %if 1 = &loadAddCnt. 
         AND 0 = &installationRC. 
         AND NOT (%upcase(&packageName.) in (SPFINIT SASPACKAGEFRAMEWORK SASPACKAGESFRAMEWORK)) 
@@ -375,14 +409,60 @@ des = 'Macro to install SAS package, version 20240711. Run %%installPackage() fo
     %put *** %lowcase(&packageName.) end *******************************************;
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
   %end;
+  
+
+  %local sucsCount sucsCountWords;
+  %let sucsCount=0;
+  %if NOT(%superq(PackagesInstalledSussess)=) %then
+    %do;
+      %put %str( );
+      %let sucsCount=%sysfunc(countw(%superq(PackagesInstalledSussess),%str( )));
+      %if 1=&sucsCount. %then
+        %put INFO: Package %superq(PackagesInstalledSussess) installed.;
+      %else %if 1<&sucsCount. %then
+        %do;
+          %let sucsCountWords=%sysfunc(abs(&sucsCount.),words.);
+          %put INFO: Successfully installed &sucsCountWords. packages:;
+          %put %str(      )&PackagesInstalledSussess.;
+        %end;
+    %end;
+
+  %local failCount failCountWords;
+  %let failCount=0;
+  %if NOT(%superq(PackagesInstalledFail)=) %then
+    %do;
+      %put %str( );
+      %let failCount=%sysfunc(countw(%superq(PackagesInstalledFail),%str( )));
+      %if 1=&failCount. %then
+        %put WARNING: Failed to install %superq(PackagesInstalledFail) package.;
+      %else %if 1<&failCount. %then
+        %do;
+          %let failCountWords=%sysfunc(abs(&failCount.),words.);
+          %put WARNING: Failed to install &failCountWords. packages:;
+          %put WARNING- &PackagesInstalledFail.;
+        %end;
+    %end;
+  %put %str( );
+
+  %if NOT(%superq(SFRCVN)=) %then
+    %do;
+      data _null_;
+        length SFRCVN $ 32;
+        SFRCVN = compress(symget('SFRCVN'),"_","KAD");
+        value = "&sucsCount..&failCount.";
+        put 'INFO: Success-Failure-Return-Code macroVariable Name is: ' SFRCVN
+          / '      with value: ' value 
+          / ;
+        call symputX(SFRCVN, value, "G");
+      run;
+    %end;
 
   %packagesListError:
   
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.
-          msglevel=&msglevel_tmp.;
-
+          msglevel=&msglevel_tmp. &mautocomploc_tmp.;
 %ENDofinstallPackage:
 %mend installPackage;
 

@@ -13,7 +13,7 @@
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20240711. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20240927. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -28,7 +28,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20240711. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20240711`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20240927`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -83,7 +83,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20240711. Run %
     %GOTO ENDofverifyPackage;
   %end;
   
-  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp;
+  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp mautocomploc_tmp;
   %let ls_tmp         = %sysfunc(getoption(ls));
   %let ps_tmp         = %sysfunc(getoption(ps));
   %let notes_tmp      = %sysfunc(getoption(notes));
@@ -91,8 +91,9 @@ des = 'Macro to verify SAS package with the hash digest, version 20240711. Run %
   %let stimer_tmp     = %sysfunc(getoption(stimer));
   %let fullstimer_tmp = %sysfunc(getoption(fullstimer));
   %let msglevel_tmp   = %sysfunc(getoption(msglevel));
+  %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
   
-  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N;
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
   
   %local _PackageFileref_;
   /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
@@ -176,7 +177,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20240711. Run %
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.
-          msglevel=&msglevel_tmp.;
+          msglevel=&msglevel_tmp. &mautocomploc_tmp.;
           
 %ENDofverifyPackage:
 %mend verifyPackage;
