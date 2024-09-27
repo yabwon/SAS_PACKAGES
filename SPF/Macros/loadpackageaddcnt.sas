@@ -19,7 +19,7 @@
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20240711. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20240927. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -35,7 +35,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20240711`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20240927`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -100,7 +100,7 @@ minoperator
     %GOTO ENDofloadPackageAddCnt;
   %end;
   /* local variables for options */
-  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp zip;
+  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp mautocomploc_tmp zip;
   %let ls_tmp         = %sysfunc(getoption(ls));
   %let ps_tmp         = %sysfunc(getoption(ps));
   %let notes_tmp      = %sysfunc(getoption(notes));
@@ -108,10 +108,11 @@ minoperator
   %let stimer_tmp     = %sysfunc(getoption(stimer));
   %let fullstimer_tmp = %sysfunc(getoption(fullstimer));
   %let msglevel_tmp   = %sysfunc(getoption(msglevel));
+  %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
 
   %let zip = zip;
 
-  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N;
+  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   %local _PackageFileref_;
   /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
@@ -364,7 +365,7 @@ minoperator
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.
-          msglevel=&msglevel_tmp.;
+          msglevel=&msglevel_tmp. &mautocomploc_tmp.;
 
 %ENDofloadPackageAddCnt:
 %mend loadPackageAddCnt;

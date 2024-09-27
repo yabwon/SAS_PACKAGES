@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 2.0.1
-- Generated: 2024-07-24T07:58:59
+- Version: 2.1.0
+- Generated: 2024-09-09T12:55:04
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*FB102C9B12E870666C15A651017D48E0141E47D64C11437350D0EC75A7E9E609` for this version
-- Content SHA256: `C*0444AC5B54150AE5424D335FF89A03D831F00F60898C99250CD59E0C5C5B0398` for this version
+- File SHA256: `F*DFA83F8E0D7424DEB63D49620392068BC68D766552E2804CB6B01DE8E5A87769` for this version
+- Content SHA256: `C*AB16F5B6538515607C3C254E401DC1ACA7293AB36990227F6E7792145CEEAB87` for this version
   
 ---
  
-# The `BasePlus` package, version: `2.0.1`;
+# The `BasePlus` package, version: `2.1.0`;
   
 ---
  
 
-# The BasePlus package [ver. 2.0.1] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 2.1.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -2035,6 +2035,9 @@ plots of kernel density estimates, jitter data values, and box-and-whiskers plot
 
 See examples below for the details.
 
+The "Here Comes the Rain (Cloud Plot) Again" (B. Jablonski, 2024) article
+describing the macro is attached as an additional content to the package.
+
 ### SYNTAX: ###################################################################
 
 The basic syntax is the following, the `<...>` means optional parameters:
@@ -2052,6 +2055,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
  <,boxPlotSymbolSize=>
  <,boxPlotLineSize=>
  <,boxPlotFill=>
+ <,whiskerScale=>
  <,meanShiftLine=>
  <,meanShiftStep=>
  <,meanShiftColors=>
@@ -2146,6 +2150,12 @@ The basic syntax is the following, the `<...>` means optional parameters:
 * `boxPlotFill`        - *Optional*, default value `1`.
                          Transparency of the box plot.
                          Ranges from 0.0 (opaque) to 1.0 (full translucent).
+
+* `whiskerScale=`      - *Optional*, default value `1.5`.                         
+                         It provides `WS` parameter in the `Q1 - WS*IQR`
+                         formula and the `Q3 + WS*IQR` formula.
+                         Provided value should be a positive number. 
+                         Otherwise it is set to 0.
 
 * `meanShiftLine`      - *Optional*, default value `0`.
                          Indicates if a line connecting mean symbol 
@@ -2366,11 +2376,13 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 The box-and-whiskers plot has the following interpretation: 
 - left vertical bar indicates the *minimum*,
-- left whisker line starts at `max(Q1 - 1.5IQR, minimum)` and ends at lower quartile (Q1),
+- left whisker line starts at `max(Q1 - WS*IQR, minimum)` and ends at lower quartile (Q1),
 - diamond indicates mean,
 - vertical bar inside of the box indicates median,
-- right whisker line starts at upper quartile (Q3) and ends at `min(Q3 + 1.5IQR, maximum)`,
+- right whisker line starts at upper quartile (Q3) and ends at `min(Q3 + WS*IQR, maximum)`,
 - right vertical bar indicates the *maximum*.
+
+The `WS` value is provided through `whiskerScale=` parameter. Default value is `1.5`.
 
 With above setup it may happen that 
 there is a gap between the minimum marker and the beginning of the left whisker 
@@ -2533,6 +2545,7 @@ The output can be seen in the `md` file.
   , vertical = 1
   , title = %nrstr(title1 J=C HEIGHT=3 "The VERTICAL plotting is cool, ...";)
   , footnote = %nrstr(footnote1 J=L HEIGHT=2 "... isn't it?";)
+  , whiskerScale = 1.5
   )
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -7585,7 +7598,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
  
 # License <a name="license"></a> ######
  
-Copyright (c) 2020 - 2023 Bartosz Jablonski
+Copyright (c) 2020 - 2024 Bartosz Jablonski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
