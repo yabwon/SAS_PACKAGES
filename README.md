@@ -215,32 +215,32 @@ Packages:
 
 - **SQLinDS**
 
-  [Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
+  [Documentation for SQLinDS](https://github.com/SASPAC/blob/main/sqlinds.md "Documentation for SQLinDS")
 
   [SQLinDS in SASPAC](https://github.com/SASPAC/sqlinds "SQLinDS in SASPAC")
 
 
 - **DFA** (Dynamic Function Arrays)
 
-  [Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
+  [Documentation for DFA](https://github.com/SASPAC/blob/main/dfa.md "Documentation for DFA")
 
   [DFA in SASPAC](https://github.com/SASPAC/dfa "DFA in SASPAC")
 
 - **macroArray**
 
-  [Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
+  [Documentation for macroArray](https://github.com/SASPAC/blob/main/macroarray.md "Documentation for macroArray")
 
   [MacroArray in SASPAC](https://github.com/SASPAC/macroarray "MacroArray in SASPAC")
 
 - **BasePlus**
 
-  [Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
+  [Documentation for BasePlus](https://github.com/SASPAC/blob/main/baseplus.md "Documentation for BasePlus")
 
   [BasePlus in SASPAC](https://github.com/SASPAC/baseplus "BasePlus in SASPAC")
 
 - **GSM** (Generate Secure Macros)
 
-  [Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
+  [Documentation for GSM](https://github.com/SASPAC/blob/main/gsm.md "Documentation for GSM")
 
   [GSM in SASPAC](https://github.com/SASPAC/gsm "GSM in SASPAC")
 
