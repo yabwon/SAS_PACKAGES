@@ -16,7 +16,7 @@ Don't forget to **STAR** (:star:) the repository! :-)
 
 ### Current version:
 
-**The latest version** of SPF is **`20240927`**.  
+**The latest version** of SPF is **`20241014`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -162,6 +162,8 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
+
+**Update**\[October 14th, 2024\]**:** `DS2PCK` and `DS2THR` **types for `PROC DS2` *threads* and *packages* added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241014 "PROC DS2"))**.
 
 **Update**\[December 10th, 2023\]**:** `markdownDoc=` **parameter added to** `%generatePackage()` **macro, which allows to generate markdown file with documentation. Content is taken from the help information notes and the description. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231210 "markdown documentation"))**.
 

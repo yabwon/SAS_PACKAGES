@@ -3,7 +3,7 @@
 
    Macro to generate SAS packages.
 
-   Version 20240927
+   Version 20241014
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -43,7 +43,7 @@
                     file name be created */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20240927. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20241014. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -58,7 +58,7 @@ des = 'Macro to generate SAS packages, version 20240927. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20240927`                            #;
+    %put # Macro to generate SAS packages, version `20241014`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -527,6 +527,18 @@ DESCRIPTION END:
    |             |
    |             +-abc.sas [a file with a KMF-abbreviation snippet ABC, _with_ proper tagging, snippets names are in low-case]
    |
+   +-013_ds2pck [one file one PROC DS2 package]
+   |             |
+   |             +-abc.sas [a data set with a package ABC stored in WORK.ABC data set]
+   |             |
+   |             +-library.xyz.sas [a data set with a package LIBRARY.XYZ stored in LIBRARY.XYZ data set]
+   |
+   +-014_ds2thr [one file one PROC DS2 thread]
+   |             |
+   |             +-abc.sas [a data set with a thread ABC stored in WORK.ABC data set]
+   |             |
+   |             +-library.xyz.sas [a data set with a thread LIBRARY.XYZ stored in LIBRARY.XYZ data set]
+   |
    +-<sequential number>_<type [in lower case]>
    |
    +-00n_clean [if you need to clean something up after exec file execution,
@@ -609,6 +621,7 @@ data &filesWithCodes.;
        'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
        'LAZYDATA' 'TEST' 'CASLUDF'
        'ADDCNT' 'KMFSNIP'
+       'DS2PCK' 'DS2THR'
       )) 
     then 
       do;
@@ -686,6 +699,9 @@ run;
 %local notesSourceOptions;
 %let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
 options NOnotes NOsource;
+
+options mprint;
+options notes source;
 
 proc sort data = &filesWithCodes.;
   by order type file;
@@ -793,7 +809,7 @@ run;
     /* code inspired by Kurt Bremser's "Talking to Your Host" article */
     /* https://communities.sas.com/t5/SAS-User-Groups-Library/WUSS-Presentation-Talking-to-Your-Host/ta-p/838344 */
     /* WUSS 2022 */
-    
+
     data &filesWithCodes.addCnt;
     run;
 
@@ -855,9 +871,12 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
     title8 "Required SAS packages: %qsysfunc(compress(%superq(packageReqPackages),%str(%'%")))" ;   /* " */
   %end;
 
-footnote1 "SAS Packages Framework, version 20240927";
+footnote1 "SAS Packages Framework, version 20241014";
 
-proc print data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent);
+proc print 
+  data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent)
+  width=full
+;
 run;
 title;
 
@@ -876,7 +895,7 @@ title;
     title2 "Package additional content:";
     proc print 
       data=&filesWithCodes.addCnt(drop=root dir level)
-      label
+      label width=full
     ;
     run;
   %end;
@@ -1111,6 +1130,8 @@ data _null_;
   isProto     = 0;
   isIMLmodule = 0;
   isCASLudf   = 0;
+  isDS2pck    = 0;
+  isDS2thr    = 0;
 
   %if (%superq(packageRequired) ne ) 
    or (%superq(packageReqPackages) ne ) 
@@ -1350,7 +1371,7 @@ data _null_;
       ('LIBNAME' 'MACRO' /*'MACROS'*/ 'DATA' 
        'FUNCTION' /*'FUNCTIONS'*/ 'FORMAT' /*'FORMATS'*/ 
        'IMLMODULE' 'PROTO' 'EXEC' 'CLEAN' 
-       'LAZYDATA' 'TEST' 'ADDCNT' 'KMFSNIP')) 
+       'LAZYDATA' 'TEST' 'ADDCNT' 'KMFSNIP' 'DS2PCK' 'DS2THR')) 
     then 
       do;
         putlog 'WARNING: Type ' type 'is not yet supported.';
@@ -1361,8 +1382,11 @@ data _null_;
     isFormat    + (upcase(type)=:'FORMAT'); 
     isProto     + (upcase(type)=:'PROTO');
     isIMLmodule + (upcase(type)=:'IMLMODULE');
+    isDS2pck    + (upcase(type)=:'DS2PCK');
+    isDS2thr    + (upcase(type)=:'DS2THR');
 
-    /* HEADERS for IML, FCMP, and PROTO - start */
+    
+    /* HEADERS for PROC IML, FCMP, and PROTO - start */
     if 1 = isFunction and upcase(type)=:'FUNCTION' then 
       do;
         /* macro variable for test if cherry picking used FCMP */
@@ -1420,7 +1444,7 @@ data _null_;
         /* header, for IML modules */
         put "proc iml ; ";
       end;
-    /* HEADERS for IML, FCMP, and PROTO - end */
+    /* HEADERS for PROC IML, FCMP, and PROTO - end */
 
     put ' ' /
         '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; '; /* Cherry Pick test1 start */
@@ -1431,6 +1455,8 @@ data _null_;
       put '  %put %sysfunc(ifc(%SYSMACEXIST(' fileshort +(-1) ')=1, NOTE# Macro ' fileshort 
           "exist. It will be overwritten by the macro from the &packageName. package, ));";
 
+         
+    /* separate approach for EXEC */
     if upcase(type)=:'EXEC' then
       do;
         /* User can suppress running the exec files */
@@ -1453,9 +1479,84 @@ data _null_;
           / ' )));'
           ;
       end;
-    else
+    /* separate approach for DS2 */
+    else if (upcase(type) in: ('DS2PCK' 'DS2THR')) then
       do;
-        /* include the file with the code of the element */
+        if 1 = isDS2pck and upcase(type)=:'DS2PCK' then 
+          do;
+            /* macro variable for test if cherry picking used DS2 package */
+            put 'data _null_;                                 ';
+            put "  call symputX('cherryPick_DS2PCK', 0, 'L'); ";
+            put 'run;                                         ';
+          end;
+        if 1 = isDS2thr and upcase(type)=:'DS2THR' then 
+          do;
+            /* macro variable for test if cherry picking used DS2 threads */
+            put 'data _null_;                                 ';
+            put "  call symputX('cherryPick_DS2THR', 0, 'L'); ";
+            put 'run;                                         ';
+          end;
+
+
+        /* since DS2 packages and threads are stored in SAS data sets */
+        /* we have to check (before loading) if there is no "regular" */
+        /* data set (or view) with the same name to avoid overwriting */
+        if upcase(type) in: ('DS2PCK' 'DS2THR') then
+          do;
+            length DS2lib $ 8 DS2ds $ 32;
+            DS2lib = coalescec(scan(fileshort,-2,"."), "WORK");
+            DS2ds  = scan(fileshort,-1,".");
+
+          put '%put %sysfunc(ifc(%sysfunc(exist(' fileshort +(-1) '))=1,'  
+            / '%sysfunc(dosubl(%str(options ps=min; title; options msglevel=n nodate notes source nomprint;' 
+            / '  data _null_;' 
+            / '    id = OPEN("' fileshort +(-1) '");' 
+            / '    if id then do;' 
+            / '      x = VARNUM(id, "SAS_CHECKSUM_") AND VARNUM(id, "SAS_ROWID_") AND (VARNUM(id, "SAS_TEXTTHREAD_") OR VARNUM(id, "SAS_TEXTPACKAGE_"));' 
+            / '      y = ("DATA"=ATTRC(id, "MTYPE"));'
+            / '      if symexist("DS2force") then z = symgetn("DS2force"); else z = 0;'
+            / '      if (x AND y) OR z then do;' 
+            / '        call execute("proc delete data=' fileshort +(-1) '; run;");' 
+            / "        put 'NOTE# The " fileshort "will be overwritten by the PROC DS2 package/thread from the &packageName. package.';" 
+
+            /*         header for each DS2 packages or threads in PROC DS2 run */
+            / '        call execute("proc ds2;");'
+
+            / '        call execute(''%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;'');'
+
+            /*         footer for each DS2 packages or threads in PROC DS2 run */
+            / '        call execute("run; quit;");'
+            / '        call execute("options nonotes; proc datasets lib=' DS2lib 'noprint;");'
+            / "        call execute('modify " DS2ds "(label=""Package: &packageName. ; Type: " type "; Name: " fileshort """);');"
+            / '        call execute("run; quit;");'
+            / '      end;'
+            / '      else put "WARNING: Data set ' fileshort 'exist and is not a PROC DS2 package/thread!"' 
+            / '             / "WARNING- PROC DS2 package/thread ' fileshort 'will not be generated..."; '
+            / '      id = CLOSE(id);' 
+            / '    end;' 
+            / '  run;))),'
+            / '%sysfunc(dosubl(%str(options ps=min; title; options msglevel=n nodate notes source nomprint;' 
+            /*  header for each DS2 packages or threads in PROC DS2 run */
+            / ' proc ds2;'
+
+            / ' %include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;'
+
+            /*  footer for each DS2 packages or threads in PROC DS2 run */
+            / ' run; quit;'
+            / ' options nonotes; proc datasets lib=' DS2lib 'noprint;'
+            / "  modify " DS2ds "(label=""Package: &packageName. ; Type: " type "; Name: " fileshort """);"
+            / ' run; quit;'
+            / '))),'
+            / '));'
+            / " " 
+            / ; 
+
+          end;
+
+      end;
+    else 
+      do;
+        /* include the file with the code of the element, all other cases */
         put '  %include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;';
       end;
     
@@ -1471,13 +1572,19 @@ data _null_;
     if upcase(type)=:'FORMAT' then 
       put '  %let cherryPick_FORMAT = %eval(&cherryPick_FORMAT. + 1);';
 
+    if upcase(type)=:'DS2PCK' then 
+      put '  %let cherryPick_DS2PCK = %eval(&cherryPick_DS2PCK. + 1);';
+
+    if upcase(type)=:'DS2THR' then 
+      put '  %let cherryPick_DS2THR = %eval(&cherryPick_DS2THR. + 1);';
+
     put '%end; ' /; /* Cherry Pick test1 end */
 
 
-    /* FOOTERS for IML, FCMP, and PROTO - start */
+    /* FOOTERS for PROC IML, FCMP, and PROTO - start */
     if 1 = LAST.type and upcase(type) in ('FUNCTIONS' 'PROTO' 'FORMATS') then 
       do; /* footer, for multiple functions in one FCMP run, one PROTO run, or one FORMAT run */
-        put "run; " / ;
+        put "quit; " / ;
       end;
     if 1 = LAST.type and upcase(type)='IMLMODULE' then /* footer, for IML modules */
       do;
@@ -1488,7 +1595,7 @@ data _null_;
             '%end;                                  ' / 
             "quit;                                  " / ;
       end;
-    /* FOOTERS for IML, FCMP, and PROTO - end */
+    /* FOOTERS for PROC IML, FCMP, and PROTO - end */
 
     /* add the link to the functions dataset, only for the first occurrence */
     /*if 1 = isFunction and (upcase(type)=:'FUNCTION') then
@@ -1576,7 +1683,7 @@ data _null_;
             %end; 
       put +(-1) '`.;''' /
       ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20240927.;''' / 
+      ' !! ''      %put with the SAS Packages Framework version 20241014.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -1741,7 +1848,7 @@ data _null_;
             %end; 
       put +(-1) '`.; '' !!' /
           '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !!' / 
-          '''      %put with the SAS Packages Framework version 20240927.;                                  '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20241014.;                                  '' !! ' / 
           '''      %put ****************************************************************************;       '' !! ' /
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
@@ -2256,15 +2363,33 @@ data _null_;
     /* put 'remove module = ' fileshort ';'; */
   end;
  
-  /* delete datasets */
-  put "proc sql noprint;";
+  /* delete data sets */
+  put "proc fedsql noprint;";
   EOF = 0;
   do until(EOF);
     set &filesWithCodes. end = EOF;
-    if not (upcase(type)=:'DATA') then continue;
+    if not (upcase(type) in: ('DATA')) then continue;
     put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
     put '%put NOTE- ;';
-    put 'drop table ' fileshort ';' /;
+    put 'drop table ' fileshort ' FORCE;' /;
+  end;
+  put "quit;" /;
+
+  /* delete PROC DS2 packages or threads */
+  put 'data _null_; call symputx("_DS2_2_del_",0,"L"); run;';
+  put "proc fedsql noprint;";
+  EOF = 0;
+  do until(EOF);
+    set &filesWithCodes. end = EOF;
+    if not (upcase(type) in: ('DS2PCK' 'DS2THR')) then continue;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '%put NOTE- ;'
+      / '%let _DS2_2_del_ = %sysfunc(open(' fileshort '));'
+      / '%sysfunc(ifc(&_DS2_2_del_. AND %sysfunc(ATTRC(&_DS2_2_del_.,LABEL))='
+      / '%str(' "Package: &packageName. ; Type: " type "; Name: " fileshort +(-1) '),drop table ' fileshort ' FORCE,)) ;'
+      / '%let _DS2_2_del_ = %sysfunc(close(&_DS2_2_del_.));'
+      ;
+    put ';' /;
   end;
   put "quit;" /;
 
@@ -2392,12 +2517,13 @@ data _null_;
 
     length fileshort2 $ 256;
     select;
-      when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = cats("'",   fileshort, "'" );
-      when (upcase(type) =:  "MACRO"           ) fileshort2 = cats('''%', fileshort, "()'");
+      when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = cats("'",   fileshort, "'"   );
+      when (upcase(type) =:  "MACRO"           ) fileshort2 = cats('''%', fileshort, "()'" );
       when (upcase(type) =:  "FUNCTION"        ) fileshort2 = cats("'",   fileshort, "()'" );
       when (upcase(type) =:  "IMLMODULE"       ) fileshort2 = cats("'",   fileshort, "()'" );
       when (upcase(type) =:  "PROTO"           ) fileshort2 = cats("'",   fileshort, "()'" );
       when (upcase(type) =:  "FORMAT"          ) fileshort2 = cats("'$",  fileshort, ".'"  );
+      when (upcase(type) in ('DS2PCK' 'DS2THR')) fileshort2 = cats("'DS2",  fileshort, "'" );
       otherwise fileshort2 = fileshort;
     end;
     strX = catx('/', folder, order, type, file, fileshort, fileshort2);
@@ -2529,7 +2655,7 @@ data _null_;
   %end;
 
   put 'put " " / @3 "--------------------------------------------------------------------" / " ";' 
-    /       'put @3 "*SAS package generated by SAS Package Framework, version `20240927`*";' 
+    /       'put @3 "*SAS package generated by SAS Package Framework, version `20241014`*";' 
     / 'put " " / @3 "--------------------------------------------------------------------";';
 
   put 'run;                                                                      ' /;
@@ -2568,13 +2694,14 @@ data _null_;
 
     length fileshort2 $ 256;
     select;
-      when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = cats("'",   fileshort, "'" );
-      when (upcase(type) =:  "MACRO"           ) fileshort2 = cats('''%', fileshort, "()'");
+      when (upcase(type) in ("DATA" "LAZYDATA")) fileshort2 = cats("'",   fileshort, "'"   );
+      when (upcase(type) =:  "MACRO"           ) fileshort2 = cats('''%', fileshort, "()'" );
       when (upcase(type) =:  "FUNCTION"        ) fileshort2 = cats("'",   fileshort, "()'" );
       when (upcase(type) =:  "IMLMODULE"       ) fileshort2 = cats("'",   fileshort, "()'" );
       when (upcase(type) =:  "PROTO"           ) fileshort2 = cats("'",   fileshort, "()'" );
       when (upcase(type) =:  "FORMAT"          ) fileshort2 = cats("'$",  fileshort, ".'"  );
       when (upcase(type) =:  "CASLUDF"         ) fileshort2 = cats("'",   fileshort, "()'" );
+      when (upcase(type) in ('DS2PCK' 'DS2THR')) fileshort2 = cats("'DS2",  fileshort, "'" );
       otherwise fileshort2 = fileshort;
     end;
     strX = catx('/', folder, order, type, file, fileshort, fileshort2);
@@ -3566,7 +3693,7 @@ data &filesWithCodes.markdown;
   %end;
 
   put " " / "--------------------------------------------------------------------" / " " 
-          / "*SAS package generated by SAS Package Framework, version `20240927`*" 
+          / "*SAS package generated by SAS Package Framework, version `20241014`*" 
     / " " / "--------------------------------------------------------------------" / " ";
 
   put "# The `&packageName.` package content";

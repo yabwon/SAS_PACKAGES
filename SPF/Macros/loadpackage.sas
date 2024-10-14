@@ -30,11 +30,13 @@
 , loadAddCnt=0                        /* should the additional content be loaded?
                                          default is 0 - means No, 1 means Yes */
 , suppressExec=0                      /* indicates if loading of exec files 
-                                         should be suppressed, 1=suppress 
+                                         should be suppressed, 1=suppress */
+, DS2force=0                          /* indicates if PROC DS2 packages and threads
+                                         should be loaded if a data set exists, 0=do not load
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20240927. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20241014. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -50,7 +52,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20240927`                              #;
+    %put # Macro to *load* SAS packages, version `20241014`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -109,6 +111,10 @@ minoperator
     %put # - `suppressExec=`     *Optional.* Indicates if loading of `exec` type files   #;
     %put #                       should be suppressed, default value is `0`,             #;
     %put #                       when set to `1` `exec` files are *not* loaded           #;
+    %put #                                                                               #;
+    %put # - `DS2force=`         *Optional.* Indicates if loading of `PROC DS2` packages #;
+    %put #                       or threads should overwrite existing SAS data sets.     #;
+    %put #                       Default value of `0` means "do not overwrite".          #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -210,6 +216,11 @@ minoperator
   %if %superq(suppressExec) NE 1 %then
     %do;
       %let suppressExec = 0;
+    %end;
+
+  %if %superq(DS2force) NE 1 %then
+    %do;
+      %let DS2force = 0;
     %end;
 
   filename &_PackageFileref_. &ZIP. 
