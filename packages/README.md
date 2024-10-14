@@ -24,7 +24,7 @@ run;
 ```
 SHA256 digest for SQLinDS: F*3C010734B76CA7459C4D35087C899121011CD4AA2932B56335FF11A805C8EF8D
 
-[Documentation for SQLinDS](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/sqlinds.md "Documentation for SQLinDS")
+[Documentation for SQLinDS](https://github.com/SASPAC/blob/main/sqlinds.md "Documentation for SQLinDS")
 
 ---
 
@@ -57,7 +57,7 @@ run;
 ```
 SHA256 digest for DFA: F*012375D87F66EB3A7BF5DDD0CC5AEE28851733EE33CC63231DF9045BEB958168
 
-[Documentation for DFA](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/dfa.md "Documentation for DFA")
+[Documentation for DFA](https://github.com/SASPAC/blob/main/dfa.md "Documentation for DFA")
 
 ---
 
@@ -82,7 +82,7 @@ SHA256 digest for DFA: F*012375D87F66EB3A7BF5DDD0CC5AEE28851733EE33CC63231DF9045
 ```
 SHA256 digest for macroArray: F*3F3893F1FCD78719543703E4353F4CC19811D247C016F220FF729B283C1AD790
 
-[Documentation for macroArray](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/macroarray.md "Documentation for macroArray")
+[Documentation for macroArray](https://github.com/SASPAC/blob/main/macroarray.md "Documentation for macroArray")
 
 ---
 
@@ -120,7 +120,7 @@ format x bool.;
 ```
 SHA256 digest for BasePlus: F*DFA83F8E0D7424DEB63D49620392068BC68D766552E2804CB6B01DE8E5A87769
 
-[Documentation for BasePlus](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/baseplus.md "Documentation for BasePlus")
+[Documentation for BasePlus](https://github.com/SASPAC/blob/main/baseplus.md "Documentation for BasePlus")
 
 ---
 
@@ -135,7 +135,7 @@ SHA256 digest for BasePlus: F*DFA83F8E0D7424DEB63D49620392068BC68D766552E2804CB6
 
 SHA256 digest for GSM: F*80197391195C3EC41BD436DF0C8802D3920E4D22B64009A7DE872FBDF8D4B86E
 
-[Documentation for GSM](https://github.com/yabwon/SAS_PACKAGES/blob/main/packages/gsm.md "Documentation for GSM")
+[Documentation for GSM](https://github.com/SASPAC/blob/main/gsm.md "Documentation for GSM")
 
 ---
 
