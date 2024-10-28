@@ -16,7 +16,7 @@ Don't forget to **STAR** (:star:) the repository! :-)
 
 ### Current version:
 
-**The latest version** of SPF is **`20241014`**.  
+**The latest version** of SPF is **`20241027`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -162,6 +162,8 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
+
+**Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` **utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage"))**.
 
 **Update**\[October 14th, 2024\]**:** `DS2PCK` and `DS2THR` **types for `PROC DS2` *threads* and *packages* added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241014 "PROC DS2"))**.
 
