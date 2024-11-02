@@ -11,7 +11,7 @@
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20241027. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20241102. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -27,7 +27,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20241027`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20241102`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -79,7 +79,7 @@ parmbuff
   %local lengthOfsyspbuff numberOfPackagesNames i packageElement packageName packageVersion str;
 
   %let lengthOfsyspbuff      = %qsysfunc(length(&syspbuff.));
-  %let packagesNames         = %qsysfunc(compress(%qsubstr(&syspbuff., 2, %eval(&lengthOfsyspbuff.-2)), {[(. _,)]}, KDA));
+  %let packagesNames         = %qsysfunc(compress(%qsubstr(&syspbuff., 2, %eval(&lengthOfsyspbuff.-2)), {[(. <=>_,)]}, KDA));
   
   %let str = %qsysfunc(translate(%superq(packagesNames),[[ ]],{(,)}));
   %let str = %qsysfunc(transtrn(%superq(str),],%str(] )));

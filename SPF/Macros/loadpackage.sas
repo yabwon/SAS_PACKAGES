@@ -36,7 +36,7 @@
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20241027. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20241102. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -52,7 +52,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20241027`                              #;
+    %put # Macro to *load* SAS packages, version `20241102`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -233,21 +233,31 @@ minoperator
       filename &_PackageFileref_. clear;
 
       /* test if required version of package is "good enough" */
-      %local rV pV;
-      %let pV = %sysfunc(compress(&packageVersion.,.,kd));
-      %let pV = %sysevalf((%scan(&pV.,1,.,M)+0)*1e8
-                        + (%scan(&pV.,2,.,M)+0)*1e4
-                        + (%scan(&pV.,3,.,M)+0)*1e0);
-      %let rV = %sysfunc(compress(&requiredVersion.,.,kd));
-      %let rV = %sysevalf((%scan(&rV.,1,.,M)+0)*1e8
-                        + (%scan(&rV.,2,.,M)+0)*1e4
-                        + (%scan(&rV.,3,.,M)+0)*1e0);
+      %local rV pV rV0 pV0 rVsign;
+      %let pV0 = %sysfunc(compress(&packageVersion.,.,kd));
+      %let pV = %sysevalf((%scan(&pV0.,1,.,M)+0)*1e8
+                        + (%scan(&pV0.,2,.,M)+0)*1e4
+                        + (%scan(&pV0.,3,.,M)+0)*1e0);
+
+      %let rV0 = %sysfunc(compress(&requiredVersion.,.,kd));
+      %let rVsign = %sysfunc(compress(&requiredVersion.,<=>,k));
+      %if %superq(rVsign)= %then %let rVsign=<=;
+      %else %if NOT (%superq(rVsign) IN (%str(=) %str(<=) %str(=<) %str(=>) %str(>=) %str(<) %str(>))) %then 
+        %do;
+          %put WARNING: Illegal operatopr "%superq(rVsign)"! Default(<=) will be used.;
+          %put WARNING- Supported operators are: %str(= <= =< => >= < >);
+          %let rVsign=<=;
+        %end;
+      %let rV = %sysevalf((%scan(&rV0.,1,.,M)+0)*1e8
+                        + (%scan(&rV0.,2,.,M)+0)*1e4
+                        + (%scan(&rV0.,3,.,M)+0)*1e0);
       
-      %if %sysevalf(&rV. > &pV.) %then
+      %if NOT %sysevalf(&rV. &rVsign. &pV.) %then
         %do;
           %put ERROR: Package &packageName. will not be loaded!;
-          %put ERROR- Required version is &requiredVersion.;
-          %put ERROR- Provided version is &packageVersion.;
+          %put ERROR- Required version is &rV0.;
+          %put ERROR- Provided version is &pV0.;
+          %put ERROR- Condition %bquote((&rV0. &rVsign. &pV0.)) evaluates to %sysevalf(&rV. &rVsign. &pV.);
           %put ERROR- Verify installed version of the package.;
           %put ERROR- ;
           %GOTO WrongVersionOFPackage; /*%RETURN;*/
