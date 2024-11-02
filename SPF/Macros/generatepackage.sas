@@ -3,7 +3,7 @@
 
    Macro to generate SAS packages.
 
-   Version 20241027
+   Version 20241102
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -43,7 +43,7 @@
                     file name be created */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20241027. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20241102. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -58,7 +58,7 @@ des = 'Macro to generate SAS packages, version 20241027. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20241027`                            #;
+    %put # Macro to generate SAS packages, version `20241102`                            #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -871,7 +871,7 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
     title8 "Required SAS packages: %qsysfunc(compress(%superq(packageReqPackages),%str(%'%")))" ;   /* " */
   %end;
 
-footnote1 "SAS Packages Framework, version 20241027";
+footnote1 "SAS Packages Framework, version 20241102";
 
 proc print 
   data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent)
@@ -1048,22 +1048,35 @@ data _null_;
   put '    filename &_PackageFileref_. clear;                                     ';
 
            /* test if required version of package is "good enough" */
-  put '    %local rV pV;                                                          ';
-  put '    %let pV = %sysfunc(compress(&packageVersion.,.,kd));                   ';
-  put '    %let pV = %sysevalf((%scan(&pV.,1,.,M)+0)*1e8                          ';
-  put '                      + (%scan(&pV.,2,.,M)+0)*1e4                          ';
-  put '                      + (%scan(&pV.,3,.,M)+0)*1e0);                        ';
-  put '    %let rV = %sysfunc(compress(&requiredVersion.,.,kd));                  ';
-  put '    %let rV = %sysevalf((%scan(&rV.,1,.,M)+0)*1e8                          ';
-  put '                      + (%scan(&rV.,2,.,M)+0)*1e4                          ';
-  put '                      + (%scan(&rV.,3,.,M)+0)*1e0);                        ';
-  put '    %if %sysevalf(&requiredVersion. > &packageVersion.) %then              ';
-  put '      %do;                                                                 ';
-  put '        %put ERROR: Required version is &requiredVersion.;                 ';
-  put '        %put ERROR- Provided version is &packageVersion.;                  ';
-  put '        %GOTO WrongVersionOFPackage; /*%RETURN;*/                          '; 
+  put '    %local rV pV rV0 pV0 rVsign;                                           ';
+  put '    %let pV0 = %sysfunc(compress(&packageVersion.,.,kd));                  ';
+  put '    %let pV = %sysevalf((%scan(&pV0.,1,.,M)+0)*1e8                         ';
+  put '                      + (%scan(&pV0.,2,.,M)+0)*1e4                         ';
+  put '                      + (%scan(&pV0.,3,.,M)+0)*1e0);                       ';
+  put '                                                                           ';
+  put '    %let rV0 = %sysfunc(compress(&requiredVersion.,.,kd));                 ';
+  put '    %let rVsign = %sysfunc(compress(&requiredVersion.,<=>,k));             ';
+  put '    %if %superq(rVsign)= %then %let rVsign=<=;                             ';
+  put '    %else %if NOT (%superq(rVsign) IN (%str(=) %str(<=) %str(=<) %str(=>) %str(>=) %str(<) %str(>))) %then ';
+  put '      %do;                                                                                                 ';
+  put '        %put WARNING: Illegal operatopr "%superq(rVsign)"! Default(<=) will be used.;                      ';
+  put '        %put WARNING- Supported operators are: %str(= <= =< => >= < >);                                    ';
+  put '        %let rVsign=<=;                                                    ';
   put '      %end;                                                                ';
-
+  put '    %let rV = %sysevalf((%scan(&rV0.,1,.,M)+0)*1e8                         ';
+  put '                      + (%scan(&rV0.,2,.,M)+0)*1e4                         ';
+  put '                      + (%scan(&rV0.,3,.,M)+0)*1e0);                       ';
+  put '                                                                           ';
+  put '    %if NOT %sysevalf(&rV. &rVsign. &pV.) %then                            ';
+  put '      %do;                                                                 ';
+  put '        %put ERROR: Package &packageName. will not be loaded!;             ';
+  put '        %put ERROR- Required version is &rV0.;                             ';
+  put '        %put ERROR- Provided version is &pV0.;                             ';
+  put '        %put ERROR- Condition %bquote((&rV0. &rVsign. &pV0.)) evaluates to %sysevalf(&rV. &rVsign. &pV.);  ';
+  put '        %put ERROR- Verify installed version of the package.;              ';
+  put '        %put ERROR- ;                                                      ';
+  put '        %GOTO WrongVersionOFPackage; /*%RETURN;*/                          ';
+  put '      %end;                                                                ';
 
   put '    filename &_PackageFileref_. &ZIP.                                      ';
   put '      "&path./%lowcase(&packageName.).&zip." %unquote(&options.)           ';
@@ -1683,7 +1696,7 @@ data _null_;
             %end; 
       put +(-1) '`.;''' /
       ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20241027.;''' / 
+      ' !! ''      %put with the SAS Packages Framework version 20241102.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -1848,7 +1861,7 @@ data _null_;
             %end; 
       put +(-1) '`.; '' !!' /
           '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !!' / 
-          '''      %put with the SAS Packages Framework version 20241027.;                                  '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20241102.;                                  '' !! ' / 
           '''      %put ****************************************************************************;       '' !! ' /
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
@@ -2655,7 +2668,7 @@ data _null_;
   %end;
 
   put 'put " " / @3 "--------------------------------------------------------------------" / " ";' 
-    /       'put @3 "*SAS package generated by SAS Package Framework, version `20241027`*";' 
+    /       'put @3 "*SAS package generated by SAS Package Framework, version `20241102`*";' 
     / 'put " " / @3 "--------------------------------------------------------------------";';
 
   put 'run;                                                                      ' /;
@@ -3693,7 +3706,7 @@ data &filesWithCodes.markdown;
   %end;
 
   put " " / "--------------------------------------------------------------------" / " " 
-          / "*SAS package generated by SAS Package Framework, version `20241027`*" 
+          / "*SAS package generated by SAS Package Framework, version `20241102`*" 
     / " " / "--------------------------------------------------------------------" / " ";
 
   put "# The `&packageName.` package content";
