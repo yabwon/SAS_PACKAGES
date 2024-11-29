@@ -8,7 +8,7 @@
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP START ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20241102. Run %splitCodeForPackage() for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20241129. Run %splitCodeForPackage() for help info.'
 ;
 /*%macro _();%mend _;*/
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
@@ -25,7 +25,7 @@
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20241102`                              #;
+    %put # files with separate snippets, version `20241129`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -150,8 +150,8 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
       end;
     else 
       do;      
-        put 'ERROR: File ' codeFile 'does not exist!';
-        call symputX("codeFile",pathname('d'),"L");
+        put "ERROR: [splitCodeForPackage] File " codeFile 'does not exist!';
+        call symputX("codeFile",quote(strip(pathname('d'))),"L");
       end;
   run;
 
@@ -402,7 +402,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
             */
             if firstLine[j] then
               do;
-                put '/* File generated with help of SAS Packages Framework, version 20241102. */';
+                put '/* File generated with help of SAS Packages Framework, version 20241129. */';
                 firstLine[j]=0;
               end; 
             put _infile_;
