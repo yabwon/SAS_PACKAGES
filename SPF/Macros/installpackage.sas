@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20241129  */
+/* Macros to install SAS packages, version 20241207  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -18,12 +18,14 @@
 , URLoptions =  /* options for the `sourcePath` URLs */
 , loadAddCnt=0  /* should the additional content be loaded?
                    default is 0 - means No, 1 means Yes */
+, instDoc=0     /* should the markdown file with documentation be installed?
+                   default is 0 - means No, 1 means Yes */
 , SFRCVN =      /* name of a macro variable to store success-failure return code value */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20241129. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20241207. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -38,7 +40,7 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20241129`                                          #;
+    %put # Macro to install SAS packages, version `20241207`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -101,6 +103,11 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
     %put #                   means "Yes". Content is extracted into the **packages** fileref          #;
     %put #                   directory in `<packageName>_AdditionalContent` folder.                   #;
     %put #                   For other locations use `%nrstr(%%loadPackageAddCnt())` macro.                    #;
+    %put #                                                                                            #;
+    %put # - `instDoc=`      *Optional.* A package may be provided with a markdown file               #;
+    %put #                   containing combined documentation of the package. The option             #;
+    %put #                   indicates if the `.md` file should be also downloaded.                   #;
+    %put #                   Default value of zero (`0`) means "No", one (`1`) means "Yes".           #;
     %put #                                                                                            #;
     %put # - `SFRCVN=`      *Optional.* Provides a NAME for a macro variable to store value of the    #;
     %put #                  *success-failure return code* of the installation process. Return value   #;
@@ -182,30 +189,39 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
       call symputX("firstPackagesPath", pathname("packages"), "L");
   run;
 
+  %let loadAddCnt = %sysevalf(NOT(0=%superq(loadAddCnt)));
+  %let instDoc    = %sysevalf(NOT(0=%superq(instDoc)));
+  
+  %let replace    = %sysevalf(1=%superq(replace));
+
   %if %superq(sourcePath)= %then
     %do;
-      %local SPFinitMirror;
+      %local SPFinitMirror SPFinitMirrorMD;
       /* the defaults are: */
-      %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+      %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+      %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
       %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/;
 
       %if 0 = %superq(mirror) %then
         %do;
-          %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+          %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+          %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
           %let sourcePath = https://github.com/SASPAC/; /*usercontent*/
           %goto mirrorEnd;
         %end;
 
       %if 1 = %superq(mirror) %then
         %do;
-          %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+          %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+          %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
           %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/;
           %goto mirrorEnd;
         %end;
       
       %if 2 = %superq(mirror) %then
         %do;
-          %let SPFinitMirror = https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES/SPF/SPFinit.sas;
+          %let SPFinitMirror   = https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES/SPF/SPFinit.sas;
+          %let SPFinitMirrorMD = https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES/SPF/SPFinit.md;
           %let sourcePath = https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES/packages/;
           %goto mirrorEnd;
         %end;
@@ -215,7 +231,8 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
   %else
     %do;
       %let mirror=-1;
-      %let SPFinitMirror = &sourcePath.SPFinit.sas;
+      %let SPFinitMirror   = &sourcePath.SPFinit.sas;
+      %let SPFinitMirrorMD = &sourcePath.SPFinit.md;
     %end;
 
   %local i str;
@@ -262,10 +279,13 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
     %put ### &packageName.(&vers.) ###;
     
     %put *** %lowcase(&packageName.) start *****************************************;
-    %local in out _IOFileref_;
+    %local in out inMD outMD _IOFileref_;
     data _null_; call symputX("_IOFileref_", put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); run;
     %let  in = i&_IOFileref_.;
     %let out = o&_IOFileref_.;
+    %let  inMD = j&_IOFileref_.;
+    %let outMD = u&_IOFileref_.;
+
     /* %let  in = i%sysfunc(md5(&packageName.),hex7.); */
     /* %let out = o%sysfunc(md5(&packageName.),hex7.); */
 
@@ -275,16 +295,26 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
         /* allows to install/download the framework file like any other package */
         %if %superq(mirror) in (0 1) AND (%superq(vers) ne) %then
           %do;
-            %let SPFinitMirror = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.sas;
+            %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.sas;
+            %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.md;
           %end;
         %if %superq(mirror) > 1 %then
           %put %str( )Mirror %superq(mirror) does not support versioning.;
  
-        filename &in URL 
+        /* source code file */
+        filename &in. URL 
           "&SPFinitMirror." 
           recfm=N lrecl=1;
-        filename &out    
+        filename &out.    
           "&firstPackagesPath./SPFinit.sas" 
+          recfm=N lrecl=1;
+         
+        /* documentation MD file */ 
+        filename &inMD. URL 
+          "&SPFinitMirrorMD." 
+          recfm=N lrecl=1;
+        filename &outMD.    
+          "&firstPackagesPath./SPFinit.md" 
           recfm=N lrecl=1;
       %end;
     %else
@@ -305,7 +335,8 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
               %put %str( )Mirror %superq(mirror) does not support versioning.;
           %end;
 
-        filename &in URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).zip" 
+        /* zip */
+        filename &in. URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).zip" 
         %if (%superq(URLuser) ne ) %then
           %do;
             user = "&URLuser."
@@ -313,7 +344,17 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
           %end;
         &URLoptions.
         recfm=N lrecl=1;
-        filename &out    "&firstPackagesPath./%lowcase(&packageName.).zip" recfm=N lrecl=1;
+        filename &out. "&firstPackagesPath./%lowcase(&packageName.).zip" recfm=N lrecl=1;
+        /* markdown */
+        filename &inMD. URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).md" 
+        %if (%superq(URLuser) ne ) %then
+          %do;
+            user = "&URLuser."
+            pass = "&URLuser."
+          %end;
+        &URLoptions.
+        recfm=N lrecl=1;
+        filename &outMD. "&firstPackagesPath./%lowcase(&packageName.).md" recfm=N lrecl=1;
       %end;
     /*
     filename in  list;
@@ -323,12 +364,21 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
     %local installationRC;
     %let installationRC=1;
     data _null_;
-      length filein 8 out_path in_path $ 4096;
+      length filein fileinMD 8 
+        out_path in_path out_pathMD in_pathMD rcTXT $ 4096
+        out_ref in_ref out_refMD in_refMD $ 8
+      ;
       out_path = pathname ("&out");
        in_path = pathname ("&in" );
+      out_pathMD = pathname ("&outMD");
+       in_pathMD = pathname ("&inMD" );
+      out_ref = symget ("out");
+       in_ref = symget ("in" );
+      out_refMD = symget ("outMD");
+       in_refMD = symget ("inMD" );
+      rcTXT=' ';
 
-
-      filein = fopen( "&in", 'S', 1, 'B');
+      filein = fopen(in_ref, 'S', 1, 'B');
       if filein = 0 then
         put "ERROR: Source file:" / 
             "ERROR- " in_path /
@@ -348,21 +398,23 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
       rc = FCLOSE(filein);
       put;
 
-      if FEXIST("&out") = 0 then 
+      if FEXIST(out_ref) = 0 then 
         do;
           put @2 "Installing the &packageName. package" 
             / @2 "in the &firstPackagesPath. directory.";
-          rc = FCOPY("&in", "&out");
+          rc = FCOPY(in_ref, out_ref);
+          rcTXT=sysmsg();
         end;
-      else if FEXIST("&out") = 1 then 
+      else if FEXIST(out_ref) = 1 then 
         do;
           if symgetn("replace")=1 then
             do;
               put @2 "The following file will be replaced during "
                 / @2 "installation of the &packageName. package: " 
                 / @5 out_path;
-              rc = FDELETE("&out");
-              rc = FCOPY("&in", "&out");
+              rc = FDELETE(out_ref);
+              rc = FCOPY(in_ref, out_ref);
+              rcTXT=sysmsg();
             end;
           else
             do;
@@ -371,13 +423,41 @@ des = 'Macro to install SAS package, version 20241129. Run %%installPackage() fo
               rc = 1;
             end;
         end;
-        
-      put @2 "Done with return code " rc= "(zero = success)";
+      put @2 "Done with return code " rc= "(zero = success)" / rcTXT;
       call symputX("installationRC", rc, "L");
+
+      /* try to install documentation file */
+      if 1=symgetn("instDoc") then
+        do;
+          fileinMD = fopen(in_refMD, 'S', 1, 'B');
+          rcMD = FCLOSE(fileinMD);
+
+          if fileinMD then 
+            do;
+              if 0=FEXIST(out_refMD) then 
+                do;
+                  rcMD = FCOPY(in_refMD, out_refMD);
+                  if rcMD=0 then
+                    put @2 "Package documentation installed on request." ; /* / out_pathMD / in_pathMD; */
+                end;
+              else if 1=FEXIST(out_refMD) and 1=symgetn("replace") then
+                do;
+                  rcMD = FDELETE(out_refMD);
+                  if rcMD=0 then
+                    rcMD2 = FCOPY(in_refMD, out_refMD);
+                  if rcMD=0 AND rcMD2=0 then
+                    put @2 "Package documentation installed on demand." ; /* / out_pathMD / in_pathMD; */
+                end;
+            end;
+          else 
+            put @2 "Package documentation in markdown format not available." ; /* / out_pathMD / in_pathMD;*/
+        end;
     run;
      
-    filename &in  clear;
-    filename &out clear;
+    filename &in.  clear;
+    filename &out. clear;
+    filename &inMD.  clear;
+    filename &outMD. clear;
 
     %if 0 = &installationRC. %then
       %do;
