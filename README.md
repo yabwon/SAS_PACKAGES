@@ -16,7 +16,7 @@ Don't forget to **STAR** (:star:) the repository! :-)
 
 ### Current version:
 
-**The latest version** of SPF is **`20241129`**.  
+**The latest version** of SPF is **`20241207`**.  
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -51,7 +51,8 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 
 3) (D) Article and all required materials for ["My first SAS Package"](https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation/Paper_1079-2021) tutorial.
 
-4) (DU) Materials from Hands-on-Workshop (4+ hours) tutorial: [Share your code with SAS Packages](https://github.com/yabwon/HoW-SASPackages).
+4) (DU) Materials from Hands-on-Workshop (4+ hours) tutorial: [Share your code with SAS Packages](https://github.com/yabwon/HoW-SASPackages). 
+   It is a "zero to hero" tutorial that explains all the "bells and whistles" of using, and all the "nuts and bolts" of developing SAS packages.
 
 
 ---

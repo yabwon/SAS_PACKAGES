@@ -6,7 +6,7 @@
              when empty the "packages" value is used */
 )/secure
 /*** HELP END ***/
-des = 'Macro to list directories pointed by "packages" fileref, version 20241129. Run %extendPackagesFileref(HELP) for help info.'
+des = 'Macro to list directories pointed by "packages" fileref, version 20241207. Run %extendPackagesFileref(HELP) for help info.'
 ;
 
 %if %QUPCASE(&packages.) = HELP %then
@@ -22,7 +22,7 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20241129
     %put ###       This is short help information for the `extendPackagesFileref` macro            #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list directories pointed by 'packages' fileref, version `20241129`             #;
+    %put # Macro to list directories pointed by 'packages' fileref, version `20241207`             #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -56,7 +56,7 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20241129
     %put #   Run the following code in your SAS session:                                           #;
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
     %put  %nrstr( filename packages ("C:/SAS_PK1" "C:/SAS_PK2"); %%* setup a directory for packages;        );
-    %put  %nrstr( %%include packages(SPFinit.sas);               %%* enable the framework;                  );
+    %put  %nrstr( %%include packages(SPFinit.sas);                %%* enable the framework;                  );
     %put  ;
     %put  %nrstr( filename packages ("D:/NEW_DIR" %%extendPackagesFileref()); %%* add new directory;        );
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
