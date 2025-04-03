@@ -2,21 +2,25 @@
 
 ---
 
-## Intro:
-
 A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
 In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. 
 
-Don't forget to **STAR** (:star:) the repository! :-)
+Don't forget to give the repository a **STAR** and become [stargazer](https://github.com/yabwon/SAS_PACKAGES/stargazers)! :-)
+
+---
 
 ---
 
 ### Current version:
 
-**The latest version** of SPF is **`20241207`**.  
+**The latest version** of the **SAS Packages Framework** is **`20241207`**.  
+
+---
+
+## Intro: 
 
 To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -54,22 +58,27 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 4) (DU) Materials from Hands-on-Workshop (4+ hours) tutorial: [Share your code with SAS Packages](https://github.com/yabwon/HoW-SASPackages). 
    It is a "zero to hero" tutorial that explains all the "bells and whistles" of using, and all the "nuts and bolts" of developing SAS packages.
 
+---
 
 ---
 
 ### Initiative to add SAS Packages Framework to SAS Base/Viya:
 
-A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [communities.sas.com post](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea!
+A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 45 supporters up to today (as of April 3, 2025)!
 
 ---
 
-### The User:
+### A Brief User Manual:
+
+This is a brief intro. See below to find a link to detailed workshop materials.
+
+#### Create directory 
 
 The first step to use a package with the SAS Packages Framework:
 
-- Create a folder for your packages, under Windows OS family e.g., `C:/SAS_PACKAGES` or under Linux/UNIX OS family e.g., `/home/<username>/SAS_PACKAGES`.
+- Create a folder for your packages, under Windows OS family e.g., `C:/SAS_PACKAGES` or under Linux/UNIX OS family e.g., `/home/<username>/SAS_PACKAGES`. The path selected is totally up to you.
 
-Then either:
+#### Manual installation 
 
 - Manually download the `SPFinit.sas` file (the SAS Packages Framework) into the local packages folder.
 - \[Optional\] Manually download the `<packageName>.zip` file into the local packages folder.
@@ -85,7 +94,11 @@ filename packages "<directory/containing/packages/>";         /* setup directory
 %loadPackage(packageName)                                     /* load the package content into the SAS session */
 ```
 
-or if you need it just for "one time" only:
+---
+
+#### Automatic (one-time-only) installation 
+
+If you need it just for "one time" only, e.g., for test if you like it:
 
 - Execute: 
 
@@ -99,9 +112,13 @@ filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
-or do it pragmatically:
+---
 
-- Enable the framework [first time only]:
+#### Automatic (permanent) installation
+
+To install SPF pragmatically:
+
+- Enable the framework [do this first and one time only!]:
 
 ```sas
 filename SPFinit url "https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas";
@@ -122,7 +139,7 @@ filename packages "<directory/containing/packages/>";
 %installPackage(SPFinit) /* install the framework */
 ```
 
-- From now on run it like this:
+- From now on, just like you would assign libraries, run the SPF and use packages like this:
 
 ```sas
 filename packages "<directory/containing/packages/>";
@@ -135,16 +152,20 @@ filename packages "<directory/containing/packages/>";
 
 ---
 
-The "Workshop video for the User" got outdated (in general). Newer version is coming soon, in the mean time see some of the videos from the "Recordings and Presentations" section above. 
+[**Detailed workshop materials**](https://github.com/yabwon/HoW-SASPackages) (i.e. "from 0 to hero" instruction).
+
+The youtube "Workshop video for the User" got outdated (in general). Newer version is coming soon, in the mean time see some of the videos from the "Recordings and Presentations" section above. 
 (You can watch the workshop if you wish, link is working and some parts are still valid source of information e.g., "`ICE` loading" or "`disk` loading")
 
  <s>[**Workshop video for the User**](https://youtu.be/qX_-HJ76g8Y) \[May 6th, 2020\] [~86 minutes, outdated (installPackage macro was not there yet) but gives the idea how it works especially load, help, unload, ICEload, and other details]</s>
 
 ---
 
-### The Developer:
+---
 
-To create your own package:
+### For The Developer:
+
+In brief, to create your own package:
 
 - Download (and use) the `SPFinit.sas` file (the SAS Packages Framework), the part of the framework required for *testing* is there too.
 
@@ -155,6 +176,8 @@ To create your own package:
 - Read the **`My First SAS Package: A How-To - Paper 1079-2021`** article available at communities.sas.com [**`here`**](https://communities.sas.com/t5/SAS-Global-Forum-Proceedings/My-First-SAS-Package-A-How-To/ta-p/726319 "My First SAS Package: A How-To") or locally [**`here`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Paper_1079-2021/My%20First%20SAS%20Package%20-%20a%20How%20To.pdf "My First SAS Package: A How-To")
 
 The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md) to quickly see macros options and parameters.
+
+[**Detailed workshop materials**](https://github.com/yabwon/HoW-SASPackages) (i.e. "from 0 to hero" detailed instruction with a bunch of examples).
 
 ---
 
@@ -197,6 +220,7 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ## Where the SAS Packages Framework is used:
 This is a list of locations where the SAS Packages Framework is used:
  - Warsaw (Poland)
+ - Osaka (Japan)
 
 If you want to share that you are using the SPF let me know and I'll update the list.
 
