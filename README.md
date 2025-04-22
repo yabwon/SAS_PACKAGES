@@ -64,7 +64,7 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 
 ### Initiative to add SAS Packages Framework to SAS Base/Viya:
 
-A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 45 supporters up to today (as of April 3, 2025)!
+A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 46 likes from 44 supporters up to today (as of April 22, 2025)!
 
 ---
 
