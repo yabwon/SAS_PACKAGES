@@ -28,7 +28,7 @@
                                         */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20241207. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20250710. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -43,7 +43,7 @@ des = 'Macro to get help about SAS package, version 20241207. Run %helpPackage()
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20241207`                      #;
+    %put # Macro to get help about SAS packages, version `20250710`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -131,8 +131,9 @@ des = 'Macro to get help about SAS package, version 20241207. Run %helpPackage()
   options NOnotes NOsource ls=MAX ps=MAX msglevel=N NOmautocomploc;
 
   %local _PackageFileref_;
-  /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
-  data _null_; call symputX("_PackageFileref_", "P" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); run;
+  data _null_; 
+    call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
+  run;
 
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
@@ -142,7 +143,7 @@ des = 'Macro to get help about SAS package, version 20241207. Run %helpPackage()
     if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
     do i = 1 to kcountw(packages, "()", "QS");
       p = dequote(kscanx(packages, i, "()", "QS"));
-      exists + fileexist(catx("/", p, "%lowcase(&packageName.).&zip."));
+      exists + fileexist(catx("/", p, lowcase("&packageName.") !! ".&zip."));
       if exists then leave;
     end;
     if exists then call symputx("path", p, "L");
@@ -150,7 +151,7 @@ des = 'Macro to get help about SAS package, version 20241207. Run %helpPackage()
 
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
-    "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
+    "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
   ;
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
@@ -158,7 +159,7 @@ des = 'Macro to get help about SAS package, version 20241207. Run %helpPackage()
       filename &_PackageFileref_. clear;
       options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
       filename &_PackageFileref_. &ZIP. 
-        "&path./%lowcase(&packageName.).&zip." %unquote(&options.)
+        "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
         ENCODING =
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;

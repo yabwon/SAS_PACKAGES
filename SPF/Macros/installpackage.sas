@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20241207  */
+/* Macros to install SAS packages, version 20250710  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -25,7 +25,7 @@
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20241207. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20250710. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -40,7 +40,7 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20241207`                                          #;
+    %put # Macro to install SAS packages, version `20250710`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -230,6 +230,7 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
     %end;
   %else
     %do;
+      %let sourcePath = %sysfunc(dequote(%superq(sourcePath)))/;
       %let mirror=-1;
       %let SPFinitMirror   = &sourcePath.SPFinit.sas;
       %let SPFinitMirrorMD = &sourcePath.SPFinit.md;
@@ -249,7 +250,7 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
   
   %if %length("%sysfunc(compress(%superq(str),[,k))") NE %length("%sysfunc(compress(%superq(str),],k))") %then
     %do;
-      %put ERROR: Syntax error in list of packages!;
+      %put ERROR: Syntax error in the provided list of packages!;
       %put ERROR- %superq(packagesNames);
       %goto packagesListError;
     %end;
@@ -278,9 +279,9 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
       %end;
     %put ### &packageName.(&vers.) ###;
     
-    %put *** %lowcase(&packageName.) start *****************************************;
+    %put *** %sysfunc(lowcase(&packageName.)) start *****************************************;
     %local in out inMD outMD _IOFileref_;
-    data _null_; call symputX("_IOFileref_", put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); run;
+    data _null_; call symputX("_IOFileref_", put(MD5(lowcase("&packageName.")), hex7. -L), "L"); run;
     %let  in = i&_IOFileref_.;
     %let out = o&_IOFileref_.;
     %let  inMD = j&_IOFileref_.;
@@ -321,12 +322,12 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
       %do;
         %if 0 = %superq(mirror) %then
           %do;
-            %let packageSubDir = %lowcase(&packageName.)/raw/main/;
+            %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/main/;
             
             %if %superq(vers) ne %then
               %do;
-                /*%let packageSubDir = %lowcase(&packageName.)/main/hist/&version./;*/
-                %let packageSubDir = %lowcase(&packageName.)/raw/&vers./;
+                /*%let packageSubDir = %sysfunc(lowcase(&packageName.))/main/hist/&version./;*/
+                %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/&vers./;
               %end;
           %end;
         %else
@@ -336,7 +337,7 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
           %end;
 
         /* zip */
-        filename &in. URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).zip" 
+        filename &in. URL "&sourcePath.&packageSubDir.%sysfunc(lowcase(&packageName.)).zip" 
         %if (%superq(URLuser) ne ) %then
           %do;
             user = "&URLuser."
@@ -344,9 +345,9 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
           %end;
         &URLoptions.
         recfm=N lrecl=1;
-        filename &out. "&firstPackagesPath./%lowcase(&packageName.).zip" recfm=N lrecl=1;
+        filename &out. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).zip" recfm=N lrecl=1;
         /* markdown */
-        filename &inMD. URL "&sourcePath.&packageSubDir.%lowcase(&packageName.).md" 
+        filename &inMD. URL "&sourcePath.&packageSubDir.%sysfunc(lowcase(&packageName.)).md" 
         %if (%superq(URLuser) ne ) %then
           %do;
             user = "&URLuser."
@@ -354,7 +355,7 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
           %end;
         &URLoptions.
         recfm=N lrecl=1;
-        filename &outMD. "&firstPackagesPath./%lowcase(&packageName.).md" recfm=N lrecl=1;
+        filename &outMD. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).md" recfm=N lrecl=1;
       %end;
     /*
     filename in  list;
@@ -486,7 +487,7 @@ des = 'Macro to install SAS package, version 20241207. Run %%installPackage() fo
                            )
         %put - Additional content loading - End -;
       %end;
-    %put *** %lowcase(&packageName.) end *******************************************;
+    %put *** %sysfunc(lowcase(&packageName.)) end *******************************************;
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
   %end;
   
