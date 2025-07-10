@@ -13,7 +13,7 @@
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20241207. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20250710. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -28,7 +28,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20241207. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20241207`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20250710`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -96,8 +96,9 @@ des = 'Macro to verify SAS package with the hash digest, version 20241207. Run %
   options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
   
   %local _PackageFileref_;
-  /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
-  data _null_; call symputX("_PackageFileref_", "P" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); run;
+  data _null_; 
+    call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
+  run;
 
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
@@ -107,7 +108,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20241207. Run %
     if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
     do i = 1 to kcountw(packages, "()", "QS");
       p = dequote(kscanx(packages, i, "()", "QS"));
-      exists + fileexist(catx("/", p, "%lowcase(&packageName.).zip"));
+      exists + fileexist(catx("/", p, lowcase("&packageName.") !! "zip")); /* check on zip files only! */
       if exists then leave;
     end;
     if exists then call symputx("path", p, "L");
@@ -115,7 +116,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20241207. Run %
 
   filename &_PackageFileref_. 
   /* put location of package myPackageFile.zip here */
-    "&path./%lowcase(&packageName.).zip"
+    "&path./%sysfunc(lowcase(&packageName.)).zip"
   ;
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;

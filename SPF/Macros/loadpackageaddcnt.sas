@@ -19,7 +19,7 @@
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20241207. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20250710. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -35,7 +35,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20241207`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20250710`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -115,10 +115,9 @@ minoperator
   options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   %local _PackageFileref_;
-  /* %let _PackageFileref_ = P%sysfunc(MD5(%lowcase(&packageName.)),hex7.); */
   data _null_; 
-    call symputX("_PackageFileref_", "A" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); 
-    call symputX("_TargetFileref_",  "T" !! put(MD5("%lowcase(&packageName.)"), hex7. -L), "L"); 
+    call symputX("_PackageFileref_", "A" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
+    call symputX("_TargetFileref_",  "T" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
 
   /* when the packages reference is multi-directory search for the first one containing the package */
@@ -129,7 +128,7 @@ minoperator
     if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
     do i = 1 to kcountw(packages, "()", "QS");
       p = dequote(kscanx(packages, i, "()", "QS"));
-      exists + fileexist(catx("/", p, "%lowcase(&packageName.).&zip."));
+      exists + fileexist(catx("/", p, lowcase("&packageName.") !! ".&zip."));
       if exists then leave;
     end;
     if exists then call symputx("path", p, "L");
@@ -137,14 +136,14 @@ minoperator
   
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
-    "&path./%lowcase(&packageName.).&zip."
+    "&path./%sysfunc(lowcase(&packageName.)).&zip."
   ;
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
 
       filename &_PackageFileref_. &ZIP. 
       /* check existence of addcnt.zip inside package */
-        "&path./%lowcase(&packageName.).&zip."
+        "&path./%sysfunc(lowcase(&packageName.)).&zip."
         member='addcnt.zip'
       ;
       %if %sysfunc(fexist(&_PackageFileref_.)) %then
@@ -152,7 +151,7 @@ minoperator
 
           /* get metadata */
           filename &_PackageFileref_. &ZIP. 
-            "&path./%lowcase(&packageName.).&zip."
+            "&path./%sysfunc(lowcase(&packageName.)).&zip."
           ;
           %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
           filename &_PackageFileref_. clear;
@@ -191,7 +190,7 @@ minoperator
 
           /*options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;*/
           filename &_PackageFileref_. &ZIP. 
-            "&path./%lowcase(&packageName.).&zip."
+            "&path./%sysfunc(lowcase(&packageName.)).&zip."
             member='addcnt.zip'
           ;
           /*********************/
@@ -199,10 +198,10 @@ minoperator
           %if %sysfunc(fexist(&_TargetFileref_.)) %then
             %do;
 
-              %if %sysfunc(fileexist(%sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent)) %then
+              %if %sysfunc(fileexist(%sysfunc(pathname(&_TargetFileref_.))/%sysfunc(lowcase(&packageName.))_AdditionalContent)) %then
                 %do; /* dir for AC already exists */
                   %put WARNING: Target location:;
-                  %put WARNING- %sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent;
+                  %put WARNING- %sysfunc(pathname(&_TargetFileref_.))/%sysfunc(lowcase(&packageName.))_AdditionalContent;
                   %put WARNING- already exist. Please remove it manually to upload additional contents.;
                   %put WARNING- Additional Content will not be loaded.;
                   %put WARNING- ;
@@ -213,12 +212,12 @@ minoperator
                   /* create target location */
                   %put INFO:;
                   %put Additional content will be located in:;
-                  %put %sysfunc(dcreate(%lowcase(&packageName.)_AdditionalContent,%sysfunc(pathname(&_TargetFileref_.))));
+                  %put %sysfunc(dcreate(%sysfunc(lowcase(&packageName.))_AdditionalContent,%sysfunc(pathname(&_TargetFileref_.))));
 
-                  %if NOT (%sysfunc(fileexist(%sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent))) %then
+                  %if NOT (%sysfunc(fileexist(%sysfunc(pathname(&_TargetFileref_.))/%sysfunc(lowcase(&packageName.))_AdditionalContent))) %then
                     %do; /* dir for AC cannot be generated */
                       %put ERROR: Cannot create target location:;
-                      %put ERROR- %sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent;
+                      %put ERROR- %sysfunc(pathname(&_TargetFileref_.))/%sysfunc(lowcase(&packageName.))_AdditionalContent;
                       %put ERROR- Additional Content will not be loaded.;
                       %put ERROR- ;
                     %end;
@@ -237,7 +236,7 @@ minoperator
 
                         if fexist("in") then
                           do;
-                            rc2=filename("out", pathname("WORK")!!"/%lowcase(&packageName.)addcnt.zip", "disk", "lrecl=1 recfm=n");
+                            rc2=filename("out", pathname("WORK")!!"/%sysfunc(lowcase(&packageName.))addcnt.zip", "disk", "lrecl=1 recfm=n");
                             length rc2txt $ 8192;
                             rc2txt=sysmsg();
 
@@ -266,9 +265,9 @@ minoperator
                       %if &AdditionalContent. %then 
                         %do;
                           filename f DUMMY;
-                          filename f ZIP "%sysfunc(pathname(WORK))/%lowcase(&packageName.)addcnt.zip";
+                          filename f ZIP "%sysfunc(pathname(WORK))/%sysfunc(lowcase(&packageName.))addcnt.zip";
                           options dlCreateDir;
-                          libname outData "%sysfunc(pathname(&_TargetFileref_.))/%lowcase(&packageName.)_AdditionalContent";
+                          libname outData "%sysfunc(pathname(&_TargetFileref_.))/%sysfunc(lowcase(&packageName.))_AdditionalContent";
 
                           data WORK.__&_TargetFileref_._zip___;
                             did = dopen("f");
