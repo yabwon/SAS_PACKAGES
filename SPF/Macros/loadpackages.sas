@@ -11,7 +11,7 @@
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20250710. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20250728. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -27,7 +27,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20250710`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20250728`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -52,6 +52,7 @@ parmbuff
     %put #                                                                               #;
     %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
+    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`           #;
     %put #                                                                               #;
     %put #### Example ####################################################################;
     %put #                                                                               #;

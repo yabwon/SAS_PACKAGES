@@ -36,7 +36,7 @@
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20250710. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20250728. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -52,7 +52,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20250710`                              #;
+    %put # Macro to *load* SAS packages, version `20250728`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -120,6 +120,7 @@ minoperator
     %put #                                                                               #;
     %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
+    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`           #;
     %put #                                                                               #;
     %put ### Example 1 ###################################################################;
     %put #                                                                               #;
