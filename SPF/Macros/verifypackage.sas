@@ -13,7 +13,7 @@
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20250710. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20250728. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -28,7 +28,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20250710. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20250710`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20250728`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -58,6 +58,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20250710. Run %
     %put #                                                                               #;
     %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
+    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`           #;
     %put #                                                                               #;
     %put #### Example ####################################################################;
     %put #                                                                               #;

@@ -8,7 +8,7 @@
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP START ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20250710. Run %splitCodeForPackage() for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20250728. Run %splitCodeForPackage() for help info.'
 ;
 /*%macro _();%mend _;*/
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
@@ -25,7 +25,7 @@
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20250710`                              #;
+    %put # files with separate snippets, version `20250728`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -60,6 +60,7 @@
     %put #                                                                               #;
     %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
     %put # to learn more.                                                                #;
+    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`           #;
     %put #                                                                               #;
     %put ### Example 1 ###################################################################;
     %put #                                                                               #;
@@ -402,7 +403,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
             */
             if firstLine[j] then
               do;
-                put '/* File generated with help of SAS Packages Framework, version 20250710. */';
+                put '/* File generated with help of SAS Packages Framework, version 20250728. */';
                 firstLine[j]=0;
               end; 
             put _infile_;
