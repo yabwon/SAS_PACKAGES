@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20250728  */
+/* Macros to install SAS packages, version 20250729  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -21,11 +21,12 @@
 , instDoc=0     /* should the markdown file with documentation be installed?
                    default is 0 - means No, 1 means Yes */
 , SFRCVN =      /* name of a macro variable to store success-failure return code value */
+, github =      /* name of a user or an organization in GitHub, all characters except [A-z0-9_.-] are compressed */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20250728. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20250729. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -40,7 +41,7 @@ des = 'Macro to install SAS package, version 20250728. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20250728`                                          #;
+    %put # Macro to install SAS packages, version `20250729`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -74,22 +75,22 @@ des = 'Macro to install SAS package, version 20250728. Run %%installPackage() fo
     %put #                                                                                            #;
     %put # - `mirror=`       Indicates which web location for packages installation is used.          #;
     %put #                   Value `0` or `SASPAC` indicates:                                         #;
-    %put #                   `https://github.com/SASPAC/`                                             #;
+    %put #                    `https://github.com/SASPAC/`                                            #;
     %put #                   Value `1` indicates:                                                     #;
-    %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main`             #;
+    %put #                    `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main`            #;
     %put #                   Value `2` indicates:                                                     #;
-    %put #                   `https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES`        #;
+    %put #                    `https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES`       #;
     %put #                   Value `3` or `PharmaForest` indicates:                                   #;
-    %put #                   `https://github.com/PharmaForest/`                                       #;
+    %put #                    `https://github.com/PharmaForest/`                                      #;
     %put #                   Default value is `0`.                                                    #;
     %put #                                                                                            #;
     %put # - `version=`      Indicates which historical version of a package to install.              #;
     %put #                   Historical version are currently available only if `mirror=0` is set.    #;
     %put #                   Default value is null which means "install the latest".                  #;
-    %put #                   When there are multiple packages to install version variable             #;
+    %put #                   When there are multiple packages to install the `version` variable       #;
     %put #                   is scan sequentially.                                                    #;
     %put #                                                                                            #;
-    %put # - `replace=`      With default value of `1` it causes existing package file                #;
+    %put # - `replace=`      With default value of `1`, it causes existing package file 0             #;
     %put #                   to be replaced by new downloaded file.                                   #;
     %put #                                                                                            #;
     %put # - `URLuser=`      A user name for the password protected URLs, no quotes needed.           #;
@@ -111,10 +112,15 @@ des = 'Macro to install SAS package, version 20250728. Run %%installPackage() fo
     %put #                   indicates if the `.md` file should be also downloaded.                   #;
     %put #                   Default value of zero (`0`) means "No", one (`1`) means "Yes".           #;
     %put #                                                                                            #;
-    %put # - `SFRCVN=`      *Optional.* Provides a NAME for a macro variable to store value of the    #;
-    %put #                  *success-failure return code* of the installation process. Return value   #;
-    %put #                  has the following form: `<number of successes>.<number of failures>`      #;
-    %put #                  The macro variable is created as a *global* macro variable.               #;
+    %put # - `SFRCVN=`       *Optional.* Provides a NAME for a macro variable to store value of the   #;
+    %put #                   *success-failure return code* of the installation process. Return value  #;
+    %put #                   has the following form: `<number of successes>.<number of failures>`     #;
+    %put #                   The macro variable is created as a *global* macro variable.              #;
+    %put #                                                                                            #;
+    %put #  - `github=`      *Optional.* A name of a user or an organization in GitHub.               #;
+    %put #                   Allows an easy set of the search path for packages available on GitHub:  #;
+    %put #                    `https://github.com/<github>/<packagename>/raw/.../`                    #;
+    %put #                   All characters except `[A-z0-9_.-]` are compressed.                      #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;
     %put #                                                                                            #;
@@ -205,10 +211,11 @@ des = 'Macro to install SAS package, version 20250728. Run %%installPackage() fo
       %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
       %let sourcePath = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/packages/;
 
-      %if %qupcase(%superq(mirror))=SASPAC %then %let mirror = 0;
+      %if %qupcase(%superq(mirror))=SASPAC       %then %let mirror = 0;
       %if %qupcase(%superq(mirror))=PHARMAFOREST %then %let mirror = 3;
+      %if %superq(github) NE                     %then %let mirror = 4;
       
-      %if NOT (%superq(mirror) IN (0 1 2 3)) %then 
+      %if NOT (%superq(mirror) IN (0 1 2 3 4)) %then 
         %do;
           %put WARNING: Unknown mirror: %superq(mirror)!;
           %put WARNING- Default will be used.;
@@ -245,6 +252,17 @@ des = 'Macro to install SAS package, version 20250728. Run %%installPackage() fo
           %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
           /* ingnore version support for pharmaForest for now */
           %let sourcePath = https://github.com/PharmaForest/; /*users content*/
+          %goto mirrorEnd;
+        %end;
+
+      %if 4 = %superq(mirror) %then
+        %do;
+          %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
+          %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
+          /* ingnore version support for pharmaForest for now */
+          %let github = %sysfunc(compress(%superq(github),%str(,.-),KAD));
+          %put INFO: GitHub location used is: %superq(github).;
+          %let sourcePath = https://github.com/&github./; /*users content*/
           %goto mirrorEnd;
         %end;
 
@@ -343,7 +361,7 @@ des = 'Macro to install SAS package, version 20250728. Run %%installPackage() fo
       %end;
     %else
       %do;
-        %if %superq(mirror) IN (0 3) %then /* SASPAC or PharmaForest */
+        %if %superq(mirror) IN (0 3 4) %then /* SASPAC or PharmaForest or an arbitrary GitHub repo */
           %do;
             %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/main/;
             
