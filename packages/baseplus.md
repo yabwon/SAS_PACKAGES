@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 2.4.0
-- Generated: 2025-08-07T17:06:16
+- Version: 2.4.1
+- Generated: 2025-09-05T10:12:32
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*19FE220C82DE4B9990B4AC352A9D9DEF5FAF2FD601BE756B2F3A2AC39CDAF381` for this version
-- Content SHA256: `C*83DEF0C93481B1C77494531E5CE9F8EB8E4C15AB3CC48D1E9C0223C13A84DB3F` for this version
+- File SHA256: `F*DB0811D8F207641BD45FCE30CB75D03CDF8D06849EBEA268BB575358FAA4E76C` for this version
+- Content SHA256: `C*27861ABABB412E8229FE25CD5EEA868F49BB3CBD805CCE65F321ADBC522FAC4E` for this version
   
 ---
  
-# The `BasePlus` package, version: `2.4.0`;
+# The `BasePlus` package, version: `2.4.1`;
   
 ---
  
 
-# The BasePlus package [ver. 2.4.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 2.4.1] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
