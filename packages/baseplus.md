@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 2.3.1
-- Generated: 2025-08-05T20:07:24
+- Version: 2.4.1
+- Generated: 2025-09-05T10:12:32
 - Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*B2D318DD9708D74E5A7C419F7CAE1BF46D662B7F6AEE7E6B1B9D9B6858A5C41A` for this version
-- Content SHA256: `C*C34B47FDC4A22C5F5EACA087FA5308B97C367E8B7C32C5B28D37B491C6DAA9A3` for this version
+- File SHA256: `F*DB0811D8F207641BD45FCE30CB75D03CDF8D06849EBEA268BB575358FAA4E76C` for this version
+- Content SHA256: `C*27861ABABB412E8229FE25CD5EEA868F49BB3CBD805CCE65F321ADBC522FAC4E` for this version
   
 ---
  
-# The `BasePlus` package, version: `2.3.1`;
+# The `BasePlus` package, version: `2.4.1`;
   
 ---
  
 
-# The BasePlus package [ver. 2.3.1] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 2.4.1] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -838,6 +838,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
   <,longFormat=>
   <,fileExt=>
   <,maxDepth=>
+  <,backslashSens=>
 )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -867,6 +868,11 @@ The basic syntax is the following, the `<...>` means optional parameters:
                                 
 * `maxDepth=0`                - *Optional*, if not zero then indicates
                                 maximum depth of search in the root path.
+
+* `backslashSens=0`           - *Optional*, if not zero then it indicates 
+                                that backslash(`\`) symbol in files and dirs 
+                                names is detectable under Linux. Accepted 
+                                values: `0` and `1`. Ignored under Windows. 
 
 
 ### EXAMPLES AND USECASES: ####################################################
