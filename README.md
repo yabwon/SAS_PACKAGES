@@ -41,6 +41,7 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   - ["A BasePlus Package for SAS" - SAS Explore 2022](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "SASexplore2022 communities.sas.com") (September 27th-29th 2022, ~28 minutes, technical presentation with details about the BasePlus package), alternative video at YouTube is [here](https://www.youtube.com/watch?v=-Poxkx5WfOQ "SASexplore2022 TouTube")
   - ["SAS Packages - State of the Union" - SaSensei International Dojo No. 13](https://www.youtube.com/watch?v=1GEldZYQjj0&t=0s "SID no. 13") (November 10th 2022, ~50 minutes, general overview with the latest technical details)
   - ["SAS Packages Framework - an easy code sharing medium for SAS" - Warsaw IT Days 2023](https://youtu.be/T52Omisi0dk&t=0s "Warsaw IT Days 2023") (March 31st 2023, ~60 minutes, general overview with technical details for user and developer)
+  - ["SAS Package ー その共有、もっとスマートに" - SASユーザー総会 2025](https://youtu.be/4QRr7sUhO9E "SASユーザー総会2025") (September 25th 2025, ~22 minutes, general overview with the list of reasons: why is it worth to use SAS packages?)
 
 
 ### Tutorials:
@@ -64,7 +65,7 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 
 ### Initiative to add SAS Packages Framework to SAS Base/Viya:
 
-A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 46 likes from 44 supporters up to today (as of April 22, 2025)!
+A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 48 likes from 46 supporters up to today (as of September 30, 2025)!
 
 ---
 
