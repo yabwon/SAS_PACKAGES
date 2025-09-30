@@ -1087,14 +1087,14 @@ des = 'Macro to install SAS package, version 20250729. Run %%installPackage() fo
           %do;
             %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/main/;
 
-            filename _release url "&sourcePath./%sysfunc(lowcase(&packageName.))/releases/tag/&vers." ;            
+            filename _release url "&sourcePath./%sysfunc(lowcase(&packageName.))/releases/download/&vers./%sysfunc(lowcase(&packageName.)).zip" ;
             %if %superq(vers) ne and %sysfunc(fexist(_release))=1 %then
               %do;
                 %let packageSubDir = %sysfunc(lowcase(&packageName.))/releases/download/&vers./;
               %end;
             %else %if %superq(vers) ne %then
               %do;
-                %let packageSubDir = %sysfunc(lowcase(&packageName.))/main/hist/&vers./;
+                %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/&vers./;
               %end;
             filename _release clear ;
           %end;
