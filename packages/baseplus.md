@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 2.4.1
-- Generated: 2025-09-05T10:12:32
-- Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com)
+- Version: 3.0.0
+- Generated: 2025-10-15T10:13:04
+- Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com), Ryo Nakaya (nakaya.ryou@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*DB0811D8F207641BD45FCE30CB75D03CDF8D06849EBEA268BB575358FAA4E76C` for this version
-- Content SHA256: `C*27861ABABB412E8229FE25CD5EEA868F49BB3CBD805CCE65F321ADBC522FAC4E` for this version
+- File SHA256: `F*B9F6D8F1EDD1ECDA89F4BE327C4F4202649475D1D9DFB476279B633D9F14125D` for this version
+- Content SHA256: `C*680412F6B403870A3A8975FC17300F7C92AEDECA48D3F242B5BC4E545DC6D313` for this version
   
 ---
  
-# The `BasePlus` package, version: `2.4.1`;
+# The `BasePlus` package, version: `3.0.0`;
   
 ---
  
 
-# The BasePlus package [ver. 2.4.1] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 3.0.0] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -47,7 +47,8 @@ Kudos to all who inspired me to generate this package:
 *Quentin McMullen*,
 *Kurt Bremser*,
 *Leonid Batkhan*,
-*Louise Hadden*.
+*Louise Hadden*,
+*Ryo Nakaya*.
 
 ---
 
@@ -387,6 +388,11 @@ proc print data=b_x;
 run;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**EXAMPLE 29** Create library ABC assigned to `<WORK>/ABC` directory:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %workLib(abc)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ---
   
 ---
@@ -490,10 +496,11 @@ The `BasePlus` package consists of the following content:
 78. [`%translate()` macro ](#translate-macro-78 )
 79. [`%tranwrd()` macro ](#tranwrd-macro-79 )
 80. [`%unifyvarscasesize()` macro ](#unifyvarscasesize-macro-80 )
-81. [`%workpath()` macro ](#workpath-macro-81 )
+81. [`%worklib()` macro ](#worklib-macro-81 )
+82. [`%workpath()` macro ](#workpath-macro-82 )
   
  
-82. [License note](#license)
+83. [License note](#license)
   
 ---
  
@@ -7619,7 +7626,71 @@ run;
   
 ---
  
-## `%workpath()` macro <a name="workpath-macro-81"></a> ######
+## `%worklib()` macro <a name="worklib-macro-81"></a> ######
+
+## >>> `%workLib()` macro: <<< <a name="worklib-macro"></a> ####################### 
+
+The `%workLib()` macro creates and assigns a WORK-scoped sub-library.
+
+Purpose:
+
+The macro creates (if needed) and assigns a SAS library as a sub-directory 
+under the current `WORK` location. This is useful for isolating temporary 
+outputs per task while ensuring automatic cleanup at the end of the SAS session.
+Basic engines libraries, like `BASE`, `V*`, and simple `SPDE`, can be set.
+
+### SYNTAX: ###################################################################
+
+The basic syntax is the following, the `<...>` means optional parameters:
+~~~~~~~~~~~~~~~~~~~~~~~sas
+%workLib(lib,<engine>)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Arguments description**:
+ 
+- `lib`    - *Required*: Name of a library (and sub-folder) 
+             to create under WORK. The value must be a valid 
+             nonempty SAS libref (8 characters max, starting 
+             with a letter or underscore).
+
+- `engine` - *Optional*, Name of a basic, directory level, 
+             SAS engine, e.g. `BASE`. When empty the default
+             engine is used.
+---
+
+### Details  
+
+- Builds a target path: `<WORK>/<lib>`.
+- All data written to this libref are temporary and will be removed 
+  when the WORK library is cleared at session end.
+- If a directory with the same name already exists under WORK, 
+  the macro prints a note and simply assigns the LIBNAME to 
+  that location.
+- The `dcreate()` function is used to create sub-directory.
+
+ 
+### EXAMPLES AND USECASES: ####################################################
+
+**EXAMPLE 1.** Create basic library ABC:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %workLib(abc)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**EXAMPLE 2.** Create libraries with different engines:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %workLib(b,BASE)
+
+  %workLib(v,V6) %* for Windows only.;
+
+  %workLib(s,SPDE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+---
+
+  
+---
+ 
+## `%workpath()` macro <a name="workpath-macro-82"></a> ######
  
 ## >>> `%workPath()` macro: <<< <a name="workpath-macro"></a> #######################  
 
