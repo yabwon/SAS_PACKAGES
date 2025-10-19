@@ -19,7 +19,7 @@
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20250729. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20251017. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -35,7 +35,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20250729`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20251017`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -291,6 +291,8 @@ minoperator
                           	set WORK.__&_TargetFileref_._zip___ end = EOF;
                             wc = countw(file,"/\");
                           
+                            put wc= file=;
+
                             length libText pathname_f $ 8192;
                             libText = pathname("outData", "L");
                          
@@ -309,15 +311,24 @@ minoperator
                                 end;
 
                                 pathname_f = pathname("f");
-                                rc1 = filename("in", strip(pathname_f), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
+
                                 length rc1msg $ 8192;
+                                rc1 = filename("in", strip(pathname_f), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
                                 rc1msg = sysmsg();
-                                rc2 = filename("out", catx("/", libText, scan(file, j , "/\")), "disk", "lrecl=1 recfm=n");
+
+                                length fileNameOutPath $ 8192;
+                                fileNameOutPath = catx("/", libText, scan(file, j , "/\"));
+                                /* check for Windows */
+                                if lengthn(fileNameOutPath)>260 then 
+                                  if symget('SYSSCP')='WIN' then 
+                                    put "INFO: Pathname plus filename length exceeds 260. Under Windows family OS it may cause problems.";
+
                                 length rc2msg $ 8192;
+                                rc2 = filename("out", fileNameOutPath, "disk", "lrecl=1 recfm=n");
                                 rc2msg = sysmsg();
                               
-                                rc3 = fcopy("in", "out");
                                 length rc3msg $ 8192;
+                                rc3 = fcopy("in", "out");
                                 rc3msg = sysmsg();
                           
                                 loadingProblem + (rc3 & 1);
@@ -325,7 +336,7 @@ minoperator
                                 if rc3 then
                                   do;
                                     put "ERROR: Cannot extract: " file;
-                                    put (rc1 rc2 rc3) (=); 
+                                    put "ERROR-" (rc1 rc2 rc3) (=); 
                                     put (rc1msg rc2msg rc3msg) (/);
                                     put "ERROR-"; 
                                   end;

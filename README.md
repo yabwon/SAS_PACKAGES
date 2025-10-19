@@ -17,7 +17,7 @@ Don't forget to give the repository a **STAR** and become [stargazer](https://gi
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20250729`**.  
+**The latest version** of the **SAS Packages Framework** is **`20251017`**.
 
 ---
 

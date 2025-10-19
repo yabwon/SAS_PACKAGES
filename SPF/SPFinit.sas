@@ -42,7 +42,7 @@
    - to unload, or
    - to generate SAS packages.
 
-  Version 20250729.
+  Version 20251017.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -91,7 +91,7 @@
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20250729. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20251017. Run %loadPackage() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -107,7 +107,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20250729`                              #;
+    %put # Macro to *load* SAS packages, version `20251017`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -384,7 +384,7 @@ minoperator
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20250729. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20251017. Run %unloadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -399,7 +399,7 @@ des = 'Macro to unload SAS package, version 20250729. Run %unloadPackage() for h
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20250729`                              #;
+    %put # Macro to unload SAS packages, version `20251017`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -552,7 +552,7 @@ des = 'Macro to unload SAS package, version 20250729. Run %unloadPackage() for h
                                         */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20250729. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20251017. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -567,7 +567,7 @@ des = 'Macro to get help about SAS package, version 20250729. Run %helpPackage()
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20250729`                      #;
+    %put # Macro to get help about SAS packages, version `20251017`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -710,7 +710,7 @@ TODO:
 */
 
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20250729  */
+/* Macros to install SAS packages, version 20251017  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -737,7 +737,7 @@ TODO:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20250729. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20251017. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -752,7 +752,7 @@ des = 'Macro to install SAS package, version 20250729. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20250729`                                          #;
+    %put # Macro to install SAS packages, version `20251017`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -1404,7 +1404,7 @@ des = 'Macro to install SAS package, version 20250729. Run %%installPackage() fo
 
   Macro to list SAS packages in packages folder. 
 
-  Version 20250729 
+  Version 20251017 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -1424,7 +1424,7 @@ des = 'Macro to install SAS package, version 20250729. Run %%installPackage() fo
 
 %macro listPackages()
 /secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20250729.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20251017.'
 ;
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
   %do;
@@ -1439,7 +1439,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20250729`                                #;
+    %put # Macro to list available SAS packages, version `20251017`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -1591,7 +1591,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
    Macro to generate SAS packages.
 
-   Version 20250729
+   Version 20251017
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -1608,30 +1608,36 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
  filesLocation   /* location of package files 
                     e.g. /path/to/package/files/locatiion or C:\my\package\files */
 /* testing options: */
-,testPackage=Y   /* indicator if tests should be executed, 
-                    default value Y means "execute tests" */
-,packages=       /* location of other packages if there are
-                    dependencies in loading, must be a single directory
-                    if more than one are provided only the first is used */
-,testResults=    /* location where tests results should be stored,
-                    if null (the default) the WORK is used */
-,sasexe=         /* a DIRECTORY where the SAS binary is located,
-                    if null (the default) then the !SASROOT is used */
-,sascfgFile=     /* a FILE with testing session configuration parameters
-                    if null (the default) then no config file is pointed
-                    during the SAS invocation,
-                    if set to DEF then the !SASROOT/sasv9.cfg is used */
-,delTestWork=1   /* indicates if `WORK` directories generated by user tests
-                    should be deleted, i.e. the (NO)WORKTERM option is set,
-                    default value 1 means "delete tests work" */
-,markdownDoc=0   /* indicates if a markdown file with documentation 
-                    be generated from help info blocks */
-,easyArch=0      /* when creating documentation file indicates if a copy of 
-                    the zip and markdown files with the version number in the 
-                    file name be created */
+,testPackage=Y        /* indicator if tests should be executed, 
+                         default value Y means "execute tests" */
+,packages=            /* location of other packages if there are
+                         dependencies in loading, must be a single directory
+                         if more than one are provided only the first is used */
+,testResults=         /* location where tests results should be stored,
+                         if null (the default) the WORK is used */
+,workInTestResults=0  /* indicates if WORK directories for tests should located 
+                         in the same place as results  */
+,testWorkPath=        /* location where tests SAS sessions' work directories 
+                         should be stored, if null (the default) the main SAS 
+                         session WORK is used. Takes precedence over workInTestResults= */
+,sasexe=              /* a DIRECTORY where the SAS binary is located,
+                         if null (the default) then the !SASROOT is used */
+,sascfgFile=          /* a FILE with testing session configuration parameters
+                         if null (the default) then no config file is pointed
+                         during the SAS invocation,
+                         if set to DEF then the !SASROOT/sasv9.cfg is used */
+,delTestWork=1        /* indicates if `WORK` directories generated by user tests
+                         should be deleted, i.e. the (NO)WORKTERM option is set,
+                         default value 1 means "delete tests work" */
+/* documentation options: */
+,markdownDoc=0        /* indicates if a markdown file with documentation 
+                         be generated from help info blocks */
+,easyArch=0           /* when creating documentation file indicates if a copy of 
+                         the zip and markdown files with the version number in the 
+                         file name be created */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20250729. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20251017. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -1642,75 +1648,87 @@ des = 'Macro to generate SAS packages, version 20250729. Run %generatePackage() 
     ;
     options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
     %put ;
-    %put #################################################################################;
-    %put ###      This is short help information for the `generatePackage` macro         #;
-    %put #-------------------------------------------------------------------------------#;
-    %put #                                                                               #;
-    %put # Macro to generate SAS packages, version `20250729`                            #;
-    %put #                                                                               #;
-    %put # A SAS package is a zip file containing a group                                #;
-    %put # of SAS codes (macros, functions, data steps generating                        #;
-    %put # data, etc.) wrapped up together and embedded inside the zip.                  #;
-    %put #                                                                               #;
-    %put # The `%nrstr(%%generatePackage())` macro generates SAS packages.                        #;
-    %put # It wraps-up the package content, i.e. macros, functions, formats, etc.,       #;
-    %put # into the zip file and generate all metadata content required by other         #;
-    %put # macros from the SAS Packages Framework.                                       #;
-    %put #                                                                               #;
-    %put #-------------------------------------------------------------------------------#;
-    %put #                                                                               #;
-    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
-    %put # to read about the details of package generation process.                      #;
-    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`           #;
-    %put #                                                                               #;
-    %put #### Parameters:                                                                #;
-    %put #                                                                               #;
-    %put # 1. `filesLocation=` Location of package files, example value:                 #;
-    %put #                      `%nrstr(%%sysfunc(pathname(work))/packagename)`.                  #;
-    %put #                     Default use case:                                         #;
-    %put #                      `%nrstr(%%generatePackage(filesLocation=/path/to/packagename))`   #;
-    %put #                     If empty displays this help information.                  #;
-    %put #                                                                               #;
-    %put # Testing parameters:                                                           #;
-    %put #                                                                               #;
-    %put # - `testPackage=`    Indicator if tests should be executed.                    #;
-    %put #                     Default value: `Y`, means "execute tests"                 #;
-    %put #                                                                               #;
-    %put # - `packages=`       Location of other packages for testing                    #;
-    %put #                     if there are dependencies in loading the package.         #;
-    %put #                     Has to be a single directory, if more than one are        #;
-    %put #                     provided than only the first is used.                     #;
-    %put #                     If path to location contains spaces it should be quoted!  #;
-    %put #                                                                               #;
-    %put # - `testResults=`    Location where tests results should be stored,            #;
-    %put #                     if null (the default) then the session WORK is used.      #;
-    %put #                                                                               #;
-    %put # - `sasexe=`         Location of a DIRECTORY where the SAS binary is located,  #;
-    %put #                     if null (the default) then the `!SASROOT` is used.        #;
-    %put #                                                                               #;
-    %put # - `sascfgFile=`     Location of a FILE with testing session configuration     #;
-    %put #                     parameters, if null (the default) then no config file     #;
-    %put #                     is pointed during the SAS invocation,                     #;
-    %put #                     if set to `DEF` then the `!SASROOT/sasv9.cfg` is used.    #;
-    %put #                                                                               #;
-    %put # - `delTestWork=`    Indicates if `WORK` directories generated by user tests   #;
-    %put #                     should be deleted, i.e. the (NO)WORKTERM option is set.   #;
-    %put #                     The default value: `1` means "delete tests work".         #;
-    %put #                     Available values are `0` and `1`.                         #;
-    %put #                                                                               #;
-    %put # - `markdownDoc=`    Indicates if a markdown file with documentation           #;
-    %put #                     be generated from help information blocks.                #;
-    %put #                     The default value: `0` means "do not generate the file".  #;
-    %put #                     Available values are `0` and `1`.                         #;
-    %put #                                                                               #;
-    %put # - `easyArch=`       When creating documentation file (`markdownDoc=1`)        #;
-    %put #                     indicates if a copy of the zip and markdown files         #;
-    %put #                     with the version number in the file name be created       #;
-    %put #                     The default value: `0` means "do not create files".       #;
-    %put #                     Available values are `0` and `1`.                         #;
-    %put #                                                                               #;
-    %put #-------------------------------------------------------------------------------#;
-    %put #################################################################################;
+    %put ######################################################################################;
+    %put ###      This is short help information for the `generatePackage` macro              #;
+    %put #------------------------------------------------------------------------------------#;
+    %put #                                                                                    #;
+    %put # Macro to generate SAS packages, version `20251017`                                 #;
+    %put #                                                                                    #;
+    %put # A SAS package is a zip file containing a group                                     #;
+    %put # of SAS codes (macros, functions, data steps generating                             #;
+    %put # data, etc.) wrapped up together and embedded inside the zip.                       #;
+    %put #                                                                                    #;
+    %put # The `%nrstr(%%generatePackage())` macro generates SAS packages.                             #;
+    %put # It wraps-up the package content, i.e. macros, functions, formats, etc.,            #;
+    %put # into the zip file and generate all metadata content required by other              #;
+    %put # macros from the SAS Packages Framework.                                            #;
+    %put #                                                                                    #;
+    %put #------------------------------------------------------------------------------------#;
+    %put #                                                                                    #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`        #;
+    %put # to read about the details of package generation process.                           #;
+    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`                #;
+    %put #                                                                                    #;
+    %put #### Parameters:                                                                     #;
+    %put #                                                                                    #;
+    %put # 1. `filesLocation=`      Location of package files, example value:                 #;
+    %put #                           `%nrstr(%%sysfunc(pathname(work))/packagename)`.                  #;
+    %put #                          Default use case:                                         #;
+    %put #                           `%nrstr(%%generatePackage(filesLocation=/path/to/packagename))`   #;
+    %put #                          If empty displays this help information.                  #;
+    %put #                                                                                    #;
+    %put # Testing parameters:                                                                #;
+    %put #                                                                                    #;
+    %put # - `testPackage=`         Indicator if tests should be executed.                    #;
+    %put #                          Default value: `Y`, means "execute tests"                 #;
+    %put #                                                                                    #;
+    %put # - `packages=`            Location of other packages for testing                    #;
+    %put #                          if there are dependencies in loading the package.         #;
+    %put #                          Has to be a single directory, if more than one are        #;
+    %put #                          provided than only the first is used.                     #;
+    %put #                          If path to location contains spaces it should be quoted!  #;
+    %put #                                                                                    #;
+    %put # - `testResults=`         Location where tests results should be stored,            #;
+    %put #                          if null (the default) then the session WORK is used.      #;
+    %put #                                                                                    #;
+    %put # - `workInTestResults=`   Indicates if WORK directories for test sessions should    #;
+    %put #                          be located in the same place as results.                  #;
+    %put #                          The default value: `0` means "do not do this".            #;
+    %put #                          Available values are `0` and `1`.                         #;
+    %put #                                                                                    #;
+    %put # - `testWorkPath=`        Points a location where tests sessions work directories   #;
+    %put #                          should be stored. By default it is null what means that   #;
+    %put #                          a sub-directory of the main SAS session WORK is used.     #;
+    %put #                          Takes precedence over `workInTestResults=`.               #;
+    %put #                                                                                    #;
+    %put # - `sasexe=`              Location of a DIRECTORY where the SAS binary is located,  #;
+    %put #                          if null (the default) then the `!SASROOT` is used.        #;
+    %put #                                                                                    #;
+    %put # - `sascfgFile=`          Location of a FILE with testing session configuration     #;
+    %put #                          parameters, if null (the default) then no config file     #;
+    %put #                          is pointed during the SAS invocation,                     #;
+    %put #                          if set to `DEF` then the `!SASROOT/sasv9.cfg` is used.    #;
+    %put #                                                                                    #;
+    %put # - `delTestWork=`         Indicates if `WORK` directories generated by user tests   #;
+    %put #                          should be deleted, i.e. the (NO)WORKTERM option is set.   #;
+    %put #                          The default value: `1` means "delete tests work".         #;
+    %put #                          Available values are `0` and `1`.                         #;
+    %put #                                                                                    #;
+    %put # Documentation parameters:                                                          #;
+    %put #                                                                                    #;
+    %put # - `markdownDoc=`         Indicates if a markdown file with documentation           #;
+    %put #                          be generated from help information blocks.                #;
+    %put #                          The default value: `0` means "do not generate the file".  #;
+    %put #                          Available values are `0` and `1`.                         #;
+    %put #                                                                                    #;
+    %put # - `easyArch=`            When creating documentation file (`markdownDoc=1`)        #;
+    %put #                          indicates if a copy of the zip and markdown files         #;
+    %put #                          with the version number in the file name be created       #;
+    %put #                          The default value: `0` means "do not create files".       #;
+    %put #                          Available values are `0` and `1`.                         #;
+    %put #                                                                                    #;
+    %put #------------------------------------------------------------------------------------#;
+    %put ######################################################################################;
     %put ;
     options &options_tmp.;
     %GOTO ENDofgeneratePackage;
@@ -2461,7 +2479,7 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
     title8 "Required SAS packages: %qsysfunc(compress(%superq(packageReqPackages),%str(%'%")))" ;   /* " */
   %end;
 
-footnote1 "SAS Packages Framework, version 20250729";
+footnote1 "SAS Packages Framework, version 20251017";
 
 proc print 
   data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent)
@@ -2529,27 +2547,27 @@ run;
       file &zipReferrence.(license.sas) encoding = &packageEncoding.;
       length packageAuthor $ 1024;
       packageAuthor = symget('packageAuthor');
-      put " ";
-      put "Copyright (c) since %sysfunc(today(),year4.) " packageAuthor                   ;
-      put "                                                                               ";
-      put "Permission is hereby granted, free of charge, to any person obtaining a copy  ";
-      put 'of this software and associated documentation files (the "Software"), to deal ';
-      put "in the Software without restriction, including without limitation the rights  ";
-      put "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell     ";
-      put "copies of the Software, and to permit persons to whom the Software is         ";
-      put "furnished to do so, subject to the following conditions:                      ";
-      put "                                                                              ";
-      put "The above copyright notice and this permission notice shall be included       ";
-      put "in all copies or substantial portions of the Software.                        ";
-      put "                                                                              ";
-      put 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR    ';
-      put "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,      ";
-      put "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE   ";
-      put "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER        ";
-      put "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, ";
-      put "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE ";
-      put "SOFTWARE.                                                                     ";
-      put "                                                                              ";
+      put "  ";
+      put "Copyright (c) since %sysfunc(today(),year4.) " packageAuthor ;
+      put "  ";
+      put "Permission is hereby granted, free of charge, to any person obtaining a copy";
+      put 'of this software and associated documentation files (the "Software"), to deal';
+      put "in the Software without restriction, including without limitation the rights";
+      put "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell";
+      put "copies of the Software, and to permit persons to whom the Software is";
+      put "furnished to do so, subject to the following conditions:";
+      put "  ";
+      put "The above copyright notice and this permission notice shall be included";
+      put "in all copies or substantial portions of the Software.";
+      put "  ";
+      put 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR';
+      put "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,";
+      put "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE";
+      put "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER";
+      put "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,";
+      put "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE";
+      put "SOFTWARE.";
+      put "  ";
     run;
   %end;
 
@@ -3285,7 +3303,7 @@ data _null_;
             %end; 
       put +(-1) '`.;''' /
       ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20250729.;''' / 
+      ' !! ''      %put with the SAS Packages Framework version 20251017.;''' / 
       ' !! ''      %put ****************************************************************************;''' /
       ' !! ''    %GOTO theEndOfTheMacro;''' / 
       ' !! ''    %end;''' ;
@@ -3450,7 +3468,7 @@ data _null_;
             %end; 
       put +(-1) '`.; '' !!' /
           '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !!' / 
-          '''      %put with the SAS Packages Framework version 20250729.;                                  '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20251017.;                                  '' !! ' / 
           '''      %put ****************************************************************************;       '' !! ' /
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
@@ -4257,7 +4275,7 @@ data _null_;
   %end;
 
   put 'put " " / @3 "--------------------------------------------------------------------" / " ";' 
-    /       'put @3 "*SAS package generated by SAS Package Framework, version `20250729`*";' 
+    /       'put @3 "*SAS package generated by SAS Package Framework, version `20251017`*";' 
     / 'put " " / @3 "--------------------------------------------------------------------";';
 
   put 'run;                                                                      ' /;
@@ -4812,16 +4830,57 @@ options DLCREATEDIR; /* turns-on creation of subdirectories by libname */
 /* temporary location for tests results is WORK unless developer provide &testResults. */
 %local testPackageTimesamp;
 %let testPackageTimesamp = %sysfunc(lowcase(&packageName._%sysfunc(datetime(),b8601dt15.)));
-%if %qsysfunc(fileexist(%bquote(&testResults.))) %then
+%if %qsysfunc(fileexist(%superq(testResults))) %then
   %do;
     libname TEST "&testResults./test_&testPackageTimesamp.";
   %end;
 %else
   %do;
+    %if NOT %sysevalf(%superq(testResults)=,boolean) %then
+      %do;
+        %put WARNING: The testResults path:;
+        %put WARNING- %superq(testResults);
+        %put WARNING- does not exist. WORK will be used.;
+        %put WARNING- ;
+      %end;
     libname TEST "&SASWORK./test_&testPackageTimesamp.";
   %end;
-/* test work points to the SAS session work */
-libname TESTWORK "&SASWORK./testwork_&testPackageTimesamp.";
+
+/* test WORK points to the SAS session WORK or to directory pointed by the developer */
+%if %qsysfunc(fileexist(%superq(testWorkPath))) %then
+  %do;
+    libname TESTWORK "&testWorkPath./testwork_&testPackageTimesamp.";
+    %put NOTE- ;
+    %PUT NOTE: WORK libname directories from test SAS sessions will not be deleted.;
+    %if %sysevalf(1=%superq(workInTestResults),boolean) %then
+      %do;
+        %put NOTE- Parameter workInTestResults is ignored;
+      %end;
+    %put NOTE- ;
+
+    %let delTestWork=0;
+  %end;
+%else %if %sysevalf(1=%superq(workInTestResults),boolean) %then
+  %do;
+    libname TESTWORK "%sysfunc(pathname(TEST))";
+    %put NOTE- ;
+    %PUT NOTE: WORK libname directories from test SAS sessions will be located in the;
+    %PUT NOTE- same directory where test resulrs are stored, and will not be deleted.;
+    %put NOTE- ;
+    %let delTestWork=0;
+  %end;
+%else
+  %do;
+    %if NOT %sysevalf(%superq(testWorkPath)=,boolean) %then
+      %do;
+        %put WARNING: The testWorkPath path:;
+        %put WARNING- %superq(testWorkPath);
+        %put WARNING- does not exist. WORK will be used.;
+        %put WARNING- ;
+      %end;
+    libname TESTWORK "&SASWORK./testwork_&testPackageTimesamp."; 
+  %end;
+
 %local dirForTest dirForTestWork;
   %let dirForTest     = %sysfunc(pathname(TEST));
   %let dirForTestWork = %sysfunc(pathname(TESTWORK));
@@ -4835,7 +4894,7 @@ filename currdir ".";
 filename currdir list;
 
 /* if your package uses any other packages this points to their location */
-/* test if packages fileref exists and, if do, use it */
+/* test if packages fileref exists and, if it does, use it */
 /* if no one is provided the filesLocation is used as a replacement */
 %if %bquote(&packages.)= %then %let packages=%sysfunc(pathname(packages));
 %if %bquote(&packages.)= %then %let packages=&filesLocation.;
@@ -4861,9 +4920,9 @@ options NOquotelenmax;
 data _null_;
   file "./loading.sas";
 
-  put "proc printto";
-  put "log = '&dirForTest./loading.log0'";
-  put "; run;";
+  put "proc printto"
+    / "log = '&dirForTest./loading.log0'"
+    / "; run;";
 
   put "filename packages '&packages.';" /;
 
@@ -4873,18 +4932,18 @@ data _null_;
     put '%include packages(loadpackage.sas);' / ; /* for older versions when the SPFinit.sas did not exist */
 
   /* load */
-  put '%loadpackage'"(&packageName.,";
-  put " path=&filesLocation.)" /;
-  put '%loadpackage'"(&packageName.,";
-  put " path=&filesLocation., lazyData=*)" /;
+  put '%loadpackage'"(&packageName.,"
+    / " path=&filesLocation.)" /;
+  put '%loadpackage'"(&packageName.,"
+    / " path=&filesLocation., lazyData=*)" /;
 
   /* help */
-  put '%helpPackage'"(&packageName.,";
-  put " path=&filesLocation.)" /;
-  put '%helpPackage'"(&packageName.,*,";
-  put " path=&filesLocation.)" /;
-  put '%helpPackage'"(&packageName.,License,";
-  put " path=&filesLocation.)" /;
+  put '%helpPackage'"(&packageName.,"
+    / " path=&filesLocation.)" /;
+  put '%helpPackage'"(&packageName.,*,"
+    / " path=&filesLocation.)" /;
+  put '%helpPackage'"(&packageName.,License,"
+    / " path=&filesLocation.)" /;
 
   /* preview */
   put '%previewPackage'"(&packageName.,";
@@ -4904,10 +4963,9 @@ data _null_;
       when (upcase(type) in ("LAZYDATA")) /* the "DATA" type will pop-up during deletion */
         do;
           if 1 = FIRST.type then
-            put "data _null_; " ;
-            put " if not exist('" fileshortUP "') then " /
-                "   put 'WARNING: Dataset " fileshortUP "does not exist!'; "
-                ;
+            put "data _null_; " 
+              / " if not exist('" fileshortUP "') then " 
+              / "   put 'WARNING: Dataset " fileshortUP "does not exist!'; " ;
           if 1 = LAST.type then
             put "run; ";
         end;
@@ -4915,10 +4973,9 @@ data _null_;
       when (upcase(type) =: "MACRO")
         do;
           if 1 = FIRST.type then
-            put "data _null_; " ;
-            put ' if not input(resolve(''%SYSMACEXIST(' fileshortUP ')''), best.) then ' /
-                "   put 'WARNING: Macro " fileshortUP "does not exist!'; "
-                ;
+            put "data _null_; " 
+              / ' if not input(resolve(''%SYSMACEXIST(' fileshortUP ')''), best.) then ' 
+              / "   put 'WARNING: Macro " fileshortUP "does not exist!'; " ;
           if 1 = LAST.type then
             put "run; ";
 
@@ -4936,19 +4993,23 @@ data _null_;
   end;
 
   /* unload */
-  put '%unloadPackage'"(&packageName.,";
-  put " path=&filesLocation.)         " /;
+  put '%unloadPackage'"(&packageName.,"
+    / " path=&filesLocation.)         " /;
 
   /* additional content */
-  put '%loadPackageAddCnt'"(&packageName.,";
-  put " path=&filesLocation.)         " /;
+  put '%loadPackageAddCnt'"(&packageName.,"
+    / " path=&filesLocation.)         " /;
 
-  put "filename packages '&filesLocation.';" /
-      '%listPackages()                     ' /;
+  put "filename packages '&filesLocation.';" 
+    / '%listPackages()                     ' /;
 
+  /* check if work should be deleted after test is done */
+  delTestWork = input(symget('delTestWork'), ?? best32.);
+  if 0 = delTestWork then
+    put "options NOWORKTERM;"/;
 
-  put "proc printto";
-  put "; run;";
+  put "proc printto"
+    / "; run;";
 
   stop;
 run;
@@ -5059,6 +5120,28 @@ data _null_;
 
   file "./autoexec.sas";
 
+  /* check if work should be deleted after test is done */
+  delTestWork = input(symget('delTestWork'), ?? best32.);
+  if not(delTestWork in (0 1)) then
+    do;
+      putlog "WARNING: [&sysmacroname.] The `delTestWork` parameter is invalid.";
+      putlog "WARNING- [&sysmacroname.] Default value (1) is set.";
+      delTestWork = 1;
+    end;
+
+  if 0 = delTestWork then
+    do;
+      put "libname _ '&dirForTest.';" /
+          "data TESTWORK_&t.;" /
+          "  length testName $ 128 testWork $ 2048;" /
+          "  testNumber=&t.; testName='&&TEST_&t..';" /
+          "  testWork = pathname('WORK');" /
+          "run;" /
+          "proc append base=_.TESTWORK data=TESTWORK_&t.; run;" /
+          "proc delete data=TESTWORK_&t.; run;" /
+          "libname _ clear;" ;
+    end; 
+
   put "proc printto";
   put "log = '&dirForTest./&&TEST_&t...log0'";
   put "; run;";
@@ -5074,15 +5157,6 @@ data _null_;
   put " path=&filesLocation.)" /;
   put '%loadpackage'"(&packageName.,";
   put " path=&filesLocation., lazyData=*)" /;
-
-  /* check if work should be deleted after test is done */
-  delTestWork = input(symget('delTestWork'), ?? best32.);
-  if not(delTestWork in (0 1)) then
-    do;
-      putlog "WARNING: [&sysmacroname.] The `delTestWork` parameter is invalid.";
-      putlog "WARNING- [&sysmacroname.] Default value (1) is set.";
-      delTestWork = 1;
-    end;
 
   if 0 = delTestWork then
     put "options NOWORKTERM;"/;
@@ -5160,12 +5234,13 @@ options &notesSourceOptions.;
 
 data test.tests_summary;
   length testName $ 128;
-  do _N_ = 0 to &numberOfTests.;
-    testName = symget(cats("TEST_", _N_));
-    systask  = coalesce(input(symget(cats("SASSTAT", _N_)), ?? best32.), -1);
-    sysrc    = coalesce(input(symget(cats("TESTRC_", _N_)), ?? best32.), -1);
-    error    = coalesce(input(symget(cats("TESTE_", _N_)),  ?? best32.), -1);
-    warning  = coalesce(input(symget(cats("TESTW_", _N_)),  ?? best32.), -1);
+  do testNumber = 0 to &numberOfTests.;
+    testName = symget(cats("TEST_", testNumber));
+    systask  = coalesce(input(symget(cats("SASSTAT", testNumber)), ?? best32.), -1);
+    sysrc    = coalesce(input(symget(cats("TESTRC_", testNumber)), ?? best32.), -1);
+    error    = coalesce(input(symget(cats("TESTE_", testNumber)),  ?? best32.), -1);
+    warning  = coalesce(input(symget(cats("TESTW_", testNumber)),  ?? best32.), -1);
+    
     output;
   end;
 run;
@@ -5173,9 +5248,28 @@ title1 "Summary of tests.";
 title2 "details can be found in:";
 title3 "%sysfunc(pathname(TEST))";
 footnote;
-proc print data = test.tests_summary;
+proc print data = test.tests_summary(drop=testNumber);
 run;
 title;
+
+%if 0=&delTestWork. %then
+  %do;
+    data test.tests_summary;
+      merge 
+        test.tests_summary 
+        %if %sysfunc(EXIST(test.testwork)) %then 
+          %do; test.testwork %end;
+        %else 
+          %do; %PUT INFO: Cannot add work path location info.; %end;
+      ;
+      by testNumber;
+    run;
+    %if %sysfunc(EXIST(test.testwork)) %then 
+      %do; 
+        proc delete data=test.testwork; 
+        run; 
+      %end;
+  %end;
 
 /*%put _local_;*/
 
@@ -5295,7 +5389,7 @@ data &filesWithCodes.markdown;
   %end;
 
   put " " / "--------------------------------------------------------------------" / " " 
-          / "*SAS package generated by SAS Package Framework, version `20250729`*" 
+          / "*SAS package generated by SAS Package Framework, version `20251017`*" 
     / " " / "--------------------------------------------------------------------" / " ";
 
   put "# The `&packageName.` package content";
@@ -5573,7 +5667,7 @@ TODO: (in Polish)
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20250729. Run %loadPackages() for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20251017. Run %loadPackages() for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -5589,7 +5683,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20250729`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20251017`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -5687,7 +5781,7 @@ parmbuff
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20250729. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20251017. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -5702,7 +5796,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20250729. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20250729`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20251017`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -5884,7 +5978,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20250729. Run %
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to preview content of a SAS package, version 20250729. Run %previewPackage() for help info.'
+des = 'Macro to preview content of a SAS package, version 20251017. Run %previewPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -5899,7 +5993,7 @@ des = 'Macro to preview content of a SAS package, version 20250729. Run %preview
     %put ###    This is short help information for the `previewPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get preview of a SAS packages, version `20250729`                    #;
+    %put # Macro to get preview of a SAS packages, version `20251017`                    #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -6031,7 +6125,7 @@ des = 'Macro to preview content of a SAS package, version 20250729. Run %preview
              when empty the "packages" value is used */
 )/secure
 /*** HELP END ***/
-des = 'Macro to list directories pointed by "packages" fileref, version 20250729. Run %extendPackagesFileref(HELP) for help info.'
+des = 'Macro to list directories pointed by "packages" fileref, version 20251017. Run %extendPackagesFileref(HELP) for help info.'
 ;
 
 %if %QUPCASE(&packages.) = HELP %then
@@ -6047,7 +6141,7 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20250729
     %put ###       This is short help information for the `extendPackagesFileref` macro            #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list directories pointed by 'packages' fileref, version `20250729`             #;
+    %put # Macro to list directories pointed by 'packages' fileref, version `20251017`             #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -6149,7 +6243,7 @@ filename packages list;
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20250729. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20251017. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -6165,7 +6259,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20250729`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20251017`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -6421,6 +6515,8 @@ minoperator
                           	set WORK.__&_TargetFileref_._zip___ end = EOF;
                             wc = countw(file,"/\");
                           
+                            put wc= file=;
+
                             length libText pathname_f $ 8192;
                             libText = pathname("outData", "L");
                          
@@ -6439,15 +6535,24 @@ minoperator
                                 end;
 
                                 pathname_f = pathname("f");
-                                rc1 = filename("in", strip(pathname_f), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
+
                                 length rc1msg $ 8192;
+                                rc1 = filename("in", strip(pathname_f), "zip", "member='" !! strip(file) !! "' lrecl=1 recfm=n");
                                 rc1msg = sysmsg();
-                                rc2 = filename("out", catx("/", libText, scan(file, j , "/\")), "disk", "lrecl=1 recfm=n");
+
+                                length fileNameOutPath $ 8192;
+                                fileNameOutPath = catx("/", libText, scan(file, j , "/\"));
+                                /* check for Windows */
+                                if lengthn(fileNameOutPath)>260 then 
+                                  if symget('SYSSCP')='WIN' then 
+                                    put "INFO: Pathname plus filename length exceeds 260. Under Windows family OS it may cause problems.";
+
                                 length rc2msg $ 8192;
+                                rc2 = filename("out", fileNameOutPath, "disk", "lrecl=1 recfm=n");
                                 rc2msg = sysmsg();
                               
-                                rc3 = fcopy("in", "out");
                                 length rc3msg $ 8192;
+                                rc3 = fcopy("in", "out");
                                 rc3msg = sysmsg();
                           
                                 loadingProblem + (rc3 & 1);
@@ -6455,7 +6560,7 @@ minoperator
                                 if rc3 then
                                   do;
                                     put "ERROR: Cannot extract: " file;
-                                    put (rc1 rc2 rc3) (=); 
+                                    put "ERROR-" (rc1 rc2 rc3) (=); 
                                     put (rc1msg rc2msg rc3msg) (/);
                                     put "ERROR-"; 
                                   end;
@@ -6523,7 +6628,7 @@ minoperator
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP START ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20250729. Run %splitCodeForPackage() for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20251017. Run %splitCodeForPackage() for help info.'
 ;
 /*%macro _();%mend _;*/
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
@@ -6540,7 +6645,7 @@ minoperator
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20250729`                              #;
+    %put # files with separate snippets, version `20251017`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -6622,7 +6727,6 @@ minoperator
     %GOTO ENDofsplitCodeForPackage;
   %end;
 
-
 %local options_tmp2 ;
 %let options_tmp2 = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
 %sysfunc(getoption(notes)) %sysfunc(getoption(source))
@@ -6688,7 +6792,6 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
     call symputX('packagePath',packagePath,"L");
   run;
 
-
   data w.files;
     stop;
   run;
@@ -6714,7 +6817,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
     line = left(lowcase(_infile_));
     block=scan(line,1," ");
 
-    if block in (
+    if block in ( 
       '/*##$##-code-block-start-##$##' 
       '/*##$##-code-block-end-##$##'
     ); 
@@ -6918,7 +7021,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
             */
             if firstLine[j] then
               do;
-                put '/* File generated with help of SAS Packages Framework, version 20250729. */';
+                put '/* File generated with help of SAS Packages Framework, version 20251017. */';
                 firstLine[j]=0;
               end; 
             put _infile_;
@@ -6933,6 +7036,5 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
 options &options_tmp2.;
 %ENDofsplitCodeForPackage:
 %mend splitCodeForPackage;
-
 
 /**/
