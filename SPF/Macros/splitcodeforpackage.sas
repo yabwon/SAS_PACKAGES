@@ -8,7 +8,7 @@
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP START ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20250729. Run %splitCodeForPackage() for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20251017. Run %splitCodeForPackage() for help info.'
 ;
 /*%macro _();%mend _;*/
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
@@ -25,7 +25,7 @@
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20250729`                              #;
+    %put # files with separate snippets, version `20251017`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -107,7 +107,6 @@
     %GOTO ENDofsplitCodeForPackage;
   %end;
 
-
 %local options_tmp2 ;
 %let options_tmp2 = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
 %sysfunc(getoption(notes)) %sysfunc(getoption(source))
@@ -173,7 +172,6 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
     call symputX('packagePath',packagePath,"L");
   run;
 
-
   data w.files;
     stop;
   run;
@@ -199,7 +197,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
     line = left(lowcase(_infile_));
     block=scan(line,1," ");
 
-    if block in (
+    if block in ( 
       '/*##$##-code-block-start-##$##' 
       '/*##$##-code-block-end-##$##'
     ); 
@@ -403,7 +401,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
             */
             if firstLine[j] then
               do;
-                put '/* File generated with help of SAS Packages Framework, version 20250729. */';
+                put '/* File generated with help of SAS Packages Framework, version 20251017. */';
                 firstLine[j]=0;
               end; 
             put _infile_;
@@ -418,6 +416,5 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
 options &options_tmp2.;
 %ENDofsplitCodeForPackage:
 %mend splitCodeForPackage;
-
 
 /**/

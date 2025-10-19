@@ -1,7 +1,7 @@
 
 ---
 
-# SAS Packages Framework, version `20250729`
+# SAS Packages Framework, version `20251017`
 
 ---
 
@@ -25,13 +25,13 @@
 
 ##      This is short SAS Packages Framework help information <a name="helpinfo"></a>
 
-A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files).
+A **SAS package** is an automatically generated, single, stand alone *zip* file containing organized and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files).
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20250729`**.
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20251017`**.
 
-**To get started with SAS Packages** try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
+**To get started with SAS Packages** try this [**`Introduction to SAS Packages`**](https://youtube.com/playlist?list=PLeMzGEImIT5eV13IGXQIgWmTFCJt_cLZG&si=ElQm0_ifq76mvUbq "Introduction to SAS Packages video series") video series or [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
 **The documentation and more advance reading** would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
 
@@ -52,7 +52,7 @@ them using the SPF can be found [**HERE**](https://github.com/yabwon/HoW-SASPack
 ##       This is short help information for the `installPackage` macro <a name="installpackage"></a>
 --------------------------------------------------------------------------------------------
 
- Macro to install SAS packages, version `20250729`
+ Macro to install SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -180,7 +180,7 @@ filename packages "C:/SAS_PACKAGES";
 ##       This is short help information for the `helpPackage` macro <a name="helppackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to get help about SAS packages, version `20250729`
+ Macro to get help about SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -258,7 +258,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `loadPackage` macro <a name="loadpackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to *load* SAS packages, version `20250729`
+ Macro to *load* SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -416,7 +416,7 @@ If created, those macros are automatically deleted when the `%unloadPackage()` m
 ##      This is short help information for the `loadPackageS` macro <a name="loadpackages"></a>
 -------------------------------------------------------------------------------
 
- Macro wrapper for the loadPackage macro, version `20250729`
+ Macro wrapper for the loadPackage macro, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -467,7 +467,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `unloadPackage` macro <a name="unloadpackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to unload SAS packages, version `20250729`
+ Macro to unload SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -534,7 +534,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##       This is short help information for the `listPackages` macro <a name="listpackages"></a>
 -----------------------------------------------------------------------------------------
 
- Macro to list available SAS packages, version `20250729`
+ Macro to list available SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -577,7 +577,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `verifyPackage` macro <a name="verifypackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to verify SAS package with it hash digest, version `20250729`
+ Macro to verify SAS package with it hash digest, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -631,7 +631,7 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
 ##    This is short help information for the `previewPackage` macro <a name="previewpackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to get preview of a SAS packages, version `20250729`
+ Macro to get preview of a SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -700,7 +700,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `generatePackage` macro <a name="generatepackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to generate SAS packages, version `20250729`
+ Macro to generate SAS packages, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -718,49 +718,61 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 
 ### Parameters:
 
- 1. `filesLocation=` Location of package files, example value:
-                      `%sysfunc(pathname(work))/packagename`.
-                     Default use case:
-                      `%generatePackage(filesLocation=/path/to/packagename)`
-                     If empty displays this help information.
+ 1. `filesLocation=`      Location of package files, example value:
+                           `%sysfunc(pathname(work))/packagename`.
+                          Default use case:
+                           `%generatePackage(filesLocation=/path/to/packagename)`
+                          If empty displays this help information.
 
  Testing parameters:
 
- - `testPackage=`    Indicator if tests should be executed.
-                     Default value: `Y`, means "execute tests"
+ - `testPackage=`         Indicator if tests should be executed.
+                          Default value: `Y`, means "execute tests"
 
- - `packages=`       Location of other packages for testing
-                     if there are dependencies in loading the package.
-                     Has to be a single directory, if more than one are
-                     provided than only the first is used.
-                     If path to location contains spaces it should be quoted!
+ - `packages=`            Location of other packages for testing
+                          if there are dependencies in loading the package.
+                          Has to be a single directory, if more than one are
+                          provided than only the first is used.
+                          If path to location contains spaces it should be quoted!
 
- - `testResults=`     Location where tests results should be stored,
-                      if null (the default) then the session WORK is used.
+ - `testResults=`         Location where tests results should be stored,
+                          if null (the default) then the session WORK is used.
 
- - `sasexe=`         Location of a DIRECTORY where the SAS binary is located,
-                     if null (the default) then the `!SASROOT` is used.
+ - `workInTestResults=`   Indicates if WORK directories for test sessions should
+                          be located in the same place as results.
+                          The default value: `0` means "do not do this".
+                          Available values are `0` and `1`.
 
- - `sascfgFile=`     Location of a FILE with testing session configuration
-                     parameters, if null (the default) then no config file
-                     is pointed during the SAS invocation,
-                     if set to `DEF` then the `!SASROOT/sasv9.cfg` is used.
+ - `testWorkPath=`        Points a location where tests sessions work directories
+                          should be stored. By default it is null what means that
+                          a sub-directory of the main SAS session WORK is used.
+                          Takes precedence over `workInTestResults=`.
 
- - `delTestWork=`    Indicates if `WORK` directories generated by user tests
-                     should be deleted, i.e. the (NO)WORKTERM option is set.
-                     The default value: `1` means "delete tests work".
-                     Available values are `0` and `1`.
+ - `sasexe=`              Location of a DIRECTORY where the SAS binary is located,
+                          if null (the default) then the `!SASROOT` is used.
 
- - `markdownDoc=`    Indicates if a markdown file with documentation
-                     be generated from help information blocks.
-                     The default value: `0` means "do not generate the file".
-                     Available values are `0` and `1`.
+ - `sascfgFile=`          Location of a FILE with testing session configuration
+                          parameters, if null (the default) then no config file
+                          is pointed during the SAS invocation,
+                          if set to `DEF` then the `!SASROOT/sasv9.cfg` is used.
 
- - `easyArch=`       When creating documentation file (`markdownDoc=1`)
-                     indicates if a copy of the zip and markdown files
-                     with the version number in the file name be created
-                     The default value: `0` means "do not create files".
-                     Available values are `0` and `1`.
+ - `delTestWork=`         Indicates if `WORK` directories generated by user tests
+                          should be deleted, i.e. the (NO)WORKTERM option is set.
+                          The default value: `1` means "delete tests work".
+                          Available values are `0` and `1`.
+
+ Documentation parameters:
+
+ - `markdownDoc=`         Indicates if a markdown file with documentation
+                          be generated from help information blocks.
+                          The default value: `0` means "do not generate the file".
+                          Available values are `0` and `1`.
+
+ - `easyArch=`            When creating documentation file (`markdownDoc=1`)
+                          indicates if a copy of the zip and markdown files
+                          with the version number in the file name be created
+                          The default value: `0` means "do not create files".
+                          Available values are `0` and `1`.
 
 
 -------------------------------------------------------------------------------
@@ -915,7 +927,7 @@ All files have to have `.sas` extension. Other files are ignored.
 ##      This is short help information for the `extendPackagesFileref` macro <a name="extendpackagesfileref"></a>
 -----------------------------------------------------------------------------------------
 
- Macro to list directories pointed by 'packages' fileref, version `20250729`
+ Macro to list directories pointed by 'packages' fileref, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -957,7 +969,7 @@ filename packages ("D:/NEW_DIR" %extendPackagesFileref()); %* add new directory;
 ##      This is short help information for the `loadPackageAddCnt` macro <a name="loadpackageaddcnt"></a>
 -------------------------------------------------------------------------------
 
- Macro to load *additional content* for a SAS package, version `20250729`
+ Macro to load *additional content* for a SAS package, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -1051,7 +1063,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 -------------------------------------------------------------------------------
 
  Utility macro to *split* single file with SAS package code into multiple
- files with separate snippets, version `20250729`
+ files with separate snippets, version `20251017`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating

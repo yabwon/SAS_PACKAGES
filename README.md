@@ -1,4 +1,6 @@
-# SAS_PACKAGES - a SAS Packages Framework
+# SAS Packages Framework
+
+![SAS Packages Framework](./SPF/Logo/SPFlogo1200x770.png "SAS Packages Framework")
 
 ---
 
@@ -6,27 +8,28 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. 
+In this repository we are presenting the **SAS Packages Framework** - a tool that allows to develop and use SAS packages. 
 
 Don't forget to give the repository a **STAR** and become [stargazer](https://github.com/yabwon/SAS_PACKAGES/stargazers)! :-)
 
----
 
 ---
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20250729`**.  
+**The latest version** of the **SAS Packages Framework** is **`20251017`**.
+
+---
 
 ---
 
 ## Intro: 
 
-To get started with SAS Packages try this [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
+To get started with SAS Packages try: [**`Introduction to SAS Packages`**](https://youtube.com/playlist?list=PLeMzGEImIT5eV13IGXQIgWmTFCJt_cLZG&si=ElQm0_ifq76mvUbq "Introduction to SAS Packages video series") video series or [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
-The documentation and more advance reading would be the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
+The documentation and more advance reading can be found in the [**`SAS(r) packages - the way to share (a how to)- Paper 4725-2020 - extended.pdf`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/SAS(r)%20packages%20-%20the%20way%20to%20share%20(a%20how%20to)-%20Paper%204725-2020%20-%20extended.pdf "SAS packages - the way to share") article (see the `./SPF/Documentation` directory).
 
-Short description of the SAS Packages Framework macros can be found [here](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md "Short description of the SAS Packages Framework macros")
+Short description of the SAS Packages Framework macros and their parameters can be found [here](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/SPFinit.md "Short description of the SAS Packages Framework macros")
 
 ### Recordings and Presentations:
 
@@ -41,6 +44,7 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   - ["A BasePlus Package for SAS" - SAS Explore 2022](https://communities.sas.com/t5/SAS-Explore-Presentations/A-BasePlus-Package-for-SAS/ta-p/838246 "SASexplore2022 communities.sas.com") (September 27th-29th 2022, ~28 minutes, technical presentation with details about the BasePlus package), alternative video at YouTube is [here](https://www.youtube.com/watch?v=-Poxkx5WfOQ "SASexplore2022 TouTube")
   - ["SAS Packages - State of the Union" - SaSensei International Dojo No. 13](https://www.youtube.com/watch?v=1GEldZYQjj0&t=0s "SID no. 13") (November 10th 2022, ~50 minutes, general overview with the latest technical details)
   - ["SAS Packages Framework - an easy code sharing medium for SAS" - Warsaw IT Days 2023](https://youtu.be/T52Omisi0dk&t=0s "Warsaw IT Days 2023") (March 31st 2023, ~60 minutes, general overview with technical details for user and developer)
+  - ["SAS Package ー その共有、もっとスマートに" - SASユーザー総会 2025](https://youtu.be/4QRr7sUhO9E "SASユーザー総会2025") (September 25th 2025, ~22 minutes, general overview with the list of reasons: why is it worth to use SAS packages?)
 
 
 ### Tutorials:
@@ -49,7 +53,7 @@ Here are links to some tutorials which may help you to start with the framework.
 Order is dictated by the amount of details presented. 
 Letter "D" indicates tutorial dedicated for developers and "U" materials for users.
 
-1) (DU) The latest [video](https://youtu.be/T52Omisi0dk&t=0s) explaining the idea.
+1) (DU) A [video](https://youtu.be/T52Omisi0dk&t=0s) explaining the idea in more details.
 
 2) (D) Very simple ["Hello World" example](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/HelloWorldPackage.md) tutorial for developers. As a support a [walk-through video](https://youtu.be/T52Omisi0dk&t=2160s)
 
@@ -64,7 +68,7 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 
 ### Initiative to add SAS Packages Framework to SAS Base/Viya:
 
-A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 46 likes from 44 supporters up to today (as of April 22, 2025)!
+A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 48 likes from 46 supporters up to today (as of September 30, 2025)!
 
 ---
 
@@ -218,6 +222,7 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ## Where the SAS Packages Framework is used:
+
 This is a list of locations where the SAS Packages Framework is used:
  - Warsaw (Poland)
  - Osaka (Japan)
@@ -225,7 +230,7 @@ This is a list of locations where the SAS Packages Framework is used:
 
 If you want to share that you are using the SPF let me know and I'll update the list.
 
-If you find the SPF useful **share info** about it or **give it a [star (:star:)](https://github.com/yabwon/SAS_PACKAGES/stargazers)** so more people will know.
+If you find the SPF useful **share info** about it or **give it a [star ( ⭐ )](https://github.com/yabwon/SAS_PACKAGES/stargazers)** so more people will know.
 
 ---
 
