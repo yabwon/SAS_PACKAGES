@@ -9,22 +9,22 @@
 ### Version information:
   
 - Package: BasePlus
-- Version: 3.1.0
-- Generated: 2025-10-20T10:47:22
-- Author(s): Bartosz Jablonski (yabwon@gmail.com), Quentin McMullen (qmcmullen@gmail.com), Ryo Nakaya (nakaya.ryou@gmail.com)
+- Version: 3.1.1
+- Generated: 2025-11-05T15:10:31
+- Author(s): Bartosz Jablonski (yabwon@gmail.com), contributors are Quentin McMullen (qmcmullen@gmail.com) and Ryo Nakaya (nakaya.ryou@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*9FFBC40A2B7FC51161C7D6D120DADC3ACEF8087E4EB43BB1A3F0FBC1F1CBD5AC` for this version
-- Content SHA256: `C*76C55A9F392EAB938D199144CC834EF332CD78BA8B98565FA003DEA509A33A3E` for this version
+- File SHA256: `F*6394CE27FBCF48D475F682CBCF8CA8B4FDD6D40D2672EF571F4A561BDDF274A6` for this version
+- Content SHA256: `C*3CA28DF8F3E6D6670D7FD44788D347452F24F4BCF18115873E7EBC742FE30CA4` for this version
   
 ---
  
-# The `BasePlus` package, version: `3.1.0`;
+# The `BasePlus` package, version: `3.1.1`;
   
 ---
  
 
-# The BasePlus package [ver. 3.1.0] <a name="baseplus-package"></a> ###############################################
+# The BasePlus package [ver. 3.1.1] <a name="baseplus-package"></a> ###############################################
 
 The **BasePlus** package implements useful
 functions and functionalities I miss in the BASE SAS.
@@ -6668,7 +6668,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 The letters() macro function allows to print a list of Roman
 letters starting from `start` up to `end` incremented by `by`.
-The letters list can be uppercases or lowercase (parameter `c=U` or `c=L`), 
+The letters list can be uppercase or lowercase (parameter `c=U` or `c=L`), 
 can be quoted (e.g. `q=""` or `q=[]`), and can be separated by `s=`.
 
 Values of `start`, `end`, and `by` have to be integers in range between 1 ad 26.
@@ -6696,12 +6696,12 @@ The basic syntax is the following, the `<...>` means optional parameters:
                    Values of `start`, `end`, and `by` are separated by 
                    colon and must be between 1 ad 26.
                    If value is outside range it is set to 
-                   `start=1`, `en=26`, and `by=1`. If `end` is missing
-                   then is set to value of `start`.
+                   `start=1`, `end=26`, and `by=1`. If `end` is missing
+                   then it is set to value of `start`.
                    If `end` is smaller than `start` list is reversed
 
 * `c = U`        - *Optional*, it is a lowercase letters indicator. 
-                   Select `L` or `l`. Default value is `U` for upcase.
+                   Select `L` or `l`. Default value is `U` for uppercase.
 
 * `q = `         - *Optional*, it is a quite around elements of the list. 
                    Default value is empty. Use `%str()` for one quote symbol.
