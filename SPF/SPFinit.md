@@ -29,7 +29,7 @@ A **SAS package** is an automatically generated, single, stand alone *zip* file 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
-In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20251126`**.
+In this repository we are presenting the **SAS Packages Framework** which allows to develop and use SAS packages. The latest version of SPF is **`20251211`**.
 
 **To get started with SAS Packages** try this [**`Introduction to SAS Packages`**](https://youtube.com/playlist?list=PLeMzGEImIT5eV13IGXQIgWmTFCJt_cLZG&si=ElQm0_ifq76mvUbq "Introduction to SAS Packages video series") video series or [**`Getting Started with SAS Packages`**](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/Getting_Started_with_SAS_Packages.pdf "Getting Started with SAS Packages") presentation (see the `./SPF/Documentation` directory).
 
@@ -52,7 +52,7 @@ them using the SPF can be found [**HERE**](https://github.com/yabwon/HoW-SASPack
 ##       This is short help information for the `installPackage` macro <a name="installpackage"></a>
 --------------------------------------------------------------------------------------------
 
- Macro to install SAS packages, version `20251126`
+ Macro to install SAS packages, version `20251211`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -158,6 +158,20 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  The Viya File Service is supported in this macro. You can use the filesrvc access method to  
+  install and load SAS packages. They will be automatically copied to the WORK directory
+  first before loading. You can use `installPackage`, `helpPackage`, `loadPackage`, and 
+  `unloadPackage` as if you as if you pointed to a physical file system. For example:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename packages filesrvc folderpath="/Public/SAS Packages";  %* setup a directory for packages;
+  %include packages(SPFinit.sas);      %* enable the framework;
+
+  %installPackage(SQLinDS)  %* install the package from the Internet;
+  %helpPackage(SQLinDS)     %* get help about the package;
+  %loadPackage(SQLinDS)     %* load the package content into the SAS session;
+  %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ### Example ################################################################################
 
    Enabling the SAS Package Framework
@@ -175,7 +189,7 @@ filename packages "C:/SAS_PACKAGES";
 %installPackage(baseplus(1.17) macroarray(1.0) dfa(0.5) GSM)
 %loadPackageS(GSM, baseplus(1.17), macroarray(1.0), dfa(0.5))
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+   
 
 ##       This is short help information for the `helpPackage` macro <a name="helppackage"></a>
 -------------------------------------------------------------------------------
@@ -253,12 +267,25 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  The Viya File Service is supported in this macro. You can use the filesrvc access method to  
+  install and load SAS packages. They will be automatically copied to the WORK directory
+  first before loading. You can use `installPackage`, `helpPackage`, `loadPackage`, and 
+  `unloadPackage` as if you as if you pointed to a physical file system. For example:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename packages filesrvc folderpath="/Public/SAS Packages";  %* setup a directory for packages;
+  %include packages(SPFinit.sas);      %* enable the framework;
+
+  %installPackage(SQLinDS)  %* install the package from the Internet;
+  %helpPackage(SQLinDS)     %* get help about the package;
+  %loadPackage(SQLinDS)     %* load the package content into the SAS session;
+  %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 
 ##      This is short help information for the `loadPackage` macro <a name="loadpackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to *load* SAS packages, version `20251126`
+ Macro to *load* SAS packages, version `20251211`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -348,6 +375,20 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %loadPackage(SQLinDS)     %* load the package content into the SAS session;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  The Viya File Service is supported in this macro. You can use the filesrvc access method to  
+  install and load SAS packages. They will be automatically copied to the WORK directory
+  first before loading. You can use `installPackage`, `helpPackage`, `loadPackage`, and 
+  `unloadPackage` as if you as if you pointed to a physical file system. For example:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename packages filesrvc folderpath="/Public/SAS Packages";  %* setup a directory for packages;
+  %include packages(SPFinit.sas);      %* enable the framework;
+
+  %installPackage(SQLinDS)  %* install the package from the Internet;
+  %helpPackage(SQLinDS)     %* get help about the package;
+  %loadPackage(SQLinDS)     %* load the package content into the SAS session;
+  %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Example 2 ##################################################################
 
@@ -467,7 +508,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `unloadPackage` macro <a name="unloadpackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to unload SAS packages, version `20251126`
+ Macro to unload SAS packages, version `20251211`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -530,6 +571,19 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  The Viya File Service is supported in this macro. You can use the filesrvc access method to  
+  install and load SAS packages. They will be automatically copied to the WORK directory
+  first before loading. You can use `installPackage`, `helpPackage`, `loadPackage`, and 
+  `unloadPackage` as if you as if you pointed to a physical file system. For example:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  filename packages filesrvc folderpath="/Public/SAS Packages";  %* setup a directory for packages;
+  %include packages(SPFinit.sas);      %* enable the framework;
+
+  %installPackage(SQLinDS)  %* install the package from the Internet;
+  %helpPackage(SQLinDS)     %* get help about the package;
+  %loadPackage(SQLinDS)     %* load the package content into the SAS session;
+  %unloadPackage(SQLinDS)   %* unload the package content from the SAS session;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ##       This is short help information for the `listPackages` macro <a name="listpackages"></a>
 -----------------------------------------------------------------------------------------
@@ -577,7 +631,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 ##      This is short help information for the `verifyPackage` macro <a name="verifypackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to verify SAS package with it hash digest, version `20251126`
+ Macro to verify SAS package with it hash digest, version `20251211`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -628,10 +682,12 @@ filename packages "C:/SAS_PACKAGES"; %* set-up a directory for packages;
               hash=HDA478ANJ3HKHRY327FGE88HF89VH89HFFFV73GCV98RF390VB4)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+   This macro supports packages installed in the Viya File Service.
+   
 ##    This is short help information for the `previewPackage` macro <a name="previewpackage"></a>
 -------------------------------------------------------------------------------
 
- Macro to get preview of a SAS packages, version `20251126`
+ Macro to get preview of a SAS packages, version `20251211`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -969,7 +1025,7 @@ filename packages ("D:/NEW_DIR" %extendPackagesFileref()); %* add new directory;
 ##      This is short help information for the `loadPackageAddCnt` macro <a name="loadpackageaddcnt"></a>
 -------------------------------------------------------------------------------
 
- Macro to load *additional content* for a SAS package, version `20251126`
+ Macro to load *additional content* for a SAS package, version `20251211`
 
  A SAS package is a zip file containing a group
  of SAS codes (macros, functions, data steps generating
@@ -1057,6 +1113,8 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
 %installPackage(SQLinDS)  %* install the package from the Internet;
 %loadPackageAddCnt(SQLinDS) %* load additional content for the package;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   This macro supports packages installed in the Viya File Service.
 -----------------------------------------------------------------------------------------
 
 ##     This is short help information for the `splitCodeForPackage` macro <a name="splitcodeforpackage"></a>
