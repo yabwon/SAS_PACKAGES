@@ -42,7 +42,7 @@
    - to unload, or
    - to generate SAS packages.
 
-  Version 20251126.
+  Version 20251211.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -221,7 +221,7 @@ minoperator
     %GOTO ENDofloadPackage;
   %end;
   /* local variables for options */
-  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp mautocomploc_tmp viya_fs_fileref work_fileref;
+  %local ls_tmp ps_tmp notes_tmp source_tmp stimer_tmp fullstimer_tmp msglevel_tmp mautocomploc_tmp;
   %let ls_tmp         = %sysfunc(getoption(ls));
   %let ps_tmp         = %sysfunc(getoption(ps));
   %let notes_tmp      = %sysfunc(getoption(notes));
@@ -235,24 +235,27 @@ minoperator
 
   %local _PackageFileref_;
 
-    /* Identify if the packages path is in the SAS Viya File Service */
+  /* Identify if the packages path is in the SAS Viya File Service */
   data _null_;
       set sashelp.vextfl;
       where fileref = 'PACKAGES';
-      call symputx('viyafs', (xengine = 'SASFSVAM'), 'L');
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
   run;
 
   /* If the package is in the Viya file service, we need to copy it to a temp location to unzip.
      We will recopy it every time because if a user updates their package within the same session,
      we do not want to intentionally skip their update. */
-  %if &viyafs %then %do;
+
+  %local viya_fs_fileref work_fileref;
+
+  %if &viya_fs %then %do;
       %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
       %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
        
       filename &viya_fs_fileref filesrvc
           folderpath = "&path"
           filename   = "%sysfunc(lowcase(&packageName.)).&zip"
-          recfm      = n
+          recfm      = N
           lrecl      = 1
       ;
 
@@ -536,6 +539,17 @@ des = 'Macro to unload SAS package, version 20251126. Run %unloadPackage() for h
     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
 
+  /* Check if package is in Viya File Service */
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
+  /* loadPackage sends the package to WORK if the package is in the Viya Files Service, so
+     we assume it is there */
+  %if &viya_fs %then %let path = %sysfunc(getoption(work));
+
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
     exists = 0;
@@ -549,15 +563,6 @@ des = 'Macro to unload SAS package, version 20251126. Run %unloadPackage() for h
     end;
     if exists then call symputx("path", p, "L");
   run;
- 
-  data _null_;
-    set sashelp.vextfl;
-      where fileref = 'PACKAGES';
-      call symputx('viyafs', (xengine = 'SASFSVAM'), 'L');
-  run;
-
-  /* loadPackage sends the package to WORK if the package is in the Viya Files Service */
-  %if &viyafs %then %let path = %sysfunc(getoption(work));
 
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
@@ -723,6 +728,60 @@ des = 'Macro to get help about SAS package, version 20251126. Run %helpPackage()
     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
 
+  /* Check if package is in Viya File Service */
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
+/* If the package is in the Viya file service, we need to copy it to a temp location to unzip.
+     We will recopy it every time because if a user updates their package within the same session,
+     we do not want to intentionally skip their update. */
+
+  %local viya_fs_fileref work_fileref;
+  
+  %if &viya_fs %then %do;
+      %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+      %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+       
+      filename &viya_fs_fileref filesrvc
+          folderpath = "&path"
+          filename   = "%sysfunc(lowcase(&packageName.)).&zip"
+          recfm      = N
+          lrecl      = 1
+      ;
+
+      filename &work_fileref "%sysfunc(getoption(work))/%sysfunc(lowcase(&packageName.)).&zip" 
+          recfm = N
+          lrecl = 1
+      ;
+
+      data _null_;
+          rc = fcopy("&viya_fs_fileref", "&work_fileref");
+          rcTXT=sysmsg();
+
+          call symputx('viya_fs_to_work_rc', rc, 'L');
+          call symputx('viya_fs_to_work_rc_txt', rcTXT, 'L');
+      run;
+      
+      /* Abort if it failed */
+      %if &viya_fs_to_work_rc NE 0 %then %do;
+          %put "ERROR: Unable to copy &packageName from the Viya File Service to the WORK directory.";
+          %put "ERROR:" &viya_fs_to_work_rc_txt;
+
+          filename &viya_fs_fileref clear;
+          filename &work_fileref clear;
+          %abort;
+      %end;
+
+      /* If successful, set the path to WORK */
+      %let path = %sysfunc(getoption(work));
+
+      filename &viya_fs_fileref clear;
+      filename &work_fileref clear;
+  %end;
+
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
     exists = 0;
@@ -736,15 +795,6 @@ des = 'Macro to get help about SAS package, version 20251126. Run %helpPackage()
     end;
     if exists then call symputx("path", p, "L");
   run;
-
-  data _null_;
-      set sashelp.vextfl;
-      where fileref = 'PACKAGES';
-      call symputx('viyafs', (xengine = 'SASFSVAM'), 'L');
-  run;
-  
-  /* loadPackage sends the package to WORK if the package is in the Viya Files Service */
-  %if &viyafs %then %let path = %sysfunc(getoption(work));
 
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
@@ -985,7 +1035,7 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
   data _null_;
       set sashelp.vextfl;
       where fileref = 'PACKAGES';
-      call symputx('viyafs', (xengine = 'SASFSVAM'), 'L');
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
   run;
 
   %let loadAddCnt = %sysevalf(NOT(0=%superq(loadAddCnt)));
@@ -1146,7 +1196,7 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
         /* Sets output location of source code + documentation MD file. If installing 
            to a physical file system, use a standard filename statement. Otherwise, use
            the filesrvc access method */
-        %if NOT &viyafs  %then %do;
+        %if NOT &viya_fs  %then %do;
             filename &out.   "&firstPackagesPath./SPFinit.sas" recfm=N lrecl=1;
             filename &outMD. "&firstPackagesPath./SPFinit.md"  recfm=N lrecl=1;
         %end;
@@ -1154,17 +1204,17 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
             /* If installing to SAS Content, use the filesrvc access method to copy */
             %else %do;
                 filename &out. filesrvc
-                    folderpath="&firstPackagesPath"
-                    filename  ="%SPFinit.sas"
-                    recfm     =N
-                    lrecl     =1
+                    folderpath = "&firstPackagesPath"
+                    filename   = "SPFinit.sas"
+                    recfm      = N
+                    lrecl      = 1
                 ;
                     
                 filename &outMD. filesrvc
-                    folderpath="&firstPackagesPath."
-                    filename  ="SPFinit.md"
-                    recfm     =N
-                    lrecl     =1
+                    folderpath = "&firstPackagesPath."
+                    filename   = "SPFinit.md"
+                    recfm      = N
+                    lrecl      = 1
                 ;
             %end;
       %end;
@@ -1208,7 +1258,7 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
       %end;
 
       /* If installing package to a physical file system, use a standard filename statement */
-      %if NOT &viyafs  %then %do;
+      %if NOT &viya_fs  %then %do;
           filename &out.   "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).zip" recfm=N lrecl=1;
           filename &outMD. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).md"  recfm=N lrecl=1;
       %end;
@@ -1217,17 +1267,17 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
           %else %do;
 
               filename &out. filesrvc
-                  folderpath="&firstPackagesPath"
-                  filename  ="%sysfunc(lowcase(&packageName.)).zip"
-                  recfm     =N
-                  lrecl     =1
+                  folderpath = "&firstPackagesPath"
+                  filename   = "%sysfunc(lowcase(&packageName.)).zip"
+                  recfm      = N
+                  lrecl      = 1
               ;
                 
               filename &outMD. filesrvc
-                  folderpath="&firstPackagesPath."
-                  filename  ="%sysfunc(lowcase(&packageName.)).md"
-                  recfm     =N
-                  lrecl     =1
+                  folderpath = "&firstPackagesPath."
+                  filename   = "%sysfunc(lowcase(&packageName.)).md"
+                  recfm      = N
+                  lrecl      = 1
               ;
           %end;
 
@@ -6006,10 +6056,12 @@ des = 'Macro to verify SAS package with the hash digest, version 20251126. Run %
   data _null_;
       set sashelp.vextfl;
       where fileref = 'PACKAGES';
-      call symputx('viyafs', (xengine = 'SASFSVAM'), 'L');
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
   run;
 
-  %if &viyafs %then %do;
+  %local viya_fs_fileref work_fileref;
+
+  %if &viya_fs %then %do;
       %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
       %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
        
@@ -6244,7 +6296,7 @@ des = 'Macro to preview content of a SAS package, version 20251126. Run %preview
     %GOTO ENDofpreviewPackage;
   %end;
   
-  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp mautocomploc_tmp viya_fs_fileref work_fileref;
+  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp mautocomploc_tmp;
   %let ls_tmp       = %sysfunc(getoption(ls));
   %let ps_tmp       = %sysfunc(getoption(ps));
   %let notes_tmp    = %sysfunc(getoption(notes));
@@ -6257,11 +6309,13 @@ des = 'Macro to preview content of a SAS package, version 20251126. Run %preview
   data _null_;
       set sashelp.vextfl;
       where fileref = 'PACKAGES';
-      call symputx('viyafs', (xengine = 'SASFSVAM'), 'L');
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
   run;
 
   /* If in the Viya file service, copy the package to WORK so that it can be previewed */
-  %if &viyafs %then %do;
+  %local viya_fs_fileref work_fileref;
+
+  %if &viya_fs %then %do;
       %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
       %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
        

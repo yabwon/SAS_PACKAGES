@@ -136,6 +136,60 @@ des = 'Macro to get help about SAS package, version 20251126. Run %helpPackage()
     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
 
+  /* Check if package is in Viya File Service */
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
+/* If the package is in the Viya file service, we need to copy it to a temp location to unzip.
+     We will recopy it every time because if a user updates their package within the same session,
+     we do not want to intentionally skip their update. */
+
+  %local viya_fs_fileref work_fileref;
+  
+  %if &viya_fs %then %do;
+      %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+      %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+       
+      filename &viya_fs_fileref filesrvc
+          folderpath = "&path"
+          filename   = "%sysfunc(lowcase(&packageName.)).&zip"
+          recfm      = N
+          lrecl      = 1
+      ;
+
+      filename &work_fileref "%sysfunc(getoption(work))/%sysfunc(lowcase(&packageName.)).&zip" 
+          recfm = N
+          lrecl = 1
+      ;
+
+      data _null_;
+          rc = fcopy("&viya_fs_fileref", "&work_fileref");
+          rcTXT=sysmsg();
+
+          call symputx('viya_fs_to_work_rc', rc, 'L');
+          call symputx('viya_fs_to_work_rc_txt', rcTXT, 'L');
+      run;
+      
+      /* Abort if it failed */
+      %if &viya_fs_to_work_rc NE 0 %then %do;
+          %put "ERROR: Unable to copy &packageName from the Viya File Service to the WORK directory.";
+          %put "ERROR:" &viya_fs_to_work_rc_txt;
+
+          filename &viya_fs_fileref clear;
+          filename &work_fileref clear;
+          %abort;
+      %end;
+
+      /* If successful, set the path to WORK */
+      %let path = %sysfunc(getoption(work));
+
+      filename &viya_fs_fileref clear;
+      filename &work_fileref clear;
+  %end;
+
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
     exists = 0;

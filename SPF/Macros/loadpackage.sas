@@ -179,6 +179,61 @@ minoperator
   options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   %local _PackageFileref_;
+
+  /* Identify if the packages path is in the SAS Viya File Service */
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
+  /* If the package is in the Viya file service, we need to copy it to a temp location to unzip.
+     We will recopy it every time because if a user updates their package within the same session,
+     we do not want to intentionally skip their update. */
+
+  %local viya_fs_fileref work_fileref;
+
+  %if &viya_fs %then %do;
+      %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+      %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+       
+      filename &viya_fs_fileref filesrvc
+          folderpath = "&path"
+          filename   = "%sysfunc(lowcase(&packageName.)).&zip"
+          recfm      = N
+          lrecl      = 1
+      ;
+
+      filename &work_fileref "%sysfunc(getoption(work))/%sysfunc(lowcase(&packageName.)).&zip" 
+          recfm = N
+          lrecl = 1
+      ;
+
+      data _null_;
+          rc = fcopy("&viya_fs_fileref", "&work_fileref");
+          rcTXT=sysmsg();
+
+          call symputx('viya_fs_to_work_rc', rc, 'L');
+          call symputx('viya_fs_to_work_rc_txt', rcTXT, 'L');
+      run;
+      
+      /* Abort if it failed */
+      %if &viya_fs_to_work_rc NE 0 %then %do;
+          %put "ERROR: Unable to copy &packageName from the Viya File Service to the WORK directory.";
+          %put "ERROR:" &viya_fs_to_work_rc_txt;
+
+          filename &viya_fs_fileref clear;
+          filename &work_fileref clear;
+          %abort;
+      %end;
+
+      /* If successful, set the path to WORK */
+      %let path = %sysfunc(getoption(work));
+
+      filename &viya_fs_fileref clear;
+      filename &work_fileref clear;
+  %end;
+
   data _null_; 
     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
@@ -225,10 +280,12 @@ minoperator
       %let DS2force = 0;
     %end;
 
+    
   filename &_PackageFileref_. &ZIP. 
-  /* put location of package myPackageFile.zip here */
-    "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
-  ;
+    /* put location of package myPackageFile.zip here */
+        "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
+    ;
+
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
       %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
@@ -306,4 +363,3 @@ minoperator
 
 %ENDofloadPackage:
 %mend loadPackage;
-

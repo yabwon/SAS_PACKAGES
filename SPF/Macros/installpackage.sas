@@ -198,6 +198,13 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
       call symputX("firstPackagesPath", pathname("packages"), "L");
   run;
 
+  /* Identify if the packages path is in the SAS Viya Service */
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
   %let loadAddCnt = %sysevalf(NOT(0=%superq(loadAddCnt)));
   %let instDoc    = %sysevalf(NOT(0=%superq(instDoc)));
   
@@ -347,17 +354,36 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
         filename &in. URL 
           "&SPFinitMirror." 
           recfm=N lrecl=1;
-        filename &out.    
-          "&firstPackagesPath./SPFinit.sas" 
-          recfm=N lrecl=1;
          
         /* documentation MD file */ 
         filename &inMD. URL 
           "&SPFinitMirrorMD." 
           recfm=N lrecl=1;
-        filename &outMD.    
-          "&firstPackagesPath./SPFinit.md" 
-          recfm=N lrecl=1;
+
+        /* Sets output location of source code + documentation MD file. If installing 
+           to a physical file system, use a standard filename statement. Otherwise, use
+           the filesrvc access method */
+        %if NOT &viya_fs  %then %do;
+            filename &out.   "&firstPackagesPath./SPFinit.sas" recfm=N lrecl=1;
+            filename &outMD. "&firstPackagesPath./SPFinit.md"  recfm=N lrecl=1;
+        %end;
+
+            /* If installing to SAS Content, use the filesrvc access method to copy */
+            %else %do;
+                filename &out. filesrvc
+                    folderpath = "&firstPackagesPath"
+                    filename   = "SPFinit.sas"
+                    recfm      = N
+                    lrecl      = 1
+                ;
+                    
+                filename &outMD. filesrvc
+                    folderpath = "&firstPackagesPath."
+                    filename   = "SPFinit.md"
+                    recfm      = N
+                    lrecl      = 1
+                ;
+            %end;
       %end;
     %else
       %do;
@@ -386,9 +412,9 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
           %end;
         &URLoptions.
         recfm=N lrecl=1;
-        filename &out. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).zip" recfm=N lrecl=1;
-        /* markdown */
+
         filename &inMD. URL "&sourcePath.&packageSubDir.%sysfunc(lowcase(&packageName.)).md" 
+
         %if (%superq(URLuser) ne ) %then
           %do;
             user = "&URLuser."
@@ -396,8 +422,32 @@ des = 'Macro to install SAS package, version 20251126. Run %%installPackage() fo
           %end;
         &URLoptions.
         recfm=N lrecl=1;
-        filename &outMD. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).md" recfm=N lrecl=1;
       %end;
+
+      /* If installing package to a physical file system, use a standard filename statement */
+      %if NOT &viya_fs  %then %do;
+          filename &out.   "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).zip" recfm=N lrecl=1;
+          filename &outMD. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).md"  recfm=N lrecl=1;
+      %end;
+
+          /* If installing package to SAS Content, use the filesrvc access method to copy and install the package */
+          %else %do;
+
+              filename &out. filesrvc
+                  folderpath = "&firstPackagesPath"
+                  filename   = "%sysfunc(lowcase(&packageName.)).zip"
+                  recfm      = N
+                  lrecl      = 1
+              ;
+                
+              filename &outMD. filesrvc
+                  folderpath = "&firstPackagesPath."
+                  filename   = "%sysfunc(lowcase(&packageName.)).md"
+                  recfm      = N
+                  lrecl      = 1
+              ;
+          %end;
+
     /*
     filename in  list;
     filename out list;

@@ -118,6 +118,17 @@ des = 'Macro to unload SAS package, version 20251126. Run %unloadPackage() for h
     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
 
+  /* Check if package is in Viya File Service */
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
+  /* loadPackage sends the package to WORK if the package is in the Viya Files Service, so
+     we assume it is there */
+  %if &viya_fs %then %let path = %sysfunc(getoption(work));
+
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
     exists = 0;
@@ -131,7 +142,7 @@ des = 'Macro to unload SAS package, version 20251126. Run %unloadPackage() for h
     end;
     if exists then call symputx("path", p, "L");
   run;
- 
+
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
     "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
@@ -157,4 +168,3 @@ des = 'Macro to unload SAS package, version 20251126. Run %unloadPackage() for h
 
 %ENDofunloadPackage:
 %mend unloadPackage;
-

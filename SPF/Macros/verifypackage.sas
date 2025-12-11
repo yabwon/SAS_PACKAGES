@@ -100,25 +100,75 @@ des = 'Macro to verify SAS package with the hash digest, version 20251126. Run %
   data _null_; 
     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
   run;
+  
+  data _null_;
+      set sashelp.vextfl;
+      where fileref = 'PACKAGES';
+      call symputx('viya_fs', (xengine = 'SASFSVAM'), 'L');
+  run;
+
+  %local viya_fs_fileref work_fileref;
+
+  %if &viya_fs %then %do;
+      %let viya_fs_fileref = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+      %let work_fileref    = _%substr(%sysfunc(translate(%sysfunc(uuidgen()),%str(),-)),1,7);
+       
+      filename &viya_fs_fileref filesrvc
+          folderpath= "&path"
+          filename  = "%sysfunc(lowcase(&packageName.)).zip"
+          recfm     = n
+          lrecl     = 1
+      ;
+
+      filename &work_fileref "%sysfunc(getoption(work))/%sysfunc(lowcase(&packageName.)).zip" 
+          recfm=N
+          lrecl=1
+      ;
+
+      data _null_;
+          rc = fcopy("&viya_fs_fileref", "&work_fileref");
+          rcTXT=sysmsg();
+
+          call symputx('viya_fs_to_work_rc', rc, 'L');
+          call symputx('viya_fs_to_work_rc_txt', rcTXT, 'L');
+      run;
+      
+      /* Abort if it failed */
+      %if &viya_fs_to_work_rc NE 0 %then %do;
+          %put "ERROR: Unable to copy &packageName from the Viya File Service to the WORK directory.";
+          %put "ERROR:" &viya_fs_to_work_rc_txt;
+
+          filename &viya_fs_fileref clear;
+          filename &work_fileref clear;
+          %abort;
+      %end;
+
+      /* If successful, set the path to WORK */
+      %let path = %sysfunc(getoption(work));
+
+      filename &viya_fs_fileref clear;
+      filename &work_fileref clear;
+  %end;
 
   /* when the packages reference is multi-directory search for the first one containing the package */
   data _null_;
-    exists = 0;
-    length packages $ 32767 p $ 4096;
-    packages = resolve(symget("path"));
-    if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
-    do i = 1 to kcountw(packages, "()", "QS");
+      exists = 0;
+      length packages $ 32767 p $ 4096;
+      packages = resolve(symget("path"));
+      if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
+      do i = 1 to kcountw(packages, "()", "QS");
       p = dequote(kscanx(packages, i, "()", "QS"));
       exists + fileexist(catx("/", p, lowcase("&packageName.") !! "zip")); /* check on zip files only! */
       if exists then leave;
-    end;
-    if exists then call symputx("path", p, "L");
+      end;
+      if exists then call symputx("path", p, "L");
   run;
 
   filename &_PackageFileref_. 
-  /* put location of package myPackageFile.zip here */
-    "&path./%sysfunc(lowcase(&packageName.)).zip"
-  ;
+      /* put location of package myPackageFile.zip here */
+          "&path./%sysfunc(lowcase(&packageName.)).zip"
+      ;
+
   %if %sysfunc(fexist(&_PackageFileref_.)) %then
     %do;
       /* create hash SHA256 id *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
