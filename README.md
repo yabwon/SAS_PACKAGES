@@ -80,7 +80,8 @@ This is a brief intro. See below to find a link to detailed workshop materials.
 
 The first step to use a package with the SAS Packages Framework:
 
-- Create a folder for your packages, under Windows OS family e.g., `C:/SAS_PACKAGES` or under Linux/UNIX OS family e.g., `/home/<username>/SAS_PACKAGES`. The path selected is totally up to you.
+- Create a folder for your packages, under Windows OS family e.g., `C:/SAS_PACKAGES`, under Linux/UNIX OS family e.g., `/home/<username>/SAS_PACKAGES`, or within the SAS Viya File Service (SAS Content) e.g. `/Public/SAS_PACKAGES`. The path selected is totally up to you.
+  
 
 #### Manual installation 
 
@@ -98,6 +99,17 @@ filename packages "<directory/containing/packages/>";         /* setup directory
 %loadPackage(packageName)                                     /* load the package content into the SAS session */
 ```
 
+ or, if using the SAS Viya File Service, use the `filesrvc` access method to the folder containing SPFinit.sas:
+
+```sas
+filename packages filesrvc folderpath="</directory/containing/packages/>"; /* setup directory for packages */
+%include packages(SPFinit.sas);                                            /* enable the framework */
+
+/* %installPackage(packageName) */                                         /* install the package, unless you downloaded it manually */
+
+%helpPackage(packageName)                                                  /* get help about the package */
+%loadPackage(packageName)                                                  /* load the package content into the SAS session */
+```
 ---
 
 #### Automatic (one-time-only) installation 
@@ -143,6 +155,13 @@ filename packages "<directory/containing/packages/>";
 %installPackage(SPFinit) /* install the framework */
 ```
 
+  or if using the Viya File Service, you can install the framework there:
+
+```sas
+filename packages filesrvc folderpath="</directory/containing/packages/>"; 
+%installPackage(SPFinit) /* install the framework */
+```
+
 - From now on, just like you would assign libraries, run the SPF and use packages like this:
 
 ```sas
@@ -154,6 +173,16 @@ filename packages "<directory/containing/packages/>";
 %loadPackage(packageName)    /* load the package content into the SAS session */
 ```
 
+ or if using the Viya File Service, use the `filesrvc` access method for the packages fileref:
+
+```sas
+filename packages filesrvc folderpath="</directory/containing/packages/>"; 
+%include packages(SPFinit.sas);
+
+%installPackage(packageName) /* install a package */
+%helpPackage(packageName)    /* get help about the package */
+%loadPackage(packageName)    /* load the package content into the SAS session */
+```
 ---
 
 [**Detailed workshop materials**](https://github.com/yabwon/HoW-SASPackages) (i.e. "from 0 to hero" instruction).
@@ -190,6 +219,8 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
+
+**Update**\[December 11th, 2025\]**:** The Viya File Service is now available for installing, loading, and unloading SAS packages. Previews, inspection, help, and package verification are also supported.
 
 **Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` **utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage"))**.
 
