@@ -17,7 +17,7 @@ Don't forget to give the repository a **STAR** and become [stargazer](https://gi
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20251126`**.
+**The latest version** of the **SAS Packages Framework** is **`20251221`**.
 
 ---
 
@@ -190,6 +190,7 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
+**Update**\[December 21st, 2025\]**:** `%relocatePackage()`, `%SasPackagesFrameworkNotes()`, and `%isPackagesFilerefOK()` **utility macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241221 "splitCodeForPackage"))**.
 
 **Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` **utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage"))**.
 
