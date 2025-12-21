@@ -1307,7 +1307,7 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
  %listPackages()                                           %* list packages;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-##   This is short help information for the `SasPackagesFrameworkNotes` macro
+##   This is short help information for the `SasPackagesFrameworkNotes` macro <a name="saspackagesframeworknotes"></a>
 -------------------------------------------------------------------------------
 
  Macro prints help notes for SAS Packages Framework macros, version `20251221`
