@@ -5,7 +5,7 @@ SPFmacroName /* space separated list of names */
 /
 minoperator 
 secure
-des = 'Macro to provide help notes about SAS Packages Framework macros, version 20251221. Run %SasPackagesFrameworkNotes(HELP) for help info.'
+des = 'Macro to provide help notes about SAS Packages Framework macros, version 20251228. Run %SasPackagesFrameworkNotes(HELP) for help info.'
 ;
 %local list N i element;
 %let list=
@@ -38,7 +38,7 @@ SasPackagesFrameworkNotes
 %if (%qupcase(&SPFmacroName.) = HELP) %then
   %do;
     %local options_tmp ;
-    %let options_tmp = ls=%sysfunc(getoption(ls))ps=%sysfunc(getoption(ps))
+    %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
      %sysfunc(getoption(notes)) %sysfunc(getoption(source))
      msglevel=%sysfunc(getoption(msglevel)) 
      %sysfunc(getoption(mprint)) %sysfunc(getoption(mlogic)) %sysfunc(getoption(symbolgen))
@@ -49,14 +49,14 @@ SasPackagesFrameworkNotes
     %put ###   This is short help information for the `SasPackagesFrameworkNotes` macro  #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro prints help notes for SAS Packages Framework macros, version `20251221` #;
+    %put # Macro prints help notes for SAS Packages Framework macros, version `20251228` #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
     %put # data, etc.) wrapped up together and included by                               #;
     %put # a single `load.sas` file (also embedded inside the zip).                      #;
     %put #                                                                               #;
-    %put # The `%nrstr(%%SasPackagesFrameworkNotes())` macro provides help notes about          #;
+    %put # The `%nrstr(%%SasPackagesFrameworkNotes())` macro provides help notes about            #;
     %put # components of the SAS Packages Framework.                                     #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
@@ -163,3 +163,6 @@ options mlogic symbolgen;
 
 
 /* end of SPFinit.sas file */ 
+
+
+

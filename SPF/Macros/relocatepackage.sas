@@ -13,7 +13,7 @@
 ,debug=0       /* debugging indicator */
 ,ignorePackagesFilerefCheck=0
 )
-/ des = 'Utility macro that locally Copies or Moves Packages, version 20251221. Run %relocatePackage() for help info.'
+/ des = 'Utility macro that locally Copies or Moves Packages, version 20251228. Run %relocatePackage() for help info.'
   secure
   minoperator
 ;
@@ -21,7 +21,7 @@
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
     %local options_tmp ;
-    %let options_tmp = ls=%sysfunc(getoption(ls))ps=%sysfunc(getoption(ps))
+    %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
      %sysfunc(getoption(notes)) %sysfunc(getoption(source))
      msglevel=%sysfunc(getoption(msglevel))
     ;
@@ -31,7 +31,7 @@
     %put ###      This is short help information for the `relocatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20251221`   #;
+    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20251228`   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;

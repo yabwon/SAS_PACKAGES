@@ -28,12 +28,12 @@
                                         */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20251221. Run %helpPackage() for help info.'
+des = 'Macro to get help about SAS package, version 20251228. Run %helpPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
     %local options_tmp ;
-    %let options_tmp = ls=%sysfunc(getoption(ls))ps=%sysfunc(getoption(ps))
+    %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
      %sysfunc(getoption(notes)) %sysfunc(getoption(source))
      msglevel=%sysfunc(getoption(msglevel))
     ;
@@ -43,7 +43,7 @@ des = 'Macro to get help about SAS package, version 20251221. Run %helpPackage()
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20251221`                      #;
+    %put # Macro to get help about SAS packages, version `20251228`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;

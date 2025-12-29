@@ -4,7 +4,7 @@
 
 ---
 
-A **SAS package** is an automatically generated, single, stand alone *zip* file containing organised and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
+A **SAS package** is an automatically generated, single, stand alone *zip* file containing organized and ordered code structures, created by the developer and extended with additional automatically generated "driving" files (i.e. description, metadata, load, unload, and help files). 
 
 The *purpose of a package* is to be a simple, and easy to access, code sharing medium, which will allow: on the one hand, to separate the code complex dependencies created by the developer from the user experience with the final product and, on the other hand, reduce developer's and user's unnecessary frustration related to a remote deployment process.
 
@@ -17,7 +17,7 @@ Don't forget to give the repository a **STAR** and become [stargazer](https://gi
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20251221`**.
+**The latest version** of the **SAS Packages Framework** is **`20251228`**.
 
 ---
 
@@ -190,13 +190,15 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
+**Update**\[December 28th, 2025\]**:** `buildLocation=` and `archLocation=` **parameters added to** `%generatePackage()` **macro, they allow to redirect results of the packages generation process. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251228 "redirect results"))**.
+
 **Update**\[December 21st, 2025\]**:** `%relocatePackage()`, `%SasPackagesFrameworkNotes()`, and `%isPackagesFilerefOK()` **utility macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241221 "splitCodeForPackage"))**.
 
 **Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` **utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage"))**.
 
 **Update**\[October 14th, 2024\]**:** `DS2PCK` and `DS2THR` **types for `PROC DS2` *threads* and *packages* added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241014 "PROC DS2"))**.
 
-**Update**\[December 10th, 2023\]**:** `markdownDoc=` **parameter added to** `%generatePackage()` **macro, which allows to generate markdown file with documentation. Content is taken from the help information notes and the description. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231210 "markdown documentation"))**.
+**Update**\[December 10th, 2023\]**:** `markdownDoc=` **parameter added to** `%generatePackage()` **macro, it allows to generate markdown file with documentation. Content is taken from the help information notes and the description. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231210 "markdown documentation"))**.
 
 **Update**\[November 11th, 2023\]**:** `KMFSNIP` **type for *key macro abbreviations* snippets added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231111 "KMF-abbreviations"))**.
 
@@ -219,6 +221,8 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 **Update**\[June 10th, 2020\]**:** To see help info about framework macros and their parameters just run: `%generatePackage()`, `%installPackage()`, `%helpPackage()`, `%loadPackage()`, and `%unloadPackage()` with empty parameter list.
 
 **Update**\[June 3rd, 2020\]**:** `%installPackage()` **macro is available**. The `%installPackage()` macro is embedded in the `loadpackage.sas` part of the framework.
+
+**Initial release**\[October 13th, 2019\]**: the SAS Packages Framework is publicly available**.
 
 ---
 
