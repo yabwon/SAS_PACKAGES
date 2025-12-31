@@ -3,7 +3,7 @@
 
    Macro to generate SAS packages.
 
-   Version 20251221
+   Version 20251231
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -18,7 +18,9 @@
 
 %macro generatePackage(
  filesLocation   /* location of package files 
-                    e.g. /path/to/package/files/locatiion or C:\my\package\files */
+                    e.g. /path/to/package/files/location or C:\my\package\files */
+,buildLocation=  /* location of package ZIP file and md (optional) 
+                    when empty takes filesLocation */
 /* testing options: */
 ,testPackage=Y        /* indicator if tests should be executed, 
                          default value Y means "execute tests" */
@@ -47,9 +49,11 @@
 ,easyArch=0           /* when creating documentation file indicates if a copy of 
                          the zip and markdown files with the version number in the 
                          file name be created */
+,archLocation=        /* location for package ZIP files and md (optional) archive 
+                         when empty takes buildLocation */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20251221. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20251231. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -64,7 +68,7 @@ des = 'Macro to generate SAS packages, version 20251221. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro              #;
     %put #------------------------------------------------------------------------------------#;
     %put #                                                                                    #;
-    %put # Macro to generate SAS packages, version `20251221`                                 #;
+    %put # Macro to generate SAS packages, version `20251231`                                 #;
     %put #                                                                                    #;
     %put # A SAS package is a zip file containing a group                                     #;
     %put # of SAS codes (macros, functions, data steps generating                             #;
@@ -88,6 +92,10 @@ des = 'Macro to generate SAS packages, version 20251221. Run %generatePackage() 
     %put #                          Default use case:                                         #;
     %put #                           `%nrstr(%%generatePackage(filesLocation=/path/to/packagename))`   #;
     %put #                          If empty displays this help information.                  #;
+    %put #                                                                                    #;
+    %put # - `buildLocation=`       Points to a location where the ZIP file with the package  #;
+    %put #                          should be generated. If the value is null (default)       #;
+    %put #                          the `filesLocation=` value is used.                       #;
     %put #                                                                                    #;
     %put # Testing parameters:                                                                #;
     %put #                                                                                    #;
@@ -139,6 +147,9 @@ des = 'Macro to generate SAS packages, version 20251221. Run %generatePackage() 
     %put #                          The default value: `0` means "do not create files".       #;
     %put #                          Available values are `0` and `1`.                         #;
     %put #                                                                                    #;
+    %put # - `archLocation=`        Location for versioned package ZIP file (if `easyArch=1`) #;
+    %put #                          If empty (default) the `buildLocation` value is used.     #;
+    %put #                                                                                    #;
     %put #------------------------------------------------------------------------------------#;
     %put ######################################################################################;
     %put ;
@@ -155,7 +166,44 @@ des = 'Macro to generate SAS packages, version 20251221. Run %generatePackage() 
 %let   filesWithCodes = WORK._%sysfunc(datetime(), hex16.)_;
 %let   _DESCR_ = _%sysfunc(datetime(), hex6.)d;
 %let   _LIC_   = _%sysfunc(datetime(), hex6.)l;
-%let   _DUMMY_ = _%sysfunc(datetime(), hex6.)_;
+%let   _DUMMY_ = d%sysfunc(datetime(), hex6.)d;
+
+/* Verify source existence */
+%if 0=%sysfunc(FILEEXIST(%superq(filesLocation))) %then
+  %do;
+    %put ERROR: The %superq(filesLocation) directory does NOT exist!;
+    %put ERROR- Aborting.;
+    %abort;
+  %end;
+
+/* Determine build location for ZIP and MD(optional) */
+/* Priority: 1. buildLocation, 2. filesLocation */
+/* The buildLocation is used for testing too! */
+%if %sysevalf(%superq(buildLocation)=,boolean) %then
+  %do;
+    %let buildLocation = &filesLocation.;
+  %end;
+%else
+  %do;
+    %if 0=%sysfunc(FILEEXIST(%superq(buildLocation))) %then
+      %do;
+        %put WARNING: The %superq(buildLocation) directory does NOT exist!;
+        %put WARNING- ;
+        %put WARNING- The %superq(filesLocation) directory will be used.;
+        %let buildLocation = &filesLocation.;
+      %end;
+  %end;
+%put NOTE: Build location is: %superq(buildLocation).;
+
+data _null_;
+  length path $ 4096;
+  do x='filesLocation','buildLocation';
+    path = symget(x);
+    str = kcompress(path,'({[<_ !@#$%^&*-=+/\?"'';:|~`>]})','pdfs');
+    if str NE " " then put "NOTE: There are non-ASCII characters in the " x "path: " str 
+                         / "NOTE- If you are working with SAS9.4M7 or earlier it may cause problems.";
+  end;
+run;
 
 /* collect package metadata from the description.sas file */
 filename &_DESCR_. "&filesLocation./description.sas" lrecl = 1024;
@@ -303,11 +351,11 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 1024;
 
         if tryExcept then 
           do;
-            put 'ERROR: Your Required list seems to be problematic.';
-            put 'ERROR- Check the description.sas file.';
-            put 'ERROR- Expected form is "Quoted" Comma, ..., Separated List, e.g.';
-            put 'ERROR- "SAS Component1", "SAS Component2", "SAS Component3"';
-            put 'ERROR- Provided value is:';
+            put 'ERROR: Your Required list seems to be problematic.'
+              / 'ERROR- Check the description.sas file.'
+              / 'ERROR- Expected form is "Quoted" Comma, ..., Separated List, e.g.'
+              / 'ERROR- "SAS Component1", "SAS Component2", "SAS Component3"'
+              / 'ERROR- Provided value is:';
             length R $ 32767;
             R = symget('packageRequired');
             put 'ERROR- ' R;
@@ -353,11 +401,11 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 1024;
 
         if tryExcept then 
           do;
-            put 'ERROR: Your ReqPackages list seems to be problematic.';
-            put 'ERROR- Check the description.sas file.';
-            put 'ERROR- Expected form is "Quoted" Comma, ..., Separated List, e.g.';
-            put 'ERROR- "Package1 (X.X)", "Package2 (Y.Y)", "Package3 (Z.Z)"';
-            put 'ERROR- Provided value is:';
+            put 'ERROR: Your ReqPackages list seems to be problematic.'
+              / 'ERROR- Check the description.sas file.'
+              / 'ERROR- Expected form is "Quoted" Comma, ..., Separated List, e.g.'
+              / 'ERROR- "Package1 (X.X)", "Package2 (Y.Y)", "Package3 (Z.Z)"'
+              / 'ERROR- Provided value is:';
             length R $ 32767;
             R = symget('packageReqPackages');
             put 'ERROR- ' R;
@@ -407,27 +455,27 @@ data _null_;
   ;
   if not (version > 0) then
     do;
-      put 'ERROR: Package version should be a positive NUMBER.';
-      put 'ERROR- Current value is: ' "&packageVersion.";
-      put 'ERROR- Try something small, e.g. 0.1';
-      put 'ERROR- Aborting.';
+      put 'ERROR: Package version should be a positive NUMBER.'
+        / 'ERROR- Current value is: ' "&packageVersion."
+        / 'ERROR- Try something small, e.g. 0.1'
+        / 'ERROR- Aborting.';
       put;
       abort;
     end;
 run;
 
 /* create or replace the ZIP file for package  */
-filename &zipReferrence. ZIP "&filesLocation./%sysfunc(lowcase(&packageName.)).zip";
+filename &zipReferrence. ZIP "&buildLocation./%sysfunc(lowcase(&packageName.)).zip";
 
 %if %sysfunc(fexist(&zipReferrence.)) %then 
   %do;
-    %put NOTE: Deleting file "&filesLocation./%sysfunc(lowcase(&packageName.)).zip";
+    %put NOTE: Deleting file "&buildLocation./%sysfunc(lowcase(&packageName.)).zip";
     %let _RC_ = %sysfunc(fdelete(&zipReferrence.));
     %put NOTE: &=_RC_;
   %end;
 %if %sysfunc(fexist(&zipReferrence.)) %then 
   %do;
-    %put ERROR: File "&filesLocation./%sysfunc(lowcase(&packageName.)).zip" cannot be deleted.;
+    %put ERROR: File "&buildLocation./%sysfunc(lowcase(&packageName.)).zip" cannot be deleted.;
     %put ERROR- Check if the file is not blocked by another process.; 
     %put ERROR- Aborting.;
     %abort;
@@ -596,7 +644,9 @@ data &filesWithCodes.;
   putlog "NOTE: Generating content dataset: &filesWithCodes..";
   putlog "NOTE- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
   putlog "NOTE- ";
-  base = "&filesLocation.";
+  base = "&filesLocation.";  /* location for source */
+  build = "&buildLocation."; /* location for ZIP */
+
   length folder file lowcase_name $ 256 folderRef fileRef $ 8;
   drop lowcase_name;
 
@@ -660,8 +710,8 @@ data &filesWithCodes.;
           file = dread(fileId, j);
               if file NE lowcase(file) then
                 do;
-                  put 'ERROR: File with code should be named ONLY with low case letters.';
-                  put 'ERROR- Current value is: ' file;
+                  put 'ERROR: File with code should be named ONLY with low case letters.'
+                    / 'ERROR- Current value is: ' file;
                   lowcase_name = lowcase(file);
                   put 'ERROR- Try to use: ' lowcase_name;
                   put;
@@ -673,9 +723,9 @@ data &filesWithCodes.;
           if strip(reverse(file)) in: ('sas.') then output; /* ignore not ".sas" files */
           else
             do;
-              put "WARNING: Only *.sas files are supported." /
-                  "WARNING- The file: " file "will be ignored." /
-                  "WARNING- ";
+              put "WARNING: Only *.sas files are supported."
+                / "WARNING- The file: " file "will be ignored."
+                / "WARNING- ";
             end;
         end;
       else
@@ -685,10 +735,10 @@ data &filesWithCodes.;
           additionalContent+1;
           if additionalContent > 1 then
             do;
-              put "WARNING: Only ONE directory with additional content is allowed!" /
-                  "WARNING- Store all additional content in a single directory." /
-                  "WARNING- The directory: " folder "will be ignored." /
-                  "WARNING- ";
+              put "WARNING: Only ONE directory with additional content is allowed!"
+                / "WARNING- Store all additional content in a single directory."
+                / "WARNING- The directory: " folder "will be ignored."
+                / "WARNING- ";
             end;
           else
             do;
@@ -769,11 +819,11 @@ data _null_;
       /* if number of EXECs and CLEANs differs but both are positive issue a Warning */
       if (0 < e < c) or (0 < c < e) or not(EXEC.NUM_ITEMS = CLEAN.NUM_ITEMS = F.NUM_ITEMS) then
         do;
-          put "WARNING: Number of EXEC type and CLEAN type files differs!" /
-              "WARNING- Each EXEC file should have CLEAN file counterpart and vice versa." /
-              'WARNING- Please create appropriate files and make your package a "role model".' /
-              'WARNING- ' /
-              'WARNING- The list of differences:';
+          put "WARNING: Number of EXEC type and CLEAN type files differs!"
+            / "WARNING- Each EXEC file should have CLEAN file counterpart and vice versa."
+            / 'WARNING- Please create appropriate files and make your package a "role model".'
+            / 'WARNING- '
+            / 'WARNING- The list of differences:';
           do while(IF.next()=0);
             ne = 0;
             nc = 0;
@@ -787,10 +837,10 @@ data _null_;
       /* if EXECs are positive but CLEANs are zero (or other way around) issue an Error */
       if (0 = e < c) or (0 = c < e) then
         do;
-          put "ERROR: There are " e "EXECs files and " c "CLEANs files!" /
-              "ERROR- Each EXEC file should have CLEAN file counterpart and vice versa." /
-              'ERROR- Please create appropriate files and make your package a "role model".' /
-              'ERROR: [&sysmacroname.] Aborting package generation!' ;
+          put "ERROR: There are " e "EXECs files and " c "CLEANs files!"
+            / "ERROR- Each EXEC file should have CLEAN file counterpart and vice versa."
+            / 'ERROR- Please create appropriate files and make your package a "role model".'
+            / 'ERROR: [&sysmacroname.] Aborting package generation!';
           abort;
         end;
     end;
@@ -877,6 +927,8 @@ run;
 proc contents data = &filesWithCodes.;
 run;
 */
+%local _titleNumber_;
+%let _titleNumber_=6;
 title1 "Package location is: &filesLocation.";
 title2 "User: &SYSUSERID., Datetime: &packageGenerated., SAS version: &SYSVLONG4.";
 title3 "Package encoding: '&packageEncoding.', Session encoding: '&SYSENCODING.'.";
@@ -887,14 +939,21 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
  or (%superq(packageReqPackages) ne ) 
 %then
   %do;
-    title7 "Required SAS licences: %qsysfunc(compress(%superq(packageRequired),   %str(%'%")))" ;   /* ' */
-    title8 "Required SAS packages: %qsysfunc(compress(%superq(packageReqPackages),%str(%'%")))" ;   /* " */
+    %let _titleNumber_=%eval(&_titleNumber_.+1);
+    title&_titleNumber_. "Required SAS licences: %qsysfunc(compress(%superq(packageRequired),   %str(%'%")))" ;   /* ' */
+    %let _titleNumber_=%eval(&_titleNumber_.+1);
+    title&_titleNumber_. "Required SAS packages: %qsysfunc(compress(%superq(packageReqPackages),%str(%'%")))" ;   /* " */
+  %end;
+%if %superq(buildLocation) NE %superq(filesLocation) %then
+  %do;
+    %let _titleNumber_=%eval(&_titleNumber_.+1);
+    title&_titleNumber_. "Package ZIP file location is: &buildLocation.";
   %end;
 
-footnote1 "SAS Packages Framework, version 20251221";
+footnote1 "SAS Packages Framework, version 20251231";
 
 proc print 
-  data = &filesWithCodes.(drop=base folderRef fileRef rc folderid _abort_ fileId additionalContent)
+  data = &filesWithCodes.(drop=base build folderRef fileRef rc folderid _abort_ fileId additionalContent)
   width=full
 ;
 run;
@@ -959,27 +1018,27 @@ run;
       file &zipReferrence.(license.sas) encoding = &packageEncoding.;
       length packageAuthor $ 1024;
       packageAuthor = symget('packageAuthor');
-      put "  ";
-      put "Copyright (c) since %sysfunc(today(),year4.) " packageAuthor ;
-      put "  ";
-      put "Permission is hereby granted, free of charge, to any person obtaining a copy";
-      put 'of this software and associated documentation files (the "Software"), to deal';
-      put "in the Software without restriction, including without limitation the rights";
-      put "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell";
-      put "copies of the Software, and to permit persons to whom the Software is";
-      put "furnished to do so, subject to the following conditions:";
-      put "  ";
-      put "The above copyright notice and this permission notice shall be included";
-      put "in all copies or substantial portions of the Software.";
-      put "  ";
-      put 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR';
-      put "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,";
-      put "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE";
-      put "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER";
-      put "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,";
-      put "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE";
-      put "SOFTWARE.";
-      put "  ";
+      put "  "
+        / "Copyright (c) since %sysfunc(today(),year4.) " packageAuthor 
+        / "  "
+        / "Permission is hereby granted, free of charge, to any person obtaining a copy"
+        / 'of this software and associated documentation files (the "Software"), to deal'
+        / "in the Software without restriction, including without limitation the rights"
+        / "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell"
+        / "copies of the Software, and to permit persons to whom the Software is"
+        / "furnished to do so, subject to the following conditions:"
+        / "  "
+        / "The above copyright notice and this permission notice shall be included"
+        / "in all copies or substantial portions of the Software."
+        / "  "
+        / 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR'
+        / "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,"
+        / "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE"
+        / "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+        / "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,"
+        / "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE"
+        / "SOFTWARE."
+        / "  ";
     run;
   %end;
 
@@ -1009,16 +1068,16 @@ data _null_;
   packageLicense    = quote(strip(symget('packageLicense')),'"');
   packageGenerated  = quote(strip(symget('packageGenerated')),'"');
 
-  put ' data _null_; '; /* simple "%local" returns error while loading package */
-  put '  call symputX("packageName",       ' packageName       ', "L");';
-  put '  call symputX("packageVersion",    ' packageVersion    ', "L");';
-  put '  call symputX("packageTitle",      ' packageTitle      ', "L");';
-  put '  call symputX("packageAuthor",     ' packageAuthor     ', "L");';
-  put '  call symputX("packageMaintainer", ' packageMaintainer ', "L");';
-  put '  call symputX("packageEncoding",   ' packageEncoding   ', "L");';
-  put '  call symputX("packageLicense",    ' packageLicense    ', "L");';
-  put '  call symputX("packageGenerated",  ' packageGenerated  ', "L");';
-  put ' run; ';
+  put ' data _null_; ' /* simple "%local" returns error while loading package */
+    / '  call symputX("packageName",       ' packageName       ', "L");'
+    / '  call symputX("packageVersion",    ' packageVersion    ', "L");'
+    / '  call symputX("packageTitle",      ' packageTitle      ', "L");'
+    / '  call symputX("packageAuthor",     ' packageAuthor     ', "L");'
+    / '  call symputX("packageMaintainer", ' packageMaintainer ', "L");'
+    / '  call symputX("packageEncoding",   ' packageEncoding   ', "L");'
+    / '  call symputX("packageLicense",    ' packageLicense    ', "L");'
+    / '  call symputX("packageGenerated",  ' packageGenerated  ', "L");'
+    / ' run; ';
 
   stop;
 run;
@@ -1043,82 +1102,76 @@ run;
 %put NOTE-;
 data _null_;
   file &zipReferrence.(iceloadpackage.sas) encoding = &packageEncoding.;
-  put " ";
-  put '  /* Temporary replacement of loadPackage() macro. */                      ';
-  put '  %macro ICEloadPackage(                                                   ';
-  put '    packageName                         /* name of a package */            ';
-  put '  , path = %sysfunc(pathname(packages)) /* location of a package */        ';
-  put '  , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP */     ';
-  put '  , zip = zip                           /* file ext. */                    ';
-  put '  , requiredVersion = .                 /* required version */             ';
-  put '  , source2 = /* source2 */                                                ';
-  put '  , suppressExec = 0                    /* suppress execs */               ';
-  put '  )/secure;                                                                ';
-  put '    %PUT ** NOTE: Package ' "&packageName." ' loaded in ICE mode **;       ';
-  put '    %local _PackageFileref_;                                               ';
-  put '    data _null_;                                                                                 ';
-  put '     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); ';
-  put '    run;                                                                                         ';
+  put " "
+    / '  /* Temporary replacement of loadPackage() macro. */                      '
+    / '  %macro ICEloadPackage(                                                   '
+    / '    packageName                         /* name of a package */            '
+    / '  , path = %sysfunc(pathname(packages)) /* location of a package */        '
+    / '  , options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP */     '
+    / '  , zip = zip                           /* file ext. */                    '
+    / '  , requiredVersion = .                 /* required version */             '
+    / '  , source2 = /* source2 */                                                '
+    / '  , suppressExec = 0                    /* suppress execs */               '
+    / '  )/secure;                                                                '
+    / '    %PUT ** NOTE: Package ' "&packageName." ' loaded in ICE mode **;       '
+    / '    %local _PackageFileref_;                                               '
+    / '    data _null_;                                                                                 '
+    / '     call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); '
+    / '    run;                                                                                         '
   
-  put '    filename &_PackageFileref_. &ZIP.                                      ';
-  put '      "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)  ';
-  put '    ;                                                                      ';
-  put '    %include &_PackageFileref_.(packagemetadata.sas) / &source2.;          ';
-  put '    filename &_PackageFileref_. clear;                                     ';
+    / '    filename &_PackageFileref_. &ZIP.                                      '
+    / '      "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)  '
+    / '    ;                                                                      '
+    / '    %include &_PackageFileref_.(packagemetadata.sas) / &source2.;          '
+    / '    filename &_PackageFileref_. clear;                                     '
 
            /* test if required version of package is "good enough" */
-  put '    %local rV pV rV0 pV0 rVsign;                                           ';
-  put '    %let pV0 = %sysfunc(compress(&packageVersion.,.,kd));                  ';
-  put '    %let pV = %sysevalf((%scan(&pV0.,1,.,M)+0)*1e8                         ';
-  put '                      + (%scan(&pV0.,2,.,M)+0)*1e4                         ';
-  put '                      + (%scan(&pV0.,3,.,M)+0)*1e0);                       ';
-  put '                                                                           ';
-  put '    %let rV0 = %sysfunc(compress(&requiredVersion.,.,kd));                 ';
-  put '    %let rVsign = %sysfunc(compress(&requiredVersion.,<=>,k));             ';
-  put '    %if %superq(rVsign)= %then %let rVsign=<=;                             ';
-  put '    %else %if NOT (%superq(rVsign) IN (%str(=) %str(<=) %str(=<) %str(=>) %str(>=) %str(<) %str(>))) %then ';
-  put '      %do;                                                                                                 ';
-  put '        %put WARNING: Illegal operatopr "%superq(rVsign)"! Default(<=) will be used.;                      ';
-  put '        %put WARNING- Supported operators are: %str(= <= =< => >= < >);                                    ';
-  put '        %let rVsign=<=;                                                    ';
-  put '      %end;                                                                ';
-  put '    %let rV = %sysevalf((%scan(&rV0.,1,.,M)+0)*1e8                         ';
-  put '                      + (%scan(&rV0.,2,.,M)+0)*1e4                         ';
-  put '                      + (%scan(&rV0.,3,.,M)+0)*1e0);                       ';
-  put '                                                                           ';
-  put '    %if NOT %sysevalf(&rV. &rVsign. &pV.) %then                            ';
-  put '      %do;                                                                 ';
-  put '        %put ERROR: Package &packageName. will not be loaded!;             ';
-  put '        %put ERROR- Required version is &rV0.;                             ';
-  put '        %put ERROR- Provided version is &pV0.;                             ';
-  put '        %put ERROR- Condition %bquote((&rV0. &rVsign. &pV0.)) evaluates to %sysevalf(&rV. &rVsign. &pV.);  ';
-  put '        %put ERROR- Verify installed version of the package.;              ';
-  put '        %put ERROR- ;                                                      ';
-  put '        %GOTO WrongVersionOFPackage; /*%RETURN;*/                          ';
-  put '      %end;                                                                ';
-
-  put '    filename &_PackageFileref_. &ZIP.                                      ';
-  put '      "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)  ';
-  put '      ENCODING =                                                           ';
-  put '        %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;        ';
-  put '                                          %else utf8 ;                     ';
-  put '    ;                                                                      ';
-  
-  put '    %local cherryPick; %let cherryPick=*;                                  ';
-  put '    %local tempLoad_minoperator;                                           ';
-  put '    %let tempLoad_minoperator = %sysfunc(getoption(minoperator));          ';
-  put '    options minoperator;                                                   ';
-
-  put '    %if %superq(suppressExec) NE 1 %then %let suppressExec = 0;            ';
-
-  put '    %include &_PackageFileref_.(load.sas) / &source2.;                     ';
-  put '    options &tempLoad_minoperator.;                                        ';
-  
-  put '    filename &_PackageFileref_. clear;                                     ';
-  put '    %WrongVersionOFPackage:                                                ';
-
-  put '  %mend ICEloadPackage;                                                    ';
-  put " ";
+    / '    %local rV pV rV0 pV0 rVsign;                                           '
+    / '    %let pV0 = %sysfunc(compress(&packageVersion.,.,kd));                  '
+    / '    %let pV = %sysevalf((%scan(&pV0.,1,.,M)+0)*1e8                         '
+    / '                      + (%scan(&pV0.,2,.,M)+0)*1e4                         '
+    / '                      + (%scan(&pV0.,3,.,M)+0)*1e0);                       '
+    / '                                                                           '
+    / '    %let rV0 = %sysfunc(compress(&requiredVersion.,.,kd));                 '
+    / '    %let rVsign = %sysfunc(compress(&requiredVersion.,<=>,k));             '
+    / '    %if %superq(rVsign)= %then %let rVsign=<=;                             '
+    / '    %else %if NOT (%superq(rVsign) IN (%str(=) %str(<=) %str(=<) %str(=>) %str(>=) %str(<) %str(>))) %then '
+    / '      %do;                                                                                                 '
+    / '        %put WARNING: Illegal operatopr "%superq(rVsign)"! Default(<=) will be used.;                      '
+    / '        %put WARNING- Supported operators are: %str(= <= =< => >= < >);                                    '
+    / '        %let rVsign=<=;                                                    '
+    / '      %end;                                                                '
+    / '    %let rV = %sysevalf((%scan(&rV0.,1,.,M)+0)*1e8                         '
+    / '                      + (%scan(&rV0.,2,.,M)+0)*1e4                         '
+    / '                      + (%scan(&rV0.,3,.,M)+0)*1e0);                       '
+    / '                                                                           '
+    / '    %if NOT %sysevalf(&rV. &rVsign. &pV.) %then                            '
+    / '      %do;                                                                 '
+    / '        %put ERROR: Package &packageName. will not be loaded!;             '
+    / '        %put ERROR- Required version is &rV0.;                             '
+    / '        %put ERROR- Provided version is &pV0.;                             '
+    / '        %put ERROR- Condition %bquote((&rV0. &rVsign. &pV0.)) evaluates to %sysevalf(&rV. &rVsign. &pV.);  '
+    / '        %put ERROR- Verify installed version of the package.;              '
+    / '        %put ERROR- ;                                                      '
+    / '        %GOTO WrongVersionOFPackage; /*%RETURN;*/                          '
+    / '      %end;                                                                '
+    / '    filename &_PackageFileref_. &ZIP.                                      '
+    / '      "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)  '
+    / '      ENCODING =                                                           '
+    / '        %if %superq(packageEncoding) NE %then &packageEncoding. ;          '
+    / '                                        %else utf8 ;                       '
+    / '    ;                                                                      '
+    / '    %local cherryPick; %let cherryPick=*;                                  '
+    / '    %local tempLoad_minoperator;                                           '
+    / '    %let tempLoad_minoperator = %sysfunc(getoption(minoperator));          '
+    / " "
+    / '    %if %superq(suppressExec) NE 1 %then %let suppressExec = 0;            '
+    / '    %include &_PackageFileref_.(load.sas) / &source2.;                     '
+    / '    options &tempLoad_minoperator.;                                        '
+    / '    filename &_PackageFileref_. clear;                                     '
+    / '    %WrongVersionOFPackage:                                                '
+    / '  %mend ICEloadPackage;                                                    '
+    / " ";
 run;
 
 /* loading package files */
@@ -1126,6 +1179,7 @@ run;
 %put NOTE: Preparing load file.;
 %put NOTE- ^^^^^^^^^^^^^^^^^^^^;
 %put NOTE-;
+
 data _null_;
   if NOBS = 0 then stop;
 
@@ -1146,11 +1200,11 @@ data _null_;
   
   put 'data _null_; ';
   put ' if NOT ("*"=symget("cherryPick")) then do; '; /* Cherry Pick test0 start */
-  put '  put "NOTE- "; ' /
-      '  put "NOTE: *** Cherry Picking ***"; ' /
-      '  put "NOTE- Cherry Picking in action!! Be advised that"; ' /
-      '  put "NOTE- dependencies/required packages will not be loaded!"; ' /
-      '  put "NOTE- "; ' ;
+  put '  put "NOTE- "; '
+    / '  put "NOTE: *** Cherry Picking ***"; '
+    / '  put "NOTE- Cherry Picking in action!! Be advised that"; '
+    / '  put "NOTE- dependencies/required packages will not be loaded!"; '
+    / '  put "NOTE- "; ';
   put ' end; ' ; /* Cherry Pick test0 end */
   put 'run; ';
 
@@ -1169,72 +1223,72 @@ data _null_;
    or (%superq(packageReqPackages) ne ) 
   %then
     %do;
-      put ' data _null_;                                                     ';
-      put '  call symputX("packageRequiredErrors", 0, "L");                  ';
-      put ' run;                                                             ';
+      put ' data _null_;                                                     '
+        / '  call symputX("packageRequiredErrors", 0, "L");                  '
+        / ' run;                                                             ';
     %end;
 
   %if %superq(packageRequired) ne %then
     %do;
-      put ' %put NOTE- *Testing required SAS components*%sysfunc(DoSubL(     '; /* <- DoSubL() is here */
-      put ' options nonotes nosource %str(;)                                 ';
-      put ' options ls=max ps=max locale=en_US %str(;)                       ';
-      put ' /* temporary redirect log */                                     ';
-      put ' filename _stinit_ TEMP %str(;)                                   ';
-      put ' proc printto log = _stinit_ %str(;) run %str(;)                  ';
-      put ' /* print out setinit */                                          ';
-      put ' proc setinit %str(;) run %str(;)                                 ';
-      put ' proc printto %str(;) run %str(;)                                 ';
+      put ' %put NOTE- *Testing required SAS components*%sysfunc(DoSubL(' /* <- DoSubL() is here */
+        / ' options nonotes nosource %str(;)                            '
+        / ' options ls=max ps=max locale=en_US %str(;)                  '
+        / ' /* temporary redirect log */                                '
+        / ' filename _stinit_ TEMP %str(;)                              '
+        / ' proc printto log = _stinit_ %str(;) run %str(;)             '
+        / ' /* print out setinit */                                     '
+        / ' proc setinit %str(;) run %str(;)                            '
+        / ' proc printto %str(;) run %str(;)                            '
 
-      put ' data _null_ %str(;)                                              ';
-      put '   /* loadup checklist of required SAS components */              ';
-      put '   if _n_ = 1 then                                                ';
-      put '     do %str(;)                                                   ';
-      put '       length req $ 256 %str(;)                                   ';
-      put '       declare hash R() %str(;)                                   ';
-      put '       _N_ = R.defineKey("req") %str(;)                           ';
-      put '       _N_ = R.defineDone() %str(;)                               ';
-      put '       declare hiter iR("R") %str(;)                              ';
+        / ' data _null_ %str(;)                                         '
+        / '   /* loadup checklist of required SAS components */         '
+        / '   if _n_ = 1 then                                           '
+        / '     do %str(;)                                              '
+        / '       length req $ 256 %str(;)                              '
+        / '       declare hash R() %str(;)                              '
+        / '       _N_ = R.defineKey("req") %str(;)                      '
+        / '       _N_ = R.defineDone() %str(;)                          '
+        / '       declare hiter iR("R") %str(;)                         ';
         length packageRequired $ 32767; 
         packageRequired = upcase(symget('packageRequired'));
-      put '         do req = %bquote(' / packageRequired / ') %str(;)        ';
-      put '          _N_ = R.add(key:req,data:req) %str(;)   ';
-      put '         end %str(;)                                              ';
-      put '     end %str(;)                                                  ';
-      put '                                                                  ';
-      put '   /* read in output from proc setinit */                         ';
-      put '   infile _stinit_ end=eof %str(;)                                ';
-      put '   input %str(;)                                                  ';
-    /*put '   put "*> " _infile_ %str(;)                                     '; */ /* for testing */
-      put '                                                                  ';
-      put '   /* if component is in setinit remove it from checklist */      ';
-      put '   if _infile_ =: "---" then                                      ';
-      put '     do %str(;)                                                   ';
-      put '       req = upcase(substr(_infile_, 4, 64)) %str(;)              ';
-      put '       if R.find(key:req) = 0 then                                ';
-      put '         do %str(;)                                               ';
-      put '           _N_ = R.remove() %str(;)                               ';
-      put '         end %str(;)                                              ';
-      put '     end %str(;)                                                  ';
-      put '                                                                  ';
-      put '   /* if checklist is not null rise error */                      ';
-      put '   if eof and R.num_items > 0 then                                ';
-      put '     do %str(;)                                                   ';
-      put '       put "WARNING- ###########################################" %str(;) ';
-      put '       put "WARNING:  The following SAS components are missing! " %str(;) ';
-      put '       call symputX("packageRequiredErrors", 0, "L") %str(;)              ';
-      put '       do while(iR.next() = 0) %str(;)                                    ';
-      put '         put "WARNING-   " req %str(;)                                    ';
-      put '       end %str(;)                                                        ';
-      put '       put "WARNING:  The package may NOT WORK as expected      " %str(;) ';
-      put '       put "WARNING:  or even result with ERRORS!               " %str(;) ';
-      put '       put "WARNING- ###########################################" %str(;) ';
-      put '       put %str(;)                                                ';
-      put '     end %str(;)                                                  ';
-      put ' run %str(;)                                                      ';
-      put ' filename _stinit_ clear %str(;)                                  ';
-      put ' options notes source %str(;)                                     ';
-      put ' ))*;                                                             ';
+      put '         do req = %bquote(' / packageRequired / ') %str(;)   '
+        / '          _N_ = R.add(key:req,data:req) %str(;)              '
+        / '         end %str(;)                                         '
+        / '     end %str(;)                                             '
+        / '                                                             '
+        / '   /* read in output from proc setinit */                    '
+        / '   infile _stinit_ end=eof %str(;)                           '
+        / '   input %str(;)                                             '
+    /*  / '   put "*> " _infile_ %str(;)                                ' */ /* for testing */
+        / '                                                             '
+        / '   /* if component is in setinit remove it from checklist */ '
+        / '   if _infile_ =: "---" then                                 '
+        / '     do %str(;)                                              '
+        / '       req = upcase(substr(_infile_, 4, 64)) %str(;)         '
+        / '       if R.find(key:req) = 0 then                           '
+        / '         do %str(;)                                          '
+        / '           _N_ = R.remove() %str(;)                          '
+        / '         end %str(;)                                         '
+        / '     end %str(;)                                             '
+        / '                                                             '
+        / '   /* if checklist is not null rise error */                 '
+        / '   if eof and R.num_items > 0 then                           '
+        / '     do %str(;)                                              '
+        / '       put "WARNING- ###########################################" %str(;) '
+        / '       put "WARNING:  The following SAS components are missing! " %str(;) '
+        / '       call symputX("packageRequiredErrors", 0, "L") %str(;)              '
+        / '       do while(iR.next() = 0) %str(;)                                    '
+        / '         put "WARNING-   " req %str(;)                                    '
+        / '       end %str(;)                                                        '
+        / '       put "WARNING:  The package may NOT WORK as expected      " %str(;) '
+        / '       put "WARNING:  or even result with ERRORS!               " %str(;) '
+        / '       put "WARNING- ###########################################" %str(;) '
+        / '       put %str(;)                                           '
+        / '     end %str(;)                                             '
+        / ' run %str(;)                                                 '
+        / ' filename _stinit_ clear %str(;)                             '
+        / ' options notes source %str(;)                                '
+        / ' ))*;                                                        ';
     %end;
 
   %if %superq(packageReqPackages) ne %then
@@ -1244,146 +1298,145 @@ data _null_;
       packageReqPackages = lowcase(symget('packageReqPackages'));
       
       /* try to load required packages */
-      put 'data _null_ ;                                                                                 ';
-      put ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages loading."; stop; end; ';
-      put '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                ';
-      put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
-      put '    do;                                                                                       ';
-      put '      do until(EOF);                                                                          ';
-      put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      ';
-      put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     ';
-      put '      end;                                                                                    ';
-      put '    end;                                                                                      ';
-      put '  SYSloadedPackages = lowcase(SYSloadedPackages);                                             '; 
+      put 'data _null_ ;                                                                                 '
+        / ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages loading."; stop; end; '
+        / '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                '
+        / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             '
+        / '    do;                                                                                       '
+        / '      do until(EOF);                                                                          '
+        / '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      '
+        / '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     '
+        / '      end;                                                                                    '
+        / '    end;                                                                                      '
+        / '  SYSloadedPackages = lowcase(SYSloadedPackages);                                             '
 
-      put '  declare hash LP();                                                                          ';
-      put '  LP.defineKey("name");                                                                       ';
-      put '  LP.defineData("vers");                                                                      ';
-      put '  LP.defineDone();                                                                            ';
-      put '  do _N_ = 1 to countw(SYSloadedPackages);                                                    ';
-      put '    req = kscanx(SYSloadedPackages, _N_, " ");                                                ';
-      put '    name = lowcase(strip(kscanx(req, 1, "(")));                                               ';
-      put '    vers = compress(kscanx(req,-1, "("), ".", "KD");                                          ';
-      put '    _RC_ = LP.add();                                                                          ';
-      put '  end;                                                                                        ';
+        / '  declare hash LP();                                                                          '
+        / '  LP.defineKey("name");                                                                       '
+        / '  LP.defineData("vers");                                                                      '
+        / '  LP.defineDone();                                                                            '
+        / '  do _N_ = 1 to countw(SYSloadedPackages);                                                    '
+        / '    req = kscanx(SYSloadedPackages, _N_, " ");                                                '
+        / '    name = lowcase(strip(kscanx(req, 1, "(")));                                               '
+        / '    vers = compress(kscanx(req,-1, "("), ".", "KD");                                          '
+        / '    _RC_ = LP.add();                                                                          '
+        / '  end;                                                                                        '
       /* check if elements of the framework are available */
-      put '       LoadPackageExist = input(resolve(''%SYSMACEXIST(   loadPackage)''), best.);            ';
-      put '    ICELoadPackageExist = input(resolve(''%SYSMACEXIST(ICEloadPackage)''), best.);            '; 
+        / '       LoadPackageExist = input(resolve(''%SYSMACEXIST(   loadPackage)''), best.);            '
+        / '    ICELoadPackageExist = input(resolve(''%SYSMACEXIST(ICEloadPackage)''), best.);            ' 
 
-      put '  do req = ' / packageReqPackages / ' ;                                                       ';
-/*    put '    req = compress(req, "(.)", "KDF");                                                        ';*/
-      put '    name = lowcase(strip(kscanx(req, 1, "(")));                                               ';
-      put '    verR = compress(kscanx(req,-1, "("), ".", "KD"); vers = "";                               ';
-      put '    LP_find = LP.find();                                                                      ';
+        / '  do req = ' / packageReqPackages / ' ;                                                       '
+/*      / '    req = compress(req, "(.)", "KDF");                                                        '*/
+        / '    name = lowcase(strip(kscanx(req, 1, "(")));                                               '
+        / '    verR = compress(kscanx(req,-1, "("), ".", "KD"); vers = "";                               '
+        / '    LP_find = LP.find();                                                                      '
 
       /* convert major.minor.patch to number*/
-      put '    array V verR vers ;                                                                       ';
-      put '    array VN verRN versN;                                                                     ';
-      put '    do over V;                                                                                ';
-      put '      VN = input("0"!!scan(V,1,".","M"),?? best.)*1e8                                         ';
-      put '         + input("0"!!scan(V,2,".","M"),?? best.)*1e4                                         ';
-      put '         + input("0"!!scan(V,3,".","M"),?? best.)*1e0;                                        ';
-      put '    end;                                                                                      ';
+        / '    array V verR vers ;                                                                       '
+        / '    array VN verRN versN;                                                                     '
+        / '    do over V;                                                                                '
+        / '      VN = input("0"!!scan(V,1,".","M"),?? best.)*1e8                                         '
+        / '         + input("0"!!scan(V,2,".","M"),?? best.)*1e4                                         '
+        / '         + input("0"!!scan(V,3,".","M"),?? best.)*1e0;                                        '
+        / '    end;                                                                                      '
 
-      put '    if (LP_find ne 0) or (LP_find = 0 and . < versN < verRN) then                                     ';
-      put '     do;                                                                                              ';
-      put '      put "NOTE: Trying to load required SAS package: " req;                                          ';
-      put '       if LoadPackageExist then                                                                       ';
-      put '         call execute(cats(''%nrstr(%loadPackage('', name, ", requiredVersion = ", verR, "))"));      ';
-      put '       else if ICELoadPackageExist then                                                               ';
-      put '         call execute(cats(''%nrstr(%ICEloadPackage('', name, ", requiredVersion = ", verR, "))"));   ';
-      put '     end ;                                                                                            ';
-      put '  end ;                                                                                               ';
-      put ' stop;                                                                                        ';
-      put 'run;                                                                                          ';
+        / '    if (LP_find ne 0) or (LP_find = 0 and . < versN < verRN) then                                     '
+        / '     do;                                                                                              '
+        / '      put "NOTE: Trying to load required SAS package: " req;                                          '
+        / '       if LoadPackageExist then                                                                       '
+        / '         call execute(cats(''%nrstr(%loadPackage('', name, ", requiredVersion = ", verR, "))"));      '
+        / '       else if ICELoadPackageExist then                                                               '
+        / '         call execute(cats(''%nrstr(%ICEloadPackage('', name, ", requiredVersion = ", verR, "))"));   '
+        / '     end ;                                                                                            '
+        / '  end ;                                                                                               '
+        / ' stop;                                                                                        '
+        / 'run;                                                                                          '
 
       /* test if required packages are loaded */
-      put 'data _null_ ;                                                                                 ';
-      put ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages checking."; stop; end; ';
-      put '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                ';
-      put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             ';
-      put '    do;                                                                                       ';
-      put '      do until(EOF);                                                                          ';
-      put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      ';
-      put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     ';
-      put '      end;                                                                                    ';
-      put '      SYSloadedPackages = lowcase(SYSloadedPackages);                                         '; 
+        / 'data _null_ ;                                                                                 '
+        / ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages checking."; stop; end; '
+        / '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                '
+        / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             '
+        / '    do;                                                                                       '
+        / '      do until(EOF);                                                                          '
+        / '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;      '
+        / '        substr(SYSloadedPackages, 1+offset, 200) = value;                                     '
+        / '      end;                                                                                    '
+        / '      SYSloadedPackages = lowcase(SYSloadedPackages);                                         ' 
 
-      put '      declare hash LP();                                                                      ';
-      put '      LP.defineKey("name");                                                                   ';
-      put '      LP.defineData("vers");                                                                  ';
-      put '      LP.defineDone();                                                                        ';
-      put '      do _N_ = 1 to countw(SYSloadedPackages);                                                ';
-      put '        req = kscanx(SYSloadedPackages, _N_, " ");                                            ';
-      put '        name = lowcase(strip(kscanx(req, 1, "(")));                                           ';
-      put '        vers = compress(kscanx(req,-1, "("), ".", "KD");                                      ';
-      put '        _RC_ = LP.add();                                                                      ';
-      put '      end;                                                                                    ';
+        / '      declare hash LP();                                                                      '
+        / '      LP.defineKey("name");                                                                   '
+        / '      LP.defineData("vers");                                                                  '
+        / '      LP.defineDone();                                                                        '
+        / '      do _N_ = 1 to countw(SYSloadedPackages);                                                '
+        / '        req = kscanx(SYSloadedPackages, _N_, " ");                                            '
+        / '        name = lowcase(strip(kscanx(req, 1, "(")));                                           '
+        / '        vers = compress(kscanx(req,-1, "("), ".", "KD");                                      '
+        / '        _RC_ = LP.add();                                                                      '
+        / '      end;                                                                                    '
 
-      put '      missingPackagr = 0;                                                                     ';
-      put '      do req = ' / packageReqPackages / ' ;                                                   ';
-/*    put '        req = compress(req, "(.)", "KDF");                                                    ';*/
-      put '        name = lowcase(strip(kscanx(req, 1, "(")));                                           ';
-      put '        verR = compress(kscanx(req,-1, "("), ".", "KD"); vers = " ";                          ';
-      put '        LP_find = LP.find();                                                                  ';
+        / '      missingPackagr = 0;                                                                     '
+        / '      do req = ' / packageReqPackages / ' ;                                                   '
+/*      / '        req = compress(req, "(.)", "KDF");                                                    '*/
+        / '        name = lowcase(strip(kscanx(req, 1, "(")));                                           '
+        / '        verR = compress(kscanx(req,-1, "("), ".", "KD"); vers = " ";                          '
+        / '        LP_find = LP.find();                                                                  '
 
       /* convert major.minor.patch to number*/
-      put '    array V verR vers ;                                                                       ';
-      put '    array VN verRN versN;                                                                     ';
-      put '    do over V;                                                                                ';
-      put '      VN = input("0"!!scan(V,1,".","M"),?? best.)*1e8                                         ';
-      put '         + input("0"!!scan(V,2,".","M"),?? best.)*1e4                                         ';
-      put '         + input("0"!!scan(V,3,".","M"),?? best.)*1e0;                                        ';
-      put '    end;                                                                                      ';
-
-      put '        if (LP_find ne 0) or (LP_find = 0 and . < versN < verRN) then                         ';
-      put '         do;                                                                                  ';
-      put '          missingPackagr = 1;                                                                 ';
-      put '          put "ERROR: SAS package: " req "is missing! Download it by hand or if the SAS session";';
-      put '          put "ERROR- has access to the Internet and the package is available at SASPAC repository";';
-      put '          put ''ERROR- use %installPackage('' name +(-1) "(" verR +(-1) ")) to install it."/; ';
-      put '          put ''ERROR- Use %loadPackage('' name +(-1) ", requiredVersion=" verR +(-1) ") to load it."/;';
-      put '         end ;                                                                                ';
-      put '      end ;                                                                                   ';
-      put '      if missingPackagr then call symputX("packageRequiredErrors", 1, "L");                   ';
-      put '    end;                                                                                      ';
-      put '  else                                                                                        ';
-      put '    do;                                                                                       ';
-      put '      put "ERROR: No package loaded!";                                                        ';
-      put '      call symputX("packageRequiredErrors", 1, "L");                                          ';
-      put '      do req = ' / packageReqPackages / ' ;                                                   ';
-      put '        name = lowcase(strip(kscanx(req, 1, "(")));                                           ';
-      put '        vers = compress(kscanx(req,-1, "("), ".", "KD");                                      ';
-      put '        put "ERROR: SAS package " req "is missing! Download it by hand or if the SAS session";';
-      put '        put "ERROR- has access to the Internet and the package is available at SASPAC repository";';
-      put '        put ''ERROR- use %installPackage('' name +(-1) "(" vers +(-1) ")) to install it."/;   ';
-      put '        put ''ERROR- Use %loadPackage('' name +(-1)", requiredVersion=" vers +(-1) ") to load it."/;';
-      put '      end ;                                                                                   ';
-      put '    end;                                                                                      ';
-      put '  stop;                                                                                       ';
-      put 'run;                                                                                          ';
+        / '    array V verR vers ;                                                                       '
+        / '    array VN verRN versN;                                                                     '
+        / '    do over V;                                                                                '
+        / '      VN = input("0"!!scan(V,1,".","M"),?? best.)*1e8                                         '
+        / '         + input("0"!!scan(V,2,".","M"),?? best.)*1e4                                         '
+        / '         + input("0"!!scan(V,3,".","M"),?? best.)*1e0;                                        '
+        / '    end;                                                                                      '
+        / '        if (LP_find ne 0) or (LP_find = 0 and . < versN < verRN) then                         '
+        / '         do;                                                                                  '
+        / '          missingPackagr = 1;                                                                 '
+        / '          put "ERROR: SAS package: " req "is missing! Download it by hand or if the SAS session";       '
+        / '          put "ERROR- has access to the Internet and the package is available at SASPAC repository";    '
+        / '          put ''ERROR- use %installPackage('' name +(-1) "(" verR +(-1) ")) to install it."/;           '
+        / '          put ''ERROR- Use %loadPackage('' name +(-1) ", requiredVersion=" verR +(-1) ") to load it."/; '
+        / '         end ;                                                                                '
+        / '      end ;                                                                                   '
+        / '      if missingPackagr then call symputX("packageRequiredErrors", 1, "L");                   '
+        / '    end;                                                                                      '
+        / '  else                                                                                        '
+        / '    do;                                                                                       '
+        / '      put "ERROR: No package loaded!";                                                        '
+        / '      call symputX("packageRequiredErrors", 1, "L");                                          '
+        / '      do req = ' / packageReqPackages / ' ;                                                   '
+        / '        name = lowcase(strip(kscanx(req, 1, "(")));                                           '
+        / '        vers = compress(kscanx(req,-1, "("), ".", "KD");                                      '
+        / '        put "ERROR: SAS package " req "is missing! Download it by hand or if the SAS session";       '
+        / '        put "ERROR- has access to the Internet and the package is available at SASPAC repository";   '
+        / '        put ''ERROR- use %installPackage('' name +(-1) "(" vers +(-1) ")) to install it."/;          '
+        / '        put ''ERROR- Use %loadPackage('' name +(-1)", requiredVersion=" vers +(-1) ") to load it."/; '
+        / '      end ;                                                                                   '
+        / '    end;                                                                                      '
+        / '  stop;                                                                                       '
+        / 'run;                                                                                          ';
     %end;
 
   %if (%superq(packageRequired) ne ) 
      or (%superq(packageReqPackages) ne ) 
   %then
     %do;
-      put ' data _null_;                                                     ';
-      put '  if 1 = symgetn("packageRequiredErrors") then                    ';
-      put '    do;                                                           ';
-      put '      put "ERROR: Loading package &packageName. will be aborted!";';
-      put '      put "ERROR- Required components are missing.";              ';
-      put '      put "ERROR- *** STOP ***";                                  ';
-      put '      call symputX("packageRequiredErrors",';
-      put '     ''options ls = &ls_tmp. ps = &ps_tmp. ';
-      put '       &notes_tmp. &source_tmp. msglevel=&msglevel_tmp. ';
-      put '       &stimer_tmp. &fullstimer_tmp. ;';
-      put '       data _null_;abort;run;'', "L");              ';
-      put '    end;                                            ';
-      put '  else                                              ';
-      put '    call symputX("packageRequiredErrors", " ", "L");';
-      put ' run;                                               ';
-      put ' &packageRequiredErrors.                            ';
+      put ' data _null_;                                                     '
+        / '  if 1 = symgetn("packageRequiredErrors") then                    '
+        / '    do;                                                           '
+        / '      put "ERROR: Loading package &packageName. will be aborted!";'
+        / '      put "ERROR- Required components are missing.";              '
+        / '      put "ERROR- *** STOP ***";                                  '
+        / '      call symputX("packageRequiredErrors",'
+        / '     ''options ls = &ls_tmp. ps = &ps_tmp. '
+        / '       &notes_tmp. &source_tmp. msglevel=&msglevel_tmp. '
+        / '       &stimer_tmp. &fullstimer_tmp. ;'
+        / '       data _null_;abort;run;'', "L");              '
+        / '    end;                                            '
+        / '  else                                              '
+        / '    call symputX("packageRequiredErrors", " ", "L");'
+        / ' run;                                               '
+        / ' &packageRequiredErrors.                            ';
     %end;
 
 
@@ -1422,9 +1475,9 @@ data _null_;
     if 1 = isFunction and upcase(type)=:'FUNCTION' then 
       do;
         /* macro variable for test if cherry picking used FCMP */
-        put 'data _null_; ';
-        put "  call symputX('cherryPick_FCMP', exist('work.&packageName.fcmp'), 'L'); ";
-        put 'run; ';
+        put 'data _null_; '
+          / "  call symputX('cherryPick_FCMP', exist('work.&packageName.fcmp'), 'L'); "
+          / 'run; ';
       end;
     if 1 = FIRST.type and upcase(type)='FUNCTIONS' then 
       do;
@@ -1434,9 +1487,9 @@ data _null_;
     if 1 = isProto and upcase(type)='PROTO' then 
       do;
         /* macro variable for test if cherry picking used PROTO */
-        put 'data _null_; ';
-        put "  call symputX('cherryPick_PROTO', exist('work.&packageName.proto'), 'L'); ";
-        put 'run; ';
+        put 'data _null_; '
+          / "  call symputX('cherryPick_PROTO', exist('work.&packageName.proto'), 'L'); "
+          / 'run; ';
       end;
     if 1 = FIRST.type and upcase(type)='PROTO' then 
       do;
@@ -1445,15 +1498,15 @@ data _null_;
                           value of "package=" overwrites previously created content
                         */
         /* header for multiple functions in one PROTO run */
-        put "proc proto package = work.&packageName.proto.package" ProtoGrpNum /
-            " LABEL='Proc Proto C functions for &packageName. package, part" ProtoGrpNum "' ; ";
+        put "proc proto package = work.&packageName.proto.package" ProtoGrpNum
+          / " LABEL='Proc Proto C functions for &packageName. package, part" ProtoGrpNum "' ; ";
       end;
     if 1 = isFormat and upcase(type)=:'FORMAT' then 
       do;
         /* macro variable for test if cherry picking used FORMAT */
-        put 'data _null_; ';
-        put "  call symputX('cherryPick_FORMAT', cexist('work.&packageName.format'), 'L'); ";
-        put 'run; ';
+        put 'data _null_; '
+          / "  call symputX('cherryPick_FORMAT', cexist('work.&packageName.format'), 'L'); "
+          / 'run; ';
       end;
     if 1 = FIRST.type and upcase(type)='FORMATS' then 
       do;
@@ -1463,25 +1516,25 @@ data _null_;
     if 1 = isIMLmodule and upcase(type)='IMLMODULE' then 
       do;
         /* macro variable for test if cherry picking used IML */
-        put 'data _null_;                               ';
-        put '  call symputX("cherryPick_IML_ALL",  0, "L"); ';
-        put 'run;                                       ';
+        put 'data _null_; '
+          / '  call symputX("cherryPick_IML_ALL",  0, "L"); '
+          / 'run; ';
       end;
     if 1 = FIRST.type and upcase(type)='IMLMODULE' then 
       do;
         /* macro variable for test if cherry picking used IML */
-        put 'data _null_;                               ';
-        put '  call symputX("cherryPick_IML",      0, "L"); ';
-        put 'run;                                       ';
+        put 'data _null_; '
+          / '  call symputX("cherryPick_IML",      0, "L"); '
+          / 'run; ';
         /* header, for IML modules */
         put "proc iml ; ";
       end;
     /* HEADERS for PROC IML, FCMP, and PROTO - end */
 
-    put ' ' /
-        '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; '; /* Cherry Pick test1 start */
-    put '  %put NOTE- ;';
-    put '  %put NOTE: >> Element of type ' type 'from the file "' file +(-1) '" will be included <<;';
+    put ' '
+      / '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; ' /* Cherry Pick test1 start */
+      / '  %put NOTE- ;'
+      / '  %put NOTE: >> Element of type ' type 'from the file "' file +(-1) '" will be included <<;';
     
     if upcase(type)=:'MACRO' then
       put '  %put %sysfunc(ifc(%SYSMACEXIST(' fileshort +(-1) ')=1, NOTE# Macro ' fileshort 
@@ -1517,16 +1570,16 @@ data _null_;
         if 1 = isDS2pck and upcase(type)=:'DS2PCK' then 
           do;
             /* macro variable for test if cherry picking used DS2 package */
-            put 'data _null_;                                 ';
-            put "  call symputX('cherryPick_DS2PCK', 0, 'L'); ";
-            put 'run;                                         ';
+            put 'data _null_;                                 '
+              / "  call symputX('cherryPick_DS2PCK', 0, 'L'); "
+              / 'run;                                         ';
           end;
         if 1 = isDS2thr and upcase(type)=:'DS2THR' then 
           do;
             /* macro variable for test if cherry picking used DS2 threads */
-            put 'data _null_;                                 ';
-            put "  call symputX('cherryPick_DS2THR', 0, 'L'); ";
-            put 'run;                                         ';
+            put 'data _null_;                                 '
+              / "  call symputX('cherryPick_DS2THR', 0, 'L'); "
+              / 'run;                                         ';
           end;
 
 
@@ -1620,12 +1673,12 @@ data _null_;
       end;
     if 1 = LAST.type and upcase(type)='IMLMODULE' then /* footer, for IML modules */
       do;
-        put '%if 0 < &cherryPick_IML. %then %do;    ' /
-            '%let cherryPick_IML_ALL = %eval(&cherryPick_IML_ALL. + &cherryPick_IML.);' /
-            "reset storage = WORK.&packageName.IML; " / /* set the storage location for modules */
-            "store module = _ALL_;                  " / /* and store all created modules */
-            '%end;                                  ' / 
-            "quit;                                  " / ;
+        put '%if 0 < &cherryPick_IML. %then %do;    ' 
+          / '%let cherryPick_IML_ALL = %eval(&cherryPick_IML_ALL. + &cherryPick_IML.);' 
+          / "reset storage = WORK.&packageName.IML; "  /* set the storage location for modules */
+          / "store module = _ALL_;                  "  /* and store all created modules */
+          / '%end;                                  '  
+          / "quit;                                  "  ;
       end;
     /* FOOTERS for PROC IML, FCMP, and PROTO - end */
 
@@ -1636,11 +1689,11 @@ data _null_;
       end;*/
     if 1 = FIRST.type and (upcase(type)=:'FUNCTION') then
       do;
-        put '%sysfunc(ifc(0<' /
-            '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' /
-            "                ,work.%sysfunc(lowcase(&packageName.fcmp)),""'( )'"",RIO))" /
-            ',,%str(options' " APPEND=(cmplib = work.%sysfunc(lowcase(&packageName.fcmp)));)" /
-            '))' ;
+        put '%sysfunc(ifc(0<' 
+          / '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' 
+          / "                ,work.%sysfunc(lowcase(&packageName.fcmp)),""'( )'"",RIO))" 
+          / ',,%str(options' " APPEND=(cmplib = work.%sysfunc(lowcase(&packageName.fcmp)));)" 
+          / '))' ;
       end;
 
     /* add the link to the proto functions dataset, only for the first occurrence */
@@ -1650,11 +1703,11 @@ data _null_;
       end;*/
     if 1 = FIRST.type and (upcase(type)=:'PROTO') then
       do;
-        put '%sysfunc(ifc(0<' /
-            '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' /
-            "                ,work.%sysfunc(lowcase(&packageName.proto)),""'( )'"",RIO))" /
-            ',,%str(options' " APPEND=(cmplib = work.%sysfunc(lowcase(&packageName.proto)));)" /
-            '))' ;
+        put '%sysfunc(ifc(0<' 
+          / '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' 
+          / "                ,work.%sysfunc(lowcase(&packageName.proto)),""'( )'"",RIO))" 
+          / ',,%str(options' " APPEND=(cmplib = work.%sysfunc(lowcase(&packageName.proto)));)" 
+          / '))' ;
       end;
 
     /* add the link to the formats catalog, only for the first occurrence  */
@@ -1664,76 +1717,76 @@ data _null_;
       end;*/
     if 1 = FIRST.type and (upcase(type)=:'FORMAT') then
       do;
-        put '%sysfunc(ifc(0<' /
-            '  %sysfunc(findw((%sysfunc(getoption(fmtsearch)))' /
-            "                ,work.%sysfunc(lowcase(&packageName.format)),""'( )'"",RIO))" /
-            ',,%str(options' " INSERT=(fmtsearch = work.%sysfunc(lowcase(&packageName.format)));)" /
-            '))' ;
+        put '%sysfunc(ifc(0<'
+          / '  %sysfunc(findw((%sysfunc(getoption(fmtsearch)))'
+          / "                ,work.%sysfunc(lowcase(&packageName.format)),""'( )'"",RIO))"
+          / ',,%str(options' " INSERT=(fmtsearch = work.%sysfunc(lowcase(&packageName.format)));)"
+          / '))';
       end;
 
 
   end; /* loopOverTypes - start */
 
   /* this is a header for CASLudf macro */
-  put 'data _null_;                                   ';
-  put '  call symputX("cherryPick_CASLUDF",  0, "L"); ';
-  put 'run;                                           ';
-  put 'data _null_;';
-  put 'length CASLUDF $ 32767;';
-  put 'dtCASLudf = datetime();';
-  put 'CASLUDF =                                      ';
-  put '    ''%macro ' "&packageName.CASLudf('         ";
-  put ' !! "list=1,depList="                          ';
-      %if %superq(packageReqPackages) ne %then
-        %do;
-          length reqPackage $ 32;
-          do i = 1 to countw(packageReqPackages, ",", "Q");
-            reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
-            put ' !! " ' reqPackage ' " ';
-          end;
-        %end;
+  put 'data _null_;                                   '
+    / '  call symputX("cherryPick_CASLUDF",  0, "L"); '
+    / 'run;                                           '
+    / 'data _null_;                                   '
+    / 'length CASLUDF $ 32767;                        '
+    / 'dtCASLudf = datetime();                        '
+    / 'CASLUDF =                                      '
+    / '    ''%macro ' "&packageName.CASLudf('         "
+    / ' !! "list=1,depList="                          ';
+     
+  %if %superq(packageReqPackages) ne %then
+    %do;
+      length reqPackage $ 32;
+      do i = 1 to countw(packageReqPackages, ",", "Q");
+        reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
+        put ' !! " ' reqPackage ' " ';
+      end;
+    %end;
   put " !! ')/ des = ''CASL User Defined Functions loader for &packageName. package'';'";
 
-  put ' !! ''  %if HELP = %superq(list) %then                               ''' /
-      ' !! ''    %do;                                                       ''' / 
-      ' !! ''      %put ****************************************************************************;''' /
-      ' !! ''      %put This is help for the `' "&packageName.CASLudf" '` macro;''' /
-      ' !! ''      %put Parameters (optional) are the following:;''' /
+  put ' !! ''  %if HELP = %superq(list) %then                               ''' 
+    / ' !! ''    %do;                                                       ''' 
+    / ' !! ''      %put ****************************************************************************;''' 
+    / ' !! ''      %put This is help for the `' "&packageName.CASLudf" '` macro;''' 
+    / ' !! ''      %put Parameters (optional) are the following:;''' 
 
-      ' !! ''      %put - `list` indicates if the list of loaded CASL UDFs should be displayed,;''' /
-      ' !! ''      %put %str(  )when set to the value of `1` (the default) runs `FUNCTIONLIST USER%str(;)`,;''' /
-      ' !! ''      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;''' /
+    / ' !! ''      %put - `list` indicates if the list of loaded CASL UDFs should be displayed,;''' 
+    / ' !! ''      %put %str(  )when set to the value of `1` (the default) runs `FUNCTIONLIST USER%str(;)`,;''' 
+    / ' !! ''      %put %str(  )when set to the value of `HELP` (upcase letters!) displays this help message.;''' 
 
-      ' !! ''      %put - `depList` [technical] contains the list of dependencies required by the package.;''' /
-      ' !! ''      %put %str(  )for _this_ instance of the macro the default value is: `' @;
-          %if %superq(packageReqPackages) ne %then
-            %do;
-              do i = 1 to countw(packageReqPackages, ",", "Q");
-                reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
-                put reqPackage @;
-              end;
-            %end; 
-      put +(-1) '`.;''' /
-      ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' /
-      ' !! ''      %put with the SAS Packages Framework version 20251221.;''' / 
-      ' !! ''      %put ****************************************************************************;''' /
-      ' !! ''    %GOTO theEndOfTheMacro;''' / 
-      ' !! ''    %end;''' ;
+    / ' !! ''      %put - `depList` [technical] contains the list of dependencies required by the package.;''' 
+    / ' !! ''      %put %str(  )for _this_ instance of the macro the default value is: `' @;
+  %if %superq(packageReqPackages) ne %then
+    %do;
+      do i = 1 to countw(packageReqPackages, ",", "Q");
+        reqPackage = compress(scan(scan(packageReqPackages, i, ",", "Q"), 1, "[{( )}]"),"_","KAD") ;
+        put reqPackage @;
+      end;
+    %end; 
+  put +(-1) '`.;''' 
+    / ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' 
+    / ' !! ''      %put with the SAS Packages Framework version 20251231.;''' 
+    / ' !! ''      %put ****************************************************************************;''' 
+    / ' !! ''    %GOTO theEndOfTheMacro;''' 
+    / ' !! ''    %end;''' ;
 
+  put ' !! ''  %if %superq(depList) ne %then                                '''
+    / ' !! ''    %do;                                                       '''
+    / ' !! ''      %do i = 1 %to %sysfunc(countw(&depList.,%str( )));       '''
+    / ' !! ''        %let depListNm = %scan(&depList.,&i.,%str( ));         '''
+    / ' !! ''        %if %SYSMACEXIST(&depListNm.CASLudf) %then             '''
+    / ' !! ''          %do;                                                 '''
+    / ' !! ''            %&depListNm.CASLudf(list=0)                        '''
+    / ' !! ''          %end;                                                '''
+    / ' !! ''      %end;                                                    '''
+    / ' !! ''    %end;                                                      '''
 
-  put ' !! ''  %if %superq(depList) ne %then                                ''' / 
-      ' !! ''    %do;                                                       ''' / 
-      ' !! ''      %do i = 1 %to %sysfunc(countw(&depList.,%str( )));       ''' / 
-      ' !! ''        %let depListNm = %scan(&depList.,&i.,%str( ));         ''' / 
-      ' !! ''        %if %SYSMACEXIST(&depListNm.CASLudf) %then             ''' / 
-      ' !! ''          %do;                                                 ''' / 
-      ' !! ''            %&depListNm.CASLudf(list=0)                        ''' / 
-      ' !! ''          %end;                                                ''' / 
-      ' !! ''      %end;                                                    ''' / 
-      ' !! ''    %end;                                                      ''' ; 
-
-  put ' !! ''  %local tmp_NOTES;''                                                                     ';
-  put ' !! ''  %let tmp_NOTES = %sysfunc(getoption(NOTES));''                                          ';
+    / ' !! ''  %local tmp_NOTES;''                           '
+    / ' !! ''  %let tmp_NOTES = %sysfunc(getoption(NOTES));''' ;
   /* the PATH macrovariable will be resolved when the load.sas file is executed */
   put ' !! "  filename ' "&_PackageFileref_." ' &ZIP. ''&path./' "%sysfunc(lowcase(&packageName.))" '.&zip.'';"';
 
@@ -1744,94 +1797,94 @@ data _null_;
     if not (upcase(type) = 'CASLUDF') then continue; /* only CASLUDF type in this loop */
     isCASLudf + 1;
 
-    put ' ' /
-        '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; '; /* Cherry Pick test2 start */
-    put '  %put NOTE- ;';
-    put '  %put NOTE: >> Element of type ' type 'from the file "' file +(-1) '" will be included <<;';
+    put ' '
+      / '%if (%str(*)=%superq(cherryPick)) or (' fileshort +(-1) ' in %superq(cherryPick)) %then %do; ' /* Cherry Pick test2 start */
+      / '  %put NOTE- ;'
+      / '  %put NOTE: >> Element of type ' type 'from the file "' file +(-1) '" will be included <<;'
     /* for CASLUDF we are building code of a macro to be run while loading */
-    put '  !! ''    %include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;''';
-    put '  %let cherryPick_CASLUDF = %eval(&cherryPick_CASLUDF. + 1);';
-    put '%end; ' /; /* Cherry Pick test2 end */
+      / '  !! ''    %include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;'''
+      / '  %let cherryPick_CASLUDF = %eval(&cherryPick_CASLUDF. + 1);'
+      / '%end; ' / ; /* Cherry Pick test2 end */
 
   end; /* loopOverTypes1 - end */
 
   /* this is a footer for CASLudf macro */
-  put ' !! "  options nonotes;"                      ' /
-      " !! '  filename &_PackageFileref_. clear;'    " /
-      ' !! ''  options &tmp_NOTES.;''                ' /
-      ' !! ''   %if 1 = %superq(list) %then ''       ' /
-      ' !! ''     %do; ''                            ' /
-      ' !! "       FUNCTIONLIST USER;"               ' /
-      ' !! "       run;"                             ' /
-      ' !! ''     %end; ''                           ' ;
-  put ' !! ''%theEndOfTheMacro: %mend;'';            ' ;
+  put ' !! "  options nonotes;"                      '
+    / " !! '  filename &_PackageFileref_. clear;'    "
+    / ' !! ''  options &tmp_NOTES.;''                '
+    / ' !! ''   %if 1 = %superq(list) %then ''       '
+    / ' !! ''     %do; ''                            '
+    / ' !! "       FUNCTIONLIST USER;"               '
+    / ' !! "       run;"                             '
+    / ' !! ''     %end; ''                           '
+    / ' !! ''%theEndOfTheMacro: %mend;'';            ' ;
 
   /* generate macro for CASL user defined functions */
   if 0 < isCASLudf then
     do;
-      put '%if 0 < &cherryPick_CASLUDF. %then %do;      ';
-    /*put '  put / / CASLUDF / / ;                      ';*/
-      put "  rc = resolve(CASLUDF);                     ";
-      put '  put "NOTE: Macro named:";                  ';
-      put "  put @7 '%' '&packageName.CASLudf()';       ";
-      put '  put "NOTE- will be generated. Its purpose";';
-      put '  put "NOTE- is to allow fast load of CASL"; ';
-      put '  put "NOTE- user defined functions into";   ';
-      put '  put "NOTE- the Proc CAS session.";         ';
-      put '  put "NOTE-";                               ';
-      put '  put "NOTE- Use it the following way:";     ';
-      put "  put @7 'Proc CAS;';                        ";
-      put "  put @7 '  %' '&packageName.CASLudf()';     ";
-      put "  put @7 '  <... your code ...>';            ";
-      put "  put @7 'quit;';                            ";
-      put '  put "NOTE-";                               ';
-      put '  put "NOTE-To get help run:";               ';
-      put "  put @7 '  %' '&packageName.CASLudf(list=HELP)';";
-      put '  put "NOTE-";                               ';
-      put '%end;                                        ';
+      put '%if 0 < &cherryPick_CASLUDF. %then %do;      '
+    /*  / '  put / / CASLUDF / / ;                      '*/
+        / "  rc = resolve(CASLUDF);                     "
+        / '  put "NOTE: Macro named:";                  '
+        / "  put @7 '%' '&packageName.CASLudf()';       "
+        / '  put "NOTE- will be generated. Its purpose";'
+        / '  put "NOTE- is to allow fast load of CASL"; '
+        / '  put "NOTE- user defined functions into";   '
+        / '  put "NOTE- the Proc CAS session.";         '
+        / '  put "NOTE-";                               '
+        / '  put "NOTE- Use it the following way:";     '
+        / "  put @7 'Proc CAS;';                        "
+        / "  put @7 '  %' '&packageName.CASLudf()';     "
+        / "  put @7 '  <... your code ...>';            "
+        / "  put @7 'quit;';                            "
+        / '  put "NOTE-";                               '
+        / '  put "NOTE-To get help run:";               '
+        / "  put @7 '  %' '&packageName.CASLudf(list=HELP)';"
+        / '  put "NOTE-";                               '
+        / '%end;                                        ';
     end;
   put 'run;'/;
 
   /* cherry pick clean in cmplib for functions */
   if isFunction then
     do;
-      put '%if 0 = &cherryPick_FCMP. %then %do;';
-      put 'options cmplib = (%unquote(%sysfunc(tranwrd(' /
-          '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))' /
-          ',%str(' "work.%sysfunc(lowcase(&packageName.fcmp))" '), %str() ))));';
-      put 'options cmplib = (%unquote(%sysfunc(compress(' /
-          '%sysfunc(getoption(cmplib))' /
-          ',%str(()) ))));';
-      put '%end;';
+      put '%if 0 = &cherryPick_FCMP. %then %do;'
+        / 'options cmplib = (%unquote(%sysfunc(tranwrd('
+        / '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))'
+        / ',%str(' "work.%sysfunc(lowcase(&packageName.fcmp))" '), %str() ))));'
+        / 'options cmplib = (%unquote(%sysfunc(compress('
+        / '%sysfunc(getoption(cmplib))'
+        / ',%str(()) ))));'
+        / '%end;';
     end;
   /* cherry pick clean in cmplib for proto */
   if isProto then
     do; 
-      put '%if 0 = &cherryPick_PROTO. %then %do;';
-      put 'options cmplib = (%unquote(%sysfunc(tranwrd(' /
-          '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))' /
-          ',%str(' "work.%sysfunc(lowcase(&packageName.proto))" '), %str() ))));';
-      put 'options cmplib = (%unquote(%sysfunc(compress(' /
-          '%sysfunc(getoption(cmplib))' /
-          ',%str(()) ))));';
+      put '%if 0 = &cherryPick_PROTO. %then %do;'
+        / 'options cmplib = (%unquote(%sysfunc(tranwrd('
+        / '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))'
+        / ',%str(' "work.%sysfunc(lowcase(&packageName.proto))" '), %str() ))));'
+        / 'options cmplib = (%unquote(%sysfunc(compress('
+        / '%sysfunc(getoption(cmplib))'
+        / ',%str(()) ))));';
       /* proc delete is adde because "empty" PROTO creates dataset too */
-      put "proc delete data=work.&packageName.proto; run;";
-      put '%end;';
+      put "proc delete data=work.&packageName.proto; run;"
+        / '%end;';
     end;
 
 
   /* list fmtsearch for formats */
   if isFormat then
     do;
-      put '%if 0 = &cherryPick_FORMAT. %then %do;';
-      put 'options fmtsearch = (%unquote(%sysfunc(tranwrd(' /
-          '%sysfunc(lowcase(%sysfunc(getoption(fmtsearch))))' /
-          ',%str(' "work.%sysfunc(lowcase(&packageName.))format" '), %str() ))));';
-      put 'options fmtsearch = (%unquote(%sysfunc(compress(' /
-          '%sysfunc(getoption(fmtsearch))' /
-          ', %str(()) ))));';
-      put '%end;';
-      put '%put NOTE- ;';
+      put '%if 0 = &cherryPick_FORMAT. %then %do;'
+        / 'options fmtsearch = (%unquote(%sysfunc(tranwrd('
+        / '%sysfunc(lowcase(%sysfunc(getoption(fmtsearch))))'
+        / ',%str(' "work.%sysfunc(lowcase(&packageName.))format" '), %str() ))));'
+        / 'options fmtsearch = (%unquote(%sysfunc(compress('
+        / '%sysfunc(getoption(fmtsearch))'
+        / ', %str(()) ))));'
+        / '%end;'
+        / '%put NOTE- ;';
     end;
 
   /* create a macro loader for IML modules with dependencies */
@@ -1879,16 +1932,16 @@ data _null_;
               end;
             %end; 
       put +(-1) '`.; '' !!' /
-          '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !!' / 
-          '''      %put with the SAS Packages Framework version 20251221.;                                  '' !! ' / 
-          '''      %put ****************************************************************************;       '' !! ' /
+          '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20251231.;                                  '' !! ' / 
+          '''      %put ****************************************************************************;       '' !! ' / 
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
 
           '''  %local localSYSmacroName localPackageName i depListNm;                                       '' !! ' / 
           '''  %let localSYSmacroName = &sysmacroname.;                                                     '' !! ' / 
           '''  %let localSYSmacroName = %sysfunc(lowcase(&localSYSmacroName.));                             '' !! ' / 
-          '''  %let localPackageName = %substr(&localSYSmacroName.,1,%eval(%length(&localSYSmacroName.)-3));'' !!' / 
+          '''  %let localPackageName = %substr(&localSYSmacroName.,1,%eval(%length(&localSYSmacroName.)-3));'' !! ' / 
 
           '''  %if %superq(depList) ne %then                                                                '' !!' / 
           '''    %do;                                                                                       '' !!' / 
@@ -1923,22 +1976,22 @@ data _null_;
 
       put "; rc = resolve(IML); run;"; /* wrapper end */
 
-      put '%put NOTE: Macro named:;                          ';
-      put '%put %nrstr(      %%)' "&packageName." 'IML();    ';
-      put '%put NOTE- will be generated. Its purpose;        ';
-      put '%put NOTE- is to allow fast load of IML;          ';
-      put '%put NOTE- user defined modules into;             ';
-      put '%put NOTE- the Proc IML session.;                 ';
-      put '%put NOTE-;                                       ';
-      put '%put NOTE- Use it the following way:;             ';
-      put '%put %nrstr(      )Proc IML%str(;);               ';
-      put '%put %nrstr(        %%)' "&packageName." 'IML();  ';
-      put '%put %nrstr(        )<... your code ...>;         ';
-      put '%put %nrstr(      )quit%str(;);                   ';
-      put '%put NOTE- ;                                      ';
-      put '%put NOTE- To get help info run:;                 ';
-      put '%put %nrstr(      %%)' "&packageName." 'IML(list=HELP);';
-      put '%put NOTE-;                                       ';
+      put '%put NOTE: Macro named:;                          '
+        / '%put %nrstr(      %%)' "&packageName." 'IML();    '
+        / '%put NOTE- will be generated. Its purpose;        '
+        / '%put NOTE- is to allow fast load of IML;          '
+        / '%put NOTE- user defined modules into;             '
+        / '%put NOTE- the Proc IML session.;                 '
+        / '%put NOTE-;                                       '
+        / '%put NOTE- Use it the following way:;             '
+        / '%put %nrstr(      )Proc IML%str(;);               '
+        / '%put %nrstr(        %%)' "&packageName." 'IML();  '
+        / '%put %nrstr(        )<... your code ...>;         '
+        / '%put %nrstr(      )quit%str(;);                   '
+        / '%put NOTE- ;                                      '
+        / '%put NOTE- To get help info run:;                 '
+        / '%put %nrstr(      %%)' "&packageName." 'IML(list=HELP);'
+        / '%put NOTE-;                                       ';
 
       put '%end;';
     end;
@@ -2105,53 +2158,53 @@ data _null_;
   if isFormat then
     do;
       put '%put NOTE- ;';
-      put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));'/;
+      put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));' /;
     end;
 
   /* update SYSloadedPackages global macrovariable */
-  put 'options noNotes;';
-  put '%if (%str(*)=%superq(cherryPick)) %then %do; '; /* Cherry Pick test3 start */
-  put ' data _null_ ;                                                                                              ';
-  put '  length SYSloadedPackages stringPCKG $ 32767;                                                              ';
-  put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then                           ';
-  put '    do;                                                                                                     ';
-  put '      do until(EOF);                                                                                        ';
-  put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;                    ';
-  put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                                   ';
-  put '      end;                                                                                                  ';
-  put '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");                    ';
+  put 'options noNotes;'
+    / '%if (%str(*)=%superq(cherryPick)) %then %do; ' /* Cherry Pick test3 start */
+    / ' data _null_ ;                                                                                              '
+    / '  length SYSloadedPackages stringPCKG $ 32767;                                                              '
+    / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then                           '
+    / '    do;                                                                                                     '
+    / '      do until(EOF);                                                                                        '
+    / '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;                    '
+    / '        substr(SYSloadedPackages, 1+offset, 200) = value;                                                   '
+    / '      end;                                                                                                  '
+    / '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");                    '
 
-  put "      indexPCKG = INDEX(lowcase(SYSloadedPackages), '#%sysfunc(lowcase(&packageName.))(');                  ";
-  put "      if indexPCKG = 0 then                                                                                 ";
-  put '         do;                                                                                                ';
-  put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              ";
-  put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               ';
-  put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        ';
-  put '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             ';
-  put '         end ;                                                                                              ';
-  put "      else                                                                                                  ";
-  put '         do;                                                                                                ';
-  put "          stringPCKG = kscanx(substr(SYSloadedPackages, indexPCKG+1), 1, '#');                              ";
-  put '          SYSloadedPackages = compbl(tranwrd(SYSloadedPackages, strip(stringPCKG), "#"));                   ';
-  put "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              ";
-  put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               ';
-  put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        ';
-  put '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             ';
-  put '         end ;                                                                                              ';
-  put '    end;                                                                                                    ';
-  put '  else                                                                                                      ';
-  put '    do;                                                                                                     ';
-  put "      call symputX('SYSloadedPackages', '&packageName.(&packageVersion.)', 'G');                            ";
-  put "      put / 'INFO:[SYSLOADEDPACKAGES] &packageName.(&packageVersion.)';                                      ";
-  put '    end;                                                                                                    ';
-  put '  stop;                                                                                                     ';
-  put ' run;                                                                                                       ';
-  put '%end; ' / ; /* Cherry Pick test3 end */
+    / "      indexPCKG = INDEX(lowcase(SYSloadedPackages), '#%sysfunc(lowcase(&packageName.))(');                  "
+    / "      if indexPCKG = 0 then                                                                                 "
+    / '         do;                                                                                                '
+    / "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              "
+    / '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               '
+    / '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        '
+    / '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             '
+    / '         end ;                                                                                              '
+    / "      else                                                                                                  "
+    / '         do;                                                                                                '
+    / "          stringPCKG = kscanx(substr(SYSloadedPackages, indexPCKG+1), 1, '#');                              "
+    / '          SYSloadedPackages = compbl(tranwrd(SYSloadedPackages, strip(stringPCKG), "#"));                   '
+    / "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              "
+    / '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               '
+    / '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        '
+    / '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             '
+    / '         end ;                                                                                              '
+    / '    end;                                                                                                    '
+    / '  else                                                                                                      '
+    / '    do;                                                                                                     '
+    / "      call symputX('SYSloadedPackages', '&packageName.(&packageVersion.)', 'G');                            "
+    / "      put / 'INFO:[SYSLOADEDPACKAGES] &packageName.(&packageVersion.)';                                     "
+    / '    end;                                                                                                    '
+    / '  stop;                                                                                                     '
+    / ' run;                                                                                                       '
+    / '%end; ' / ; /* Cherry Pick test3 end */
 
-  put 'options NOTES;';
-  put '%put NOTE- ;';
-  put '%put NOTE: '"Loading package &packageName., version &packageVersion., license &packageLicense.;";
-  put '%put NOTE- *** END ***;' /;
+  put 'options NOTES;'
+    / '%put NOTE- ;'
+    / '%put NOTE: '"Loading package &packageName., version &packageVersion., license &packageLicense.;"
+    / '%put NOTE- *** END ***;' /;
   
   put 'options &temp_noNotes_etc.;'
     / '%symdel temp_noNotes_etc / noWarn;';
@@ -2170,9 +2223,9 @@ data _null_;
 
   file &zipReferrence.(lazydata.sas) lrecl=32767 encoding = &packageEncoding.;
  
-  put "filename &_PackageFileref_. list;" /;
-  put ' %put NOTE- ;'; 
-  put ' %put NOTE: ' @; put "Data for package &packageName., version &packageVersion., license &packageLicense.; ";
+  put "filename &_PackageFileref_. list;"
+    / ' %put NOTE- ;'
+    / ' %put NOTE: ' @; put "Data for package &packageName., version &packageVersion., license &packageLicense.; ";
 
   put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
   put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
@@ -2185,42 +2238,42 @@ data _null_;
   
   /*put '%include ' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /;*/ /* <- copied also to loadPackage macro */
 
-  put 'data _null_;';
-  put ' length lazyData $ 32767; lazyData = lowcase(symget("lazyData"));';
+  put 'data _null_;'
+    / ' length lazyData $ 32767; lazyData = lowcase(symget("lazyData"));';
   do until(eof);
     set &filesWithCodes. end = EOF nobs=NOBS;
     
     if ( upcase(type) =: 'LAZYDATA' ) then
       do;
-        put 'if lazyData="*" OR findw(lazyData, "' fileshort +(-1) '") then';
-        put 'do;';
-        put ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";';
-        put ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');';
-        put 'end;' /;
+        put 'if lazyData="*" OR findw(lazyData, "' fileshort +(-1) '") then'
+          / 'do;'
+          / ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";'
+          / ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');'
+          / 'end;' ;
       end;
     /* use lazyData to reload data type */
     if ( upcase(type) =: 'DATA' ) then
       do;
-        put 'if findw(lazyData, "' fileshort +(-1) '") then';
-        put 'do;';
-        put ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";';
-        put ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');';
-        put 'end;' /;
+        put 'if findw(lazyData, "' fileshort +(-1) '") then'
+          / 'do;'
+          / ' put "NOTE- Dataset ' fileshort 'from the file ""' file +(-1) '"" will be loaded";'
+          / ' call execute(''%nrstr(%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;)'');'
+          / 'end;' ;
       end;
   end;
 
   put 'run;';
 
-  put '%put NOTE- ;';
-  put '%put NOTE: '"Data for package &packageName., version &packageVersion., license &packageLicense.;";
-  put '%put NOTE- *** END ***;' /;
-  put "/* lazydata.sas end */" /;
+  put '%put NOTE- ;'
+    / '%put NOTE: '"Data for package &packageName., version &packageVersion., license &packageLicense.;"
+    / '%put NOTE- *** END ***;'
+    / "/* lazydata.sas end */" ;
   stop;
 run;
 
 
 /* unloading package objects */
-%put NOTE-;
+%put NOTE-; 
 %put NOTE: Preparing unload file.;
 %put NOTE- ^^^^^^^^^^^^^^^^^^^^^^;
 %put NOTE-;
@@ -2230,102 +2283,100 @@ data _null_;
 
   file &zipReferrence.(unload.sas) encoding = &packageEncoding.;
 
-  put "filename &_PackageFileref_. list;" /;
-  put '%put NOTE: '"Unloading package &packageName., version &packageVersion., license &packageLicense.;";
-  put '%put NOTE- *** START ***;' /;
+  put "filename &_PackageFileref_. list;"
+    / '%put NOTE: '"Unloading package &packageName., version &packageVersion., license &packageLicense.;"
+    / '%put NOTE- *** START ***;';
 
   /* include "cleaning" files */
   EOF = 0;
   do until(EOF);
     set &filesWithCodes. end = EOF nobs = NOBS;
     if not (upcase(type)=:'CLEAN') then continue;
-    put '%put NOTE- Code of type ' type 'generated from the file "' file +(-1) '" will be executed;';
-    put '%put NOTE- ;' /;
-    put '%put NOTE- Executing the following code: ;';
-    put '%put NOTE- *****************************;';
-    put 'data _null_;';
-    put "  infile &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') lrecl=32767;';
-    put '  input;';
-    put '  putlog "*> " _infile_;';
-    put 'run;' /;
-    put '%put NOTE- *****************************;';
-    put '%put NOTE- ;';
+    put '%put NOTE- Code of type ' type 'generated from the file "' file +(-1) '" will be executed;'
+      / '%put NOTE- ;'
+      / '%put NOTE- Executing the following code: ;'
+      / '%put NOTE- *****************************;'
+      / 'data _null_;'
+      / "  infile &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') lrecl=32767;'
+      / '  input;'
+      / '  putlog "*> " _infile_;'
+      / 'run;'
+      / '%put NOTE- *****************************;'
+      / '%put NOTE- ;';
 
     put '%include' " &_PackageFileref_.(_" folder +(-1) "." file +(-1) ') / nosource2;' /;
   end;
 
   /* delete macros and formats */
-  put 'proc sql;';
-  put '  create table WORK._%sysfunc(datetime(), hex16.)_ as';
-  put '  select memname, objname, objtype';
-  put '  from dictionary.catalogs';
-  put '  where ';
-  put '  (';
-  put '   objname in ("*"' ;
-  put "   ,%UPCASE('&packageName.IML')" ;
-  put "   ,%UPCASE('&packageName.CASLUDF')" /;
+  put 'proc sql;'
+    / '  create table WORK._%sysfunc(datetime(), hex16.)_ as'
+    / '  select memname, objname, objtype'
+    / '  from dictionary.catalogs'
+    / '  where '
+    / '  ('
+    / '   objname in ("*"' 
+    / "   ,%UPCASE('&packageName.IML')" 
+    / "   ,%UPCASE('&packageName.CASLUDF')";
   /* list of macros */
   EOF = 0;
   do until(EOF);
     set &filesWithCodes. end = EOF nobs = NOBS;
     if not (upcase(type)=:'MACRO') then continue;
-    put '   %put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '   %put NOTE- ;';
-    put '   ,"' fileshort upcase64. '"' /;
+    put '   %put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '   %put NOTE- ;'
+      / '   ,"' fileshort upcase64. '"';
   end;
   /**/
-  put '  )';
-  put '  and objtype = "MACRO"';
-  put '  and libname  = "WORK"';
-  put '  )';
-  put '  or';
-  put '  (';
-  put '   objname in ("*"' /;
+  put '  )'
+    / '  and objtype = "MACRO"'
+    / '  and libname  = "WORK"'
+    / '  )'
+    / '  or'
+    / '  ('
+    / '   objname in ("*"';
   /* list of formats */
   isFormat = 0;
   EOF = 0;
   do until(EOF);
     set &filesWithCodes. end = EOF;
     if not (upcase(type)=:'FORMAT') then continue;
-    put '   %put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '   %put NOTE- ;';
-    put '   ,"' fileshort upcase64. '"' /;
+    put '   %put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '   %put NOTE- ;'
+      / '   ,"' fileshort upcase64. '"';
     isFormat + 1;
   end;
-  put '  )';
-  put '  and objtype in ("FORMAT" "FORMATC" "INFMT" "INFMTC")';
-  put '  and libname  = "WORK"';
-  put "  and memname = '%upcase(&packageName.format)'";
-  put '  )';
-
-  put '  order by objtype, memname, objname';
-  put '  ;';
-  put 'quit;';
-
-  put 'data _null_;';
-  put '  do until(last.memname);';
-  put '    set WORK._last_;';
-  put '    by objtype memname;';
-  put '    if first.memname then call execute("proc catalog cat = work." !! strip(memname) !! " force;");';
-  put '    call execute("delete " !! strip(objname) !! " /  et =" !! objtype !! "; run;");';
-  put '  end;';
-  put '  call execute("quit;");';
-  put 'run;';
-  put 'proc delete data = WORK._last_;';
-  put 'run;';
+  put '  )'
+    / '  and objtype in ("FORMAT" "FORMATC" "INFMT" "INFMTC")'
+    / '  and libname  = "WORK"'
+    / "  and memname = '%upcase(&packageName.format)'"
+    / '  )'
+    / '  order by objtype, memname, objname'
+    / '  ;'
+    / 'quit;'
+    / 'data _null_;'
+    / '  do until(last.memname);'
+    / '    set WORK._last_;'
+    / '    by objtype memname;'
+    / '    if first.memname then call execute("proc catalog cat = work." !! strip(memname) !! " force;");'
+    / '    call execute("delete " !! strip(objname) !! " /  et =" !! objtype !! "; run;");'
+    / '  end;'
+    / '  call execute("quit;");'
+    / 'run;'
+    / 'proc delete data = WORK._last_;'
+    / 'run;';
 
   /* delete the link to the formats catalog */
   if isFormat then
     do;
-      put "proc delete data = work.&packageName.format(mtype = catalog);";
-      put 'run;';
-      put 'options fmtsearch = (%unquote(%sysfunc(tranwrd(' /
-          '%sysfunc(lowcase(%sysfunc(getoption(fmtsearch))))' /
-          ',%str(' "work.%sysfunc(lowcase(&packageName.))format" '), %str() ))));';
-      put 'options fmtsearch = (%unquote(%sysfunc(compress(' /
-          '%sysfunc(getoption(fmtsearch))' /
-          ', %str(()) ))));';
-      put '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));' /;
+      put "proc delete data = work.&packageName.format(mtype = catalog);"
+        / 'run;'
+        / 'options fmtsearch = (%unquote(%sysfunc(tranwrd('
+        / '%sysfunc(lowcase(%sysfunc(getoption(fmtsearch))))'
+        / ',%str(' "work.%sysfunc(lowcase(&packageName.))format" '), %str() ))));'
+        / 'options fmtsearch = (%unquote(%sysfunc(compress('
+        / '%sysfunc(getoption(fmtsearch))'
+        / ', %str(()) ))));'
+        / '%put NOTE:[FMTSEARCH] %sysfunc(getoption(fmtsearch));';
     end;
 
   /* delete proto functions */
@@ -2334,22 +2385,22 @@ data _null_;
   do until(EOF);
     set &filesWithCodes. end = EOF;
     if not (upcase(type)=:'PROTO') then continue;
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '%put NOTE- ;' /;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '%put NOTE- ;' /;
     isProto + 1;
   end;
   /* delete the link to the proto functions dataset */
   if isProto then
     do;
-      put "proc delete data = work.&packageName.proto;";
-      put "run;" /;
-      put 'options cmplib = (%unquote(%sysfunc(tranwrd(' /
-          '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))' /
-          ',%str(' "work.%sysfunc(lowcase(&packageName.proto))" '), %str() ))));';
-      put 'options cmplib = (%unquote(%sysfunc(compress(' /
-          '%sysfunc(getoption(cmplib))' /
-          ',%str(()) ))));';
-      put '%put; %put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
+      put "proc delete data = work.&packageName.proto;"
+        / "run;"
+        / 'options cmplib = (%unquote(%sysfunc(tranwrd('
+        / '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))'
+        / ',%str(' "work.%sysfunc(lowcase(&packageName.proto))" '), %str() ))));'
+        / 'options cmplib = (%unquote(%sysfunc(compress('
+        / '%sysfunc(getoption(cmplib))'
+        / ',%str(()) ))));'
+        / '%put; %put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));';
     end;
 
 
@@ -2360,9 +2411,9 @@ data _null_;
   do until(EOF);
     set &filesWithCodes. end = EOF;
     if not (upcase(type)=:'FUNCTION') then continue;
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '%put NOTE- ;';
-    put 'deletefunc ' fileshort ';' /;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '%put NOTE- ;'
+      / 'deletefunc ' fileshort ';';
     isFunction + 1;
   end;
   put "run;" /;
@@ -2370,13 +2421,13 @@ data _null_;
   /* delete the link to the functions dataset */
   if isFunction then
     do;
-      put 'options cmplib = (%unquote(%sysfunc(tranwrd(' /
-          '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))' /
-          ',%str(' "work.%sysfunc(lowcase(&packageName.fcmp))" '), %str() ))));';
-      put 'options cmplib = (%unquote(%sysfunc(compress(' /
-          '%sysfunc(getoption(cmplib))' /
-          ',%str(()) ))));';
-      put '%put; %put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));' /;
+      put 'options cmplib = (%unquote(%sysfunc(tranwrd('
+        / '%sysfunc(lowcase(%sysfunc(getoption(cmplib))))'
+        / ',%str(' "work.%sysfunc(lowcase(&packageName.fcmp))" '), %str() ))));'
+        / 'options cmplib = (%unquote(%sysfunc(compress('
+        / '%sysfunc(getoption(cmplib))'
+        / ',%str(()) ))));'
+        / '%put; %put NOTE:[CMPLIB] %sysfunc(getoption(cmplib));';
     end;
   
   /* delete IML modules */
@@ -2386,12 +2437,12 @@ data _null_;
     if not (upcase(type)=:'IMLMODULE') then continue;
     if first.iml then
       do;
-        put "proc delete lib=WORK data=&packageName.IML (memtype=catalog); ";
-        put "run; ";
+        put "proc delete lib=WORK data=&packageName.IML (memtype=catalog); "
+          / "run; ";
         first.IML = 0;
       end;
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '%put NOTE- ;' /;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '%put NOTE- ;' /;
     /* put 'remove module = ' fileshort ';'; */
   end;
  
@@ -2401,9 +2452,9 @@ data _null_;
   do until(EOF);
     set &filesWithCodes. end = EOF;
     if not (upcase(type) in: ('DATA')) then continue;
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;';
-    put '%put NOTE- ;';
-    put '%sysfunc(ifc(%sysfunc(exist(' fileshort ')),drop table ' fileshort ',));' /;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be deleted;'
+      / '%put NOTE- ;'
+      / '%sysfunc(ifc(%sysfunc(exist(' fileshort ')),drop table ' fileshort ',));';
   end;
   put "quit;" /;
 
@@ -2430,9 +2481,9 @@ data _null_;
   do until(EOF);
     set &filesWithCodes. end = EOF;
     if not (upcase(type)=:'LIBNAME') then continue; 
-    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be cleared;';
-    put '%put NOTE- ;';
-    put 'libname ' fileshort ' clear;' /;
+    put '%put NOTE- Element of type ' type 'generated from the file "' file +(-1) '" will be cleared;'
+      / '%put NOTE- ;'
+      / 'libname ' fileshort ' clear;';
   end;
   put "run;" /;
 
@@ -2441,46 +2492,45 @@ data _null_;
       length packageReqPackages $ 32767;
       packageReqPackages = lowcase(symget('packageReqPackages'));
       /* note to unload required packages */
-      put 'data _null_ ;                                                                              ';
-      put '  length req name $ 64;                                                                    ';
-      put '  put "NOTE-" / "NOTE: To unload additional required SAS packages execute: " / "NOTE-";    ';
-      put '  do req = ' / packageReqPackages / ' ;                                                    ';
-      put '    name = strip(kscanx(req, 1, "("));                                                     ';
-      put '    put ''      %unloadPackage( '' name ")" ;                                              ';
-      put '  end ;                                                                                    ';
-      put ' put "NOTE-" / "NOTE-"; stop;                                                              ';
-      put 'run;                                                                                       ' /;
+      put 'data _null_ ;                                                                              '
+        / '  length req name $ 64;                                                                    '
+        / '  put "NOTE-" / "NOTE: To unload additional required SAS packages execute: " / "NOTE-";    '
+        / '  do req = ' / packageReqPackages / ' ;                                                    '
+        / '    name = strip(kscanx(req, 1, "("));                                                     '
+        / '    put ''      %unloadPackage( '' name ")" ;                                              '
+        / '  end ;                                                                                    '
+        / ' put "NOTE-" / "NOTE-"; stop;                                                              '
+        / 'run;                                                                                       ';
     %end;
 
 
   /* update SYSloadedPackages global macrovariable */
-  put 'data _null_ ;                                                                                        ';
-  put '  length SYSloadedPackages $ 32767;                                                                   ';
-  put '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then                     ';
-  put '    do;                                                                                               ';
-  put '      do until(EOF);                                                                                  ';
-  put '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;              ';
-  put '        substr(SYSloadedPackages, 1+offset, 200) = value;                                             ';
-  put '      end;                                                                                            ';
-  put '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");              ';
+  put 'data _null_ ;                                                                                         '
+    / '  length SYSloadedPackages $ 32767;                                                                   '
+    / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then                     '
+    / '    do;                                                                                               '
+    / '      do until(EOF);                                                                                  '
+    / '        set sashelp.vmacro(where=(scope="GLOBAL" and name="SYSLOADEDPACKAGES")) end=EOF;              '
+    / '        substr(SYSloadedPackages, 1+offset, 200) = value;                                             '
+    / '      end;                                                                                            '
+    / '      SYSloadedPackages = cats("#", translate(strip(SYSloadedPackages), "#", " "), "#");              '
 
-  put "      if INDEX(lowcase(SYSloadedPackages),'#%sysfunc(lowcase(&packageName.(&packageVersion.)))#')>0 then ";
-  put '         do;                                                                                          ';
-  put "          SYSloadedPackages = tranwrd(SYSloadedPackages, '#&packageName.(&packageVersion.)#', '##');  ";
-  put '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                         ';
-  put '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                  ';
-  put '          put "NOTE: " SYSloadedPackages = ;                                                          ';
-  put '         end ;                                                                                        ';
-  put '    end;                                                                                              ';
-  put '  stop;                                                                                               ';
-  put 'run;                                                                                                  ' / ;
-
+    / "      if INDEX(lowcase(SYSloadedPackages),'#%sysfunc(lowcase(&packageName.(&packageVersion.)))#')>0 then "
+    / '         do;                                                                                          '
+    / "          SYSloadedPackages = tranwrd(SYSloadedPackages, '#&packageName.(&packageVersion.)#', '##');  "
+    / '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                         '
+    / '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                  '
+    / '          put "NOTE: " SYSloadedPackages = ;                                                          '
+    / '         end ;                                                                                        '
+    / '    end;                                                                                              '
+    / '  stop;                                                                                               '
+    / 'run;                                                                                                  '
  
-  put '%put NOTE: ' "Unloading package &packageName., version &packageVersion., license &packageLicense.;";
-  put '%put NOTE- *** END ***;';
-  put '%put NOTE- ;' /;
+    / '%put NOTE: ' "Unloading package &packageName., version &packageVersion., license &packageLicense.;"
+    / '%put NOTE- *** END ***;'
+    / '%put NOTE- ;'
  
-  put "/* unload.sas end */";
+    / "/* unload.sas end */";
   stop;
 run;
 
@@ -2496,50 +2546,50 @@ data _null_;
   file &zipReferrence.(preview.sas) encoding = &packageEncoding.;
   length strX $ 32767;
 
-  put "filename &_PackageFileref_. list;" /;
-  put ' %put NOTE- ;';
-  put ' %put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;";
+  put "filename &_PackageFileref_. list;"
+    / ' %put NOTE- ;'
+    / ' %put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;"
 
-  put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
-  put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
-  put ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); ';
-  put ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); ';
-  put ' %put NOTE- ;';
-  put ' %put NOTE- *** START ***;' /;
+    / ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; '
+    / ' %put NOTE- ' @; put "Generated: &packageGenerated.; "
+    / ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); '
+    / ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); '
+    / ' %put NOTE- ;'
+    / ' %put NOTE- *** START ***;';
   
   /* Use helpKeyword macrovariable to search for content (filename and type) */
   /* put '%local ls_tmp ps_tmp notes_tmp source_tmp;                       ';*/
-  put '%let ls_tmp     = %sysfunc(getoption(ls));         ';
-  put '%let ps_tmp     = %sysfunc(getoption(ps));         ';
-  put '%let notes_tmp  = %sysfunc(getoption(notes));      ';
-  put '%let source_tmp = %sysfunc(getoption(source));     ';
-  put 'options ls = MAX ps = MAX nonotes nosource;        ';
-  put '%include' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /;
+  put '%let ls_tmp     = %sysfunc(getoption(ls));         '
+    / '%let ps_tmp     = %sysfunc(getoption(ps));         '
+    / '%let notes_tmp  = %sysfunc(getoption(notes));      '
+    / '%let source_tmp = %sysfunc(getoption(source));     '
+    / 'options ls = MAX ps = MAX nonotes nosource;        '
+    / '%include' " &_PackageFileref_.(packagemetadata.sas) / nosource2; "
 
-  put 'data _null_;                                                 ';
-  put '  if strip(symget("helpKeyword")) = " " then                 ';
-  put '    do until (EOF);                                          ';
-  put "      infile &_PackageFileref_.(description.sas) end = EOF;  ";
-  put '      input;                                                 ';
-  put '      put _infile_;                                          ';
-  put '    end;                                                     ';
-  put '  else stop;                                                 ';
-  put 'run;                                                         ' /;
+    / 'data _null_;                                                 '
+    / '  if strip(symget("helpKeyword")) = " " then                 '
+    / '    do until (EOF);                                          '
+    / "      infile &_PackageFileref_.(description.sas) end = EOF;  "
+    / '      input;                                                 '
+    / '      put _infile_;                                          '
+    / '    end;                                                     '
+    / '  else stop;                                                 '
+    / 'run;                                                         '
 
-  put 'data WORK._%sysfunc(datetime(), hex16.)_;                      ';
-  put 'infile cards4 dlm = "/";                                       ';
-  put 'input @;                                                       ';
-  put 'if 0 then output;                                              ';
-  put 'length helpKeyword $ 64;                                       ';
-  put 'retain helpKeyword "*";                                        ';
-  put 'drop helpKeyword;                                              ';
-  put 'if _N_ = 1 then helpKeyword = strip(symget("helpKeyword"));    ';
-  put 'if FIND(_INFILE_, helpKeyword, "it") or helpKeyword = "*" then '; 
-  put ' do;                                                           ';
-  put '   input (folder order type file fileshort) (: $ 256.);        ';
-  put '   output;                                                     ';
-  put ' end;                                                          ';
-  put 'cards4;                                                        ';
+    / 'data WORK._%sysfunc(datetime(), hex16.)_;                      '
+    / 'infile cards4 dlm = "/";                                       '
+    / 'input @;                                                       '
+    / 'if 0 then output;                                              '
+    / 'length helpKeyword $ 64;                                       '
+    / 'retain helpKeyword "*";                                        '
+    / 'drop helpKeyword;                                              '
+    / 'if _N_ = 1 then helpKeyword = strip(symget("helpKeyword"));    '
+    / 'if FIND(_INFILE_, helpKeyword, "it") or helpKeyword = "*" then ' 
+    / ' do;                                                           '
+    / '   input (folder order type file fileshort) (: $ 256.);        '
+    / '   output;                                                     '
+    / ' end;                                                          '
+    / 'cards4;                                                        ';
 
   EOFDS = 0;
   do until(EOFDS);
@@ -2562,42 +2612,42 @@ data _null_;
     put strX;
   end;
 
-  put ";;;;";
-  put "run;" /;
+  put ";;;;"
+    / "run;";
 
   /* loop through content found and print info to the log */
-  put 'data _null_;                                                                        ';
-  put 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;      ';
-  put 'if NOBS = 0 then do; ' /
-        'put; put '' *> No preview. Try %previewPackage(packageName,*) to display all.''; put; stop; ' /
-      'end; ';
-  put '  do until(EOFDS);                                                                  ';
-  put '   set WORK._last_ end = EOFDS nobs = NOBS;                                         ';
-  put '   length memberX $ 1024;                                                           ';
-  put '   memberX = cats("_",folder,".",file);                                             ';
+  put 'data _null_;                                                                        '
+    / 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;      '
+    / 'if NOBS = 0 then do; '
+    /   'put; put '' *> No preview. Try %previewPackage(packageName,*) to display all.''; put; stop; '
+    / 'end; '
+    / '  do until(EOFDS);                                                                  '
+    / '   set WORK._last_ end = EOFDS nobs = NOBS;                                         '
+    / '   length memberX $ 1024;                                                           '
+    / '   memberX = cats("_",folder,".",file);                                             '
   /* inner data step in call execute to read each embedded file */
-  put '   call execute("data _null_;                                                    ");';
-  put "   call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;  ');";
-  put '   call execute("    do until(EOF);                                              ");';
-  put '   call execute("      input;                                                    ");';
-  put '   call execute("      put _infile_;                                             ");';
-  put '   call execute("    end;                                                        ");';
-  put '   call execute("  put "" "" / "" "";                                            ");';
-  put '   call execute("  stop;                                                         ");';
-  put '   call execute("run;                                                            ");';
+    / '   call execute("data _null_;                                                    ");'
+    / "   call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;  ');"
+    / '   call execute("    do until(EOF);                                              ");'
+    / '   call execute("      input;                                                    ");'
+    / '   call execute("      put _infile_;                                             ");'
+    / '   call execute("    end;                                                        ");'
+    / '   call execute("  put "" "" / "" "";                                            ");'
+    / '   call execute("  stop;                                                         ");'
+    / '   call execute("run;                                                            ");'
   /**/
-  put "  end; ";
-  put "  stop; ";
-  put "run; ";
+    / "  end; "
+    / "  stop; "
+    / "run; "
   
   /* clean-up */
-  put "proc delete data = WORK._last_; ";
-  put "run; ";
-  put 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; ' /;
+    / "proc delete data = WORK._last_; "
+    / "run; "
+    / 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; '
  
-  put '%put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;";
-  put '%put NOTE- *** END ***;' /; 
-  put "/* preview.sas end */";
+    / '%put NOTE: '"Preview of the &packageName. package, version &packageVersion., license &packageLicense.;"
+    / '%put NOTE- *** END ***;'
+    / "/* preview.sas end */";
 
   stop;
 run;
@@ -2614,37 +2664,36 @@ data _null_;
   file &zipReferrence.(help.sas) encoding = &packageEncoding.;
   length strX $ 32767;
 
-  put "filename &_PackageFileref_. list;" /;
-  put ' %put NOTE- ;';
-  put ' %put NOTE: '"Help for package &packageName., version &packageVersion., license &packageLicense.;";
+  put "filename &_PackageFileref_. list;"
+    / ' %put NOTE- ;'
+    / ' %put NOTE: '"Help for package &packageName., version &packageVersion., license &packageLicense.;"
 
-  put ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; ';
-  put ' %put NOTE- ' @; put "Generated: &packageGenerated.; ";
-  put ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); ';
-  put ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); ';
-  put ' %put NOTE- ;';
-  put ' %put NOTE- *** START ***;' /;
+    / ' %put NOTE: ' @; put '*** %superq(packageTitle) ***; '
+    / ' %put NOTE- ' @; put "Generated: &packageGenerated.; "
+    / ' %put NOTE- ' @; put 'Author(s): %superq(packageAuthor); '
+    / ' %put NOTE- ' @; put 'Maintainer(s): %superq(packageMaintainer); '
+    / ' %put NOTE- ;'
+    / ' %put NOTE- *** START ***;'
   
   /* Use helpKeyword macrovariable to search for content (filename and type) */
   /* put '%local ls_tmp ps_tmp notes_tmp source_tmp;                       ';*/
-  put '%let ls_tmp     = %sysfunc(getoption(ls));         ';
-  put '%let ps_tmp     = %sysfunc(getoption(ps));         ';
-  put '%let notes_tmp  = %sysfunc(getoption(notes));      ';
-  put '%let source_tmp = %sysfunc(getoption(source));     ';
-  put 'options ls = MAX ps = MAX nonotes nosource;        ';
-  put '%include' " &_PackageFileref_.(packagemetadata.sas) / nosource2; " /;
+    / '%let ls_tmp     = %sysfunc(getoption(ls));         '
+    / '%let ps_tmp     = %sysfunc(getoption(ps));         '
+    / '%let notes_tmp  = %sysfunc(getoption(notes));      '
+    / '%let source_tmp = %sysfunc(getoption(source));     '
+    / 'options ls = MAX ps = MAX nonotes nosource;        '
+    / '%include' " &_PackageFileref_.(packagemetadata.sas) / nosource2; "
 
-  put 'data _null_;                                                               ';
-  put '  if strip(symget("helpKeyword")) = " " then                               ';
-  put '    do until (EOF);                                                        ';
-  put "      infile &_PackageFileref_.(description.sas) end = EOF;                ";
-  put '      input;                                                               ';
-  put '      if upcase(strip(_infile_)) =: "DESCRIPTION END:"   then printer = 0; ';
-  put '      if printer then put "| " _infile_;                                   ';
-  put '      if upcase(strip(_infile_)) =: "DESCRIPTION START:" then printer = 1; ';
-  put '    end;                                                                   ';
-  put '  else stop;                                                               ';
-
+    / 'data _null_;                                                               '
+    / '  if strip(symget("helpKeyword")) = " " then                               '
+    / '    do until (EOF);                                                        '
+    / "      infile &_PackageFileref_.(description.sas) end = EOF;                "
+    / '      input;                                                               '
+    / '      if upcase(strip(_infile_)) =: "DESCRIPTION END:"   then printer = 0; '
+    / '      if printer then put "| " _infile_;                                   '
+    / '      if upcase(strip(_infile_)) =: "DESCRIPTION START:" then printer = 1; '
+    / '    end;                                                                   '
+    / '  else stop;                                                               ';
 
   put '  put ; put "  Package contains: "; ';
   EOFDS = 0;
@@ -2660,34 +2709,34 @@ data _null_;
   %do;
     length packageRequired $ 32767;
     packageRequired = symget('packageRequired');
-    put '  length req $ 256;                                                     ';
-    put '  put ; put "  Required SAS Components: ";                              ';
-    put '  do req = ' / packageRequired / ' ;                                    ';
-    put '    put @3 "-" @5 req;                                                  ';
-    put '  end ;                                                                 ';
+    put '  length req $ 256;                        '
+      / '  put ; put "  Required SAS Components: "; '
+      / '  do req = ' / packageRequired / ' ;       '
+      / '    put @3 "-" @5 req;                     '
+      / '  end ;                                    ';
   %end;
 
   %if %superq(packageReqPackages) ne %then
   %do;
     length packageReqPackages $ 32767;
     packageReqPackages = symget('packageReqPackages');
-    put '  length req $ 256;                                                     ';
-    put '  put ; put "  Required SAS Packages: ";                                ';
-    put '  do req = ' / packageReqPackages / ' ;                                 ';
-    put '    put @3 "-" @5 req;                                                  ';
-    put '  end ;                                                                 ';
+    put '  length req $ 256;                        '
+      / '  put ; put "  Required SAS Packages: ";   '
+      / '  do req = ' / packageReqPackages / ' ;    '
+      / '    put @3 "-" @5 req;                     '
+      / '  end ;                                    ';
   %end;
 
 
   %if %superq(additionalContent) NE %then
   %do;
-    put 'put ;' / 'put @3 ''Package contains additional content, run:  %loadPackageAddCnt(' "&packageName." ')  to load it'';';
-    put "put @3 'or look for the %sysfunc(lowcase(&packageName.))_AdditionalContent directory in the Packages fileref';";
-    put "put @3 'localization (only if additional content was deployed during the installation process).';" / "put ;";
+    put 'put ;' / 'put @3 ''Package contains additional content, run:  %loadPackageAddCnt(' "&packageName." ')  to load it'';'
+      / "put @3 'or look for the %sysfunc(lowcase(&packageName.))_AdditionalContent directory in the Packages fileref';"
+      / "put @3 'localization (only if additional content was deployed during the installation process).';" / "put ;";
   %end;
 
   put 'put " " / @3 "---------------------------------------------------------------------" / " ";' 
-    /       'put @3 "*SAS package generated by SAS Package Framework, version `20251221`*";' 
+    /       'put @3 "*SAS package generated by SAS Package Framework, version `20251231`*";' 
     /       "put @3 '*under `&sysscp.`(`&sysscpl.`) operating system,*';"
     /       "put @3 '*using SAS release: `&sysvlong4.`.*';"
     / 'put " " / @3 "---------------------------------------------------------------------";';
@@ -2695,30 +2744,30 @@ data _null_;
   put 'run;                                                                      ' /;
 
   /* license info */
-  put 'data _null_;                                                   ';
-  put '  if upcase(strip(symget("helpKeyword"))) = "LICENSE" then     ';
-  put '    do until (EOF);                                            ';
-  put "      infile &_PackageFileref_.(license.sas) end = EOF;        ";
-  put '      input;                                                   ';
-  put '      put "| " _infile_;                                       ';
-  put '    end;                                                       ';
-  put '  else stop;                                                   ';
-  put 'run;                                                           ' /;
+  put 'data _null_;                                                   '
+    / '  if upcase(strip(symget("helpKeyword"))) = "LICENSE" then     '
+    / '    do until (EOF);                                            '
+    / "      infile &_PackageFileref_.(license.sas) end = EOF;        "
+    / '      input;                                                   '
+    / '      put "| " _infile_;                                       '
+    / '    end;                                                       '
+    / '  else stop;                                                   '
+    / 'run;                                                           ';
 
-  put 'data WORK._%sysfunc(datetime(), hex16.)_;                      ';
-  put 'infile cards4 dlm = "/";                                       ';
-  put 'input @;                                                       ';
-  put 'if 0 then output;                                              ';
-  put 'length helpKeyword $ 64;                                       ';
-  put 'retain helpKeyword "*";                                        ';
-  put 'drop helpKeyword;                                              ';
-  put 'if _N_ = 1 then helpKeyword = strip(symget("helpKeyword"));    ';
-  put 'if FIND(_INFILE_, helpKeyword, "it") or helpKeyword = "*" then '; 
-  put ' do;                                                           ';
-  put '   input (folder order type file fileshort) (: $ 256.);        ';
-  put '   output;                                                     ';
-  put ' end;                                                          ';
-  put 'cards4;                                                        ';
+  put 'data WORK._%sysfunc(datetime(), hex16.)_;                      '
+    / 'infile cards4 dlm = "/";                                       '
+    / 'input @;                                                       '
+    / 'if 0 then output;                                              '
+    / 'length helpKeyword $ 64;                                       '
+    / 'retain helpKeyword "*";                                        '
+    / 'drop helpKeyword;                                              '
+    / 'if _N_ = 1 then helpKeyword = strip(symget("helpKeyword"));    '
+    / 'if FIND(_INFILE_, helpKeyword, "it") or helpKeyword = "*" then ' 
+    / ' do;                                                           '
+    / '   input (folder order type file fileshort) (: $ 256.);        '
+    / '   output;                                                     '
+    / ' end;                                                          '
+    / 'cards4;                                                        ';
 
   EOFDS = 0;
   do until(EOFDS);
@@ -2749,55 +2798,55 @@ data _null_;
   put 'run;';
 */
   /* loop through content found and print info to the log */
-  put 'data _null_;                                                                                              ';
-  put 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;                            ';
-  put 'if NOBS = 0 then do; ' /
-        'put; put '' *> No help info found. Try %helpPackage(packageName,*) to display all.''; put; stop; ' / 
-      'end; ';
-  put '  do until(EOFDS);                                                                                        ';
-  put '   set WORK._last_ end = EOFDS nobs = NOBS;                                                               ';
-  put '   length memberX $ 1024;                                                                                 ';
-  put '   memberX = cats("_",folder,".",file);                                                                   ';
+  put 'data _null_;                                                                                              '
+    / 'if upcase(strip(symget("helpKeyword"))) in (" " "LICENSE") then do; stop; end;                            '
+    / 'if NOBS = 0 then do; '
+    /   'put; put '' *> No help info found. Try %helpPackage(packageName,*) to display all.''; put; stop; '
+    / 'end; '
+    / '  do until(EOFDS);                                                                                        '
+    / '   set WORK._last_ end = EOFDS nobs = NOBS;                                                               '
+    / '   length memberX $ 1024;                                                                                 '
+    / '   memberX = cats("_",folder,".",file);                                                                   '
   /* inner data step in call execute to read each embedded file */
-  put '   call execute("data _null_;                                                                          ");';
-  put "   call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;                        ');";
-  put '   call execute("    printer = 0;                                                                      ");';
-  put '   call execute("    do until(EOF);                                                                    ");';
-  put '   call execute("      input;                                                                          ");';
-  put '   call execute("      _endhelpline_ = upcase(reverse(strip(_infile_)));                               ");';
-  put '   call execute("      if 18 <= lengthn(_endhelpline_) AND _endhelpline_                                  ';
-  put '                          =: ''/*** DNE PLEH ***/'' then printer = 0;                                  ");'; /* ends with HELP END */  
-  put '   call execute("      if printer then put ""| "" _infile_;                                            ");';
-  put '   call execute("      _starthelpline_ = upcase(strip(_infile_));                                      ");';
-  put '   call execute("      if 20 <= lengthn(_starthelpline_) AND _starthelpline_                              ';
-  put '                          =: ''/*** HELP START ***/'' then printer = 1;                                ");'; /* starts with HELP START */  
-  put '   call execute("    end;                                                                              ");';
-  put '   call execute("  put "" "" / "" "";                                                                  ");';
-  put '   call execute("  stop;                                                                               ");';
-  put '   call execute("run;                                                                                  ");';
-  put '   if lowcase(type) in ("data" "lazydata") then                                                           ';
-  put '    do;                                                                                                   ';
-  put '     call execute("title ""Dataset " || strip(fileshort) || " from package &packageName. "";           ");';
-  put '     if exist(fileshort) then call execute("proc contents data = " || strip(fileshort) || "; run;      ");';
-  put '     else call execute("data _null_; put ""| Dataset " || strip(fileshort) || " does not exist.""; run;");';
-  put '     call execute("title;                                                                              ");';
-  put '    end;                                                                                                  ';
+    / '   call execute("data _null_;                                                                          ");'
+    / "   call execute('infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;                        ');"
+    / '   call execute("    printer = 0;                                                                      ");'
+    / '   call execute("    do until(EOF);                                                                    ");'
+    / '   call execute("      input;                                                                          ");'
+    / '   call execute("      _endhelpline_ = upcase(reverse(strip(_infile_)));                               ");'
+    / '   call execute("      if 18 <= lengthn(_endhelpline_) AND _endhelpline_                                  '
+    / '                          =: ''/*** DNE PLEH ***/'' then printer = 0;                                  ");' /* ends with HELP END */  
+    / '   call execute("      if printer then put ""| "" _infile_;                                            ");'
+    / '   call execute("      _starthelpline_ = upcase(strip(_infile_));                                      ");'
+    / '   call execute("      if 20 <= lengthn(_starthelpline_) AND _starthelpline_                              '
+    / '                          =: ''/*** HELP START ***/'' then printer = 1;                                ");' /* starts with HELP START */  
+    / '   call execute("    end;                                                                              ");'
+    / '   call execute("  put "" "" / "" "";                                                                  ");'
+    / '   call execute("  stop;                                                                               ");'
+    / '   call execute("run;                                                                                  ");'
+    / '   if lowcase(type) in ("data" "lazydata") then                                                           '
+    / '    do;                                                                                                   '
+    / '     call execute("title ""Dataset " || strip(fileshort) || " from package &packageName. "";           ");'
+    / '     if exist(fileshort) then call execute("proc contents data = " || strip(fileshort) || "; run;      ");'
+    / '     else call execute("data _null_; put ""| Dataset " || strip(fileshort) || " does not exist.""; run;");'
+    / '     call execute("title;                                                                              ");'
+    / '    end;                                                                                                  '
   /**/
-  put "  end; ";
-  put "  stop; ";
-  put "run; ";
+    / "  end; "
+    / "  stop; "
+    / "run; ";
   
   /* clean up */
-  put "proc delete data = WORK._last_; ";
-  put "run; ";
+  put "proc delete data = WORK._last_; "
+    / "run; ";
   
   /* generate dataset witch content information */
-  put 'data &packageContentDS. _NULL_;                                '
-    / ' if "&packageContentDS." = " " then stop;                      '
-    / '  infile cards4 dlm = "/";                                     '
-    / '  input (folder order type file fileshort) (: $ 256.);         '
-    / '  output;                                                      '
-    / 'cards4;                                                        '
+  put 'data &packageContentDS. _NULL_;                        '
+    / ' if "&packageContentDS." = " " then stop;              '
+    / '  infile cards4 dlm = "/";                             '
+    / '  input (folder order type file fileshort) (: $ 256.); '
+    / '  output;                                              '
+    / 'cards4;                                                '
     ;
   
   EOFDS = 0;
@@ -2811,12 +2860,11 @@ data _null_;
   
   put ";;;;"
     / "run;" 
-    / 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; ' 
-    / ;
+    / 'options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.; ';
   
-  put '%put NOTE: '"Help for package &packageName., version &packageVersion., license &packageLicense.;";
-  put '%put NOTE- *** END ***;' /; 
-  put "/* help.sas end */";
+  put '%put NOTE: '"Help for package &packageName., version &packageVersion., license &packageLicense.;"
+    / '%put NOTE- *** END ***;'
+    / "/* help.sas end */";
   
   stop;
 run;
@@ -2841,7 +2889,7 @@ data _null_;
   if (upcase(type) not in: ('TEST' 'ADDCNT')); /* test files and additional content are not to be copied */
 
   call execute(cat ('filename _SPFIN_ "', catx('/', base, folder, file), '";'));
-  call execute(cats("filename _SPFOUT_ ZIP '", base, "/%sysfunc(lowcase(&packageName.)).zip' member='_", folder, ".", file, "';") );
+  call execute(cats("filename _SPFOUT_ ZIP '", build, "/%sysfunc(lowcase(&packageName.)).zip' member='_", folder, ".", file, "';") );
 
   /* copy code file into the zip */
   call execute('data _null_;');
@@ -2896,7 +2944,7 @@ data _null_;
       "help           "
     ;
       /* test if "driving" files exist */
-      call execute(cats("filename _SPFOUT_ ZIP '", base, "/%sysfunc(lowcase(&packageName.)).zip' member='", drivFile, ".sas';") );
+      call execute(cats("filename _SPFOUT_ ZIP '", build, "/%sysfunc(lowcase(&packageName.)).zip' member='", drivFile, ".sas';") );
       call execute('data _null_;');
       call execute('  pathname = pathname("_SPFIN_");');
       call execute('  ex = fexist("_SPFOUT_");');
@@ -3033,7 +3081,7 @@ filename &zipReferrence. clear;
   %put NOTE- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^;
   %put NOTE-;
 
-  filename &zipReferrence. "&filesLocation./%sysfunc(lowcase(&packageName.)).zip";
+  filename &zipReferrence. "&buildLocation./%sysfunc(lowcase(&packageName.)).zip";
   filename &zipReferrence. list;
   %local notesSourceOptions;
   %let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
@@ -3063,931 +3111,41 @@ filename &zipReferrence. clear;
   options &notesSourceOptions.;
   filename &zipReferrence. clear;
 %end;
-/*-+++++++++++++++++++++++-*/
-
-/* verify if there were errors while package content creation */
-%if %superq(createPackageContentStatus) ne 0 %then
-  %do;
-    %put ERROR- ** [&sysmacroname.] **;
-    %put ERROR: ** ERRORS IN PACKAGE CONTENT CREATION! **;
-    %put ERROR- ** NO TESTING WILL BE EXECUTED.        **;
-    %GOTO NOTESTING;
-  %end;
-
-/* tests of package are executed by default */
-%if %bquote(&testPackage.) ne Y %then
-  %do;
-    %put WARNING: ** NO TESTING WILL BE EXECUTED. **;
-    %GOTO NOTESTING;
-  %end;
+/*-+++++++++++++++++++++++-*/ /*-+++++++++++++++++++++++-*/ /*-+++++++++++++++++++++++-*/ /*-+++++++++++++++++++++++-*/
 
 
-%put NOTE-;
-%put NOTE: Running tests.;
-%put NOTE- ^^^^^^^^^^^^^^;
-%put NOTE-;
-/* in case the packages macrovariable is multi-directory the first directory will be selected */
-data _null_;
-  length packages $ 32767;
-  packages = resolve(symget("packages"));
-
-  /* check if path contains quotes */
-  quotes = lengthn(compress(packages,"""'","K"));
-
-  /* issue error for unmatched quotes */
-  if mod(quotes,2) then
-    put "ERROR: Unbalanced quotes in the PACKAGES= parameter." / "ERROR- " PACKAGES= ;
-
-  if quotes > 0 then
-    call symputX("packages", dequote(kscanx(packages, 1, "()", "QS")) ,"L");
-  else
-    call symputX("packages", packages ,"L");
-run;
-
-/* check if systask is available  */
-%if %sysfunc(GETOPTION(XCMD)) = NOXCMD %then
-  %do;
-    data _null_;
-      put 'WARNING: NO TESTING WILL BE EXECUTED DUE TO NOXCMD.';
-      put '***************************************************';
-      put ;
-
-      put 'NOTE-To execute the loading test manualy';
-      put 'NOTE-run the following code:';
-      put 'NOTE-';
-
-      n=6;
-      length packages $ 32767;
-      packages = quote(dequote(strip(symget('packages'))));
-      put @n "filename packages " packages ";" /;
-
-      if fileexist("&packages./SPFinit.sas") then
-        put @n '%include packages(SPFinit.sas);' /;
-      else if fileexist("&packages./loadpackage.sas") then
-        put @n '%include packages(loadpackage.sas);' / ; /* for older versions when the SPFinit.sas did not exist */
-
-      /* load */
-      put @n '%loadpackage'"(&packageName.,";
-      put @n " path=&filesLocation.)" /;
-      put @n '%loadpackage'"(&packageName.,";
-      put @n " path=&filesLocation., lazyData=*)" /;
-
-      /* help */
-      put @n '%helpPackage'"(&packageName.,";
-      put @n " path=&filesLocation.)" /;
-      put @n '%helpPackage'"(&packageName.,*,";
-      put @n " path=&filesLocation.)" /;
-      put @n '%helpPackage'"(&packageName.,License,";
-      put @n " path=&filesLocation.)" /;
-
-      /* preview */
-      put @n '%previewPackage'"(&packageName.,";
-      put @n " path=&filesLocation.)" /;
-      put @n '%previewPackage'"(&packageName.,*,";
-      put @n " path=&filesLocation.)" /;
-
-      /* unload */
-      put @n '%unloadPackage'"(&packageName.,";
-      put @n " path=&filesLocation.)         " /;
-
-      /* additional content */
-      put @n '%loadPackageAddCnt'"(&packageName.,";
-      put @n " path=&filesLocation.)         " /;
-
-      put ;
-      put '***************************************************';
-    run;
-
-    %GOTO NOTESTING;
-  %end;
-
-
-/* locate sas binaries */
+/*---------------------------------------------------------------- *
+*                                                                  *
+* tests for a package are encapsulated in the next macro           *
+*                                                                  *
+* ---------------------------------------------------------------- */
+/* locate sas binaries for testing part of the framework */
 %local SASROOT SASEXE SASWORK;
-
-%if %superq(sasexe) = %then /* empty value points to the SAS binary file based in the !sasroot directory */
-  %do;
-    filename sasroot "!SASROOT";
-    %let SASROOT=%sysfunc(PATHNAME(sasroot));
-    filename sasroot;
-    %put NOTE: &=SASROOT.;
-    %let SASEXE=&SASROOT./sas;
-  %end;
-%else
-  %do;
-    filename sasroot "&SASEXE.";
-    %if %sysfunc(fexist(sasroot)) %then
-      %do;
-        %let SASROOT=%sysfunc(PATHNAME(sasroot));
-        filename sasroot;
-        %put NOTE: &=SASROOT.;
-        %let SASEXE=&SASROOT./sas;
-      %end;
-    %else
-      %do;
-        %put ERROR: [&sysmacroname.] Provided location of the SAS binary file does not exist!;
-        %put ERROR- The directory was: &SASEXE.;
-        %put ERROR- Testing would not be executed.;
-        filename sasroot;
-        %GOTO NOTESTING;
-      %end;
-  %end;
-
-%if 0 = %sysfunc(fileexist(&SASEXE.))     /* Linux/UNIX */
-    AND
-    0 = %sysfunc(fileexist(&SASEXE..exe)) /* WINDOWS */
-%then
-  %do;
-    %put ERROR: [&sysmacroname.] Provided location of the SAS binary file does not contain SAS file!;
-    %put ERROR- The file searched was: &SASEXE.;
-    %put ERROR- Testing would not be executed.;
-    %GOTO NOTESTING;
-  %end;
-
-%put NOTE: Location of the SAS binary is:;
-%put NOTE- &=SASEXE. ;
-%put ;
-
-/* locate sas work */
-%let SASWORK=%sysfunc(GETOPTION(work));
-%put NOTE: &=SASWORK.;
-%put ;
 
 /* location of the config file */
 %local SASCONFIG; /* by default a local macrovariable is empty, so no file would be pointed as a config file */
 
-%if %Qupcase(&sascfgFile.) = DEF %then /* the DEF value points to the sasv9.cfg file in the sasroot directory */
-  %do;
-    %let SASCONFIG = -config "&SASROOT./sasv9.cfg";
-    %put NOTE: The following SAS config file will be used:;
-    %put NOTE- &=SASCONFIG.;
-  %end;
-%else %if %superq(sascfgFile) NE %then /* non-empty path points to user defined config file */
-  %do;
-    %if %sysfunc(fileexist(&sascfgFile.)) %then
-      %do;
-        %let SASCONFIG = -config "&SASCFGFILE.";
-        %put NOTE: The following SAS config file will be used:;
-        %put NOTE- &=SASCONFIG.;
-      %end;
-    %else
-      %do;
-        %put ERROR: [&sysmacroname.] Provided SAS config file does not exist!;
-        %put ERROR- The file was: &SASCFGFILE.;
-        %put ERROR- Testing would not be executed.;
-        %GOTO NOTESTING;
-      %end;
-  %end;
-
-
-options DLCREATEDIR; /* turns-on creation of subdirectories by libname */
 /* temporary location for tests results is WORK unless developer provide &testResults. */
 %local testPackageTimesamp;
-%let testPackageTimesamp = %sysfunc(lowcase(&packageName._%sysfunc(datetime(),b8601dt15.)));
-%if %qsysfunc(fileexist(%superq(testResults))) %then
-  %do;
-    libname TEST "&testResults./test_&testPackageTimesamp.";
-  %end;
-%else
-  %do;
-    %if NOT %sysevalf(%superq(testResults)=,boolean) %then
-      %do;
-        %put WARNING: The testResults path:;
-        %put WARNING- %superq(testResults);
-        %put WARNING- does not exist. WORK will be used.;
-        %put WARNING- ;
-      %end;
-    libname TEST "&SASWORK./test_&testPackageTimesamp.";
-  %end;
 
-/* test WORK points to the SAS session WORK or to directory pointed by the developer */
-%if %qsysfunc(fileexist(%superq(testWorkPath))) %then
-  %do;
-    libname TESTWORK "&testWorkPath./testwork_&testPackageTimesamp.";
-    %put NOTE- ;
-    %PUT NOTE: WORK libname directories from test SAS sessions will not be deleted.;
-    %if %sysevalf(1=%superq(workInTestResults),boolean) %then
-      %do;
-        %put NOTE- Parameter workInTestResults is ignored;
-      %end;
-    %put NOTE- ;
-
-    %let delTestWork=0;
-  %end;
-%else %if %sysevalf(1=%superq(workInTestResults),boolean) %then
-  %do;
-    libname TESTWORK "%sysfunc(pathname(TEST))";
-    %put NOTE- ;
-    %PUT NOTE: WORK libname directories from test SAS sessions will be located in the;
-    %PUT NOTE- same directory where test resulrs are stored, and will not be deleted.;
-    %put NOTE- ;
-    %let delTestWork=0;
-  %end;
-%else
-  %do;
-    %if NOT %sysevalf(%superq(testWorkPath)=,boolean) %then
-      %do;
-        %put WARNING: The testWorkPath path:;
-        %put WARNING- %superq(testWorkPath);
-        %put WARNING- does not exist. WORK will be used.;
-        %put WARNING- ;
-      %end;
-    libname TESTWORK "&SASWORK./testwork_&testPackageTimesamp."; 
-  %end;
-
+/* location for test and test work */
 %local dirForTest dirForTestWork;
-  %let dirForTest     = %sysfunc(pathname(TEST));
-  %let dirForTestWork = %sysfunc(pathname(TESTWORK));
-  %put ;
-  %put NOTE: &=dirForTest.;
-  %put NOTE: &=dirForTestWork.;
-  %put ;
 
-/* remember location of sessions current directory */
-filename currdir ".";
-filename currdir list;
-
-/* if your package uses any other packages this points to their location */
-/* test if packages fileref exists and, if it does, use it */
-/* if no one is provided the filesLocation is used as a replacement */
-%if %bquote(&packages.)= %then %let packages=%sysfunc(pathname(packages));
-%if %bquote(&packages.)= %then %let packages=&filesLocation.;
-%put NOTE- ;
-%put NOTE: The following location path for packages will be used during the testing:;
-%put NOTE- &packages.;
-/* filename packages "&packages."; */
-/* filename packages list;*/
-
-/* replace current dir with the temporary one for tests */
-%put NOTE- ;
-%put NOTE: Changing current folder to:;
-%put NOTE- *%sysfunc(DLGCDIR(&dirForTest.))*;
-
-
-/* turn off the note about quoted string length */
-%local quotelenmax_tmp;
-%let quotelenmax_tmp = %sysfunc(getoption(quotelenmax));
-options NOquotelenmax;
-
-/* the first test is for loading package, testing help and unloading */
-/*-1-*/
-data _null_;
-  file "./loading.sas";
-
-  put "proc printto"
-    / "log = '&dirForTest./loading.log0'"
-    / "; run;";
-
-  put "filename packages '&packages.';" /;
-
-  if fileexist("&packages./SPFinit.sas") then
-    put '%include packages(SPFinit.sas);' /;
-  else if fileexist("&packages./loadpackage.sas") then
-    put '%include packages(loadpackage.sas);' / ; /* for older versions when the SPFinit.sas did not exist */
-
-  /* load */
-  put '%loadpackage'"(&packageName.,"
-    / " path=&filesLocation.)" /;
-  put '%loadpackage'"(&packageName.,"
-    / " path=&filesLocation., lazyData=*)" /;
-
-  /* help */
-  put '%helpPackage'"(&packageName.,"
-    / " path=&filesLocation.)" /;
-  put '%helpPackage'"(&packageName.,*,"
-    / " path=&filesLocation.)" /;
-  put '%helpPackage'"(&packageName.,License,"
-    / " path=&filesLocation.)" /;
-
-  /* preview */
-  put '%previewPackage'"(&packageName.,";
-  put " path=&filesLocation.)" /;
-  put '%previewPackage'"(&packageName.,*,";
-  put " path=&filesLocation.)" /;
-
-  /*check if package elements realy exist*/
-  EOF = 0;
-  do until(EOF);
-    set &filesWithCodes. end = EOF;
-    by type notsorted;
-
-    fileshortUP = UPCASE(fileshort); drop fileshortUP;
-
-    select;
-      when (upcase(type) in ("LAZYDATA")) /* the "DATA" type will pop-up during deletion */
-        do;
-          if 1 = FIRST.type then
-            put "data _null_; " 
-              / " if not exist('" fileshortUP "') then " 
-              / "   put 'WARNING: Dataset " fileshortUP "does not exist!'; " ;
-          if 1 = LAST.type then
-            put "run; ";
-        end;
-
-      when (upcase(type) =: "MACRO")
-        do;
-          if 1 = FIRST.type then
-            put "data _null_; " 
-              / ' if not input(resolve(''%SYSMACEXIST(' fileshortUP ')''), best.) then ' 
-              / "   put 'WARNING: Macro " fileshortUP "does not exist!'; " ;
-          if 1 = LAST.type then
-            put "run; ";
-
-        end;
-        /* the "FUNCTION" type will pop-up during deletion */
-
-        /* figure out checks for remaining list: */
-        /*               
-        "IMLMODULE"     
-        "PROTO"         
-        "FORMAT"
-        */
-      otherwise;
-    end;
-  end;
-
-  /* unload */
-  put '%unloadPackage'"(&packageName.,"
-    / " path=&filesLocation.)         " /;
-
-  /* additional content */
-  put '%loadPackageAddCnt'"(&packageName.,"
-    / " path=&filesLocation.)         " /;
-
-  put "filename packages '&filesLocation.';" 
-    / '%listPackages()                     ' /;
-
-  /* check if work should be deleted after test is done */
-  delTestWork = input(symget('delTestWork'), ?? best32.);
-  if 0 = delTestWork then
-    put "options NOWORKTERM;"/;
-
-  put "proc printto"
-    / "; run;";
-
-  stop;
-run;
-
-/*
-setup for testing session:
-  -sysin      - file with the test code
-  -print      - location of the *.lst output file
-  -log        - location of the log file
-  -config     - location of the default config file, i.e. "&SASROOT./sasv9.cfg"
-  -work       - location for work
-  -noterminal - for batch execution mode
-  -rsasuser   - to avoid the "Unable to copy SASUSER registry to WORK registry." warning
-  -linesize   - MAX
-  -pagesize   - MAX
-*/
-systask kill sas0 wait;
-%local sasstat0 TEST_0 TESTRC_0;;
-%let TEST_0 = loading;
-
-%local STSK;
-%let STSK = systask command
-%str(%')"&SASEXE."
- -sysin "&dirForTest./&TEST_0..sas"
- -print "&dirForTest./&TEST_0..lst"
- -log "&dirForTest./&TEST_0..log"
- /*-altlog "&dirForTest./&TEST_0..altlog"*/
- &SASCONFIG.
-  -work "&dirForTestWork."
- -noterminal
- -rsasuser -linesize MAX -pagesize MAX -noautoexec %str(%')
-taskname=sas0
-status=sasstat0
-WAIT
-;
-
-%put NOTE: Systask:;
-%put NOTE- %superq(STSK);
-;
-%unquote(&STSK.);
-;
-
-%let TESTRC_0 = &SYSRC.;
-%put NOTE: &=sasstat0. &=TESTRC_0.;
-%local notesSourceOptions;
-%let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
-options NOnotes NOsource;
-data _null_;
-  if _N_ = 1 then
-    put "##########################################################################" /
-        "./loading.log0" /
-        "##########################################################################" ;
-  infile "./loading.log0" dlm='0a0d'x end=EOF;
-  input;
-  if _INFILE_ =: 'WARNING:' then
-    do;
-      warnings+1;
-      put _N_= "**" _INFILE_;
-    end;
-  if _INFILE_ =: 'ERROR:' then
-    do;
-      errors+1;
-      put _N_= "$$" _INFILE_;
-    end;
-  if EOF then
-    do;
-      put "##########################################################################" ;
-      put (_ALL_) (=/ "Number of ");
-      call symputX("TESTW_0", warnings, "L");
-      call symputX("TESTE_0", errors,   "L");
-    end;
-run;
-options &notesSourceOptions.;
-/*-1-*/
-
-
-/* other tests are provided by the developer */
-%local numberOfTests;
-%let numberOfTests = 0;
-data _null_;
-  /* break if no data */
-  if NOBS = 0 then stop;
-
-  set &filesWithCodes. nobs = NOBS;
-  if (upcase(type) in: ('TEST')); /* only test files are used */
-
-  test + 1; /* count the number of tests */
-
-  _RC_ = filename(cats("_TIN_",test),  catx("/", base, folder, file));
-  _RC_ = filename(cats("_TOUT_",test), cats("./", file));
-
-  _RC_ = fcopy(cats("_TIN_",test), cats("_TOUT_", test));
-
-  call symputX(cats("TEST_", test), fileshort, "L");
-  call symputX("numberOfTests",     test,      "L");
-
-  _RC_ = filename(cats("_TIN_",test));
-  _RC_ = filename(cats("_TOUT_",test));
-run;
-
-
-%local t;   
-%do t = 1 %to &numberOfTests.;
-/* each test is executed with autoexec loading the package */
-data _null_;
-  /* break if no data */
-  if NOBS = 0 then stop;
-
-  file "./autoexec.sas";
-
-  /* check if work should be deleted after test is done */
-  delTestWork = input(symget('delTestWork'), ?? best32.);
-  if not(delTestWork in (0 1)) then
-    do;
-      putlog "WARNING: [&sysmacroname.] The `delTestWork` parameter is invalid.";
-      putlog "WARNING- [&sysmacroname.] Default value (1) is set.";
-      delTestWork = 1;
-    end;
-
-  if 0 = delTestWork then
-    do;
-      put "libname _ '&dirForTest.';" /
-          "data TESTWORK_&t.;" /
-          "  length testName $ 128 testWork $ 2048;" /
-          "  testNumber=&t.; testName='&&TEST_&t..';" /
-          "  testWork = pathname('WORK');" /
-          "run;" /
-          "proc append base=_.TESTWORK data=TESTWORK_&t.; run;" /
-          "proc delete data=TESTWORK_&t.; run;" /
-          "libname _ clear;" ;
-    end; 
-
-  put "proc printto";
-  put "log = '&dirForTest./&&TEST_&t...log0'";
-  put "; run;";
-
-  put "filename packages '&packages.';" /;
-
-  if fileexist("&packages./SPFinit.sas") then
-    put '%include packages(SPFinit.sas);' /;
-  else if fileexist("&packages./loadpackage.sas") then
-    put '%include packages(loadpackage.sas);' /; /* for older versions when the SPFinit.sas did not exist */
-
-  put '%loadpackage'"(&packageName.,";
-  put " path=&filesLocation.)" /;
-  put '%loadpackage'"(&packageName.,";
-  put " path=&filesLocation., lazyData=*)" /;
-
-  if 0 = delTestWork then
-    put "options NOWORKTERM;"/;
-
-  /*
-  put "proc printto";
-  put "; run;";
-  */
-
-  stop;
-  set &filesWithCodes. nobs = NOBS;
-run;
-
-systask kill sas&t. wait;
-%local sasstat&t. TESTRC_&t;
-%let STSK =
-systask command
-%str(%')"&SASEXE."
- -sysin "&dirForTest./&&TEST_&t...sas"
- -print "&dirForTest./&&TEST_&t...lst"
- -log "&dirForTest./&&TEST_&t...log"
- /*-altlog "&dirForTest./&&TEST_&t...altlog"*/
- &SASCONFIG.
-  -work "&dirForTestWork."
- -autoexec "&dirForTest./autoexec.sas"
- -noterminal
- -rsasuser %str(%')
-taskname=sas&t.
-status=sasstat&t.
-WAIT
-;
-
-%put NOTE: Systask:;
-%put NOTE- %superq(STSK);
-;
-%unquote(&STSK.);
-;
-
-%let TESTRC_&t = &SYSRC.;
-%put NOTE- sasstat&t.=&&sasstat&t. TESTRC_&t=&&TESTRC_&t;
-%local notesSourceOptions;
-%let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
-options NOnotes NOsource;
-data _null_;
-  if _N_ = 1 then
-    put "##########################################################################" /
-        "./&&TEST_&t...log0" /
-        "##########################################################################" ;
-  infile "./&&TEST_&t...log0" dlm='0a0d'x end=EOF;
-  input;
-  if _INFILE_ =: 'WARNING:' then
-    do;
-      warnings+1;
-      /*length warningline $ 1024;
-      warningline = catx(',', strip(warningline), _N_);*/
-      put _N_= "**" _INFILE_;
-    end;
-  if _INFILE_ =: 'ERROR:' then
-    do;
-      errors+1;
-      /*length errorline $ 1024;
-      errorline = catx(',', strip(errorline), _N_);*/
-      put _N_= "$$" _INFILE_;
-    end;
-  if EOF then
-    do;
-      put "##########################################################################" ;
-      put (_ALL_) (=/ "Number of ");
-      call symputX("TESTW_&t.", warnings, "L");
-      call symputX("TESTE_&t.", errors,   "L");
-    end;
-run;
-options &notesSourceOptions.;
-%end;
-
-data test.tests_summary;
-  length testName $ 128;
-  do testNumber = 0 to &numberOfTests.;
-    testName = symget(cats("TEST_", testNumber));
-    systask  = coalesce(input(symget(cats("SASSTAT", testNumber)), ?? best32.), -1);
-    sysrc    = coalesce(input(symget(cats("TESTRC_", testNumber)), ?? best32.), -1);
-    error    = coalesce(input(symget(cats("TESTE_", testNumber)),  ?? best32.), -1);
-    warning  = coalesce(input(symget(cats("TESTW_", testNumber)),  ?? best32.), -1);
-    
-    output;
-  end;
-run;
-title1 "Summary of tests.";
-title2 "details can be found in:";
-title3 "%sysfunc(pathname(TEST))";
-footnote;
-proc print data = test.tests_summary(drop=testNumber);
-run;
-title;
-
-%if 0=&delTestWork. %then
-  %do;
-    data test.tests_summary;
-      merge 
-        test.tests_summary 
-        %if %sysfunc(EXIST(test.testwork)) %then 
-          %do; test.testwork %end;
-        %else 
-          %do; %PUT INFO: Cannot add work path location info.; %end;
-      ;
-      by testNumber;
-    run;
-    %if %sysfunc(EXIST(test.testwork)) %then 
-      %do; 
-        proc delete data=test.testwork; 
-        run; 
-      %end;
-  %end;
-
-/*%put _local_;*/
-
-%put NOTE: Changing current folder to:;
-%put NOTE- *%sysfunc(DLGCDIR(%sysfunc(pathname(currdir))))*;
-filename CURRDIR clear;
-
-/* turn on the original value of the note about quoted string length */
-options &quotelenmax_tmp.;
-
-/* if you do not want any test to be executed */
-%NOTESTING:
-
-/* generate MarkDown documentation file */
-/* check param value */
-%if %superq(markdownDoc) NE 1 %then %let markdownDoc=0;
-/* if true then execute */
-%if %superq(markdownDoc)=1 %then
-%do;
-  %if %superq(createPackageContentStatus) NE 0 %then
-    %do;
-      %put ERROR- ** [&sysmacroname.] **;
-      %put ERROR: ** ERRORS IN PACKAGE CONTENT CREATION! **;
-      %put ERROR- ** NO MARKDOWN DOCUMMENTATION WILL BE GENERATED. **;
-      %GOTO NOmarkdownDoc;
-    %end;
-/*= generate MarkDown documentation START =================================================================================*/
-%put NOTE-;
-%put NOTE: Preparing markdown documentation file.;
-%put NOTE- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^;
-%put NOTE-;
-
-%local MarkDownOptionsTmp;
-%let MarkDownOptionsTmp = 
- %sysfunc(getoption(notes)) %sysfunc(getoption(source)) msglevel=%sysfunc(getoption(msglevel));
-options NOnotes NOsource msglevel=N;
-
-filename &zipReferrence. "&filesLocation./%sysfunc(lowcase(&packageName.)).md";
-filename &_PackageFileref_. ZIP "&filesLocation./%sysfunc(lowcase(&packageName.)).zip";
-
-data &filesWithCodes.markdown;
-  /* break if no data */
-  if NOBS = 0 then stop;
-
-  file &zipReferrence. encoding = &packageEncoding.;
-  put "# Documentation for the `&packageName.` package.";
-
-  length packageLicense packageGenerated $ 64
-         packageTitle packageAuthor packageMaintainer $ 4096 
-         packageHashF packageHashC $ 128 
-         ;
-  packageLicense=symget("packageLicense");
-  packageTitle=symget("packageTitle");
-  packageGenerated=symget("packageGenerated");
-  packageAuthor=symget("packageAuthor");
-  packageMaintainer=symget("packageMaintainer");
-  packageHashF=symget("packageHashF");
-  packageHashC=symget("packageHashC");
-  drop package:;
-
-  put "  " / 64*"-" / " "
-    / ' *' packageTitle +(-1)'* '
-    / "  " / 64*"-" / " "
-    / "### Version information:"
-    / "  "  
-    / "- Package: &packageName."
-    / "- Version: &packageVersion." 
-    / "- Generated: " packageGenerated
-    / "- Author(s): " packageAuthor
-    / "- Maintainer(s): " packageMaintainer
-    / "- License: " packageLicense
-    / "- File SHA256: `" packageHashF +(-1) "` for this version"
-    / "- Content SHA256: `" packageHashC  +(-1) "` for this version"
-    / "  " / "---" / " ";
-
-  put "# The `&packageName.` package, version: `&packageVersion.`;"
-    / "  " / "---" / " ";
-
-  do until (EOF);                                                        
-    infile &_PackageFileref_.(description.sas) end = EOF;                
-    input;                                                               
-    if upcase(strip(_infile_)) =: "DESCRIPTION END:"   then printer = 0; 
-    if printer then put _infile_;                                   
-    if upcase(strip(_infile_)) =: "DESCRIPTION START:" then printer = 1; 
-  end;                                                                   
-
-  put "  " / "---" / " ";
-
-  %if %superq(packageRequired) ne %then
-  %do;
-    put "  " / "---" / " ";
-    length req $ 256;                        
-    put "Required SAS Components: ";
-    do req = &packageRequired. ;      
-      put @3 "-" @5 req;                    
-    end ;                                   
-  %end;
-
-  %if %superq(packageReqPackages) ne %then
-  %do;
-    put "  " / "---" / " ";
-    length req2 $ 256;                     
-    put "Required SAS Packages: ";     
-    do req2 = &packageReqPackages.;
-      put @3 "-" @5 req2;                 
-    end ;                                
-  %end;
-
-  put "  " / "---" / " ";
-
-  %if %superq(additionalContent) NE %then
-  %do;
-    put "  " / "---" / " ";
-    put 'Package contains additional content, run:  `%loadPackageAddCnt(' "&packageName." ')`  to load it'
-      / "or look for the `%sysfunc(lowcase(&packageName.))_AdditionalContent` directory in the `packages` fileref"
-      / "localization (only if additional content was deployed during the installation process).";
-  %end;
-
-  put " " / "---------------------------------------------------------------------" / " " 
-          / "*SAS package generated by SAS Package Framework, version `20251221`,*"
-          / "*under `&sysscp.`(`&sysscpl.`) operating system,*" 
-          / "*using SAS release: `&sysvlong4.`.*" 
-    / " " / "---------------------------------------------------------------------" / " ";
-
-  put "# The `&packageName.` package content";
-  put "The `&packageName.` package consists of the following content:" / " ";
-  EOFDS = 0;
-  do until(EOFDS);
-    /* content is created during package creation */
-    set &filesWithCodes. end = EOFDS nobs = NOBS curobs = CUROBS;
-    if upcase(type) in: ('TEST') then continue; /* exclude tests */
-    
-    /*
-      To exclude file from being added to the documentation 
-      insert the "excluding" text(see below) as a comment 
-      in the FIRST or SECOND line of the file! 
-      Do not add spaces.
-      
-      For each file the first line is read in and checked.
-    */
-    length _FILEVARPATH_ $ 4096;
-    _FILEVARPATH_=catx("/",base,folder,file);
-    infile _dummy_ FILEVAR=_FILEVARPATH_;
-    input;
-    if strip(_infile_) IN (
-        '/*##DoNotUse4Documentation##*/'
-        '/*##ExcludeFromDocumentation##*/'
-        '/*##ExcludeFromMarkdownDoc##*/'
-      )
-    then continue; /* exclude file from documentation after FIRST line */
-    input;
-    if strip(_infile_) IN (
-        '/*##DoNotUse4Documentation##*/'
-        '/*##ExcludeFromDocumentation##*/'
-        '/*##ExcludeFromMarkdownDoc##*/'
-      )
-    then continue; /* exclude file from documentation after SECOND line */
-                   /* this is because %splitCodeForPackage() macro adds one extra line */ 
-    
-    type2=type;
-    length link $ 256;
-    link=catx("-",compress(fileshort,,"KAD"),type,CUROBS);
-    length fileshort $ 256;
-    select;
-      when (upcase(type) =:  "MACRO"    ) do; fileshort2 = cats('`%', fileshort, "()`"); type2='macro';           end;
-      when (upcase(type) =:  "FORMAT"   ) do; fileshort2 = cats("`$", fileshort, ".`");  type2='format/informat'; end;
-      when (upcase(type) =:  "FUNCTION" ) do; fileshort2 = cats("`",  fileshort, "()`"); type2='function';        end; 
-      when (upcase(type) =:  "IMLMODULE") fileshort2 = cats("`", fileshort, "()`");
-      when (upcase(type) =:  "PROTO"    ) fileshort2 = cats("`", fileshort, "()`");
-      when (upcase(type) =:  "CASLUDF"  ) fileshort2 = cats("`", fileshort, "()`");
-      otherwise                           fileshort2 = cats("`", fileshort, "`");
-    end;
-
-    contentObs + 1;
-    put @1 contentObs +(-1) '. [' fileshort2 type2'](#' link ')';
-    output;
-  end;
-
-  put "  " / " ";
-  contentObs+1;
-  put @1 contentObs +(-1) '. [License note](#license)';
-  put "  " / "---" / " ";
-
-  putlog "Doc. note with general information ready.";
-  stop;
-run;
-
-/* loop through content and print info to the MD file */
-data _null_; 
-  if 0 = NOBS then stop; 
-  do until(EOFDS);                                                                                        
-   set &filesWithCodes.markdown end = EOFDS nobs = NOBS curobs=CUROBS;                                                               
-   length memberX $ 1024;                                                                                 
-   memberX = cats("_",folder,".",file);                                                                   
-   /* inner data step in call execute to read each embedded file */
-   call execute("data _null_;                                                          ");
-   call execute("  file &zipReferrence. encoding = &packageEncoding. MOD;              ");
-   call execute('  put ''## ' !! catx(" ",fileshort2,type2) !! ' <a name="' !! strip(link) !! '"></a> ######'';');
-   call execute('  infile &_PackageFileref_.(' || strip(memberX) || ') end = EOF;      ');
-   call execute("    printer = 0;                                                      ");
-   call execute("    do until(EOF);                                                    ");
-   call execute("      input; length _endhelpline_ _starthelpline_ $ 32767;            ");
-   call execute("      _endhelpline_ = upcase(reverse(strip(_infile_)));               ");
-   call execute("      if 18 <= lengthn(_endhelpline_) AND _endhelpline_                  
-                          =: '/*** DNE PLEH ***/' then printer = 0;                    "); /* ends with HELP END */  
-   call execute("      if printer then put _infile_;                                   ");
-   call execute("      _starthelpline_ = upcase(strip(_infile_));                      ");
-   call execute("      if 20 <= lengthn(_starthelpline_) AND _starthelpline_              
-                          =: '/*** HELP START ***/' then printer = 1  ;                "); /* starts with HELP START */  
-   call execute("    end;                                                              ");
-   call execute('  put "  " / "---" / " ";                                             ');
-   call execute('  putlog ''Doc. note ' !! cats(CUROBS) !! ' for ' !! catx(" ",fileshort2,type2) !! ' ready.'';');
-   call execute("  stop;                                                               ");
-   call execute("run;                                                                  ");
-
-  end;
-  stop;
-run;
-
-/* license info */
-data _null_;
-  file &zipReferrence. encoding = &packageEncoding. MOD;
-  putlog "Doc. note with license ready.";
-  put "  " / "---" / " "
-    / '# License <a name="license"></a> ######' / " "
-    ;
-  do until (EOF_L);                                            
-    infile &_PackageFileref_.(license.sas) end = EOF_L;        
-    input;                                                   
-    put _infile_;                                       
-  end;                  
-  put "  " / "---" / " ";
-  stop;
-run;
-
-options &MarkDownOptionsTmp.;
-%put NOTE: Markdown file generated.;
-filename &zipReferrence. list;
-%put NOTE- ;
-
-options NOnotes NOsource msglevel=N;
-
-filename &zipReferrence. clear;
-filename &_PackageFileref_. clear;
-options &MarkDownOptionsTmp.;
-
-/* to make archiving easier a copy of the package zip file
-   with the version in the name is created */
-%if %superq(easyArch) NE 1 %then %let easyArch=0;
-
-%if %superq(easyArch) = 1 %then
-%do;
-  %put NOTE-;
-  %put NOTE: Creating files with version in the name.;
-  %put NOTE- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^;
-  %put NOTE-;
-
-  %local notesSourceOptions;
-  %let notesSourceOptions = %sysfunc(getoption(notes)) %sysfunc(getoption(source));
-  options NOnotes NOsource;
-
-  /* zip */
-  filename &zipReferrence. "&filesLocation./%sysfunc(lowcase(&packageName.)).zip" lrecl=1 recfm=n;
-  filename &zipReferrence. list;
-  filename &zipReferrenceV. "&filesLocation./%sysfunc(lowcase(&packageName.))_&packageVersion._.zip" lrecl=1 recfm=n;
-  filename &zipReferrenceV. list;
-  data _null_;
-    rc = fcopy("&zipReferrence.", "&zipReferrenceV.");
-    length rctxt $ 32767;
-    rctxt = sysmsg();
-    if rc then
-      do;
-        put "ERROR: An error " rc "occurred during creation of %sysfunc(lowcase(&packageName.))_&packageVersion._.zip file.";
-        put rctxt;
-      end;
-    else put "Creating %sysfunc(lowcase(&packageName.))_&packageVersion._.zip file.";
-  run;
-  filename &zipReferrence. clear;
-  filename &zipReferrenceV. clear;
-
-  /* md */
-  filename &zipReferrence. "&filesLocation./%sysfunc(lowcase(&packageName.)).md" lrecl=1 recfm=n;
-  filename &zipReferrence. list;
-  filename &zipReferrenceV. "&filesLocation./%sysfunc(lowcase(&packageName.))_&packageVersion._.md" lrecl=1 recfm=n;
-  filename &zipReferrenceV. list;
-  data _null_;
-    rc = fcopy("&zipReferrence.", "&zipReferrenceV.");
-    length rctxt $ 32767;
-    rctxt = sysmsg();
-    if rc then
-      do;
-        put "ERROR: An error " rc "occurred during creation of %sysfunc(lowcase(&packageName.))_&packageVersion._.md file.";
-        put rctxt;
-      end; 
-    else put "Creating %sysfunc(lowcase(&packageName.))_&packageVersion._.md file.";
-  run;
-  filename &zipReferrence. clear;
-  filename &zipReferrenceV. clear;
-
-  options &notesSourceOptions.;
-%end;
-/*= generate MarkDown documentation  END  =================================================================================*/
-%NOmarkdownDoc:
-%end;
+%SPFint_gnPckg_tests()
+
+/*------------------------------------------------------------------- *
+*                                                                     *
+* markdown documentation generation is encapsulated in the next macro *
+*                                                                     *
+* ------------------------------------------------------------------- */
+%SPFint_gnPckg_markdown()
+
+/*-------------------------------------------------------------------- *
+*                                                                      *
+* copying (with version in the name) is encapsulated in the next macro *
+*                                                                      *
+* -------------------------------------------------------------------- */
+%SPFint_gnPckg_arch()
 
 
 /* clean temporary files */
@@ -4008,73 +3166,10 @@ quit;
 /* turn on the original value of the note about quoted string length */
 options &qlenmax_fstimer_tmp.;
 
-
-
 %ENDofgeneratePackage:
 %put --- generatePackage END ---;
 %mend generatePackage;
 
 
-/*
-TODO: (in Polish)
-
-- modyfikacja helpa, sprawdzanie kodu danej funkcji/makra/typu [v]
-
-- opcjonalne sortowanie nazw folderow(<numer>_<typ>) [v]
-
-- wewnetrzna nazwa zmiennej z nazwa pakietu (na potrzeby kompilacji) [v]
-
-- weryfikacja "niepustosci" obowiazkowych argumentow   [v]
-
-- dodac typ "clear" do czyszczenia po plikach 'exec' [v]
-
-- syspackages - makrozmienna z lista zaladowanych pakietow [v] (as SYSloadedPackages)
-
-- dodac typ "iml" [v] (as imlmodule)
-
-- dodac typ "proto" [v]
-
-- lista wymaganych komponentow potrzebnych do dzialania SASa (na bazie proc SETINIT) [v]
-
-- sparwdzanie domknietosci, parzystosci i wystepowania tagow HELP START - HELP END w plikach [v]
-
-- add MD5(&packageName.) value hash instead "package" word in filenames [v]
-
-- infolista o required packahes w unloadPackage [v]
-
-- dodac ICEloadPackage() [v]
-
-- weryfikacja nadpisywania makr [v]
-
-- weryfikacja srodowiska [ ]
-
-- dodac typ "ds2" [v]
-
-- dodac mozliwosc szyfrowania pliku z pakietem (haslo do zip, sprawdzic istnienie funkcjonalnosci) [ ]
-
-- doadc sprawdzanie liczby wywolan procedury fcmp, format i slowa '%macro(' w plikach z kodami [ ]
-
-- dodac generowanie funkcji z helpem np. dla funkcji abc() mamy abc_help(), ktora wyswietla to samo co %heplPackage(package, abc()) [ ]
-*/
-
-/*** HELP START ***/  
-
-/* Example 1: Enabling the SAS Package Framework 
-    and generating the SQLinDS package from the local directory.
-
-    Assume that the SPFinit.sas file and the SQLinDS 
-    folder (containing all package components) are located in 
-    the "C:/SAS_PACKAGES/" folder.
-
-    Run the following code in your SAS session:
-
-  filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages; 
-  %include packages(SPFinit.sas);      %* enable the framework;
-
-  ods html;
-  %generatePackage(filesLocation=C:/SAS_PACKAGES/SQLinDS)
-
-*/
-
-/*** HELP END ***/  
+/* START macros extracted outside generatePackage macro */
 
