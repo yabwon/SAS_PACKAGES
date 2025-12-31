@@ -190,9 +190,9 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
-**Update**\[December 28th, 2025\]**:** `buildLocation=` and `archLocation=` **parameters added to** `%generatePackage()` **macro, they allow to redirect results of the packages generation process. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251228 "redirect results"))**.
+**Update**\[December 28th, 2025\]**:** `buildLocation=` and `archLocation=` **parameters added to** `%generatePackage()` **macro, they allow to redirect results of the packages generation process. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251228 "redirect results with buildLocation="))**.
 
-**Update**\[December 21st, 2025\]**:** `%relocatePackage()`, `%SasPackagesFrameworkNotes()`, and `%isPackagesFilerefOK()` **utility macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241221 "splitCodeForPackage"))**.
+**Update**\[December 21st, 2025\]**:** `%relocatePackage()`, `%SasPackagesFrameworkNotes()`, and `%isPackagesFilerefOK()` **utility macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241221 "relocatePackage, SasPackagesFrameworkNotes, and isPackagesFilerefOK macros"))**.
 
 **Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` **utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage"))**.
 
