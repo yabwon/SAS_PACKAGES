@@ -12,8 +12,10 @@
 ,try=3         /* integer between 1 and 9 */
 ,debug=0       /* debugging indicator */
 ,ignorePackagesFilerefCheck=0
+,psMAX=MAX     /* pageSise in case executed inside DoSubL() */
+,ods=          /* a data set for results, e.g., work.relocatePackageReport */
 )
-/ des = 'Utility macro that locally Copies or Moves Packages, version 20251228. Run %relocatePackage() for help info.'
+/ des = 'Utility macro that locally Copies or Moves Packages, version 20251231. Run %relocatePackage() for help info.'
   secure
   minoperator
 ;
@@ -31,7 +33,7 @@
     %put ###      This is short help information for the `relocatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20251228`   #;
+    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20251231`   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -156,7 +158,7 @@
   %let msglevel_tmp   = %sysfunc(getoption(msglevel));
   %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
 
-  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
+  options NOnotes NOsource ls=128 ps=&psMAX. NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   %if NOT(%superq(debug) in (0 1))                      %then %let debug=0;
   %if NOT(%superq(move) in (0 1))                       %then %let move=0;
@@ -183,8 +185,9 @@
       %put WARNING: Checksum verification impossible! Minimum SAS version required for the process is 9.4M6. ;
     %end;
 
-  data _null_;
-    putlog 32*"*" 24*"=" 32*"*";
+  data _null_ %if %superq(ods) NE %then %do; &ods. %end;
+  ;
+    putlog 52*"*" 24*"=" 52*"*";
     length packages source target $ 32767 sDevice tDevice $ 32;
     packages = lowcase(compress(symget('packageName'),"_ ","KAD"));
 
@@ -334,7 +337,7 @@
     do i = 1 to countw(packages, " ");
       package = scan(packages, i, " ");
 
-      putlog 32*"*" package $24.-C 32*"*";
+      putlog 52*"*" package $24.-C 52*"*";
 
       select;
         /* copy from PACKAGES to some location */
@@ -562,6 +565,7 @@
                      / "WARNING- Source is: " s_HASHING 
                      / "WARNING- Target is: " t_HASHING
                      / "WARNING- There could be errors during copying. Check your files.";
+              %if %superq(ods) NE %then %do; output %scan(&ods.,1,()) ; %end;
             end;
         %end;
 
@@ -600,7 +604,7 @@
 
   /* LINK 3 */
   stopProcessing:
-    putlog 32*"*" 24*"=" 32*"*";
+    putlog 52*"*" 24*"=" 52*"*";
     stop;
   return;
 

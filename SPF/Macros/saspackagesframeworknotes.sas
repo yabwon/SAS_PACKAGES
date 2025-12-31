@@ -5,7 +5,7 @@ SPFmacroName /* space separated list of names */
 /
 minoperator 
 secure
-des = 'Macro to provide help notes about SAS Packages Framework macros, version 20251228. Run %SasPackagesFrameworkNotes(HELP) for help info.'
+des = 'Macro to provide help notes about SAS Packages Framework macros, version 20251231. Run %SasPackagesFrameworkNotes(HELP) for help info.'
 ;
 %local list N i element;
 %let list=
@@ -28,6 +28,8 @@ splitCodeForPackage
 extendPackagesFileref
 relocatePackage
 isPackagesFilerefOK
+bundlePackages
+unbundlePackages
 /**/
 SasPackagesFrameworkNotes
 ;
@@ -49,7 +51,7 @@ SasPackagesFrameworkNotes
     %put ###   This is short help information for the `SasPackagesFrameworkNotes` macro  #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro prints help notes for SAS Packages Framework macros, version `20251228` #;
+    %put # Macro prints help notes for SAS Packages Framework macros, version `20251231` #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -160,9 +162,5 @@ options mlogic symbolgen;
 %SasPackagesFrameworkNotes(generatePackage helpPackages SasPackagesFrameworkNotes isPackagesFilerefOK)
 %SasPackagesFrameworkNotes(*)
 */
-
-
-/* end of SPFinit.sas file */ 
-
 
 
