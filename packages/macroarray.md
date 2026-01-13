@@ -10,12 +10,12 @@
   
 - Package: macroArray
 - Version: 1.3.0
-- Generated: 2026-01-13T14:47:32
+- Generated: 2026-01-13T15:30:15
 - Author(s): Bartosz Jablonski (yabwon@gmail.com)
 - Maintainer(s): Bartosz Jablonski (yabwon@gmail.com)
 - License: MIT
-- File SHA256: `F*9B51F1B434742F08166F28DE40D64F16E9BC5ED8D1926AE7148A48116F7BDBA0` for this version
-- Content SHA256: `C*BBE7D736D7DF66231C41EEE321E9FE8C50D174C6DC43AFC09F4990894A5E7CBD` for this version
+- File SHA256: `F*C6C2B5507B6590365222FC764076E294CCE3AAE99971D9CAA942F8BAEBEFAE24` for this version
+- Content SHA256: `C*9119F3A4C7C4D859C7FB03373AB4FE6551CD7BDFA42BA9B4303D36C367BC8855` for this version
   
 ---
  
@@ -782,11 +782,11 @@ The basic syntax is the following, the `<...>` means optional parameters:
              `1:5` rather `1 2 3 4 5` since the firs works faster.
 
 * `check=` - *Optional*, indicates should a check for a macro corresponding 
-             to a macroarray be executed. If the macro does not exist wraning 
+             to a macroarray be executed. If the macro does not exist warning 
              is issued and the `do_over` stops. 
              Default value `0` means: do not execute check.
 
-* `rephrase=` - *Optional*, this parameter allows for an alternative aproach
+* `rephrase=` - *Optional*, this parameter allows for an alternative approach
                 in providing the phrase to be looped over. The idea is to make
                 writing the phrase string code more convenient and easy to grasp.
                 The value is a string containing triggers (symbols) that are 
@@ -798,20 +798,20 @@ The basic syntax is the following, the `<...>` means optional parameters:
                 you can type much easier rephrase: 
                 `rename %do_over(myArr,rephrase=old_?=new_?);`,
                 and all `?` will be replaced, under the hood, by calls to the macroarray.
-                For easier debuging the `do_over` macro prints the rephrased string 
-                before and after chnge.
+                For easier debugging the `do_over` macro prints the rephrased string 
+                before and after change.
                 When the `do_over` loops with multiple array, say `myArrA`, `myArrB`, 
-                and `myArrC`, then those arrays should be refered by `?1?`, `?2?`,
+                and `myArrC`, then those arrays should be referred by `?1?`, `?2?`,
                 and `?3?` respectively.
                 See `trigger` parameter definition to learn more.
-                If both `phrase` and `rephrase` are used, the seconf takes precedence.
+                If both `phrase` and `rephrase` are used, the second takes precedence.
 
 * `trigger=` - *Optional*, a single byte character (symbol) used for marking 
                macroarrays in the newly created phrase.
                Default value is `?` symbol. 
                When one macroarray is used, only the symbol should be used in 
                `rephrase=` string. When multiple macroarrays are used then the
-               symbol should surroun a number identifying array, e.g. `?2?`.
+               symbol should surround a number identifying array, e.g. `?2?`.
                See examples below for details.
 
 * `unq=` - *Optional*, indicates that the `%unquote()` macro function should
@@ -979,7 +979,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 **EXAMPLE 9.** Simpler multiple arrays looping with `rephrase=`, cont.
     Create multiple datasets. Array `alpha`, `beta`, and `gamma` are 
-    from the privious example.
+    from the previous example.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
   %do_over(alpha beta gamma
@@ -995,7 +995,7 @@ The basic syntax is the following, the `<...>` means optional parameters:
 
 **EXAMPLE 10.** Simpler multiple arrays looping with `rephrase=`, cont.
     Create multiple datasets using a macro. Array `alpha`, `beta`, 
-    and `gamma` are from the privious example.
+    and `gamma` are from the previous example.
     The `%nrstr()` is required to mask call to the `%doit2()` macro.
     Default `?` is replaced with `@`.
 
