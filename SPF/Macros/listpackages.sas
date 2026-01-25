@@ -3,7 +3,7 @@
 
   Macro to list SAS packages in packages folder. 
 
-  Version 20251231 
+  Version 20260125 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -21,11 +21,11 @@
 *//*** HELP END ***/
 
 
-%macro listPackages()
-/secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20251231.'
+%macro listPackages(listDataSet, quiet=0)
+/ secure PARMBUFF
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260125.'
 ;
-%if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
+%if (%QUPCASE(&listDataSet.) = HELP) %then
   %do;
     %local options_tmp ;
     %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
@@ -38,7 +38,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20251231`                                #;
+    %put # Macro to list available SAS packages, version `20260125`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -49,7 +49,11 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put #                                                                                         #;
     %put #### Parameters:                                                                          #;
     %put #                                                                                         #;
-    %put # NO PARAMETERS                                                                           #;
+    %put # 1. `listDataSet`  Name of a SAS data set to store results in.                           #;
+    %put #                   No data set options are honored.                                      #;
+    %put #                                                                                         #;
+    %put # - `quiet=`      *Optional.* Indicates if the LOG printout should be suspended.          #;
+    %put #                 Default value of zero (`0`) means "Do printout", other means "No".      #;
     %put #                                                                                         #;
     %put # When used as: `%nrstr(%%listPackages(HELP))` it displays this help information.                  #;
     %put #                                                                                         #;
@@ -74,6 +78,8 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                           );
     %put  ;
     %put  %nrstr( %%listPackages()                      %%* list available packages;                        );
+    %put  ;
+    %put  %nrstr( %%listPackages(ListDS,quiet=1)        %%* save packages list in ListDS data set;          );
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
     %put ###########################################################################################;
     %put ;
@@ -81,30 +87,47 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %GOTO ENDoflistPackages;
   %end;
 
-%local ls_tmp ps_tmp notes_tmp source_tmp filesWithCodes;
-
-%let filesWithCodes = WORK._%sysfunc(datetime(), hex16.)_;
+%local ls_tmp ps_tmp notes_tmp source_tmp listDataSetCheck ;
 
 %let ls_tmp     = %sysfunc(getoption(ls));
 %let ps_tmp     = %sysfunc(getoption(ps));
 %let notes_tmp  = %sysfunc(getoption(notes));
 %let source_tmp = %sysfunc(getoption(source));
+%let listDataSetCheck=0;
+
+%let quiet = %sysevalf(NOT(0=%superq(quiet)));
 
 options NOnotes NOsource ls=MAX ps=MAX;
 
 data _null_;
-  length baseAll $ 32767 base $ 1024;
+  length listDataSet $ 41;
+  listDataSet = strip(scan(symget('listDataSet'),1,'( )'));
+  call symputX('listDataSet',listDataSet,"L");
+  if not (listDataSet = " ") then 
+    call symputX('listDataSetCheck',1,"L");
+  else call symputX('quiet',0,"L");
+run;
+
+data _null_ 
+  %if 1=&listDataSetCheck. %then
+    %do;
+      &listDataSet.(compress=yes keep=k base PackageZIPNumber folder n tag value rename=(folder=PackageZIP k=baseNumber n=tagNumber))
+    %end;
+;
+  length k 8 baseAll $ 32767 base $ 1024 PackageZIPNumber 8;
   baseAll = pathname("packages");
+
+  array TAGSLIST[6] $ 16 _temporary_ ("PACKAGE" "TITLE" "VERSION" "AUTHOR" "MAINTAINER" "LICENSE");
 
   if baseAll = " " then
     do;
-      put "NOTE: The file reference PACKAGES is not assigned.";
+      put "WARNING: The file reference PACKAGES is not assigned.";
       stop;
     end;
 
   if char(baseAll,1) ^= "(" then baseAll = quote(strip(baseAll)); /* for paths with spaces */
   
-  do k = 1 to kcountw(baseAll, "()", "QS"); drop k;
+  do k = 1 to kcountw(baseAll, "()", "QS"); /*drop k;*/
     base = dequote(kscanx(baseAll, k, "()", "QS"));
 
     length folder $ 64 file $ 1024 folderRef fileRef $ 8;
@@ -114,15 +137,21 @@ data _null_;
     rc=filename(folderRef, base);
     folderid=dopen(folderRef);
 
-    putlog " ";
-    put "/*" 100*"+" ;
+    %if 0=&quiet. %then 
+      %do; 
+        putlog " ";
+        put "/*" 100*"+" ;
+      %end;
     do i=1 to dnum(folderId); drop i;
 
       if i = 1 then
         do;
+          %if 0=&quiet. %then 
+            %do; 
               put " #";
               put " # Listing packages for: " base;
               put " #";
+            %end;
         end;
 
       folder = dread(folderId, i);
@@ -133,7 +162,7 @@ data _null_;
 
       EOF = 0;
       if fileId = 0 and lowcase(kscanx(folder, -1, ".")) = 'zip' then 
-        do;
+        do;          
           file = catx('/',base, folder);
           
           rc1 = filename("package", strip(file), 'zip', 'member="description.sas"');
@@ -142,24 +171,43 @@ data _null_;
 
           if rcE then /* if the description.sas exists in the zip then read it */
             do;
-              putlog " *  ";
+              PackageZIPNumber+1;
               length nn $ 96;
-              if (96-lengthn(file)) < 1 then
-                put " * " file;  
-              else
-                do;
-                  nn = repeat("*", (96-lengthn(file)));   
-                  put " * " file nn;
-                end;
-              
+              %if 0=&quiet. %then 
+                %do; 
+                  putlog " *  ";
+                  if (96-lengthn(file)) < 1 then
+                    put " * " file;  
+                  else
+                    do;
+                      nn = repeat("*", (96-lengthn(file)));   
+                      put " * " file nn;
+                    end;
+                %end;
+
               infile _DUMMY_ ZIP FILEVAR=file member="description.sas" end=EOF;
               
-              do until(EOF);
+              n = 0;
+              do lineinfile = 1 by 1 until(EOF);
                 input;
-                if strip(upcase(kscanx(_INFILE_,1,":"))) in ("PACKAGE" "TITLE" "VERSION" "AUTHOR" "MAINTAINER" "LICENSE") then
+
+                length tag $ 16 value $ 4096;
+
+                tag = strip(upcase(kscanx(_INFILE_,1,":")));
+                value = kscanx(_INFILE_,2,":");
+                n = whichc(tag, of TAGSLIST[*]);
+
+                if (n > 0) then
                   do;
-                    _INFILE_ = kscanx(_INFILE_,1,":") !! ":" !! kscanx(_INFILE_,2,":");
-                    putlog " *  " _INFILE_;
+                    %if 0=&quiet. %then 
+                      %do; 
+                        putlog " *  " tag +(-1) ":" @ 17 value;
+                      %end;
+                    %if 1=&listDataSetCheck. %then
+                      %do;
+                        output &listDataSet.;
+                      %end;
+                    n=0;
                   end;                
                 if strip(upcase(strip(_INFILE_))) =: "DESCRIPTION START:" then leave;
               end;
@@ -170,14 +218,40 @@ data _null_;
       rc = filename(fileRef);
     end;
 
-    putlog " *  ";
-    put 100*"+" "*/";
+    %if 0=&quiet. %then 
+      %do; 
+        putlog " *  ";
+        put 100*"+" "*/";
+      %end;
     rc = dclose(folderid);
     rc = filename(folderRef);
   end;
 
   stop;
+  label
+    k = "Packages path ordering number."
+    base = "Packages path."
+    PackageZIPNumber = "Packages ZIP file number."
+    folder = "Packages ZIP file."
+    n = "Tag number"
+    tag = "Package Tag Name"
+    value = "Value"
+    ;
 run;
+
+%if 1=&listDataSetCheck. %then
+  %do;
+    proc sort data=&listDataSet. out=&listDataSet.(compress=yes label='Output from the %listPackages() macro');
+      by baseNumber PackageZIPNumber tagNumber;
+    run;
+
+    %if 0=&quiet. %then 
+      %do; 
+        %put %str( );
+        %put # Results ptovided in the &listDataSet. data set. #;
+        %put %str( );
+      %end;
+  %end;
 
 options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
