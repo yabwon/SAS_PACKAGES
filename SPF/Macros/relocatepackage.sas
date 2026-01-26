@@ -15,7 +15,7 @@
 ,psMAX=MAX     /* pageSise in case executed inside DoSubL() */
 ,ods=          /* a data set for results, e.g., work.relocatePackageReport */
 )
-/ des = 'Utility macro that locally Copies or Moves Packages, version 20260125. Run %relocatePackage() for help info.'
+/ des = 'Utility macro that locally Copies or Moves Packages, version 20260126. Run %relocatePackage() for help info.'
   secure
   minoperator
 ;
@@ -33,7 +33,7 @@
     %put ###      This is short help information for the `relocatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260125`   #;
+    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260126`   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;

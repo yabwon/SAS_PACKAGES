@@ -1,6 +1,6 @@
 /*+SPFint_gnPckg_tests+*/
 %macro SPFint_gnPckg_tests()/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the test part of the process. Version 20260125.';
+des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the test part of the process. Version 20260126.';
 /* macro picks up all macrovariables from external scope, so from the %generatePackage() macro */
 %if %sysmexecname(%sysmexecdepth-1) in (GENERATEPACKAGE) %then
 %do;
@@ -72,6 +72,18 @@ run;
       put @n " path=&buildLocation.)" /;
       put @n '%loadpackage'"(&packageName.,";
       put @n " path=&buildLocation., lazyData=*)" /;
+
+      /* meta */
+      put @n '%put >>>%'"&packageName."'META( )<<<;'/
+          @n '%put >>>%'"&packageName."'META(V)<<<;'/
+          @n '%put >>>%'"&packageName."'META(D)<<<;'/
+          @n '%put >>>%'"&packageName."'META(A)<<<;'/
+          @n '%put >>>%'"&packageName."'META(M)<<<;'/
+          @n '%put >>>%'"&packageName."'META(L)<<<;'/
+          @n '%put >>>%'"&packageName."'META(E)<<<;'/
+          @n '%put >>>%'"&packageName."'META(T)<<<;'/
+          @n '%put >>>%'"&packageName."'META(P)<<<;'/
+          @n '%put >>>%'"&packageName."'META(S)<<<;'/;
 
       /* help */
       put @n '%helpPackage'"(&packageName.,";
@@ -291,6 +303,19 @@ data _null_;
     / " path=&buildLocation.)" /;
   put '%loadpackage'"(&packageName.,"
     / " path=&buildLocation., lazyData=*)" /;
+
+  /* meta */
+  put '%put >>null        >%'"&packageName."'META( )<<<;'/
+      '%put >>unknown     >%'"&packageName."'META(U)<<<;'/ /* test for unknown values */
+      '%put >>version     >%'"&packageName."'META(V)<<<;'/
+      '%put >>datetime    >%'"&packageName."'META(D)<<<;'/
+      '%put >>authors     >%'"&packageName."'META(A)<<<;'/
+      '%put >>maintainers >%'"&packageName."'META(M)<<<;'/
+      '%put >>license     >%'"&packageName."'META(L)<<<;'/
+      '%put >>encoding    >%'"&packageName."'META(E)<<<;'/
+      '%put >>title       >%'"&packageName."'META(T)<<<;'/
+      '%put >>req packages>%'"&packageName."'META(P)<<<;'/
+      '%put >>req SAS     >%'"&packageName."'META(S)<<<;'/;
 
   /* help */
   put '%helpPackage'"(&packageName.,"
