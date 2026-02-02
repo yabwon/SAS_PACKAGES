@@ -28,7 +28,7 @@ SHA256 digest for SQLinDS: F*CEAA4C90515F6E8AACBFFD55ABA6544E399EDBE0A7081107B62
 
 ---
 
-- **DFA** (Dynamic Function Arrays)\[0.5.8\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.5.9\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```sas
 %createDFArray(ArrDynamic, resizefactor=17); 
 
@@ -55,7 +55,7 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: F*643FBE2B7AE1425FC0240139813B93AE2C6BCFFDF6A0CFAEBEC11F83D3548E57
+SHA256 digest for DFA: F*17C88537F5FA9BCFAA1AC4803D0F1EF47665C8446A44C82B5558A08315DF0C49
 
 [Documentation for DFA](https://github.com/SASPAC/blob/main/dfa.md "Documentation for DFA")
 
@@ -86,7 +86,7 @@ SHA256 digest for macroArray: F*9DA64CA9A745E1DB7176F7AF4459BB014F61F71626473ABF
 
 ---
 
-- **BasePlus**\[3.1.2\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[3.1.3\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -120,7 +120,7 @@ format x bool.;
 
 %workLib(ABC)
 ```
-SHA256 digest for BasePlus: F*91A5AD4709A418704315EF37DDCF954522D4FB42808D406B3ED4DA560F6864C6
+SHA256 digest for BasePlus: F*B762F900EEFF7035880891D89416C0F973E4D377BCB75486283363A9BDADBA82
 
 [Documentation for BasePlus](https://github.com/SASPAC/blob/main/baseplus.md "Documentation for BasePlus")
 
