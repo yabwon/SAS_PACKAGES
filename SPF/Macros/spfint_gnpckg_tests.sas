@@ -1,6 +1,6 @@
 /*+SPFint_gnPckg_tests+*/
 %macro SPFint_gnPckg_tests()/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the test part of the process. Version 20260126.';
+des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the test part of the process. Version 20260202.';
 /* macro picks up all macrovariables from external scope, so from the %generatePackage() macro */
 %if %sysmexecname(%sysmexecdepth-1) in (GENERATEPACKAGE) %then
 %do;
@@ -84,6 +84,10 @@ run;
           @n '%put >>>%'"&packageName."'META(T)<<<;'/
           @n '%put >>>%'"&packageName."'META(P)<<<;'/
           @n '%put >>>%'"&packageName."'META(S)<<<;'/;
+
+      /* verify */
+      put @n '%verifyPackage'"(&packageName.,";
+      put @n " path=&buildLocation.)" /;
 
       /* help */
       put @n '%helpPackage'"(&packageName.,";
@@ -316,6 +320,10 @@ data _null_;
       '%put >>title       >%'"&packageName."'META(T)<<<;'/
       '%put >>req packages>%'"&packageName."'META(P)<<<;'/
       '%put >>req SAS     >%'"&packageName."'META(S)<<<;'/;
+
+  /* verify */
+  put '%verifyPackage'"(&packageName.,";
+  put " path=&buildLocation.)" /;
 
   /* help */
   put '%helpPackage'"(&packageName.,"

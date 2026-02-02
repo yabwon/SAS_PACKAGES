@@ -20,7 +20,7 @@
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20260126. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20260202. Run %unloadPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -35,7 +35,7 @@ des = 'Macro to unload SAS package, version 20260126. Run %unloadPackage() for h
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20260126`                              #;
+    %put # Macro to unload SAS packages, version `20260202`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -115,18 +115,20 @@ des = 'Macro to unload SAS package, version 20260126. Run %unloadPackage() for h
 
   %local _PackageFileref_;
   data _null_; 
-    call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
-  run;
+    length packageName $ 32;
+    packageName = lowcase(symget("packageName")); 
+    call symputX("_PackageFileref_", "P" !! put(MD5(strip(packageName)), hex7. -L), "L");
+  /*run;*/ /* <- comment out, because it can be 1 data step, not 2 */
 
   /* when the packages reference is multi-directory search for the first one containing the package */
-  data _null_;
+  /*data _null_;*/ /* <- comment out, because it can be 1 data step, not 2 */
     exists = 0;
     length packages $ 32767 p $ 4096;
     packages = resolve(symget("path"));
     if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
     do i = 1 to kcountw(packages, "()", "QS");
       p = dequote(kscanx(packages, i, "()", "QS"));
-      exists + fileexist(catx("/", p, lowcase("&packageName.") !! ".&zip."));
+      exists + fileexist(catx("/", p, cats(packageName,".&zip.")));
       if exists then leave;
     end;
     if exists then call symputx("path", p, "L");

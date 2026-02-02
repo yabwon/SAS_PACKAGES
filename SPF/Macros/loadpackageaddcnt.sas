@@ -19,7 +19,7 @@
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20260126. Run %loadPackageAddCnt() for help info.'
+des = 'Macro to load additional content for a SAS package, version 20260202. Run %loadPackageAddCnt() for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -35,7 +35,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20260126`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20260202`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -116,20 +116,22 @@ minoperator
   options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   %local _PackageFileref_;
-  data _null_; 
-    call symputX("_PackageFileref_", "A" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
-    call symputX("_TargetFileref_",  "T" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
-  run;
+  data _null_;
+    length packageName $ 32;
+    packageName = lowcase(symget("packageName")); 
+    call symputX("_PackageFileref_", "A" !! put(MD5(strip(packageName)), hex7. -L), "L"); 
+    call symputX("_TargetFileref_",  "T" !! put(MD5(strip(packageName)), hex7. -L), "L");
+  /*run;*/ /* <- comment out, because it can be 1 data step, not 2 */
 
   /* when the packages reference is multi-directory search for the first one containing the package */
-  data _null_;
+  /*data _null_;*/ /* <- comment out, because it can be 1 data step, not 2 */
     exists = 0;
     length packages $ 32767 p $ 4096;
     packages = resolve(symget("path"));
     if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
     do i = 1 to kcountw(packages, "()", "QS");
       p = dequote(kscanx(packages, i, "()", "QS"));
-      exists + fileexist(catx("/", p, lowcase("&packageName.") !! ".&zip."));
+      exists + fileexist(catx("/", p, cats(packageName,".&zip.")));
       if exists then leave;
     end;
     if exists then call symputx("path", p, "L");
