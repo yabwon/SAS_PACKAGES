@@ -13,7 +13,7 @@
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20260202. Run %verifyPackage() for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20260205. Run %verifyPackage() for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -28,7 +28,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260202. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20260202`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20260205`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -100,7 +100,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260202. Run %
   
   %local _PackageFileref_ checkExist;
   data _null_;
-    length packageName $ 32;
+    length packageName $ 140;
     packageName = lowcase(symget("packageName")); 
     call symputX("_PackageFileref_", "P" !! put(MD5(strip(packageName)), hex7. -L), "L"); 
   /*run;*/ /* <- comment out, because it can be 1 data step, not 2 */
@@ -146,7 +146,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260202. Run %
           filename &_PackageFileref_. list;
           
           data _null_;
-            length providedHash $ 128 packageName $ 32;
+            length providedHash $ 128 packageName $ 140;
             providedHash = strip(symget("hash"));
             packageName = strip(symget("packageName"));
 
