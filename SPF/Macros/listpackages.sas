@@ -3,7 +3,7 @@
 
   Macro to list SAS packages in packages folder. 
 
-  Version 20260125 
+  Version 20260205 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -21,9 +21,11 @@
 *//*** HELP END ***/
 
 
-%macro listPackages(listDataSet, quiet=0)
-/ secure PARMBUFF
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260125.'
+%macro listPackages(
+  listDataSet /* Name of a data set to save results */
+, quiet = 0   /* Indicate if results should be printed in log */
+)/secure parmbuff
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260205.'
 ;
 %if (%QUPCASE(&listDataSet.) = HELP) %then
   %do;
@@ -38,7 +40,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20260125`                                #;
+    %put # Macro to list available SAS packages, version `20260205`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -248,7 +250,7 @@ run;
     %if 0=&quiet. %then 
       %do; 
         %put %str( );
-        %put # Results ptovided in the &listDataSet. data set. #;
+        %put # Results provided in the &listDataSet. data set. #;
         %put %str( );
       %end;
   %end;

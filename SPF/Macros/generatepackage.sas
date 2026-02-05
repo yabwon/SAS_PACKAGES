@@ -3,7 +3,7 @@
 
    Macro to generate SAS packages.
 
-   Version 20260125
+   Version 20260205
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -29,7 +29,7 @@
                          if more than one are provided only the first is used */
 ,testResults=         /* location where tests results should be stored,
                          if null (the default) the WORK is used */
-,workInTestResults=0  /* indicates if WORK directories for tests should located 
+,workInTestResults=0  /* indicates if WORK directories for tests should be located 
                          in the same place as results  */
 ,testWorkPath=        /* location where tests SAS sessions' work directories 
                          should be stored, if null (the default) the main SAS 
@@ -53,7 +53,7 @@
                          when empty takes buildLocation */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20260125. Run %generatePackage() for help info.'
+des = 'Macro to generate SAS packages, version 20260205. Run %generatePackage() for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -68,7 +68,7 @@ des = 'Macro to generate SAS packages, version 20260125. Run %generatePackage() 
     %put ###      This is short help information for the `generatePackage` macro              #;
     %put #------------------------------------------------------------------------------------#;
     %put #                                                                                    #;
-    %put # Macro to generate SAS packages, version `20260125`                                 #;
+    %put # Macro to generate SAS packages, version `20260205`                                 #;
     %put #                                                                                    #;
     %put # A SAS package is a zip file containing a group                                     #;
     %put # of SAS codes (macros, functions, data steps generating                             #;
@@ -262,13 +262,13 @@ filename &_LIC_.   "&filesLocation./license.sas" lrecl = 1024;
     options &qlenmax_fstimer_tmp.;
  
     /* test for required descriptors */
-    %if (%nrbquote(&packageName.) = )
-     or (%nrbquote(&packageVersion.) = )
-     or (%nrbquote(&packageAuthor.) = )
-     or (%nrbquote(&packageMaintainer.) = )
-     or (%nrbquote(&packageTitle.) = )
-     or (%nrbquote(&packageEncoding.) = )
-     or (%nrbquote(&packageLicense.) = )
+    %if (%superq(packageName) = )
+     or (%superq(packageVersion) = )
+     or (%superq(packageAuthor) = )
+     or (%superq(packageMaintainer) = )
+     or (%superq(packageTitle) = )
+     or (%superq(packageEncoding) = )
+     or (%superq(packageLicense) = )
       %then
         %do;
           %put ERROR: At least one of descriptors is missing!;
@@ -444,10 +444,10 @@ options NOquotelenmax NOstimer NOfullstimer;
   */
 data _null_; 
   call symputX("_PackageFileref_", "P" !! put(MD5(lowcase("&packageName.")), hex7. -L), "L"); 
-run;
+/*run;*/ /* <- comment out, because it can be 1 data step, not 2 */
 
 /* test if version is a number */
-data _null_;
+/*data _null_;*/ /* <- comment out, because it can be 1 data step, not 2 */
   v = "&packageVersion.";
   version = coalesce(input(scan(v,1,".","M"), ?? best32.),0)*1e8
           + coalesce(input(scan(v,2,".","M"), ?? best32.),0)*1e4
@@ -950,7 +950,7 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
     title&_titleNumber_. "Package ZIP file location is: &buildLocation.";
   %end;
 
-footnote1 "SAS Packages Framework, version 20260125";
+footnote1 "SAS Packages Framework, version 20260205";
 
 proc print 
   data = &filesWithCodes.(drop=base build folderRef fileRef rc folderid _abort_ fileId additionalContent)
@@ -1239,7 +1239,7 @@ data _null_;
         / ' /* print out setinit */                                     '
         / ' proc setinit %str(;) run %str(;)                            '
         / ' proc printto %str(;) run %str(;)                            '
-
+        / ' options ps=min %str(;)                                      '
         / ' data _null_ %str(;)                                         '
         / '   /* loadup checklist of required SAS components */         '
         / '   if _n_ = 1 then                                           '
@@ -1298,8 +1298,10 @@ data _null_;
       packageReqPackages = lowcase(symget('packageReqPackages'));
       
       /* try to load required packages */
-      put 'data _null_ ;                                                                                 '
-        / ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages loading."; stop; end; '
+      put '%let temp_noNotes_etc=%sysfunc(getoption(NOTES));'
+        / 'options noNotes;'
+        / 'data _null_ ;                                                                                 '
+        / ' if "*" NE symget("cherryPick") then do; put "INFO: No required packages loading."; stop; end; '
         / '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                '
         / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             '
         / '    do;                                                                                       '
@@ -1341,7 +1343,7 @@ data _null_;
 
         / '    if (LP_find ne 0) or (LP_find = 0 and . < versN < verRN) then                                     '
         / '     do;                                                                                              '
-        / '      put "NOTE: Trying to load required SAS package: " req;                                          '
+        / '      put "INFO: Trying to load required SAS package: " req;                                          '
         / '       if LoadPackageExist then                                                                       '
         / '         call execute(cats(''%nrstr(%loadPackage('', name, ", requiredVersion = ", verR, "))"));      '
         / '       else if ICELoadPackageExist then                                                               '
@@ -1353,7 +1355,7 @@ data _null_;
 
       /* test if required packages are loaded */
         / 'data _null_ ;                                                                                 '
-        / ' if "*" NE symget("cherryPick") then do; put "NOTE: No required packages checking."; stop; end; '
+        / ' if "*" NE symget("cherryPick") then do; put "INFO: No required packages checking."; stop; end; '
         / '  length req name $ 64 vers verR $ 24 versN verRN 8 SYSloadedPackages $ 32767;                '
         / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then             '
         / '    do;                                                                                       '
@@ -1414,14 +1416,17 @@ data _null_;
         / '      end ;                                                                                   '
         / '    end;                                                                                      '
         / '  stop;                                                                                       '
-        / 'run;                                                                                          ';
+        / 'run;                                                                                          '
+        / 'options &temp_noNotes_etc.;';
     %end;
 
   %if (%superq(packageRequired) ne ) 
      or (%superq(packageReqPackages) ne ) 
   %then
     %do;
-      put ' data _null_;                                                     '
+      put ' %let temp_noNotes_etc=%sysfunc(getoption(NOTES));'
+        / ' options noNotes;'
+        / ' data _null_;                                                     '
         / '  if 1 = symgetn("packageRequiredErrors") then                    '
         / '    do;                                                           '
         / '      put "ERROR: Loading package &packageName. will be aborted!";'
@@ -1436,7 +1441,8 @@ data _null_;
         / '  else                                              '
         / '    call symputX("packageRequiredErrors", " ", "L");'
         / ' run;                                               '
-        / ' &packageRequiredErrors.                            ';
+        / ' &packageRequiredErrors.                            '
+        / ' options &temp_noNotes_etc.;                        ';
     %end;
 
 
@@ -1769,7 +1775,7 @@ data _null_;
     %end; 
   put +(-1) '`.;''' 
     / ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' 
-    / ' !! ''      %put with the SAS Packages Framework version 20260125.;''' 
+    / ' !! ''      %put with the SAS Packages Framework version 20260205.;''' 
     / ' !! ''      %put ****************************************************************************;''' 
     / ' !! ''    %GOTO theEndOfTheMacro;''' 
     / ' !! ''    %end;''' ;
@@ -1933,7 +1939,7 @@ data _null_;
             %end; 
       put +(-1) '`.; '' !!' /
           '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !! ' / 
-          '''      %put with the SAS Packages Framework version 20260125.;                                  '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20260205.;                                  '' !! ' / 
           '''      %put ****************************************************************************;       '' !! ' / 
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
@@ -2149,6 +2155,65 @@ data _null_;
   put 'run;';
   /* KMF -------------------------------------------------------------------------------- end */
 
+  /*=add meta function========================================================================*/
+    isFunction+1;
+
+    length packageName $ 32 packageVersion packageGenerated $ 24
+           packageTitle packageAuthor packageMaintainer $ 2048
+           packageEncoding $ 8 packageLicense $ 128;
+    packageName       = quote(strip(symget('packageName')),'"');
+    packageVersion    = quote(strip(symget('packageVersion')),'"');
+    packageTitle      = quote(strip(symget('packageTitle')),'"');
+    packageAuthor     = quote(strip(symget('packageAuthor')),'"');
+    packageMaintainer = quote(strip(symget('packageMaintainer')),'"');
+    packageEncoding   = quote(strip(symget('packageEncoding')),'"');
+    packageLicense    = quote(strip(symget('packageLicense')),'"');
+    packageGenerated  = quote(strip(symget('packageGenerated')),'"');
+    /* add quotes to hide special characters */
+    %if (%superq(packageReqPackages) ne ) %then /* required packages list */
+      %do;
+        packageReqPackages = quote(strip(packageReqPackages)); 
+      %end;
+    %if (%superq(packageRequired) ne ) %then /* required SAS products */
+      %do;
+        packageRequired = quote(strip(packageRequired));
+      %end;
+
+    put "proc fcmp outlib = work.&packageName.fcmp.packagemeta ; "
+      / " function &packageName.META(meta $) $ 32767;"
+      / '  m = char(upcase(meta),1);'
+      / "   if m = 'V' then return(strip(" packageVersion    +(-1) "));"
+      / "   if m = 'D' then return(strip(" packageGenerated  +(-1) "));"
+      / "   if m = 'A' then return(strip(" packageAuthor     +(-1) "));"
+      / "   if m = 'M' then return(strip(" packageMaintainer +(-1) "));"
+      / "   if m = 'T' then return(strip(" packageTitle      +(-1) "));"
+      / "   if m = 'E' then return(strip(" packageEncoding   +(-1) "));"
+      / "   if m = 'L' then return(strip(" packageGenerated  +(-1) "));"
+      %if (%superq(packageReqPackages) ne ) %then /* required packages list */
+        %do;
+          / "   if m = 'P' then return(strip(" packageReqPackages +(-1) "));" 
+        %end;
+      %if (%superq(packageRequired) ne ) %then /* required SAS products */
+        %do;
+          / "   if m = 'S' then return(strip(" packageRequired +(-1) "));" 
+        %end;
+      / '  return(" ");'
+      / ' endfunc;'
+      / 'quit;';
+
+    put '%sysfunc(ifc(0<' 
+      / '  %sysfunc(findw((%sysfunc(getoption(cmplib)))' 
+      / "                ,work.%sysfunc(lowcase(&packageName.fcmp)),""'( )'"",RIO))" 
+      / ',,%str(options' " APPEND=(cmplib = work.%sysfunc(lowcase(&packageName.fcmp)));)" 
+      / '))' ;
+
+    put '%macro ' "&packageName.META(meta)/parmbuff;" /* returned values are quoted to mask special chars*/
+      / '%if %superq(meta) = %then %return;'
+      / '%do;%qsysfunc(strip(%qsysfunc(' "&packageName.META" '&syspbuff.)))%end;'
+      / '%mend;' / /;
+
+  /*==========================================================================================*/
+
   /* list cmplib for functions and fmtsearch for formats*/
   if isFunction OR isProto then
     do;      
@@ -2162,8 +2227,10 @@ data _null_;
     end;
 
   /* update SYSloadedPackages global macrovariable */
-  put 'options noNotes;'
-    / '%if (%str(*)=%superq(cherryPick)) %then %do; ' /* Cherry Pick test3 start */
+
+  put '%if (%str(*)=%superq(cherryPick)) %then %do; ' /* Cherry Pick test3 start */
+    / ' %let temp_noNotes_etc=%sysfunc(getoption(NOTES));'
+    / ' options noNotes;'
     / ' data _null_ ;                                                                                              '
     / '  length SYSloadedPackages stringPCKG $ 32767;                                                              '
     / '  if SYMEXIST("SYSloadedPackages") = 1 and SYMGLOBL("SYSloadedPackages") = 1 then                           '
@@ -2180,7 +2247,7 @@ data _null_;
     / "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              "
     / '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               '
     / '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        '
-    / '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             '
+    / '          put / "INFO: [SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             '
     / '         end ;                                                                                              '
     / "      else                                                                                                  "
     / '         do;                                                                                                '
@@ -2189,21 +2256,22 @@ data _null_;
     / "          SYSloadedPackages = catx('#', SYSloadedPackages, '&packageName.(&packageVersion.)');              "
     / '          SYSloadedPackages = compbl(translate(SYSloadedPackages, " ", "#"));                               '
     / '          call symputX("SYSloadedPackages", SYSloadedPackages, "G");                                        '
-    / '          put / "INFO:[SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             '
+    / '          put / "INFO: [SYSLOADEDPACKAGES] " SYSloadedPackages ;                                             '
     / '         end ;                                                                                              '
     / '    end;                                                                                                    '
     / '  else                                                                                                      '
     / '    do;                                                                                                     '
     / "      call symputX('SYSloadedPackages', '&packageName.(&packageVersion.)', 'G');                            "
-    / "      put / 'INFO:[SYSLOADEDPACKAGES] &packageName.(&packageVersion.)';                                     "
+    / "      put / 'INFO: [SYSLOADEDPACKAGES] &packageName.(&packageVersion.)';                                     "
     / '    end;                                                                                                    '
     / '  stop;                                                                                                     '
     / ' run;                                                                                                       '
+    / ' options &temp_noNotes_etc.;'
     / '%end; ' / ; /* Cherry Pick test3 end */
 
   put 'options NOTES;'
     / '%put NOTE- ;'
-    / '%put NOTE: '"Loading package &packageName., version &packageVersion., license &packageLicense.;"
+    / '%put NOTE: '"Loading package &packageName., version "'%'"&packageName.META(V), license &packageLicense.;"
     / '%put NOTE- *** END ***;' /;
   
   put 'options &temp_noNotes_etc.;'
@@ -2314,7 +2382,8 @@ data _null_;
     / '  from dictionary.catalogs'
     / '  where '
     / '  ('
-    / '   objname in ("*"' 
+    / '   objname in ("*"'
+    / "   ,%UPCASE('&packageName.META')" 
     / "   ,%UPCASE('&packageName.IML')" 
     / "   ,%UPCASE('&packageName.CASLUDF')";
   /* list of macros */
@@ -2416,7 +2485,12 @@ data _null_;
       / 'deletefunc ' fileshort ';';
     isFunction + 1;
   end;
-  put "run;" /;
+  put "quit;" /;
+
+  put "proc fcmp outlib = work.&packageName.fcmp.packagemeta;"
+    / "deletefunc &packageName.META;"
+    / "quit;" /;
+  isFunction + 1;
 
   /* delete the link to the functions dataset */
   if isFunction then
@@ -2736,7 +2810,7 @@ data _null_;
   %end;
 
   put 'put " " / @3 "---------------------------------------------------------------------" / " ";' 
-    /       'put @3 "*SAS package generated by SAS Package Framework, version `20260125`*";' 
+    /       'put @3 "*SAS package generated by SAS Package Framework, version `20260205`*";' 
     /       "put @3 '*under `&sysscp.`(`&sysscpl.`) operating system,*';"
     /       "put @3 '*using SAS release: `&sysvlong4.`.*';"
     / 'put " " / @3 "---------------------------------------------------------------------";';

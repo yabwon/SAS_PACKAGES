@@ -8,7 +8,7 @@
 ,ods= /* data set for report file */
 ,verify=0
 )/
-des='Macro to extract a bundle of SAS packages, version 20260125. Run %unbundlePackages(HELP) for help info.'
+des='Macro to extract a bundle of SAS packages, version 20260205. Run %unbundlePackages(HELP) for help info.'
 secure
 minoperator
 ;
@@ -26,7 +26,7 @@ minoperator
     %put ###     This is short help information for the `unbundlePackages` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *extract* SAS packages from a bundle, version `20260125`             #;
+    %put # Macro to *extract* SAS packages from a bundle, version `20260205`             #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -128,11 +128,10 @@ minoperator
 %let datetime = %sysfunc(datetime());
 %let reportFile = WORK.tmpbundlefile%sysfunc(int(&datetime.), b8601dt15.)_;
 
-data _null_ ;
+data _null_;
 datetime=symgetn('datetime');
 
 length packagesList $ 32767 bundleName $ 128;
-
 bundleName = compress(symget('bundleName'),"_.","KAD"); /* bundle name is letters, digits, and underscore, up to 128 symbols */
 
 if bundleName NE symget('bundleName') then /* warn about illegal characters */
@@ -140,19 +139,18 @@ if bundleName NE symget('bundleName') then /* warn about illegal characters */
     put "ERROR: Bundle name contains illegal characters. Exiting";
     stop; 
   end;
-
 bundleName=lowcase(bundleName); 
+lbn = length(bundleName); /* to cover lengths < 7 & 11 */
 /* if there is ".bundle.zip" extension added, remove it */
-if substr(strip(reverse(bundleName)),1,11) = 'piz.eldnub.' then bundleName=scan(bundleName,-3,".");
+if substr(strip(reverse(bundleName)),1,min(11,lbn)) = 'piz.eldnub.' then bundleName=scan(bundleName,-3,".");
 else /* if there is ".bundle" extension added, remove it */
-if substr(strip(reverse(bundleName)),1,7)  = 'eldnub.'     then bundleName=scan(bundleName,-2,".");
+if substr(strip(reverse(bundleName)),1,min(7,lbn))  = 'eldnub.'     then bundleName=scan(bundleName,-2,".");
 
 put / "INFO: Bundle name is: " bundleName / ;
 
 length packagesPath $ 32767 packagesRef $ 8;
 packagesPath = dequote(symget('packagesPath'));
 packagesRef = upcase(strip(symget('packagesRef')));
-
 
 /* organize target path (location for packages) */
 if " "=packagesPath then
@@ -281,7 +279,6 @@ label package="Package name"
       hash="SHA256 for the Package"; 
 /*--------------------------------------------------*/
 
-
 if 0=Q.NUM_ITEMS then /* ... if empty then exit */
   do;
     put "WARNING: No packages to unbundle. Exiting!";
@@ -320,7 +317,6 @@ put / "INFO: The " bundleName "bundle extraction ended.";
     rc = doSubL(code2);
     put / "INFO: The " bundleName "bundle verification ended.";
   %end;
-
 put " ";
 rc=sleep(1,1); 
 

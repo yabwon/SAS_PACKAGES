@@ -8,7 +8,7 @@
 ,packagesRef=packages
 ,ods= /* data set for report file */
 )/
-des='Macro to create a bundle of SAS packages, version 20260125. Run %bundlePackages(HELP) for help info.'
+des='Macro to create a bundle of SAS packages, version 20260205. Run %bundlePackages(HELP) for help info.'
 secure minoperator
 ;
 
@@ -25,7 +25,7 @@ secure minoperator
     %put ###      This is short help information for the `bundlePackages` macro          #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *create bundles* of SAS packages, version `20260125`                 #;
+    %put # Macro to *create bundles* of SAS packages, version `20260205`                 #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
