@@ -234,6 +234,7 @@ This is a list of locations where the SAS Packages Framework is used:
  - Warsaw (Poland)
  - Osaka (Japan)
  - Kyoto (Japan)
+ - Boston (USA)
 
 If you want to share that you are using the SPF let me know and I'll update the list.
 
