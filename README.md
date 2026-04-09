@@ -17,7 +17,7 @@ Don't forget to give the repository a **STAR** and become [stargazer](https://gi
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20260216`**.
+**The latest version** of the **SAS Packages Framework** is **`20260409`**.
 
 ---
 
@@ -190,7 +190,9 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
-**Update**\[December 31st, 2025\]**:** `%bundlePackages()` and `%unbundlePackages()` **macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241231 "bundling macros"))**.
+**Update**\[April 9th, 2026\]**:**Packages can be installed from private repositories. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20260409 "bundling macros"))**.
+
+**Update**\[December 31st, 2025\]**:** `%bundlePackages()` and `%unbundlePackages()` **macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251231 "bundling macros"))**.
 
 **Update**\[December 28th, 2025\]**:** `buildLocation=` and `archLocation=` **parameters added to** `%generatePackage()` **macro, they allow to redirect results of the packages generation process. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251228 "redirect results with buildLocation="))**.
 
@@ -234,6 +236,7 @@ This is a list of locations where the SAS Packages Framework is used:
  - Warsaw (Poland)
  - Osaka (Japan)
  - Kyoto (Japan)
+ - Boston (USA)
 
 If you want to share that you are using the SPF let me know and I'll update the list.
 

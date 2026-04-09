@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260216  */
+/* Macros to install SAS packages, version 20260409  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -22,11 +22,14 @@
                    default is 0 - means No, 1 means Yes */
 , SFRCVN =      /* name of a macro variable to store success-failure return code value */
 , github =      /* name of a user or an organization in GitHub, all characters except [A-z0-9_.-] are compressed */
+, githubRepo = %sysfunc(lowcase(&packageName.)) /* repo name to be used, by default it is the package name, but can be altered */
+, githubToken = /* user's github fine-grained personal access token */
+, githubTokenDebug = 0 /* debug values: 0,1,2,3 */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260216. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20260409. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -41,7 +44,7 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260216`                                          #;
+    %put # Macro to install SAS packages, version `20260409`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -119,8 +122,26 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
     %put #                                                                                            #;
     %put #  - `github=`      *Optional.* A name of a user or an organization in GitHub.               #;
     %put #                   Allows an easy set of the search path for packages available on GitHub:  #;
-    %put #                    `https://github.com/<github>/<packagename>/raw/.../`                    #;
+    %put #                    `https://github.com/<github>/<githubRepo>/raw/.../`                     #;
     %put #                   All characters except `[A-z0-9_.-]` are compressed.                      #;
+    %put #                                                                                            #;
+    %put #  - `githubRepo=`  *Optional.* A name of a repository in GitHub.                            #;
+    %put #                   Allows an easy set of the search path for packages available on GitHub:  #;
+    %put #                    `https://github.com/<github>/<githubRepo>/raw/.../`                     #;
+    %put #                   By default lowercase name of installed package is used.                  #;
+    %put #                                                                                            #;
+    %put #  - `githubToken=` *Optional.* A fine-grained personal access token for GitHub.             #;
+    %put #                   When the value is non-missing it triggers GitHub API access to           #;
+    %put #                   private repositories. Of course the token used has to be configured      #;
+    %put #                   properly for the access.                                                 #;
+    %put #                   Read GitHub documentation to learn how to create and setup your token:   #;
+    %put #                   `https://docs.github.com/en/authentication/                              #;
+    %put #                     keeping-your-account-and-data-secure/                                  #;
+    %put #                      managing-your-personal-access-tokens                                  #;
+    %put #                       #creating-a-fine-grained-personal-access-token`                      #;
+    %put #                   (lines break added for easier reading)                                   #;
+    %put #                   Public repos do not need authentication.                                 #;
+    %put #                   [NOTE!] This feature is experimental in this release.                    #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;
     %put #                                                                                            #;
@@ -259,7 +280,7 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
         %do;
           %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
           %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
-          /* ingnore version support for pharmaForest for now */
+          /* ingnore version support for github for now */
           %let github = %sysfunc(compress(%superq(github),%str(,.-),KAD));
           %put INFO: GitHub location used is: %superq(github).;
           %let sourcePath = https://github.com/&github./; /*users content*/
@@ -340,7 +361,7 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
             %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.sas;
             %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/&vers./SPF/SPFinit.md;
           %end;
-        %if %superq(mirror) > 1 %then
+        %if NOT (%superq(mirror) in (0 1 4)) %then
           %put %str( )Mirror %superq(mirror) does not support versioning.;
  
         /* source code file */
@@ -363,12 +384,12 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
       %do;
         %if %superq(mirror) IN (0 3 4) %then /* SASPAC or PharmaForest or an arbitrary GitHub repo */
           %do;
-            %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/main/;
+            %let packageSubDir = &githubRepo./raw/main/;
             
             %if %superq(vers) ne %then
               %do;
                 /*%let packageSubDir = %sysfunc(lowcase(&packageName.))/main/hist/&version./;*/
-                %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/&vers./;
+                %let packageSubDir = &githubRepo./raw/&vers./;
               %end;
           %end;
         %else
@@ -405,6 +426,13 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
     /* copy the file byte-by-byte  */
     %local installationRC;
     %let installationRC=1;
+
+    %if (%superq(githubToken)= )
+        OR
+        (%upcase(&packageName.) in (SPFINIT SASPACKAGEFRAMEWORK SASPACKAGESFRAMEWORK))
+    %then
+    %do;
+    /* public repo, location with URL access, or SPFinit */
     data _null_;
       length filein fileinMD 8 
         out_path in_path out_pathMD in_pathMD rcTXT $ 4096
@@ -495,7 +523,140 @@ des = 'Macro to install SAS package, version 20260216. Run %%installPackage() fo
             put @2 "Package documentation in markdown format not available." ; /* / out_pathMD / in_pathMD;*/
         end;
     run;
-     
+    /************************************************************************************************************/
+    %end;
+    %else
+    %do;
+    /* when githubToken= is not null then a "private repo" case is assumed           */
+    /* except for SPFinit.sas that is always installed from SAS_PACKAGES public repo */
+
+    %put [NOTE!] This feature is experimental in this release!;
+    %local ref notRunHTTP;
+    %let notRunHTTP=1;
+    %if %superq(vers)= %then %let ref = main;
+                       %else %let ref = &vers.;
+    
+    %if NOT(%superq(githubTokenDebug) in (0 1 2 3)) %then %let githubTokenDebug = 0;
+
+    %if %sysfunc(FEXIST(&out.)) = 0 %then 
+      %do;
+        %put %str(  )Installing the &packageName. package;
+        %put %str(  )in the &firstPackagesPath. directory.;
+        %let notRunHTTP=0;
+      %end;
+    %else
+      %do;
+        %if 1=&replace. %then
+          %do;
+            %put %str(  )The following file will be replaced during;
+            %put %str(  )installation of the &packageName. package:; 
+            %put %str(  )%sysfunc(pathname(&out.));
+            %let notRunHTTP = %sysfunc(FDELETE(&out.));
+            %put %sysfunc(sysmsg());
+          %end;
+        %else
+          %do;
+            %put %str(  )The following file will NOT be replaced:; 
+            %put %str(  )%sysfunc(pathname(&out.));
+            %let notRunHTTP = 1;
+          %end;
+      %end;
+
+    %if %superq(githubToken) NE %qsysfunc(compress(%superq(githubToken),%str( _),KAD)) %then
+      %do;
+        %put WARNING: The githubToken= parameter contains illegal symbols;
+        %put WARNING- Allowed symbols are letters A to Z and a to z, digits 0 to 9, and underscore(_);
+        %put WARNING- Verify your token. Installation aborted.;
+        %let notRunHTTP = 1;
+      %end; 
+
+    %if &notRunHTTP.=0 %then
+      %do;
+        %put %str(  )URL called by PROC HTTP is:;
+        %put %str(  )"https://api.github.com/repos/&github./&githubRepo./contents/%sysfunc(lowcase(&packageName.)).zip?ref=&ref.";
+        %put %str(  )Headers:;
+        %put %str(    )Accept=application/vnd.github.raw+json;
+        %put %str(    )X-GitHub-Api-Version=2026-03-10;
+        %put %str(    )Authorization=Bearer *****************;
+        %put %str(  );
+
+
+        /* proc http setup based on: 
+           https://docs.github.com/en/rest/repos/contents?apiVersion=2026-03-10#get-repository-content
+        */
+        proc http 
+          method="GET"
+          out=&out.
+          URL=
+          "https://api.github.com/repos/&github./&githubRepo./contents/%sysfunc(lowcase(&packageName.)).zip?ref=&ref."
+          CLEAR_CACHE
+          ;
+          headers
+             "Accept"="application/vnd.github.raw+json"
+             "X-GitHub-Api-Version"="2026-03-10"
+             "Authorization"="Bearer &githubToken."
+          ;     
+          debug level=&githubTokenDebug.;
+        run;
+        
+        %if %sysfunc(FEXIST(&out.)) AND &SYS_PROCHTTP_STATUS_CODE.=200 %then
+          %do;
+            %let installationRC=0;
+            %put %str(  )Done with return code rc=0 (zero = success);
+          %end;
+        %else
+          %do;
+            %let installationRC=1;
+            %put %str(  )Done with return code rc=&SYS_PROCHTTP_STATUS_CODE. (zero = success);
+            %put %str(  )Message: &SYS_PROCHTTP_STATUS_PHRASE.;
+          %end;
+
+        %let notRunHTTP=1;
+        %if 1=&instDoc. AND 0=&installationRC. %then
+          %do;
+            %if %sysfunc(FEXIST(&outMD.)) = 0 %then
+              %do;
+                %put %str(  )Package documentation installation on request:;
+                %let notRunHTTP = 0;
+              %end;
+            %else %if 1=&replace. %then
+              %do;
+                %put %str(  )Package documentation installation on demand:;
+                %let notRunHTTP = %sysfunc(FDELETE(&outMD.));
+                %if &notRunHTTP. %then %put %sysfunc(sysmsg());
+              %end;
+
+            %if &notRunHTTP.=0 %then
+              %do;
+                proc http 
+                  method="GET"
+                  out=&outMD.
+                  URL=
+                  "https://api.github.com/repos/&github./&githubRepo./contents/%sysfunc(lowcase(&packageName.)).md?ref=&ref."
+                  CLEAR_CACHE
+                  ;
+                  headers
+                     "Accept"="application/vnd.github.raw+json"
+                     "X-GitHub-Api-Version"="2026-03-10"
+                     "Authorization"="Bearer &githubToken."
+                  ;     
+                  debug level=&githubTokenDebug.;
+                run;
+                %if %sysfunc(FEXIST(&outMD.)) AND &SYS_PROCHTTP_STATUS_CODE.=200 
+                %then %put %str(  )status successful!;
+                %else %put %str(  )status unsuccessful!;
+
+              %end;
+          %end;
+      %end;
+    %else 
+      %do;
+        %let installationRC=1;
+        %put %str(  )Done with return code rc=1 (zero = success);
+      %end;
+    /************************************************************************************************************/
+    %end;
+
     filename &in.  clear;
     filename &out. clear;
     filename &inMD.  clear;

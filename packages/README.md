@@ -10,7 +10,7 @@ Packages:
 
 ---
 
-- **SQLinDS**\[2.3.2\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.3.3\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
 data class;
   set %SQL(
@@ -22,13 +22,13 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: F*CEAA4C90515F6E8AACBFFD55ABA6544E399EDBE0A7081107B62DCEE6F5430A1D
+SHA256 digest for SQLinDS: F*6CC51325BDCE164B2E811896DD1C3A6D44242F50CC313D0721350CA49975F628
 
 [Documentation for SQLinDS](https://github.com/SASPAC/blob/main/sqlinds.md "Documentation for SQLinDS")
 
 ---
 
-- **DFA** (Dynamic Function Arrays)\[0.5.9\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
+- **DFA** (Dynamic Function Arrays)\[0.5.10\], contains set of macros and FCMP functions which implement: a dynamically allocated array, a stack, a fifo queue, an ordered stack, and a priority queue, run `%helpPackage(DFA,createDFArray)` to find examples.
 ```sas
 %createDFArray(ArrDynamic, resizefactor=17); 
 
@@ -55,13 +55,13 @@ data _null_;
   end;
 run;
 ```
-SHA256 digest for DFA: F*17C88537F5FA9BCFAA1AC4803D0F1EF47665C8446A44C82B5558A08315DF0C49
+SHA256 digest for DFA: F*C1E5126D8EDE050A758BCB5DCCA56A37125B3646CE75F1CF41EDE00890901AD9
 
 [Documentation for DFA](https://github.com/SASPAC/blob/main/dfa.md "Documentation for DFA")
 
 ---
 
-- **macroArray**\[1.3.1\], implementation of an array concept in a macro language, e.g. 
+- **macroArray**\[1.3.2\], implementation of an array concept in a macro language, e.g. 
 ```sas
   %array(ABC[17] (111:127), macarray=Y); 
   
@@ -80,13 +80,13 @@ SHA256 digest for DFA: F*17C88537F5FA9BCFAA1AC4803D0F1EF47665C8446A44C82B5558A08
       which = 1:H:2
   );
 ```
-SHA256 digest for macroArray: F*9DA64CA9A745E1DB7176F7AF4459BB014F61F71626473ABF6471A32689E14FF1
+SHA256 digest for macroArray: F*35A657517CD2B1AB86C4E7C5320B5EDDDFBA9348075AE31DDAF875CF0CC193C9
 
 [Documentation for macroArray](https://github.com/SASPAC/blob/main/macroarray.md "Documentation for macroArray")
 
 ---
 
-- **BasePlus**\[3.1.3\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
+- **BasePlus**\[3.1.4\] adds a bunch of functionalities I am missing in BASE SAS, such as: 
 ```sas
 call arrMissToRight(myArray); 
 call arrFillMiss(17, myArray); 
@@ -120,13 +120,13 @@ format x bool.;
 
 %workLib(ABC)
 ```
-SHA256 digest for BasePlus: F*B762F900EEFF7035880891D89416C0F973E4D377BCB75486283363A9BDADBA82
+SHA256 digest for BasePlus: F*BD248E5F8CBD94B5F45467B723A73D97D646CD665BA98679F87C7A03A484E83E
 
 [Documentation for BasePlus](https://github.com/SASPAC/blob/main/baseplus.md "Documentation for BasePlus")
 
 ---
 
-- **GSM** (Generate Secure Macros)\[0.22.2\], package allows
+- **GSM** (Generate Secure Macros)\[0.22.3\], package allows
  to create secured macros stored in SAS Proc FCMP functions.
  The dataset with functions can be shared between different operating systems
  and allows to generate macros on site without showing their code.
@@ -135,7 +135,7 @@ SHA256 digest for BasePlus: F*B762F900EEFF7035880891D89416C0F973E4D377BCB7548628
 
 [The WUSS 2023 Conference article describing the idea](https://www.wuss.org/proceedings/2023/WUSS-2023-Paper-189.pdf "Article about the idea GSM")
 
-SHA256 digest for GSM: F*7A4FEC410DEB921613A33F154FBBE332D7EC4C4DAC1351A4E611D986489EE848
+SHA256 digest for GSM: F*411452E8388C181800023A01A3B7DC7904A80A915D506D9606638F27CBC282B1
 
 [Documentation for GSM](https://github.com/SASPAC/blob/main/gsm.md "Documentation for GSM")
 
