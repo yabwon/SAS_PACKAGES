@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260409  */
+/* Macros to install SAS packages, version 20260411  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -13,6 +13,7 @@
 , mirror = 0    /* indicates which location for package source should be used */
 , version =     /* indicates which version of a package to install */
 , replace = 1   /* 1 = replace if the package already exist, 0 = otherwise */
+, backup = 0    /* 1 = before replacing make a copy if the package already exist, 0 = do nothing */
 , URLuser =     /* user name for the password protected URLs */
 , URLpass =     /* password for the password protected URLs */
 , URLoptions =  /* options for the `sourcePath` URLs */
@@ -29,7 +30,7 @@
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260409. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20260411. Run %%installPackage() for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -44,7 +45,7 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260409`                                          #;
+    %put # Macro to install SAS packages, version `20260411`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -93,8 +94,15 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
     %put #                   When there are multiple packages to install the `version` variable       #;
     %put #                   is scan sequentially.                                                    #;
     %put #                                                                                            #;
-    %put # - `replace=`      With default value of `1`, it causes existing package file 0             #;
-    %put #                   to be replaced by new downloaded file.                                   #;
+    %put # - `replace=`      When set to `1` and a package file exists, it forces the package         #;
+    %put #                   file replacement by the new downloaded file.                             #;
+    %put #                   It is a binary indicator ('0' or '1'). Default value is `1`.             #;
+    %put #                                                                                            #;
+    %put # - `backup=`       When set to `1` and a package file exists, it creates a backup copy      #;
+    %put #                   of the package file. The backup copy is created with a suffix of the     #;
+    %put #                   following format: `_BCKP_yyyymmddJJMMSS`.                                #;
+    %put #                   If `replace=0` then `backup` is set to `0`.                              #;
+    %put #                   It is a binary indicator ('0' or '1'). Default value is `0`.             #;
     %put #                                                                                            #;
     %put # - `URLuser=`      A user name for the password protected URLs, no quotes needed.           #;
     %put #                                                                                            #;
@@ -221,8 +229,12 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
 
   %let loadAddCnt = %sysevalf(NOT(0=%superq(loadAddCnt)));
   %let instDoc    = %sysevalf(NOT(0=%superq(instDoc)));
+  %let backup     = %sysevalf(NOT(0=%superq(backup)));
   
   %let replace    = %sysevalf(1=%superq(replace));
+
+  /* in case you do not replace then you also do not do a backup */
+  %if 0=&replace. %then %let backup = 0;
 
   %if %superq(sourcePath)= %then
     %do;
@@ -342,12 +354,15 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
     %put ### &packageName.(&vers.) ###;
     
     %put *** %sysfunc(lowcase(&packageName.)) start *****************************************;
-    %local in out inMD outMD _IOFileref_;
+    %local in out inMD outMD bckp_ref bckplabel _IOFileref_;
     data _null_; call symputX("_IOFileref_", put(MD5(lowcase("&packageName.")), hex7. -L), "L"); run;
     %let  in = i&_IOFileref_.;
     %let out = o&_IOFileref_.;
     %let  inMD = j&_IOFileref_.;
     %let outMD = u&_IOFileref_.;
+
+    %let bckp_ref = b&_IOFileref_.;
+    %let bckplabel = _BCKP_%sysfunc(compress(%sysfunc(datetime(),b8601dt.),,KD));
 
     /* %let  in = i%sysfunc(md5(&packageName.),hex7.); */
     /* %let out = o%sysfunc(md5(&packageName.),hex7.); */
@@ -479,12 +494,34 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
         do;
           if symgetn("replace")=1 then
             do;
+              rc = 0;
               put @2 "The following file will be replaced during "
                 / @2 "installation of the &packageName. package: " 
                 / @5 out_path;
-              rc = FDELETE(out_ref);
-              rc = FCOPY(in_ref, out_ref);
-              rcTXT=sysmsg();
+
+              /* backup package file */
+              if symgetn("backup")=1 then
+                do;
+                  length bckp_ref $ 8 bckplabel $ 32;
+                  bckplabel = "&bckplabel.";
+                  rc = filename(bckp_ref, cats(out_path, bckplabel), "DISK", "recfm=N lrecl=1");
+                  put / @2 "The following backup file will be created:"
+                      / @5 out_path +(-1) bckplabel;                  
+                  rc + FCOPY(out_ref, bckp_ref);
+                  rcTXT=sysmsg();
+                  if rc then put "WARNING: [&packageName.] Backup failed... ";
+                  _N_ = filename(bckp_ref);
+                end;
+
+              /* replace package file */
+              if rc=0 then
+                do;
+                  rc + FDELETE(out_ref);
+                  if 0=rc then
+                    rc + FCOPY(in_ref, out_ref);
+                  rcTXT=sysmsg();
+                  if rc then put "WARNING: [&packageName.] Installation failed... ";
+                end;
             end;
           else
             do;
@@ -512,6 +549,9 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
                 end;
               else if 1=FEXIST(out_refMD) and 1=symgetn("replace") then
                 do;
+                  if symgetn("backup")=1 then 
+                    put @2 "No backup done for documentation file.";
+
                   rcMD = FDELETE(out_refMD);
                   if rcMD=0 then
                     rcMD2 = FCOPY(in_refMD, out_refMD);
@@ -550,9 +590,29 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
           %do;
             %put %str(  )The following file will be replaced during;
             %put %str(  )installation of the &packageName. package:; 
-            %put %str(  )%sysfunc(pathname(&out.));
-            %let notRunHTTP = %sysfunc(FDELETE(&out.));
-            %put %sysfunc(sysmsg());
+            %put %str(     )%sysfunc(pathname(&out.));
+
+            /* backup package file */
+            %if 1=&backup. %then
+              %do;
+                filename &bckp_ref. "&firstPackagesPath./%sysfunc(lowcase(&packageName.)).zip&bckplabel." recfm=N lrecl=1;
+
+                %put %str(  )The following backup file will be created:; 
+                %put %str(     )%sysfunc(pathname(&bckp_ref.));
+ 
+                %let notRunHTTP = %sysfunc(FCOPY(&out., &bckp_ref.));
+                %put %sysfunc(sysmsg());
+
+                filename &bckp_ref. clear;
+
+                %let notRunHTTP = %sysevalf(&notRunHTTP. + %sysfunc(FDELETE(&out.)));
+                %put %sysfunc(sysmsg());
+              %end;
+            %else
+              %do;
+                %let notRunHTTP = %sysfunc(FDELETE(&out.));
+                %put %sysfunc(sysmsg());
+              %end;
           %end;
         %else
           %do;
@@ -621,6 +681,7 @@ des = 'Macro to install SAS package, version 20260409. Run %%installPackage() fo
               %end;
             %else %if 1=&replace. %then
               %do;
+                %if 1=&backup. %then %put %str(  )No backup done for documentation file.;
                 %put %str(  )Package documentation installation on demand:;
                 %let notRunHTTP = %sysfunc(FDELETE(&outMD.));
                 %if &notRunHTTP. %then %put %sysfunc(sysmsg());
