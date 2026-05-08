@@ -24,7 +24,7 @@ run;
 ```
 SHA256 digest for SQLinDS: F*6CC51325BDCE164B2E811896DD1C3A6D44242F50CC313D0721350CA49975F628
 
-[Documentation for SQLinDS](https://github.com/SASPAC/blob/main/sqlinds.md "Documentation for SQLinDS")
+[Documentation for SQLinDS](https://github.com/echarlesgrasby/SAS_PACKAGES/blob/main/packages/sqlinds.md)
 
 ---
 
