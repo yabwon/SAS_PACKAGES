@@ -45,6 +45,10 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   - ["SAS Packages - State of the Union" - SaSensei International Dojo No. 13](https://www.youtube.com/watch?v=1GEldZYQjj0&t=0s "SID no. 13") (November 10th 2022, ~50 minutes, general overview with the latest technical details)
   - ["SAS Packages Framework - an easy code sharing medium for SAS" - Warsaw IT Days 2023](https://youtu.be/T52Omisi0dk&t=0s "Warsaw IT Days 2023") (March 31st 2023, ~60 minutes, general overview with technical details for user and developer)
   - ["SAS Package ー その共有、もっとスマートに" - SASユーザー総会 2025](https://youtu.be/4QRr7sUhO9E "SASユーザー総会2025") (September 25th 2025, ~22 minutes, general overview with the list of reasons: why is it worth to use SAS packages?)
+  - ["SQLinDS and evExpress SAS packages - a tribute to SAS rock-stars!" - SAS Innovate 2026 Users Day](https://www.youtube.com/watch?v=ONSmt_l2TtU&t=6433s "SAS Innovate 2026 Users Day") (April 27th 2026, ~30 minutes, introduction to `SQLinDS` and `evExpress` SAS packages)
+
+
+
 
 
 ### Tutorials:
