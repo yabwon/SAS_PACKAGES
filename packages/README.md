@@ -10,7 +10,7 @@ Packages:
 
 ---
 
-- **SQLinDS**\[2.3.3\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.4.0\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
 data class;
   set %SQL(
@@ -22,9 +22,9 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: F*6CC51325BDCE164B2E811896DD1C3A6D44242F50CC313D0721350CA49975F628
+SHA256 digest for SQLinDS: F*A3DC9400DEF1403DC9E191611790244A8B0FB23303D3A98D29777E46A1D4E8B4
 
-[Documentation for SQLinDS](https://github.com/SASPAC/blob/main/sqlinds.md "Documentation for SQLinDS")
+[Documentation for SQLinDS](https://github.com/SASPAC/sqlinds/blob/main/sqlinds.md "Documentation for SQLinDS")
 
 ---
 
@@ -57,7 +57,7 @@ run;
 ```
 SHA256 digest for DFA: F*C1E5126D8EDE050A758BCB5DCCA56A37125B3646CE75F1CF41EDE00890901AD9
 
-[Documentation for DFA](https://github.com/SASPAC/blob/main/dfa.md "Documentation for DFA")
+[Documentation for DFA](https://github.com/SASPAC/dfa/blob/main/dfa.md "Documentation for DFA")
 
 ---
 
@@ -82,7 +82,7 @@ SHA256 digest for DFA: F*C1E5126D8EDE050A758BCB5DCCA56A37125B3646CE75F1CF41EDE00
 ```
 SHA256 digest for macroArray: F*35A657517CD2B1AB86C4E7C5320B5EDDDFBA9348075AE31DDAF875CF0CC193C9
 
-[Documentation for macroArray](https://github.com/SASPAC/blob/main/macroarray.md "Documentation for macroArray")
+[Documentation for macroArray](https://github.com/SASPAC/macroarray/blob/main/macroarray.md "Documentation for macroArray")
 
 ---
 
@@ -122,7 +122,7 @@ format x bool.;
 ```
 SHA256 digest for BasePlus: F*BD248E5F8CBD94B5F45467B723A73D97D646CD665BA98679F87C7A03A484E83E
 
-[Documentation for BasePlus](https://github.com/SASPAC/blob/main/baseplus.md "Documentation for BasePlus")
+[Documentation for BasePlus](https://github.com/SASPAC/baseplus/blob/main/baseplus.md "Documentation for BasePlus")
 
 ---
 
@@ -137,7 +137,7 @@ SHA256 digest for BasePlus: F*BD248E5F8CBD94B5F45467B723A73D97D646CD665BA98679F8
 
 SHA256 digest for GSM: F*411452E8388C181800023A01A3B7DC7904A80A915D506D9606638F27CBC282B1
 
-[Documentation for GSM](https://github.com/SASPAC/blob/main/gsm.md "Documentation for GSM")
+[Documentation for GSM](https://github.com/SASPAC/gsm/blob/main/gsm.md "Documentation for GSM")
 
 ---
 
