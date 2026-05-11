@@ -10,7 +10,7 @@ Packages:
 
 ---
 
-- **SQLinDS**\[2.3.3\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
+- **SQLinDS**\[2.4.0\], based on Mike Rhoads' article *Use the Full Power of SAS in Your Function-Style Macros*. The package allows to write SQL queries in the data step, e.g.
 ```sas
 data class;
   set %SQL(
@@ -22,7 +22,7 @@ data class;
     WH = weight + height;
 run;
 ```
-SHA256 digest for SQLinDS: F*6CC51325BDCE164B2E811896DD1C3A6D44242F50CC313D0721350CA49975F628
+SHA256 digest for SQLinDS: F*A3DC9400DEF1403DC9E191611790244A8B0FB23303D3A98D29777E46A1D4E8B4
 
 [Documentation for SQLinDS](https://github.com/SASPAC/sqlinds/blob/main/sqlinds.md "Documentation for SQLinDS")
 
