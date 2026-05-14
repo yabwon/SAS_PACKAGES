@@ -15,7 +15,7 @@
 ,psMAX=MAX     /* pageSise in case executed inside DoSubL() */
 ,ods=          /* a data set for results, e.g., work.relocatePackageReport */
 )
-/ des = 'Utility macro that locally Copies or Moves Packages, version 20260411. Run %relocatePackage() for help info.'
+/ des = 'Utility macro that locally Copies or Moves Packages, version 20260514. Run %relocatePackage() for help info.'
   secure
   minoperator
 ;
@@ -33,7 +33,7 @@
     %put ###      This is short help information for the `relocatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260411`   #;
+    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260514`   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -185,7 +185,14 @@
       %put WARNING: Checksum verification impossible! Minimum SAS version required for the process is 9.4M6. ;
     %end;
 
-  data _null_ %if %superq(ods) NE %then %do; &ods. %end;
+  %if NOT %sysevalf(%superq(ods)=,BOOLEAN) %then %do;
+    data _null_; /* verify ods= value */
+      %SPFinit_intrnl_forceV7DSname(ods);
+      call symputX("ods",ods,"L");
+    run;
+  %end;
+
+  data _null_ &ods. /* the &ods. will be used if not missing */
   ;
     putlog 52*"*" 24*"=" 52*"*";
     length packages source target $ 32767 sDevice tDevice $ 32;
@@ -565,7 +572,7 @@
                      / "WARNING- Source is: " s_HASHING 
                      / "WARNING- Target is: " t_HASHING
                      / "WARNING- There could be errors during copying. Check your files.";
-              %if %superq(ods) NE %then %do; output %scan(&ods.,1,()) ; %end;
+              output &ods.; /* the &ods. will be used if not missing */
             end;
         %end;
 
