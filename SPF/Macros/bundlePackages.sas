@@ -8,7 +8,7 @@
 ,packagesRef=packages
 ,ods= /* data set for report file */
 )/
-des='Macro to create a bundle of SAS packages, version 20260411. Run %bundlePackages(HELP) for help info.'
+des='Macro to create a bundle of SAS packages, version 20260514. Run %bundlePackages(HELP) for help info.'
 secure minoperator
 ;
 
@@ -25,7 +25,7 @@ secure minoperator
     %put ###      This is short help information for the `bundlePackages` macro          #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *create bundles* of SAS packages, version `20260411`                 #;
+    %put # Macro to *create bundles* of SAS packages, version `20260514`                 #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -62,7 +62,7 @@ secure minoperator
     %put # - `packagesRef=`      *Optional.* Fileref to location of packages for the     #;
     %put #                       bundle. Default value is `packages`.                    #;
     %put #                                                                               #;
-    %put # - `ods=`              *Optional.* Name of SAS data set for the report.        #;
+    %put # - `ods=`              *Optional.* V7 style name of SAS data set for report.   #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -125,6 +125,13 @@ secure minoperator
 %local reportFile datetime;
 %let datetime = %sysfunc(datetime());
 %let reportFile = WORK.tmpbundlefile%sysfunc(int(&datetime.), b8601dt15.)_;
+
+%if NOT %sysevalf(%superq(ods)=,BOOLEAN) %then %do;
+  data _null_; /* verify ods= value */
+    %SPFinit_intrnl_forceV7DSname(ods);
+    call symputX("ods",ods,"L");
+  run;
+%end;
 
 data _null_ %if %superq(ods) NE %then %do; &ods. %end;
                                 %else %do; &reportFile.1  %end;
@@ -399,8 +406,8 @@ put "INFO: The " bundleName "bundle creation ended.";
       ;
   format datetime e8601dt.;
   output 
-    %if %superq(ods) NE %then %do; %scan(&ods.,1,()) %end;
-                        %else %do; &reportFile.1     %end;
+    %if %superq(ods) NE %then %do; &ods.         %end;
+                        %else %do; &reportFile.1 %end;
   ;
 put " ";
 rc=sleep(1,1); 
@@ -408,13 +415,13 @@ stop;
 run;
 
 title2 "Summary of the bundle file";;
-proc print
-  data= %if %superq(ods) NE %then %do; %scan(&ods.,1,()) %end;
-                            %else %do; &reportFile.1     %end;
-  noObs label;
+proc print noObs label
+  data= %if %superq(ods) NE %then %do; &ods.         %end;
+                            %else %do; &reportFile.1 %end;
+  ;
   var bundleName datetime BundleSHA256 path;
 run;
-%if %superq(ods) NE %then %do; %put INFO: Report file: %scan(&ods.,1,()); %end;
+%if %superq(ods) NE %then %do; %put INFO: Report file: &ods.;       %end;
                     %else %do; proc delete data=&reportFile.1; run; %end;
 
 

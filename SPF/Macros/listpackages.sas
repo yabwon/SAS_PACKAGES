@@ -25,7 +25,7 @@
   listDataSet /* Name of a data set to save results */
 , quiet = 0   /* Indicate if results should be printed in log */
 )/secure parmbuff
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260411.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260514.'
 ;
 %if (%QUPCASE(&listDataSet.) = HELP) %then
   %do;
@@ -40,7 +40,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20260411`                                #;
+    %put # Macro to list available SAS packages, version `20260514`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -101,14 +101,17 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
 
 options NOnotes NOsource ls=MAX ps=MAX;
 
-data _null_;
-  length listDataSet $ 41;
-  listDataSet = strip(scan(symget('listDataSet'),1,'( )'));
-  call symputX('listDataSet',listDataSet,"L");
-  if not (listDataSet = " ") then 
-    call symputX('listDataSetCheck',1,"L");
-  else call symputX('quiet',0,"L");
-run;
+%if %superq(listDataSet) NE %then 
+  %do;
+    data _null_; /* verify listDataSet compatibility with V7 naming */
+      %SPFinit_intrnl_forceV7DSname(listDataSet);
+
+      call symputX('listDataSet',listDataSet,"L");
+      if not (listDataSet = " ") then 
+        call symputX('listDataSetCheck',1,"L");
+      else call symputX('quiet',0,"L");
+    run;
+  %end;
 
 data _null_ 
   %if 1=&listDataSetCheck. %then

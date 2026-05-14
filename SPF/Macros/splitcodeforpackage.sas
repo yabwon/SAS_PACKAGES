@@ -8,7 +8,7 @@
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP END ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20260411. Run %splitCodeForPackage() for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20260514. Run %splitCodeForPackage() for help info.'
 ;
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
   %do;
@@ -24,7 +24,7 @@
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20260411`                              #;
+    %put # files with separate snippets, version `20260514`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;

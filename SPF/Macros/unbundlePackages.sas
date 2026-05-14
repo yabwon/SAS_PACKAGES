@@ -8,7 +8,7 @@
 ,ods= /* data set for report file */
 ,verify=0
 )/
-des='Macro to extract a bundle of SAS packages, version 20260411. Run %unbundlePackages(HELP) for help info.'
+des='Macro to extract a bundle of SAS packages, version 20260514. Run %unbundlePackages(HELP) for help info.'
 secure
 minoperator
 ;
@@ -26,7 +26,7 @@ minoperator
     %put ###     This is short help information for the `unbundlePackages` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *extract* SAS packages from a bundle, version `20260411`             #;
+    %put # Macro to *extract* SAS packages from a bundle, version `20260514`             #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -58,7 +58,7 @@ minoperator
     %put # - `packagesRef=`      *Optional.* Fileref to location where packages will     #;
     %put #                       be extracted. Default value is `packages`.              #;
     %put #                                                                               #;
-    %put # - `ods=`              *Optional.* Name of SAS data set for the report.        #;
+    %put # - `ods=`              *Optional.* V7 style name of SAS data set for report.   #;
     %put #                                                                               #;
     %put # - `verify=`           *Optional.* Indicates if verification code should       #;
     %put #                       be executed after bundle extraction.                    #;
@@ -127,6 +127,13 @@ minoperator
 %local reportFile datetime;
 %let datetime = %sysfunc(datetime());
 %let reportFile = WORK.tmpbundlefile%sysfunc(int(&datetime.), b8601dt15.)_;
+
+%if NOT %sysevalf(%superq(ods)=,BOOLEAN) %then %do;
+  data _null_; /* verify ods= value */
+    %SPFinit_intrnl_forceV7DSname(ods);
+    call symputX("ods",ods,"L");
+  run;
+%end;
 
 data _null_;
 datetime=symgetn('datetime');
@@ -289,7 +296,12 @@ else
     packagesList = catx(" ", packagesList, package);
   end;
 
-rc = Q.output(dataset:"&reportFile.1");
+
+rc = Q.output(dataset: /* create propper tag */
+  %if %superq(ods) NE %then %do; "&ods." %end; 
+                      %else %do; "&reportFile.1" %end;
+);
+
 
 /* code executed for unbundling */
 length code1 code2 $ 32767;
@@ -321,16 +333,14 @@ put " ";
 rc=sleep(1,1); 
 
 rc = doSubL("title 'Summary of the extracted bundle file';" !! 
-"proc print data=" !! 
+"proc print label data=" !! 
+%if %superq(ods) NE %then %do; "&ods." %end; 
+                    %else %do; "&reportFile.1" %end; !! 
+"; var package pckVer pckDtm hash; run;" !!
 %if %superq(ods) NE %then 
-  %do; "%scan(&ods.,1,())" %end; 
+  %do; %put INFO: Report file: &ods.; %end; 
 %else 
-  %do; "&reportFile.1" %end; !! 
-" label; var package pckVer pckDtm hash; run;" !!
-%if %superq(ods) NE %then 
-  %do; %put INFO: Report file: %scan(&ods.,1,()); %end; 
-%else 
-  %do; "proc delete data=&reportFile.1; run;" %end; !! 
+  %do; "proc delete data=&reportFile.1; run;" !! %end;
 "title;");
 
 stop;
@@ -359,6 +369,7 @@ options mprint;
 ,path=R:\
 ,packagesPath=R:\check2
 ,verify=1
+,ods=WORK.bundlenametest124_reportDS
 )
 
 %unbundlePackages(
@@ -384,4 +395,4 @@ options mprint;
 
 */
 
-/* end of SPFinit.sas file */ 
+
