@@ -6,9 +6,11 @@
 ,packagesPath=
 ,packagesRef=packages
 ,ods= /* data set for report file */
+,reportOnly=0
 ,verify=0
+,quiet=0
 )/
-des='Macro to extract a bundle of SAS packages, version 20260514. Run %unbundlePackages(HELP) for help info.'
+des='Macro to extract a bundle of SAS packages, version 20260515. Run %unbundlePackages(HELP) for help info.'
 secure
 minoperator
 ;
@@ -26,7 +28,7 @@ minoperator
     %put ###     This is short help information for the `unbundlePackages` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *extract* SAS packages from a bundle, version `20260514`             #;
+    %put # Macro to *extract* SAS packages from a bundle, version `20260515`             #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -62,7 +64,16 @@ minoperator
     %put #                                                                               #;
     %put # - `verify=`           *Optional.* Indicates if verification code should       #;
     %put #                       be executed after bundle extraction.                    #;
-    %put #                       Value `1` means yes, Value `0` means no.                #;
+    %put #                       Value `1` means yes, Value `0` (default) means no.      #;
+    %put #                                                                               #;
+    %put # - `reportOnly=`       *Optional.* Indicates if packages unbundling should     #;
+    %put #                       be suspended and only a report with bundle content      #;
+    %put #                       be produced and printed.                                #;
+    %put #                       Value `1` means yes, Value `0` (default) means no.      #;
+    %put #                                                                               #;
+    %put # - `quiet=`           *Optional.* Indicates if printout of the summary         #;
+    %put #                       report should be suspended.                             #;
+    %put #                       Value `1` means yes, Value `0` (default) means no.      #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -110,6 +121,11 @@ minoperator
 /*===================================================================================================*/
 
 %if NOT(%superq(verify) in (0 1)) %then %let verify=0;
+%if NOT(%superq(quiet) in (0 1))  %then %let quiet=0;
+
+%if NOT(%superq(reportOnly) in (0 1)) %then %let reportOnly=0;
+/* no verification when reporting */
+%if 1=&reportOnly. %then %let verify=0;
 
 %local HASHING_FILE_exist;
 %let HASHING_FILE_exist = 0;
@@ -159,42 +175,47 @@ length packagesPath $ 32767 packagesRef $ 8;
 packagesPath = dequote(symget('packagesPath'));
 packagesRef = upcase(strip(symget('packagesRef')));
 
-/* organize target path (location for packages) */
-if " "=packagesPath then
-  do;
-    if 0 then set SASHELP.VEXTFL(keep=level xpath xengine fileref exists);
-    DECLARE HASH sH(dataset:'SASHELP.VEXTFL(where=(fileref=' !! quote(packagesRef) !! '))', ordered: "A");
-    sH.DefineKey("level");
-    sH.DefineData("xpath","xengine","exists");
-    sH.DefineDone();
+if 0 then set SASHELP.VEXTFL(keep=level xpath xengine fileref exists);
 
-    if sH.NUM_ITEMS=0 then
+/* ignore target check when only report is requested */
+%if 0=&reportOnly. %then
+  %do;
+    /* organize target path (location for packages) */
+    if " "=packagesPath then
       do;
-        put "ERROR: Fileref in packagesRef= does NOT exist. Exiting!";
-        stop;
+        DECLARE HASH sH(dataset:'SASHELP.VEXTFL(where=(fileref=' !! quote(packagesRef) !! '))', ordered: "A");
+        sH.DefineKey("level");
+        sH.DefineData("xpath","xengine","exists");
+        sH.DefineDone();
+
+        if sH.NUM_ITEMS=0 then
+          do;
+            put "ERROR: Fileref in packagesRef= does NOT exist. Exiting!";
+            stop;
+          end;
+
+        packagesPath=" ";
+
+        rc = sH.FIND(key:NOT(1=sH.NUM_ITEMS)); /* if only 1 element select level 0, if more than 1 select level 1 */
+        if xengine = "DISK" AND exists='yes' then
+          packagesPath=quote(strip(xpath)); /* add quotes to the packagesPath */
+        else
+          do;
+            put "ERROR: Path: " xpath "in packagesRef= is invalid! Exiting!";
+            stop; 
+          end;
       end;
-
-    packagesPath=" ";
-
-    rc = sH.FIND(key:NOT(1=sH.NUM_ITEMS)); /* if only 1 element select level 0, if more than 1 select level 1 */
-    if xengine = "DISK" AND exists='yes' then
-      packagesPath=quote(strip(xpath)); /* add quotes to the packagesPath */
     else
       do;
-        put "ERROR: Path: " xpath "in packagesRef= is invalid! Exiting!";
-        stop; 
+        rcPckPath = fileexist(strip(packagesPath));
+        if 0=rcPckPath then
+          do;
+            put "ERROR: Path in packagesPath= does NOT exist. Exiting!";
+            stop;
+          end;
+        else packagesPath=quote(strip(packagesPath)); /* add quotes to the packagesPath */
       end;
-  end;
-else
-  do;
-    rcPckPath = fileexist(strip(packagesPath));
-    if 0=rcPckPath then
-      do;
-        put "ERROR: Path in packagesPath= does NOT exist. Exiting!";
-        stop;
-      end;
-    else packagesPath=quote(strip(packagesPath)); /* add quotes to the packagesPath */
-  end;
+  %end;
 
 length path $ 32767 pathRef $ 8;
 path = dequote(symget('path'));
@@ -277,7 +298,7 @@ DECLARE HITER IQ("Q");
 
 /*--------------------------------------------------*/
 do until(EOF);
-  input package :$32. pckVer :$16. pckDtm :$16. hash :$128.;
+  input package :$32. pckVer :$16. pckDtm :$24. hash :$128.;
   if " " NE package then rc = Q.ADD();
 end;
 label package="Package name" 
@@ -298,25 +319,29 @@ else
 
 
 rc = Q.output(dataset: /* create propper tag */
-  %if %superq(ods) NE %then %do; "&ods." %end; 
+  %if %superq(ods) NE %then %do; "&ods.(label='Bundle: " !! strip(bundleName) !! "')" %end; 
                       %else %do; "&reportFile.1" %end;
 );
 
 
 /* code executed for unbundling */
 length code1 code2 $ 32767;
-code1= 
-'options ps=min nofullstimer nostimer msglevel=N; filename PACKAGES ' !! strip(packagesPath) !! ';' !!
-'%relocatePackage(' !! strip(packagesList) !! ',source=' !! catx("/", path, bundleName) !! 
-'.bundle.zip, sDevice=ZIP,psMAX=MIN)'; 
+%if 0=&reportOnly. %then
+  %do;
+    code1= 
+    'options ps=min nofullstimer nostimer msglevel=N; filename PACKAGES ' !! strip(packagesPath) !! ';' !!
+    '%relocatePackage(' !! strip(packagesList) !! ',source=' !! catx("/", path, bundleName) !! 
+    '.bundle.zip, sDevice=ZIP,psMAX=MIN)'; 
 
-/*put code=;*/
+    /*put code=;*/
 
-put / "INFO: The " bundleName "bundle extraction in progress...";
+    put / "INFO: The " bundleName "bundle extraction in progress...";
 
-rc = doSubL(code1);
+    rc = doSubL(code1);
 
-put / "INFO: The " bundleName "bundle extraction ended.";
+    put / "INFO: The " bundleName "bundle extraction ended.";
+  %end;
+
 
 /* code executed for verification */
 %if 1=&verify. %then
@@ -332,11 +357,15 @@ put / "INFO: The " bundleName "bundle extraction ended.";
 put " ";
 rc=sleep(1,1); 
 
-rc = doSubL("title 'Summary of the extracted bundle file';" !! 
-"proc print label data=" !! 
-%if %superq(ods) NE %then %do; "&ods." %end; 
-                    %else %do; "&reportFile.1" %end; !! 
-"; var package pckVer pckDtm hash; run;" !!
+rc = doSubL(
+%if 0=&quiet. %then /* do not print report */
+  %do;
+    "title 'Summary of the bundle file: " !! strip(bundleName) !! "';" !! 
+    "proc print label data=" !! 
+    %if %superq(ods) NE %then %do; "&ods." %end; 
+                        %else %do; "&reportFile.1" %end; !! 
+    "; var package pckVer pckDtm hash; run;" !!
+  %end;
 %if %superq(ods) NE %then 
   %do; %put INFO: Report file: &ods.; %end; 
 %else 
@@ -392,6 +421,41 @@ options mprint;
 ,packagesPath=R:\check
 ,verify=1
 )
+*/
+
+/* reportOnly & quiet 
+
+%bundlePackages(myLittleBundle
+              ,path=R:\
+              ,packagesList=basePlus SQLinDS macroarray
+              ,packagesRef=PACKAGES)
+
+option dlcreatedir;
+libname _ "R:\check5";
+
+%unbundlePackages(myLittleBundle         
+                 ,path=R:\
+                 ,reportOnly=1                 
+                 ,ods=work.bundleReport1) 
+
+%unbundlePackages(myLittleBundle         
+                 ,path=R:\
+                 ,reportOnly=1                 
+                 ,ods=work.bundleReport2
+                 ,quiet=1) 
+
+%unbundlePackages(myLittleBundle         
+                 ,path=R:\
+                 ,packagesPath=R:\check5
+                 ,ods=work.bundleReport3
+                 ,quiet=1, verify=1) 
+
+%unbundlePackages(myLittleBundle         
+                 ,path=R:\
+                 ,packagesPath=R:\check5
+                 ,ods=work.bundleReport4
+                 ,quiet=0, verify=1) 
+
 
 */
 
