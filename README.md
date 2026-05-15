@@ -17,7 +17,7 @@ Don't forget to give the repository a **STAR** and become [stargazer](https://gi
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20260514**.
+**The latest version** of the **SAS Packages Framework** is **`20260515**.
 
 ---
 
@@ -46,7 +46,7 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   - ["SAS Packages Framework - an easy code sharing medium for SAS" - Warsaw IT Days 2023](https://youtu.be/T52Omisi0dk&t=0s "Warsaw IT Days 2023") (March 31st 2023, ~60 minutes, general overview with technical details for user and developer)
   - ["SAS Package ー その共有、もっとスマートに" - SASユーザー総会 2025](https://youtu.be/4QRr7sUhO9E "SASユーザー総会2025") (September 25th 2025, ~22 minutes, general overview with the list of reasons: why is it worth to use SAS packages?)
   - ["SQLinDS and evExpress SAS packages - a tribute to SAS rock-stars!" - SAS Innovate 2026 Users Day](https://www.youtube.com/watch?v=ONSmt_l2TtU&t=6433s "SAS Innovate 2026 Users Day") (April 27th 2026, ~30 minutes, introduction to `SQLinDS` and `evExpress` SAS packages)
-  - ["Introducing SAS Packages: A Modern Code Sharing Medium for SAS" - SAS Innovate 2026](https://drive.google.com/file/d/1zr7MC5Ca1Lb6TFwq6vbqaHv5DUFdNNYA/view?usp=sharing "SAS Innovate 2026") (April 28th 2026, ~36 minutes, general overview and itroduction to SAS packages)
+  - ["Introducing SAS Packages: A Modern Code Sharing Medium for SAS" - SAS Innovate 2026](https://youtu.be/0plCa_mcOMI?list=PLVBcK_IpFVi-BXicJ5ZMcXuPNQTphJuhv "SAS Innovate 2026") (April 28th 2026, ~36 minutes, general overview and itroduction to SAS packages)
 
 
 
