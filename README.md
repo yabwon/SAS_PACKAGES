@@ -47,7 +47,7 @@ Videos presenting the SPF and packages, from various conferences and meetups (th
   - ["SAS Package ー その共有、もっとスマートに" - SASユーザー総会 2025](https://youtu.be/4QRr7sUhO9E "SASユーザー総会2025") (September 25th 2025, ~22 minutes, general overview with the list of reasons: why is it worth to use SAS packages?)
   - ["SQLinDS and evExpress SAS packages - a tribute to SAS rock-stars!" - SAS Innovate 2026 Users Day](https://www.youtube.com/watch?v=ONSmt_l2TtU&t=6433s "SAS Innovate 2026 Users Day") (April 27th 2026, ~30 minutes, introduction to `SQLinDS` and `evExpress` SAS packages)
   - ["Introducing SAS Packages: A Modern Code Sharing Medium for SAS" - SAS Innovate 2026](https://youtu.be/0plCa_mcOMI?list=PLVBcK_IpFVi-BXicJ5ZMcXuPNQTphJuhv "SAS Innovate 2026") (April 28th 2026, ~36 minutes, general overview and itroduction to SAS packages)
-
+  - ["Le petit SAS package - a workshop about the *Hello World* SAS package" - NJSUG 2026](https://drive.google.com/file/d/1y2_HO0tTnuiv3pk5swwETsd5Mi7EeFBP/view?usp=sharing "NJSUG 2026") (May 8ht, 2026, ~53 minutes, technical presentation about building a "Hello World"-style SAS packages from scratch)
 
 
 
@@ -62,9 +62,11 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 
 2) (D) Very simple ["Hello World" example](https://github.com/yabwon/SAS_PACKAGES/blob/main/SPF/Documentation/HelloWorldPackage.md) tutorial for developers. As a support a [walk-through video](https://youtu.be/T52Omisi0dk&t=2160s)
 
-3) (D) Article and all required materials for ["My first SAS Package"](https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation/Paper_1079-2021) tutorial.
+3) (D) Video tutorial about ["Le Petit SAS Package"](https://drive.google.com/file/d/1y2_HO0tTnuiv3pk5swwETsd5Mi7EeFBP/view?usp=sharing), materials from the recording are [here](https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation/LePetitSASpackage).
 
-4) (DU) Materials from Hands-on-Workshop (4+ hours) tutorial: [Share your code with SAS Packages](https://github.com/yabwon/HoW-SASPackages). 
+4) (D) Article and all required materials for ["My first SAS Package"](https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation/Paper_1079-2021) tutorial.
+
+5) (DU) Materials from Hands-on-Workshop (4+ hours) tutorial: [Share your code with SAS Packages](https://github.com/yabwon/HoW-SASPackages). 
    It is a "zero to hero" tutorial that explains all the "bells and whistles" of using, and all the "nuts and bolts" of developing SAS packages.
 
 ---
@@ -73,7 +75,7 @@ Letter "D" indicates tutorial dedicated for developers and "U" materials for use
 
 ### Initiative to add SAS Packages Framework to SAS Base/Viya:
 
-A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SASware-Ballot-Ideas/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 48 likes from 46 supporters up to today (as of September 30, 2025)!
+A **SASware Ballot Idea** for adding *SAS Packages Framework* macros into Base SAS and Viya was submitted Friday, May 27th 2022. If you would like to support the idea visit this [**communities.sas.com post**](https://communities.sas.com/t5/SAS-Product-Suggestions/Add-SAS-Packages-Framework-to-the-SAS-Base-Viya/idi-p/815508) and up vote the idea! We have 49 likes from 47 supporters up to today (as of May 21, 2026)!
 
 ---
 
