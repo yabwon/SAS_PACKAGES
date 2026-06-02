@@ -2,7 +2,7 @@
 %macro SPFinit_intrnl_forceV7DSname(
 mcParam /* name of a macro parameter holding user provided data set name */
 )/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatybility for user provided data set names. Version 20260515.';
+des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatybility for user provided data set names. Version 20260602.';
 /* The macro can be called only inside a data step. */
 /****************************************************************************
   ### Parameters:
@@ -20,7 +20,7 @@ des='SAS Packages Framework internal macro. Executable only inside selected SPF 
     data set name, the second to last chunk is SCANned for libname 
     (if empty then "work" is used). First character of LIB and DS 
     variables is checked, if it is a digit, then underscore is added. 
-    At the end the LIB and DS are concatenated and casted to upper 
+    At the end the LIB and DS are concatenated and upper cased. 
     case letters. 
   
   Examples:
@@ -91,4 +91,5 @@ des='SAS Packages Framework internal macro. Executable only inside selected SPF 
   %end;
 %mend SPFinit_intrnl_forceV7DSname;
 
-/* end of SPFinit.sas file */ 
+
+

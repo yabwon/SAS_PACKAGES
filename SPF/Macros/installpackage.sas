@@ -1,5 +1,5 @@
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260515  */
+/* Macros to install SAS packages, version 20260602  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -23,14 +23,14 @@
                    default is 0 - means No, 1 means Yes */
 , SFRCVN =      /* name of a macro variable to store success-failure return code value */
 , github =      /* name of a user or an organization in GitHub, all characters except [A-z0-9_.-] are compressed */
-, githubRepo = %sysfunc(lowcase(&packageName.)) /* repo name to be used, by default it is the package name, but can be altered */
+, githubRepo =  /* repo name to be used, by default it is the package name, but can be altered */
 , githubToken = /* user's github fine-grained personal access token */
 , githubTokenDebug = 0 /* debug values: 0,1,2,3 */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260515. Run %%installPackage() for help info.'
+des = 'Macro to install SAS package, version 20260602. Run %installPackage(HELP) for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -45,7 +45,7 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260515`                                          #;
+    %put # Macro to install SAS packages, version `20260602`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -220,11 +220,13 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
 
   /* in case the 'packages' fileref is multi-directory the first directory will be selected as a destination */
   data _null_;
-    if "(" =: pathname("packages") then
-    /*      get the firstPackagesPath                                                           */
-      call symputX("firstPackagesPath", dequote(kscanx(pathname("packages"), 1, "()", "QS")), "L");
+    length p $ 32767;
+    p = pathname("packages");
+    if "(" =: p then
+    /*      get the firstPackagesPath                                         */
+      call symputX("firstPackagesPath", dequote(kscanx(p, 1, "()", "QS")), "L");
     else
-      call symputX("firstPackagesPath", pathname("packages"), "L");
+      call symputX("firstPackagesPath", p, "L");
   run;
 
   %let loadAddCnt = %sysevalf(NOT(0=%superq(loadAddCnt)));
@@ -336,6 +338,9 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
   %Let PackagesInstalledSussess=;
   %let PackagesInstalledFail=;
 
+
+
+
   %do i = 1 %to %sysfunc(countw(&packagesNames., , S));
   /*-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-*/
     %local packageName packageSubDir vers versA versB;
@@ -353,6 +358,11 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
       %end;
     %put ### &packageName.(&vers.) ###;
     
+    /* if repo name is empty then use package name */
+    %local githubRepoLocal;
+    %if %sysevalf(%superq(githubRepo)=,boolean) %then %let githubRepoLocal=%sysfunc(lowcase(&packageName.));
+                                                %else %let githubRepoLocal=%superq(githubRepo);
+
     %put *** %sysfunc(lowcase(&packageName.)) start *****************************************;
     %local in out inMD outMD bckp_ref bckplabel _IOFileref_;
     data _null_; call symputX("_IOFileref_", put(MD5(lowcase("&packageName.")), hex7. -L), "L"); run;
@@ -399,12 +409,12 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
       %do;
         %if %superq(mirror) IN (0 3 4) %then /* SASPAC or PharmaForest or an arbitrary GitHub repo */
           %do;
-            %let packageSubDir = &githubRepo./raw/main/;
+            %let packageSubDir = &githubRepoLocal./raw/main/;
             
             %if %superq(vers) ne %then
               %do;
                 /*%let packageSubDir = %sysfunc(lowcase(&packageName.))/main/hist/&version./;*/
-                %let packageSubDir = &githubRepo./raw/&vers./;
+                %let packageSubDir = &githubRepoLocal./raw/&vers./;
               %end;
           %end;
         %else
@@ -633,7 +643,7 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
     %if &notRunHTTP.=0 %then
       %do;
         %put %str(  )URL called by PROC HTTP is:;
-        %put %str(  )"https://api.github.com/repos/&github./&githubRepo./contents/%sysfunc(lowcase(&packageName.)).zip?ref=&ref.";
+        %put %str(  )"https://api.github.com/repos/&github./&githubRepoLocal./contents/%sysfunc(lowcase(&packageName.)).zip?ref=&ref.";
         %put %str(  )Headers:;
         %put %str(    )Accept=application/vnd.github.raw+json;
         %put %str(    )X-GitHub-Api-Version=2026-03-10;
@@ -648,7 +658,7 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
           method="GET"
           out=&out.
           URL=
-          "https://api.github.com/repos/&github./&githubRepo./contents/%sysfunc(lowcase(&packageName.)).zip?ref=&ref."
+          "https://api.github.com/repos/&github./&githubRepoLocal./contents/%sysfunc(lowcase(&packageName.)).zip?ref=&ref."
           CLEAR_CACHE
           ;
           headers
@@ -693,7 +703,7 @@ des = 'Macro to install SAS package, version 20260515. Run %%installPackage() fo
                   method="GET"
                   out=&outMD.
                   URL=
-                  "https://api.github.com/repos/&github./&githubRepo./contents/%sysfunc(lowcase(&packageName.)).md?ref=&ref."
+                  "https://api.github.com/repos/&github./&githubRepoLocal./contents/%sysfunc(lowcase(&packageName.)).md?ref=&ref."
                   CLEAR_CACHE
                   ;
                   headers

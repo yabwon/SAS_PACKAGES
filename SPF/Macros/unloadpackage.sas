@@ -20,7 +20,7 @@
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20260515. Run %unloadPackage() for help info.'
+des = 'Macro to unload SAS package, version 20260602. Run %unloadPackage(HELP) for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -35,7 +35,7 @@ des = 'Macro to unload SAS package, version 20260515. Run %unloadPackage() for h
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20260515`                              #;
+    %put # Macro to unload SAS packages, version `20260602`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -150,6 +150,9 @@ des = 'Macro to unload SAS package, version 20260515. Run %unloadPackage() for h
                                             %else utf8 ;
       ;
       %include &_PackageFileref_.(unload.sas) / &source2.;
+
+      /* clear possible unwanted multiple spaces or set to _null_ when missing */
+      options CMPLIB=%sysfunc(coalescec(%sysfunc(compbl(%sysfunc(getoption(CMPLIB)))),_null_));
     %end;
   %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist!;
   filename &_PackageFileref_. clear;
