@@ -17,7 +17,7 @@ Don't forget to give the repository a **STAR** and become [stargazer](https://gi
 
 ### Current version:
 
-**The latest version** of the **SAS Packages Framework** is **`20260515**.
+**The latest version** of the **SAS Packages Framework** is **`20260602**.
 
 ---
 
@@ -197,35 +197,37 @@ The SAS Packages Framework [(short) documentation](https://github.com/yabwon/SAS
 ---
 
 ### Updates worth mentioning:
-**Update**\[April 9th, 2026\]**:**Packages can be installed from private repositories. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20260409 "bundling macros"))**.
+**Update**\[June 2nd, 2026\]**:** `%requestPackage()` utility macros is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20260602 "Request Package")).
 
-**Update**\[December 31st, 2025\]**:** `%bundlePackages()` and `%unbundlePackages()` **macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251231 "bundling macros"))**.
+**Update**\[April 9th, 2026\]**:** Packages can be installed from private repositories. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20260409 "Private Repos")).
 
-**Update**\[December 28th, 2025\]**:** `buildLocation=` and `archLocation=` **parameters added to** `%generatePackage()` **macro, they allow to redirect results of the packages generation process. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251228 "redirect results with buildLocation="))**.
+**Update**\[December 31st, 2025\]**:** `%bundlePackages()` and `%unbundlePackages()` macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251231 "Bundling Packages")).
 
-**Update**\[December 21st, 2025\]**:** `%relocatePackage()`, `%SasPackagesFrameworkNotes()`, and `%isPackagesFilerefOK()` **utility macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241221 "relocatePackage, SasPackagesFrameworkNotes, and isPackagesFilerefOK macros"))**.
+**Update**\[December 28th, 2025\]**:** `buildLocation=` and `archLocation=` parameters added to `%generatePackage()` macro, they allow to redirect results of the packages generation process. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20251228 "Redirect Results")).
 
-**Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` **utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage"))**.
+**Update**\[December 21st, 2025\]**:** `%relocatePackage()`, `%SasPackagesFrameworkNotes()`, and `%isPackagesFilerefOK()` utility macros are available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241221 "relocatePackage, SasPackagesFrameworkNotes, and isPackagesFilerefOK macros")).
 
-**Update**\[October 14th, 2024\]**:** `DS2PCK` and `DS2THR` **types for `PROC DS2` *threads* and *packages* added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241014 "PROC DS2"))**.
+**Update**\[October 27th, 2024\]**:** `%splitCodeForPackage()` utility macro is available. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241027 "splitCodeForPackage")).
 
-**Update**\[December 10th, 2023\]**:** `markdownDoc=` **parameter added to** `%generatePackage()` **macro, it allows to generate markdown file with documentation. Content is taken from the help information notes and the description. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231210 "markdown documentation"))**.
+**Update**\[October 14th, 2024\]**:** `DS2PCK` and `DS2THR` types for `PROC DS2` *threads* and *packages* added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20241014 "PROC DS2")).
 
-**Update**\[November 11th, 2023\]**:** `KMFSNIP` **type for *key macro abbreviations* snippets added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231111 "KMF-abbreviations"))**.
+**Update**\[December 10th, 2023\]**:** `markdownDoc=` parameter added to `%generatePackage()` macro, it allows to generate markdown file with documentation. Content is taken from the help information notes and the description. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231210 "Markdown Documentation")).
 
-**Update**\[February 7th, 2023\]**:** `ADDCNT` **type for *additional content* feature and ** `%loadPackageAddCnt()` **macro added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20230207 "Additional Content"))**.
+**Update**\[November 11th, 2023\]**:** `KMFSNIP` type for *key macro abbreviations* snippets added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20231111 "KMF-abbreviations")).
 
-**Update**\[December 12th, 2022\]**:** `CASLUDF` **type for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros"))**.
+**Update**\[February 7th, 2023\]**:** `ADDCNT` type for *additional content* feature and `%loadPackageAddCnt()` macro added to the framework. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20230207 "Additional Content")).
 
-**Update**\[November 21st, 2022\]**:** `%loadPackage()` **macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking"))**.
+**Update**\[December 12th, 2022\]**:** `CASLUDF` type for CASL user defined functions added to the framework. Utility macros for for loading content in proc IML and proc CAS added. (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221212 "New Type and Utility macros")).
 
-**Update**\[September 30th, 2022\]**:** **New dedicated repository:** *SASPAC - the SAS Packages Archive* **is available as new location for packages storage**. Location of SASPAC is: [`https://github.com/SASPAC`](https://github.com/SASPAC) 
+**Update**\[November 21st, 2022\]**:** `%loadPackage()` macro allows Cherry Picking of content (see [here](https://github.com/yabwon/SAS_PACKAGES/releases/tag/20221121 "Cherry Picking")).
 
-**Update**\[November 11th, 2021\]**:** `%extendPackagesFileref()` **macro is available**.
+**Update**\[September 30th, 2022\]**:** New dedicated repository: *SASPAC - the SAS Packages Archive* is available as new location for packages storage. Location of SASPAC is: [`https://github.com/SASPAC`](https://github.com/SASPAC) 
 
-**Update**\[October 15th, 2020\]**:** `%previewPackage()` **macro is available**.
+**Update**\[November 11th, 2021\]**:** `%extendPackagesFileref()` macro is available.
 
-**Update**\[September 11th, 2020\]**:** ` %loadPackageS()` and `%verifyPackage()` **macros are available**.
+**Update**\[October 15th, 2020\]**:** `%previewPackage()` macro is available.
+
+**Update**\[September 11th, 2020\]**:** ` %loadPackageS()` and `%verifyPackage()` macros are available.
 
 **Update**\[July 30th, 2020\]**:** All components of SAS Packages Framework are now in one file `SPFinit.sas` (located in the `./SPF` directory). Documentation moved to `./SPF/Documentation` directory. Packages zip files moved to `./packages` directory.
 

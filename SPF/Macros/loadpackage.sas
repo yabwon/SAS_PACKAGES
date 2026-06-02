@@ -34,9 +34,10 @@
 , DS2force=0                          /* indicates if PROC DS2 packages and threads
                                          should be loaded if a data set exists, 0=do not load
                                        */
+, force=0                             /* force loading even if given version is already loaded */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20260515. Run %loadPackage() for help info.'
+des = 'Macro to load SAS package, version 20260602. Run %loadPackage(HELP) for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -52,7 +53,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20260515`                              #;
+    %put # Macro to *load* SAS packages, version `20260602`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -115,6 +116,10 @@ minoperator
     %put # - `DS2force=`         *Optional.* Indicates if loading of `PROC DS2` packages #;
     %put #                       or threads should overwrite existing SAS data sets.     #;
     %put #                       Default value of `0` means "do not overwrite".          #;
+    %put #                                                                               #;
+    %put # - `force=`            *Optional.* Forces re-loading of a package, even if     #;
+    %put #                       the given version is already loaded.                    #;
+    %put #                       Default value of `0` means "do not re-load".            #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -197,7 +202,7 @@ minoperator
       if exists then leave;
     end;
     if exists then call symputx("path", p, "L");
-  /*run;*/ /* moved to line 272 */
+  /*run;*/ /* moved to line 276 */
   
   /* convert cherryPick to lower case if needed */
   %if NOT (%str(*) = %superq(cherryPick)) %then
@@ -206,28 +211,20 @@ minoperator
         call symputX("cherryPick",lowcase(compbl(compress(symget("cherryPick"),". _","KDA"))),"L");
       /*run;*/
     %end;
+
   run;
 
   /* empty list is equivalent to "*" */ 
-  %if %superq(cherryPick)= %then 
+  %if %sysevalf(%superq(cherryPick)=,boolean) %then 
     %do;
       %let cherryPick=*;
     %end;
 
-  %if %superq(loadAddCnt) NE 1 %then
-    %do;
-      %let loadAddCnt = 0;
-    %end;
-
-  %if %superq(suppressExec) NE 1 %then
-    %do;
-      %let suppressExec = 0;
-    %end;
-
-  %if %superq(DS2force) NE 1 %then
-    %do;
-      %let DS2force = 0;
-    %end;
+  /* default is 0, anything else is 1 */
+  %let loadAddCnt   =%sysevalf(NOT(%superq(loadAddCnt)=0),boolean);
+  %let suppressExec =%sysevalf(NOT(%superq(suppressExec)=0),boolean);
+  %let DS2force     =%sysevalf(NOT(%superq(DS2force)=0),boolean);
+  %let force        =%sysevalf(NOT(%superq(force)=0),boolean);
 
   filename &_PackageFileref_. &ZIP. 
   /* put location of package myPackageFile.zip here */
@@ -237,8 +234,10 @@ minoperator
     %do;
       %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
       filename &_PackageFileref_. clear;
+      /**/
 
       /* test if required version of package is "good enough" */
+
       %local rV pV rV0 pV0 rVsign;
       %let pV0 = %sysfunc(compress(&packageVersion.,.,kd));
       %let pV = %sysevalf((%scan(&pV0.,1,.,M)+0)*1e8
@@ -257,8 +256,33 @@ minoperator
       %let rV = %sysevalf((%scan(&rV0.,1,.,M)+0)*1e8
                         + (%scan(&rV0.,2,.,M)+0)*1e4
                         + (%scan(&rV0.,3,.,M)+0)*1e0);
+
+      /* check if the package is already loaded */
+      /* conditions 1) cherrypick=* 2) sysloadedpackages exists and is global,  */
       
-      %if NOT %sysevalf(&rV. &rVsign. &pV.) %then
+      %local aleradyLoaded pLV pLV0; /* flag for already laded package check */
+      %let aleradyLoaded = 0;
+      %if 0=&force. AND %SYMEXIST(sysloadedpackages) AND (%superq(cherrypick)=%str(*)) %then
+      %do;
+        %if %SYMGLOBL(sysloadedpackages) %then
+          %do;
+            %local findInLoaded; 
+            %let   findInLoaded = %qsysfunc(FIND(%superq(sysloadedpackages), %str(&packageName.%(), IT)); /* )-clocing */       
+
+            %if &findInLoaded. %then
+              %let pLV0 = %scan(%substr(%superq(sysloadedpackages),&findInLoaded.),2,());
+            %else 
+              %let pLV0 = .;
+            %let pLV  = %sysevalf((%scan(&pLV0.,1,.,M)+0)*1e8
+                                + (%scan(&pLV0.,2,.,M)+0)*1e4
+                                + (%scan(&pLV0.,3,.,M)+0)*1e0);
+
+            /* if package name was found and version is ok set aleradyLoaded flag to 1 */
+            %let aleradyLoaded=%sysevalf(&findInLoaded. AND (&rV. &rVsign. &pLV.),boolean);
+         %end; 
+      %end;
+
+      %if (NOT &aleradyLoaded.) AND (NOT %sysevalf(&rV. &rVsign. &pV.)) %then
         %do;
           %put ERROR: Package &packageName. will not be loaded!;
           %put ERROR- Required version is &rV0.;
@@ -276,19 +300,30 @@ minoperator
           %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
                                             %else utf8 ;
       ;
-      %if %superq(lazyData) = %then
+      %if %sysevalf(%superq(lazyData)=,boolean) %then
         %do;
-          %local tempLoad_minoperator temp_noNotes_etc /* for hiding notes */ ;
-          %let tempLoad_minoperator = %sysfunc(getoption(minoperator));
-          options minoperator; /* MinOperator option is required for cherryPicking to work */
-          %include &_PackageFileref_.(load.sas) / &source2.;
-          options &tempLoad_minoperator.;
-          %if 1 = &loadAddCnt. %then
+          %if NOT &aleradyLoaded. %then
             %do;
-              %put; %put - Additional content loading - Start -;
-              %loadPackageAddCnt(&packageName., 
-                                 path=&path.)
-              %put - Additional content loading - End -;
+              %local tempLoad_minoperator temp_noNotes_etc /* for hiding notes */ ;
+              %let tempLoad_minoperator = %sysfunc(getoption(minoperator));
+              options minoperator; /* MinOperator option is required for cherryPicking to work */
+              %include &_PackageFileref_.(load.sas) / &source2.;
+              options &tempLoad_minoperator.;
+              %if 1 = &loadAddCnt. %then
+                %do;
+                  %put; %put - Additional content loading - Start -;
+                  %loadPackageAddCnt(&packageName., 
+                                     path=&path.)
+                  %put - Additional content loading - End -;
+                %end;
+            %end;
+          %else
+            %do;
+              %put NOTE- %str( ); 
+              %put NOTE: It looks like the &packageName.(&pLV0.) package already loaded! Nothing to do.;
+              %put NOTE- To force reloading use the force=1;
+              /* if package is already loaded with req version. */
+              %put NOTE- %str( );
             %end;
         %end;
       %else
