@@ -1,0 +1,1 @@
+options obs=100;

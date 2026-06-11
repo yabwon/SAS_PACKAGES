@@ -1,0 +1,19 @@
+Jenner 0.1.0 (Unlicensed - limited to 100 observations)
+Get a license at https://jenneranalytics.com/license
+
+NOTE: Option OBS changed to 100.
+NOTE: PROC FCMP outlib=work.myPackagefcmp.package
+
+NOTE: Function F1 stored to work.myPackagefcmp.package.
+NOTE: Function F2 stored to work.myPackagefcmp.package.
+NOTE: Option CMPLIB changed to WORK.MYPACKAGEFCMP.
+NOTE: DATA f_check
+
+
+NOTE: Wrote f_check (4 rows, 3 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC PRINT data=f_check
+
+NOTE: PROC PRINT completed: 4 observations printed, 3 variables

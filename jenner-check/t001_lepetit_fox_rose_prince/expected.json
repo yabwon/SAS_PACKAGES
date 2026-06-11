@@ -1,0 +1,20 @@
+{
+  "_captured_at": "2026-06-11T18:06:56.830889+00:00",
+  "_captured_run_id": "r_019eb7dc8dca7703ac78cd68c5d1d86f",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE- And now here is my secret, a very simple secret:",
+    "WARNING- You are responsible for your rose...",
+    "NOTE: FORMAT rose defined (5 ranges).",
+    "NOTE: Function prince stored to work.little.prince.",
+    "prince=If you please--draw me a sheep!"
+  ],
+  "log_does_not_contain": [
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

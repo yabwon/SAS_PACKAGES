@@ -1,0 +1,8 @@
+{
+  "bundle": "t003_mypackage_infnum_informat",
+  "source_file": "SPF/Documentation/Paper_1079-2021/myPackage/003_formats/infnum.sas",
+  "source_blob_sha": "e29e3467a057c7cea8a3386dfe28e623767300bf",
+  "source_commit": "8b5b1d18dc75f251ef2978f0ee4d0d15ff027fbc",
+  "tier": "real_data",
+  "notes": "myPackage infNum invalue body verbatim, wrapped in PROC FORMAT as the SPF load.sas would compile it; caller data step reads the informat's documented words plus the mcrTwo example phrase 'I don't know...' (=> 42)."
+}

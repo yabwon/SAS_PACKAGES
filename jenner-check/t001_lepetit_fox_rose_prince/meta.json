@@ -1,0 +1,8 @@
+{
+  "bundle": "t001_lepetit_fox_rose_prince",
+  "source_file": "SPF/Documentation/LePetitSASpackage/le_petit_SAS_package.sas",
+  "source_blob_sha": "30e9fa7956235fbc329e2f1a9fa1dc92dcec5844",
+  "source_commit": "8b5b1d18dc75f251ef2978f0ee4d0d15ff027fbc",
+  "tier": "real_data",
+  "notes": "Fox macro, rose format, and prince() FCMP function from the Le Petit SAS Package workshop script; workshop narration and SPF-loading preamble (local Windows paths, %loadPackageS) omitted so the three pieces run standalone. Code otherwise verbatim."
+}

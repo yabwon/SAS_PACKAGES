@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-06-11T18:06:56.830889+00:00",
+  "_captured_run_id": "r_019eb7dcfa317572bdbd212b6c904ace",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: INFORMAT infNum defined (5 mappings)",
+    "NOTE: Wrote answers (5 rows, 2 columns)."
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

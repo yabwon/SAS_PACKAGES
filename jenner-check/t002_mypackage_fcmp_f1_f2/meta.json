@@ -1,0 +1,11 @@
+{
+  "bundle": "t002_mypackage_fcmp_f1_f2",
+  "source_file": "SPF/Documentation/Paper_1079-2021/myPackage/002_functions/f1.sas",
+  "source_blob_sha": "3464cea479357ae07fa9559a46e75d6f542aefc5",
+  "source_commit": "8b5b1d18dc75f251ef2978f0ee4d0d15ff027fbc",
+  "tier": "real_data",
+  "notes": "myPackage F1/F2 function bodies verbatim, wrapped in PROC FCMP as the SPF load.sas would compile them; small caller data step added feeding the same n values (., -1, 0, 1) used by myPackage smallDataset.",
+  "additional_source_files": {
+    "SPF/Documentation/Paper_1079-2021/myPackage/002_functions/f2.sas": "c40a7380fb2c3c9c161a715624155ec021b1c043"
+  }
+}

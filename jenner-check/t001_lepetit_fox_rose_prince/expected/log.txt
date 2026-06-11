@@ -1,0 +1,52 @@
+Jenner 0.1.0 (Unlicensed - limited to 100 observations)
+Get a license at https://jenneranalytics.com/license
+
+NOTE- And now here is my secret, a very simple secret:
+NOTE- It is only with the heart that one can see rightly;
+NOTE- what is essential is invisible to the eye.
+WARNING- It is the time you have wasted for your rose
+WARNING- that makes your rose so important.
+WARNING- Men have forgotten this truth. But you must not forget it.
+WARNING- You become responsible, forever, for what you have tamed.
+WARNING- You are responsible for your rose...
+ERROR- One only understands the things that one tames.
+ERROR- Men have no more time to understand anything.
+ERROR- They buy things all ready made at the shops.
+ERROR- But there is no shop anywhere where one can buy friendship,
+ERROR- and so men have no friends any more. If you want a friend, tame me...
+NOTE: Option OBS changed to 100.
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT rose defined (5 ranges).
+NOTE: DATA _null_
+
+NOTE- Ah! I am scarcely awake. I beg that you will excuse me. My petals are still all disarranged...
+
+NOTE- Of course I love you. It is my fault that you have not known it all the while. [...] Try to be happy...
+
+NOTE- My cold is not so bad as all that... The cool night air will do me good. I am a flower.
+
+NOTE- Well, I must endure the presence of two or three caterpillars if I wish to become acquainted with the butterflies.
+
+NOTE- ERROR: QUOTE OUT OF RANGE!
+
+
+NOTE: Wrote _null_ (0 rows, 0 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC FCMP outlib=work.little.prince
+
+NOTE: Function prince stored to work.little.prince.
+NOTE: Option APPEND changed to CMPLIB WORK.LITTLE.
+NOTE: PROC OPTIONS option=CMPLIB
+
+NOTE: PROC OPTIONS: 0 option(s) displayed
+NOTE: DATA _null_
+
+prince=If you please--draw me a sheep!
+
+NOTE: Wrote _null_ (0 rows, 0 columns).
+NOTE: DATA elapsed:
+  wall  5.00 seconds
+  cpu   5.00 seconds

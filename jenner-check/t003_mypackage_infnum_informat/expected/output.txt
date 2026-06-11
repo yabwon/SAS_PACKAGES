@@ -1,0 +1,9 @@
+
+  Obs             WORD  VALUE
+-----  ---------------  -----
+    1  negative            -1
+    2  zero                 0
+    3  positive             1
+    4  missing              .
+    5  I don't know...     42
+

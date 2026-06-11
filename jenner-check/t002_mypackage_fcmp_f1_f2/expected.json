@@ -1,0 +1,19 @@
+{
+  "_captured_at": "2026-06-11T18:06:56.830889+00:00",
+  "_captured_run_id": "r_019eb7dcd8c47632958aee5b5dd25a09",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Function F1 stored to work.myPackagefcmp.package.",
+    "NOTE: Function F2 stored to work.myPackagefcmp.package.",
+    "NOTE: Wrote f_check (4 rows, 3 columns)."
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}
