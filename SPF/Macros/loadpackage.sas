@@ -1,3 +1,67 @@
+/*+headerPackage+*/
+/**############################################################################**/
+/*                                                                              */
+/*  Copyright Bartosz Jablonski, since July 2019 onward.                        */
+/*                                                                              */
+/*  Code is free and open source. If you want - you can use it.                 */
+/*  I tested it the best I could                                                */
+/*  but it comes with absolutely no warranty whatsoever.                        */
+/*  If you cause any damage or something - it will be your own fault.           */
+/*  You have been warned! You are using it on your own risk.                    */
+/*  However, if you decide to use it do not forget to mention author:           */
+/*  Bartosz Jablonski (yabwon@gmail.com)                                        */
+/*                                                                              */
+/*  Here is the official version:                                               */
+/*
+  Copyright (c) 2019 - 2026 Bartosz Jablonski (yabwon@gmail.com)
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included 
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+                                                                                 */
+/**#############################################################################**/
+
+/*** HELP START ***/
+/* SPF (SAS Packages Framework) is a set of macros: 
+   - to install, 
+   - to load, 
+   - to get help, 
+   - to unload, or 
+   - to generate SAS packages.
+
+  SAS Packages Framework, version 20260615.
+  See examples below.
+
+  A SAS package is a zip file containing a group of files
+  with SAS code (macros, functions, data steps generating 
+  data, etc.) wrapped up together and %INCLUDEed by
+  a single load.sas file (also embedded inside the zip).
+
+Contributors: 
+- Stu Sztukowski 
+    LinkedIn: https://www.linkedin.com/in/statsguy/ 
+    GitHub: https://github.com/stu-code
+- Ken Nakamatsu 
+    LinkedIn: https://www.linkedin.com/in/k-nkmt 
+    GitHub: https://github.com/k-nkmt
+
+*/
+/*** HELP END ***/
+
 /*+loadPackage+*/
 /*** HELP START ***/
 
@@ -37,23 +101,23 @@
 , force=0                             /* force loading even if given version is already loaded */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20260602. Run %loadPackage(HELP) for help info.'
+des = 'Macro to load SAS package, version 20260615. Run %loadPackage(HELP) for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
     %local options_tmp ;
     %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
-     %sysfunc(getoption(notes)) %sysfunc(getoption(source))
+     %sysfunc(getoption(notes)) %sysfunc(getoption(source)) %sysfunc(getoption(source2))
      msglevel=%sysfunc(getoption(msglevel))
     ;
-    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    options NOnotes NOsource NOsource2 ls=MAX ps=MAX msglevel=N;
     %put ;
     %put #################################################################################;
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20260602`                              #;
+    %put # Macro to *load* SAS packages, version `20260615`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -175,13 +239,13 @@ minoperator
   %let ls_tmp         = %sysfunc(getoption(ls));
   %let ps_tmp         = %sysfunc(getoption(ps));
   %let notes_tmp      = %sysfunc(getoption(notes));
-  %let source_tmp     = %sysfunc(getoption(source));
+  %let source_tmp     = %sysfunc(getoption(source)) %sysfunc(getoption(source2));
   %let stimer_tmp     = %sysfunc(getoption(stimer));
   %let fullstimer_tmp = %sysfunc(getoption(fullstimer));
   %let msglevel_tmp   = %sysfunc(getoption(msglevel));
   %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
 
-  options NOnotes NOsource ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
+  options NOnotes NOsource NOsource2 ls=MAX ps=MAX NOfullstimer NOstimer msglevel=N NOmautocomploc;
 
   %local _PackageFileref_;
   data _null_; 
@@ -260,8 +324,8 @@ minoperator
       /* check if the package is already loaded */
       /* conditions 1) cherrypick=* 2) sysloadedpackages exists and is global,  */
       
-      %local aleradyLoaded pLV pLV0; /* flag for already laded package check */
-      %let aleradyLoaded = 0;
+      %local alreadyLoaded pLV pLV0; /* flag for already laded package check */
+      %let alreadyLoaded = 0;
       %if 0=&force. AND %SYMEXIST(sysloadedpackages) AND (%superq(cherrypick)=%str(*)) %then
       %do;
         %if %SYMGLOBL(sysloadedpackages) %then
@@ -277,12 +341,12 @@ minoperator
                                 + (%scan(&pLV0.,2,.,M)+0)*1e4
                                 + (%scan(&pLV0.,3,.,M)+0)*1e0);
 
-            /* if package name was found and version is ok set aleradyLoaded flag to 1 */
-            %let aleradyLoaded=%sysevalf(&findInLoaded. AND (&rV. &rVsign. &pLV.),boolean);
+            /* if package name was found and version is ok set alreadyLoaded flag to 1 */
+            %let alreadyLoaded=%sysevalf(&findInLoaded. AND (&rV. &rVsign. &pLV.),boolean);
          %end; 
       %end;
 
-      %if (NOT &aleradyLoaded.) AND (NOT %sysevalf(&rV. &rVsign. &pV.)) %then
+      %if (NOT &alreadyLoaded.) AND (NOT %sysevalf(&rV. &rVsign. &pV.)) %then
         %do;
           %put ERROR: Package &packageName. will not be loaded!;
           %put ERROR- Required version is &rV0.;
@@ -302,7 +366,7 @@ minoperator
       ;
       %if %sysevalf(%superq(lazyData)=,boolean) %then
         %do;
-          %if NOT &aleradyLoaded. %then
+          %if NOT &alreadyLoaded. %then
             %do;
               %local tempLoad_minoperator temp_noNotes_etc /* for hiding notes */ ;
               %let tempLoad_minoperator = %sysfunc(getoption(minoperator));

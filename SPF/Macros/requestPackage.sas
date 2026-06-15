@@ -1,3 +1,67 @@
+/*+headerPackage+*/
+/**############################################################################**/
+/*                                                                              */
+/*  Copyright Bartosz Jablonski, since July 2019 onward.                        */
+/*                                                                              */
+/*  Code is free and open source. If you want - you can use it.                 */
+/*  I tested it the best I could                                                */
+/*  but it comes with absolutely no warranty whatsoever.                        */
+/*  If you cause any damage or something - it will be your own fault.           */
+/*  You have been warned! You are using it on your own risk.                    */
+/*  However, if you decide to use it do not forget to mention author:           */
+/*  Bartosz Jablonski (yabwon@gmail.com)                                        */
+/*                                                                              */
+/*  Here is the official version:                                               */
+/*
+  Copyright (c) 2019 - 2026 Bartosz Jablonski (yabwon@gmail.com)
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included 
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+                                                                                 */
+/**#############################################################################**/
+
+/*** HELP START ***/
+/* SPF (SAS Packages Framework) is a set of macros: 
+   - to install, 
+   - to load, 
+   - to get help, 
+   - to unload, or 
+   - to generate SAS packages.
+
+  SAS Packages Framework, version 20260615.
+  See examples below.
+
+  A SAS package is a zip file containing a group of files
+  with SAS code (macros, functions, data steps generating 
+  data, etc.) wrapped up together and %INCLUDEed by
+  a single load.sas file (also embedded inside the zip).
+
+Contributors: 
+- Stu Sztukowski 
+    LinkedIn: https://www.linkedin.com/in/statsguy/ 
+    GitHub: https://github.com/stu-code
+- Ken Nakamatsu 
+    LinkedIn: https://www.linkedin.com/in/k-nkmt 
+    GitHub: https://github.com/k-nkmt
+
+*/
+/*** HELP END ***/
+
 /*+requestPackage+*/
 %macro requestPackage(
  packageName
@@ -20,28 +84,29 @@
 , githubToken = /* user's github fine-grained personal access token */
 , githubTokenDebug = 0 /* debug values: 0,1,2,3 */
 
-, loadPackage=1 /* should the packages be installed after installing */
+, loadPackage=1 /* should the packages be loaded after installing */
 , force=0       /* force reloading even if already loaded */
 , ignoreDepVer=0 /* should dependencies version be ignore so that only the latest could be installed */
 , successDS=    /* technical */
 )
 /secure
-des = 'Macro to request SAS package installation and loading, version 20260602. Run %requestPackage(HELP) for help info.';
+des = 'Macro to request SAS package installation and loading, version 20260615. Run %requestPackage(HELP) for help info.'
+;
 
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
     %local options_tmp ;
     %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
-     %sysfunc(getoption(notes)) %sysfunc(getoption(source))
+     %sysfunc(getoption(notes)) %sysfunc(getoption(source)) %sysfunc(getoption(source2))
      msglevel=%sysfunc(getoption(msglevel))
     ;
-    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    options NOnotes NOsource NOsource2 ls=MAX ps=MAX msglevel=N;
     %put ;
     %put ##############################################################################################;
     %put ###       This is short help information for the `requestPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to request (install and load) SAS packages, version `20260602`                       #;
+    %put # Macro to request (install and load) SAS packages, version `20260615`                       #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -65,8 +130,10 @@ des = 'Macro to request SAS package installation and loading, version 20260602. 
     %put #                                                                                            #;
     %put #  **Installation options:**                                                                 #;
     %put #                                                                                            #;
-    %put # - `requiredVersion=`  *Optional.* Indicates which package version we want                  #;
-    %put #                       to be requested, default value: `.` means "the latest".              #;
+    %put # - `requiredVersion=`  *Optional.* Indicates which (at least) package version we want       #;
+    %put #                       to be requested, empty value by default means "the latest".          #;
+    %put #                       When loaded/installed package version is greater or equal            #;
+    %put #                       from requested, lower requested version is not loaded/installed.     #;
     %put #                                                                                            #;
     %put # - `sourcePath=`   Location of the package, e.g. "www.some.web.page/"                       #;
     %put #                   Mind the "/" at the end of the path!                                     #;
@@ -85,12 +152,6 @@ des = 'Macro to request SAS package installation and loading, version 20260602. 
     %put #                   Value `3` or `PharmaForest` indicates:                                   #;
     %put #                    `https://github.com/PharmaForest/`                                      #;
     %put #                   Default value is `0`.                                                    #;
-    %put #                                                                                            #;
-    %put # - `version=`      Indicates which historical version of a package to install.              #;
-    %put #                   Historical version are currently available only if `mirror=0` is set.    #;
-    %put #                   Default value is null which means "install the latest".                  #;
-    %put #                   When there are multiple packages to install the `version` variable       #;
-    %put #                   is scan sequentially.                                                    #;
     %put #                                                                                            #;
     %put # - `replace=`      When set to `1` and a package file exists, it forces the package         #;
     %put #                   file replacement by the new downloaded file.                             #;
@@ -206,11 +267,11 @@ des = 'Macro to request SAS package installation and loading, version 20260602. 
 %let   _rname_ = _requestPckg_%sysfunc(sleep(1,0.042),best1.)%sysfunc(datetime(),hex16.)_;
 
 %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
-%sysfunc(getoption(notes)) %sysfunc(getoption(source))
+%sysfunc(getoption(notes)) %sysfunc(getoption(source)) %sysfunc(getoption(source2))
 msglevel=%sysfunc(getoption(msglevel))
 ;
-options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
-options source source2;
+options NOnotes NOsource NOsource2 ls=MAX ps=MAX msglevel=N;
+/*options source source2;*/
 %let loadPackage = %sysevalf((1=%superq(loadPackage)),boolean);
 %let replace     = %sysevalf(1=%superq(replace),boolean);
 
@@ -250,7 +311,8 @@ data _null_;
       /*put (_ALL_) (=/);*/
       if (. <= verRN <= versN) then 
         do;
-          put / "INFO: It looks like the " packageName "package is already loaded. Enjoy!";
+          put / "INFO: It looks like the " packageName "package is already loaded. Enjoy!"
+              / @7 "The loaded version is: " vers;
           call symputX('_alreadyLoaded_', 1, "L");
         end;
       else
