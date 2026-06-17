@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260615.
+  SAS Packages Framework, version 20260617.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -75,7 +75,7 @@ Contributors:
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20260615. Run %loadPackages(HELP) for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20260617. Run %loadPackages(HELP) for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -91,7 +91,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20260615`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20260617`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;

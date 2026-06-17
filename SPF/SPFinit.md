@@ -1136,9 +1136,10 @@ filename packages "C:/SAS_PACKAGES"; %* setup a directory for packages;
   **Installation options:**
 
  - `requiredVersion=`  *Optional.* Indicates which (at least) package version we want
-                       to be requested, default value: `.` means "the latest".
-                       When loaded/installed package version is greater or equal
-                       from requested, lower requested version is not loaded/installed.
+                       to be requested. Empty value by default means: "load currently
+                       installed version or install and load the latest available one."
+                       When loaded (installed) package version is greater or equal
+                       than requested, lower requested version is not loaded (installed).
 
  - `sourcePath=`   Location of the package, e.g. "www.some.web.page/"
                    Mind the "/" at the end of the path!
