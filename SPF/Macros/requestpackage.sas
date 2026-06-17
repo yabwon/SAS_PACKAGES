@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260615.
+  SAS Packages Framework, version 20260617.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -90,7 +90,7 @@ Contributors:
 , successDS=    /* technical */
 )
 /secure
-des = 'Macro to request SAS package installation and loading, version 20260615. Run %requestPackage(HELP) for help info.'
+des = 'Macro to request SAS package installation and loading, version 20260617. Run %requestPackage(HELP) for help info.'
 ;
 
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -106,7 +106,7 @@ des = 'Macro to request SAS package installation and loading, version 20260615. 
     %put ###       This is short help information for the `requestPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to request (install and load) SAS packages, version `20260615`                       #;
+    %put # Macro to request (install and load) SAS packages, version `20260617`                       #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -131,9 +131,10 @@ des = 'Macro to request SAS package installation and loading, version 20260615. 
     %put #  **Installation options:**                                                                 #;
     %put #                                                                                            #;
     %put # - `requiredVersion=`  *Optional.* Indicates which (at least) package version we want       #;
-    %put #                       to be requested, empty value by default means "the latest".          #;
-    %put #                       When loaded/installed package version is greater or equal            #;
-    %put #                       from requested, lower requested version is not loaded/installed.     #;
+    %put #                       to be requested. Empty value by default means: %str(%")load currently       #;
+    %put #                       installed version or install and load the latest available one.%str(%")     #;
+    %put #                       When loaded (installed) package version is greater or equal          #;
+    %put #                       than requested, lower requested version is not loaded (installed).   #;
     %put #                                                                                            #;
     %put # - `sourcePath=`   Location of the package, e.g. "www.some.web.page/"                       #;
     %put #                   Mind the "/" at the end of the path!                                     #;

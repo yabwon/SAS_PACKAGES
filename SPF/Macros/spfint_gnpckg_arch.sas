@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260615.
+  SAS Packages Framework, version 20260617.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -64,7 +64,7 @@ Contributors:
 
 /*+SPFint_gnPckg_arch+*/
 %macro SPFint_gnPckg_arch()/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the archive version generation part of the process. Version 20260615.';
+des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the archive version generation part of the process. Version 20260617.';
 /* macro picks up all macrovariables from external scope, so from the %generatePackage() macro */
 %if %sysmexecname(%sysmexecdepth-1) in (GENERATEPACKAGE) %then
 %do;
