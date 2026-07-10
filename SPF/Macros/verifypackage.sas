@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260710.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -77,7 +77,7 @@ Contributors:
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20260617. Run %verifyPackage(HELP) for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20260710. Run %verifyPackage(HELP) for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -92,7 +92,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260617. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20260617`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20260710`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -226,7 +226,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260617. Run %
             LINK CalcualteHashDigest; /* go to Link 1 */
 
             if NOT emptyHash then 
-              do; /* step for veryfication */
+              do; /* step for verification */
                 if upcase(digest) = upcase(providedHash) then
                   do;
                     put "NOTE: Verification SUCCESSFUL."
@@ -245,7 +245,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260617. Run %
                   end;
               end;
             else
-              do method = "SHA1", "MD5"; /* step for digest display, calcualte also SHA1 and MD5 */
+              do method = "SHA1", "MD5"; /* step for digest display, calculate also SHA1 and MD5 */
                   LINK CalcualteHashDigest; /* go to Link 1 */
               end;
             put 82*"-" /;

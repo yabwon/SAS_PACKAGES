@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260710.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -74,7 +74,7 @@ Contributors:
 ,verify=0
 ,quiet=0
 )/
-des='Macro to extract a bundle of SAS packages, version 20260617. Run %unbundlePackages(HELP) for help info.'
+des='Macro to extract a bundle of SAS packages, version 20260710. Run %unbundlePackages(HELP) for help info.'
 secure
 minoperator
 ;
@@ -92,7 +92,7 @@ minoperator
     %put ###     This is short help information for the `unbundlePackages` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *extract* SAS packages from a bundle, version `20260617`             #;
+    %put # Macro to *extract* SAS packages from a bundle, version `20260710`             #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -382,7 +382,7 @@ else
   end;
 
 
-rc = Q.output(dataset: /* create propper tag */
+rc = Q.output(dataset: /* create proper tag */
   %if %superq(ods) NE %then %do; "&ods.(label='Bundle: " !! strip(bundleName) !! "')" %end; 
                       %else %do; "&reportFile.1" %end;
 );
@@ -439,7 +439,7 @@ rc = doSubL(
 stop;
 run;
 /*===================================================================================================*/
-  /* restore optionos */
+  /* restore options */
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.

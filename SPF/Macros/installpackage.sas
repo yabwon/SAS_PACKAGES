@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260710.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -63,7 +63,7 @@ Contributors:
 /*** HELP END ***/
 
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260617  */
+/* Macros to install SAS packages, version 20260710  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -88,13 +88,13 @@ Contributors:
 , SFRCVN =      /* name of a macro variable to store success-failure return code value */
 , github =      /* name of a user or an organization in GitHub, all characters except [A-z0-9_.-] are compressed */
 , githubRepo =  /* repo name to be used, by default it is the package name, but can be altered */
-, githubToken = /* user's github fine-grained personal access token */
+, githubToken = /* user github fine-grained personal access token */
 , githubTokenDebug = 0 /* debug values: 0,1,2,3 */
 )
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260617. Run %installPackage(HELP) for help info.'
+des = 'Macro to install SAS package, version 20260710. Run %installPackage(HELP) for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -109,7 +109,7 @@ des = 'Macro to install SAS package, version 20260617. Run %installPackage(HELP)
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260617`                                          #;
+    %put # Macro to install SAS packages, version `20260710`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -212,7 +212,7 @@ des = 'Macro to install SAS package, version 20260617. Run %installPackage(HELP)
     %put #                      managing-your-personal-access-tokens                                  #;
     %put #                       #creating-a-fine-grained-personal-access-token`                      #;
     %put #                   (lines break added for easier reading)                                   #;
-    %put #                   Public repos do not need authentication.                                 #;
+    %put #                   Public repositories do not need authentication.                          #;
     %put #                   [NOTE!] This feature is experimental in this release.                    #;
     %put #                                                                                            #;
     %put #--------------------------------------------------------------------------------------------#;

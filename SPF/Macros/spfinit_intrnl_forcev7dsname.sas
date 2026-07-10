@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260710.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -66,7 +66,7 @@ Contributors:
 %macro SPFinit_intrnl_forceV7DSname(
 mcParam /* name of a macro parameter holding user provided data set name */
 )/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatybility for user provided data set names. Version 20260617.';
+des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatibility for user provided data set names. Version 20260710.';
 /* The macro can be called only inside a data step. */
 /****************************************************************************
   ### Parameters:
@@ -103,7 +103,7 @@ des='SAS Packages Framework internal macro. Executable only inside selected SPF 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
     %macro A(ods);
       data _null_;
-        %SPDinit_intrnl_forceV7DSname(ods);
+        %SPFinit_intrnl_forceV7DSname(ods);
         call symputX("ods",ods,"L");
       run;
       
