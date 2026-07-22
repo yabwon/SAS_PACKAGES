@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260710.
+  SAS Packages Framework, version 20260721.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -72,7 +72,7 @@ Contributors:
 ,packagesRef=packages
 ,ods= /* data set for report file */
 )/
-des='Macro to create a bundle of SAS packages, version 20260710. Run %bundlePackages(HELP) for help info.'
+des='Macro to create a bundle of SAS packages, version 20260721. Run %bundlePackages(HELP) for help info.'
 secure minoperator
 ;
 
@@ -89,7 +89,7 @@ secure minoperator
     %put ###      This is short help information for the `bundlePackages` macro          #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *create bundles* of SAS packages, version `20260710`                 #;
+    %put # Macro to *create bundles* of SAS packages, version `20260721`                 #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;

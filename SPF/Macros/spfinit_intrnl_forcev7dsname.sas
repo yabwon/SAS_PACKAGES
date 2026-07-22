@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260710.
+  SAS Packages Framework, version 20260721.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -66,7 +66,7 @@ Contributors:
 %macro SPFinit_intrnl_forceV7DSname(
 mcParam /* name of a macro parameter holding user provided data set name */
 )/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatibility for user provided data set names. Version 20260710.';
+des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatibility for user provided data set names. Version 20260721.';
 /* The macro can be called only inside a data step. */
 /****************************************************************************
   ### Parameters:
