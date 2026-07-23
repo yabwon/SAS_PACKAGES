@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260721.
+  SAS Packages Framework, version 20260723.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -69,7 +69,7 @@ SPFmacroName /* space separated list of names */
 /
 minoperator 
 secure
-des = 'Macro to provide help notes about SAS Packages Framework macros, version 20260721. Run %SasPackagesFrameworkNotes(HELP) for help info.'
+des = 'Macro to provide help notes about SAS Packages Framework macros, version 20260723. Run %SasPackagesFrameworkNotes(HELP) for help info.'
 ;
 %local list N i element;
 %let list=
@@ -116,7 +116,7 @@ SasPackagesFrameworkNotes
     %put ###   This is short help information for the `SasPackagesFrameworkNotes` macro  #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro prints help notes for SAS Packages Framework macros, version `20260721` #;
+    %put # Macro prints help notes for SAS Packages Framework macros, version `20260723` #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -134,6 +134,12 @@ SasPackagesFrameworkNotes
     %put #                       allowed too. In such case ALL help notes are printed    #;
     %put #                       If equal `HELP` displays this help information.         #;
     %put #                       If empty displays list of SPF macros.                   #;
+    %put #                       If equal `VERSION`, `VER`, or just `V` returns (in      #;
+    %put #                       a function stule) version number, but since the macro   #;
+    %put #                       is compiled as "secure" it **cannot** be called through #;
+    %put #                       the `%nrstr(%%put)` statement. Direct assignment to a            #;
+    %put #                       macrovariable has to be executed, e.g.,                 #;
+    %put #                       `%nrstr(%%let version = %%SasPackagesFrameworkNotes(V);)`         #;
     %put #                                                                               #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
@@ -162,25 +168,37 @@ SasPackagesFrameworkNotes
     %put  %nrstr( %%SasPackagesFrameworkNotes(generatePackage helpPackage)                );
     %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
     %put #                                                                               #;
+    %put ### Example 4 ###################################################################;
+    %put #                                                                               #;
+    %put #   Run the following code to get SPF version:                                  #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( %%let version = %%SasPackagesFrameworkNotes(V);                         );
+    %put  %nrstr( %%put &=version;                                                        );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #                                                                               #;
     %put #################################################################################;
-    %put ;
+%put ;
     options &options_tmp.;
     %GOTO ENDofSPFNotes;
   %end;
 
+
 %if %sysevalf(%superq(SPFmacroName)=,boolean) %then
   %do;
-    %put ================================================================;
-    %put %str( ) SAS Packages Framework provides the following macros:;
-    %put ================================================================;
+    %put =================================================================================;
+    %put %str( ) SAS Packages Framework (version 20260723) provides the following macros:;
+    %put =================================================================================;
     %do i = 1 %to &N.;
       %let element = %scan(&list., &i.);
       %if &i. IN (3 6 9 10 12) %then %put %str( );
       %if &i. > 9 %then %put %str( )&i.. %NRSTR(%%)&element.();
                   %else %put %str(  )&i.. %NRSTR(%%)&element.();
     %end;
-    %put =================================================================;
+    %put =================================================================================;
   %end;
+/* return version number */
+%else %if (%qupcase(&SPFmacroName.) in (VERSION VER V)) %then %do;20260723%return;%end;
+
 %else %if %str(*) IN (%superq(SPFmacroName)) %then
   %do;
     %do i = 1 %to &N.;
@@ -226,6 +244,9 @@ options mlogic symbolgen;
 %SasPackagesFrameworkNotes(generatePackage helpPackage)
 %SasPackagesFrameworkNotes(generatePackage helpPackages SasPackagesFrameworkNotes isPackagesFilerefOK)
 %SasPackagesFrameworkNotes(*)
+
+%let x = %SasPackagesFrameworkNotes(VER);
+%put &=x.;
 */
 
 

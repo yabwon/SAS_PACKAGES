@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260721.
+  SAS Packages Framework, version 20260723.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -79,7 +79,7 @@ Contributors:
 ,psMAX=MAX     /* pageSise in case executed inside DoSubL() */
 ,ods=          /* a data set for results, e.g., work.relocatePackageReport */
 )
-/ des = 'Utility macro that locally Copies or Moves Packages, version 20260721. Run %relocatePackage(HELP) for help info.'
+/ des = 'Utility macro that locally Copies or Moves Packages, version 20260723. Run %relocatePackage(HELP) for help info.'
   secure
   minoperator
 ;
@@ -97,7 +97,7 @@ Contributors:
     %put ###      This is short help information for the `relocatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260721`   #;
+    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260723`   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
