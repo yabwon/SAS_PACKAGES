@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -72,7 +72,7 @@ Contributors:
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP END ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20260617. Run %splitCodeForPackage(HELP) for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20260727. Run %splitCodeForPackage(HELP) for help info.'
 ;
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
   %do;
@@ -80,15 +80,16 @@ Contributors:
     %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
      %sysfunc(getoption(notes)) %sysfunc(getoption(source))
      msglevel=%sysfunc(getoption(msglevel))
+     %sysfunc(getoption(mprint)) %sysfunc(getoption(mlogic)) %sysfunc(getoption(symbolgen))
     ;
-    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    options NOnotes NOsource ls=MAX ps=MAX msglevel=N NOmprint NOmlogic NOsymbolgen;
     %put ;
     %put #################################################################################;
     %put ###     This is short help information for the `splitCodeForPackage` macro      #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20260617`                              #;
+    %put # files with separate snippets, version `20260727`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -464,7 +465,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
             */
             if firstLine[j] then
               do;
-                put '/* File generated with help of SAS Packages Framework, version 20260617. */';
+                put '/* File generated with help of SAS Packages Framework, version 20260727. */';
                 firstLine[j]=0;
               end; 
             put _infile_;

@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -72,7 +72,7 @@ Contributors:
 ,packagesRef=packages
 ,ods= /* data set for report file */
 )/
-des='Macro to create a bundle of SAS packages, version 20260617. Run %bundlePackages(HELP) for help info.'
+des='Macro to create a bundle of SAS packages, version 20260727. Run %bundlePackages(HELP) for help info.'
 secure minoperator
 ;
 
@@ -89,7 +89,7 @@ secure minoperator
     %put ###      This is short help information for the `bundlePackages` macro          #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *create bundles* of SAS packages, version `20260617`                 #;
+    %put # Macro to *create bundles* of SAS packages, version `20260727`                 #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -490,7 +490,7 @@ run;
 
 
 /*===================================================================================================*/
-    /* restore optionos */
+    /* restore options */
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.

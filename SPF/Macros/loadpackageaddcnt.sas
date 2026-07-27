@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -83,7 +83,7 @@ Contributors:
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20260617. Run %loadPackageAddCnt(HELP) for help info.'
+des = 'Macro to load additional content for a SAS package, version 20260727. Run %loadPackageAddCnt(HELP) for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -99,7 +99,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20260617`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20260727`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -236,7 +236,7 @@ minoperator
           %if %superq(rVsign)= %then %let rVsign=<=;
           %else %if NOT (%superq(rVsign) IN (%str(=) %str(<=) %str(=<) %str(=>) %str(>=) %str(<) %str(>))) %then 
             %do;
-              %put WARNING: Illegal operatopr "%superq(rVsign)"! Default(<=) will be used.;
+              %put WARNING: Illegal operator "%superq(rVsign)"! Default(<=) will be used.;
               %put WARNING- Supported operators are: %str(= <= =< => >= < >);
               %let rVsign=<=;
             %end;
@@ -449,7 +449,7 @@ minoperator
   
   %WrongVersionOFPackageAddCnt:
 
-  /* restore optionos */
+  /* restore options */
   options ls = &ls_tmp. ps = &ps_tmp. 
           &notes_tmp. &source_tmp. 
           &stimer_tmp. &fullstimer_tmp.

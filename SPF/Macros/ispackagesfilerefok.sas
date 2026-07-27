@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -68,7 +68,7 @@ Contributors:
 vERRb /* indicates if macro should be verbose and report errors */
 )
 / minoperator PARMBUFF
-des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFilerefOK(HELP) for help, version 20260617.'
+des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFilerefOK(HELP) for help, version 20260727.'
 ;
 /*** HELP END ***/
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
@@ -77,14 +77,15 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
     %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
      %sysfunc(getoption(notes)) %sysfunc(getoption(source))
      msglevel=%sysfunc(getoption(msglevel))
+     %sysfunc(getoption(mprint)) %sysfunc(getoption(mlogic)) %sysfunc(getoption(symbolgen))
     ;
-    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    options NOnotes NOsource ls=MAX ps=MAX msglevel=N NOmprint NOmlogic NOsymbolgen;
     %put ;
     %put ###########################################################################################;
     %put ###       This is short help information for the `isPackagesFilerefOK` macro              #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to check if the `packages` fileref is "correct", version `20260617`               #;
+    %put # Macro to check if the `packages` fileref is "correct", version `20260727`               #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -101,6 +102,7 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
     %put #                                                                                         #;
     %put # 1. `vERRb`  - *Optional* Indicates if the macro should return value AND be verbose      #;
     %put #               (e.g., print errors and notes) or just return value.                      #;
+    %put #               `1` means "verbose", `0` means "quiet".                                   #;
     %put #                                                                                         #;
     %put # When used as: `%nrstr(%%isPackagesFilerefOK(HELP))` it displays this help information.           #;
     %put #                                                                                         #;
@@ -137,6 +139,7 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
     %GOTO ENDofIsPackagesFilerefOK;
   %end;
 
+%if %sysevalf(%superq(vERRb)=,boolean) %then %let vERRb = 0;
 %if NOT (%superq(vERRb) in (0 1)) %then %let vERRb = 0;
 
 %local isPackagesFilerefOK;
@@ -149,17 +152,19 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
 
 %if &nobs. AND 1=&vERRb. %then %put INFO: PACKAGES fileref is: %sysfunc(pathname(PACKAGES));
 
-%let isPackagesFilerefOK=%sysevalf(&nobs. AND 1, boolean);           
+%let isPackagesFilerefOK=%sysevalf(&nobs. AND 1, boolean);
 
 %do i = 1 %to &nobs.;
     %let rc=%sysfunc(FETCHOBS(&dsid., &i.));
     %let XENGINE=%sysfunc(GETVARC(&dsid., %sysfunc(VARNUM(&dsid., XENGINE))));
     %let XPATH=%sysfunc(GETVARC(&dsid., %sysfunc(VARNUM(&dsid., XPATH))));
 
-    %put %superq(XENGINE) %superq(XPATH);
+    %if 1=&vERRb. %then
+      %put %superq(XENGINE) %superq(XPATH);
+
     %if DISK ne %superq(XENGINE) %then 
       %do;
-        %let isPackagesFilerefOK=0;
+        %let isPackagesFilerefOK=%eval(&isPackagesFilerefOK. * 0);
         %if 1=&vERRb. %then
           %do;
             %if %superq(XENGINE) = SASFSVAM %then %let XENGINE= FILESRVC (SASFSVAM);
@@ -168,7 +173,7 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
       %end;
     %else %if 0=%sysfunc(fileexist(%superq(XPATH))) %then 
       %do;
-        %let isPackagesFilerefOK=0;
+        %let isPackagesFilerefOK=%eval(&isPackagesFilerefOK. * 0);
         %if 1=&vERRb. %then
           %do;
             %put ERROR: Path: %superq(XPATH) does NOT exist!;
@@ -178,7 +183,7 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
       %do;
         %let rc = %sysfunc(FILENAME(_F_, %superq(XPATH)));
         %let dirid = %sysfunc(DOPEN(&_F_.));
-        %let isPackagesFilerefOK=%sysevalf(&dirid. AND 1, boolean);
+        %let isPackagesFilerefOK=%eval(&isPackagesFilerefOK. * %sysevalf(&dirid. AND 1, boolean));
         %let dirid = %sysfunc(DCLOSE(&dirid.));
         %let rc = %sysfunc(FILENAME(_F_));
         %if 1=&vERRb. AND 0=&isPackagesFilerefOK. %then

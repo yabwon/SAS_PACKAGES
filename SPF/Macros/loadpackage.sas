@@ -32,8 +32,8 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-                                                                                 */
-/**#############################################################################**/
+                                                                                */
+/**############################################################################**/
 
 /*** HELP START ***/
 /* SPF (SAS Packages Framework) is a set of macros: 
@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260617.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -101,7 +101,7 @@ Contributors:
 , force=0                             /* force loading even if given version is already loaded */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20260617. Run %loadPackage(HELP) for help info.'
+des = 'Macro to load SAS package, version 20260727. Run %loadPackage(HELP) for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -117,7 +117,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20260617`                              #;
+    %put # Macro to *load* SAS packages, version `20260727`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -313,7 +313,7 @@ minoperator
       %if %superq(rVsign)= %then %let rVsign=<=;
       %else %if NOT (%superq(rVsign) IN (%str(=) %str(<=) %str(=<) %str(=>) %str(>=) %str(<) %str(>))) %then 
         %do;
-          %put WARNING: Illegal operatopr "%superq(rVsign)"! Default(<=) will be used.;
+          %put WARNING: Illegal operator "%superq(rVsign)"! Default(<=) will be used.;
           %put WARNING- Supported operators are: %str(= <= =< => >= < >);
           %let rVsign=<=;
         %end;
@@ -384,7 +384,7 @@ minoperator
           %else
             %do;
               %put NOTE- %str( ); 
-              %put NOTE: It looks like the &packageName.(&pLV0.) package already loaded! Nothing to do.;
+              %put NOTE: It looks like the &packageName.(&pLV0.) package is already loaded! Nothing to do.;
               %put NOTE- To force reloading use the force=1;
               /* if package is already loaded with req version. */
               %put NOTE- %str( );
