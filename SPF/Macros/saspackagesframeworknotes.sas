@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260723.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -69,7 +69,7 @@ SPFmacroName /* space separated list of names */
 /
 minoperator 
 secure
-des = 'Macro to provide help notes about SAS Packages Framework macros, version 20260723. Run %SasPackagesFrameworkNotes(HELP) for help info.'
+des = 'Macro to provide help notes about SAS Packages Framework macros, version 20260727. Run %SasPackagesFrameworkNotes(HELP) for help info.'
 ;
 %local list N i element;
 %let list=
@@ -116,7 +116,7 @@ SasPackagesFrameworkNotes
     %put ###   This is short help information for the `SasPackagesFrameworkNotes` macro  #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro prints help notes for SAS Packages Framework macros, version `20260723` #;
+    %put # Macro prints help notes for SAS Packages Framework macros, version `20260727` #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -186,7 +186,7 @@ SasPackagesFrameworkNotes
 %if %sysevalf(%superq(SPFmacroName)=,boolean) %then
   %do;
     %put =================================================================================;
-    %put %str( ) SAS Packages Framework (version 20260723) provides the following macros:;
+    %put %str( ) SAS Packages Framework (version 20260727) provides the following macros:;
     %put =================================================================================;
     %do i = 1 %to &N.;
       %let element = %scan(&list., &i.);
@@ -197,7 +197,7 @@ SasPackagesFrameworkNotes
     %put =================================================================================;
   %end;
 /* return version number */
-%else %if (%qupcase(&SPFmacroName.) in (VERSION VER V)) %then %do;20260723%return;%end;
+%else %if (%qupcase(&SPFmacroName.) in (VERSION VER V)) %then %do;20260727%return;%end;
 
 %else %if %str(*) IN (%superq(SPFmacroName)) %then
   %do;

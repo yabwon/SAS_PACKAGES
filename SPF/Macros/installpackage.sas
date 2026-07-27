@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260723.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -63,7 +63,7 @@ Contributors:
 /*** HELP END ***/
 
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260723  */
+/* Macros to install SAS packages, version 20260727  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -94,7 +94,7 @@ Contributors:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP) for help info.'
+des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP) for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -109,7 +109,7 @@ des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP)
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260723`                                          #;
+    %put # Macro to install SAS packages, version `20260727`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -883,6 +883,13 @@ des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP)
           msglevel=&msglevel_tmp. &mautocomploc_tmp.;
 %ENDofinstallPackage:
 %mend installPackage;
+
+%macro installPackages()/parmbuff;
+/* syntactic-sugar wrapper for installPackage macro ********************* */
+%put WARNING: Assuming the %NRSTR(%%installPackage()) macro was misspelled.;
+%installPackage&syspbuff.
+/* ********************************************************************** */
+%mend installPackages;
 
 /*** HELP START ***/
 

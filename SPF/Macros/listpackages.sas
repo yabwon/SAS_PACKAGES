@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260723.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -67,7 +67,7 @@ Contributors:
 
   Macro to list SAS packages in packages folder. 
 
-  Version 20260723 
+  Version 20260727 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -89,7 +89,7 @@ Contributors:
   listDataSet /* Name of a data set to save results */
 , quiet = 0   /* Indicate if results should be printed in log */
 )/secure parmbuff
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260723.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260727.'
 ;
 %if (%QUPCASE(&listDataSet.) = HELP) %then
   %do;
@@ -104,7 +104,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20260723`                                #;
+    %put # Macro to list available SAS packages, version `20260727`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -326,5 +326,12 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 
 %ENDoflistPackages:
 %mend listPackages;
+
+%macro listPackage()/parmbuff;
+/* syntactic-sugar wrapper for listPackage macro ********************** */
+%put WARNING: Assuming the %NRSTR(%%listPackages()) macro was misspelled.;
+%listPackages&syspbuff.
+/* ******************************************************************** */
+%mend listPackage;
 
 

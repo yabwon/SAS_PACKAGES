@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260723.
+  SAS Packages Framework, version 20260727.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -101,7 +101,7 @@ Contributors:
 , force=0                             /* force loading even if given version is already loaded */
 )/secure
 /*** HELP END ***/
-des = 'Macro to load SAS package, version 20260723. Run %loadPackage(HELP) for help info.'
+des = 'Macro to load SAS package, version 20260727. Run %loadPackage(HELP) for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -117,7 +117,7 @@ minoperator
     %put ###      This is short help information for the `loadPackage` macro             #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* SAS packages, version `20260723`                              #;
+    %put # Macro to *load* SAS packages, version `20260727`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -432,7 +432,7 @@ minoperator
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to unload SAS package, version 20260723. Run %unloadPackage(HELP) for help info.'
+des = 'Macro to unload SAS package, version 20260727. Run %unloadPackage(HELP) for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -447,7 +447,7 @@ des = 'Macro to unload SAS package, version 20260723. Run %unloadPackage(HELP) f
     %put ###      This is short help information for the `unloadPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to unload SAS packages, version `20260723`                              #;
+    %put # Macro to unload SAS packages, version `20260727`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -605,7 +605,7 @@ des = 'Macro to unload SAS package, version 20260723. Run %unloadPackage(HELP) f
                                         */
 )/secure
 /*** HELP END ***/
-des = 'Macro to get help about SAS package, version 20260723. Run %helpPackage(HELP) for help info.'
+des = 'Macro to get help about SAS package, version 20260727. Run %helpPackage(HELP) for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -620,7 +620,7 @@ des = 'Macro to get help about SAS package, version 20260723. Run %helpPackage(H
     %put ###       This is short help information for the `helpPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get help about SAS packages, version `20260723`                      #;
+    %put # Macro to get help about SAS packages, version `20260727`                      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -765,7 +765,7 @@ TODO:
 */
 
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260723  */
+/* Macros to install SAS packages, version 20260727  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
@@ -796,7 +796,7 @@ TODO:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP) for help info.'
+des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP) for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -811,7 +811,7 @@ des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP)
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260723`                                          #;
+    %put # Macro to install SAS packages, version `20260727`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -1586,6 +1586,13 @@ des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP)
 %ENDofinstallPackage:
 %mend installPackage;
 
+%macro installPackages()/parmbuff;
+/* syntactic-sugar wrapper for installPackage macro ********************* */
+%put WARNING: Assuming the %NRSTR(%%installPackage()) macro was misspelled.;
+%installPackage&syspbuff.
+/* ********************************************************************** */
+%mend installPackages;
+
 /*** HELP START ***/
 
 /* 
@@ -1691,7 +1698,7 @@ des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP)
 
   Macro to list SAS packages in packages folder. 
 
-  Version 20260723 
+  Version 20260727 
 
   A SAS package is a zip file containing a group 
   of SAS codes (macros, functions, data steps generating 
@@ -1713,7 +1720,7 @@ des = 'Macro to install SAS package, version 20260723. Run %installPackage(HELP)
   listDataSet /* Name of a data set to save results */
 , quiet = 0   /* Indicate if results should be printed in log */
 )/secure parmbuff
-des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260723.'
+des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HELP) for help, version 20260727.'
 ;
 %if (%QUPCASE(&listDataSet.) = HELP) %then
   %do;
@@ -1728,7 +1735,7 @@ des = 'Macro to list SAS packages from `packages` fileref, type %listPackages(HE
     %put ###       This is short help information for the `listPackages` macro                     #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list available SAS packages, version `20260723`                                #;
+    %put # Macro to list available SAS packages, version `20260727`                                #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -1951,13 +1958,20 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
 %ENDoflistPackages:
 %mend listPackages;
 
+%macro listPackage()/parmbuff;
+/* syntactic-sugar wrapper for listPackage macro ********************** */
+%put WARNING: Assuming the %NRSTR(%%listPackages()) macro was misspelled.;
+%listPackages&syspbuff.
+/* ******************************************************************** */
+%mend listPackage;
+
 
 /*+generatePackage+*/
 /*** HELP START ***//* 
 
    Macro to generate SAS packages.
 
-   Version 20260723
+   Version 20260727
 
    A SAS package is a zip file containing a group 
    of SAS codes (macros, functions, data steps generating 
@@ -2007,7 +2021,7 @@ options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
                          when empty takes buildLocation */
 )/ secure minoperator
 /*** HELP END ***/
-des = 'Macro to generate SAS packages, version 20260723. Run %generatePackage(HELP) for help info.'
+des = 'Macro to generate SAS packages, version 20260727. Run %generatePackage(HELP) for help info.'
 ;
 %if (%superq(filesLocation) = ) OR (%qupcase(&filesLocation.) = HELP) %then
   %do;
@@ -2022,7 +2036,7 @@ des = 'Macro to generate SAS packages, version 20260723. Run %generatePackage(HE
     %put ###      This is short help information for the `generatePackage` macro              #;
     %put #------------------------------------------------------------------------------------#;
     %put #                                                                                    #;
-    %put # Macro to generate SAS packages, version `20260723`                                 #;
+    %put # Macro to generate SAS packages, version `20260727`                                 #;
     %put #                                                                                    #;
     %put # A SAS package is a zip file containing a group                                     #;
     %put # of SAS codes (macros, functions, data steps generating                             #;
@@ -2905,7 +2919,7 @@ title6 "MD5 hashed fileref of package lowcase name: &_PackageFileref_.";
     title&_titleNumber_. "Package ZIP file location is: &buildLocation.";
   %end;
 
-footnote1 "SAS Packages Framework, version 20260723";
+footnote1 "SAS Packages Framework, version 20260727";
 
 proc print 
   data = &filesWithCodes.(drop=base build folderRef fileRef rc folderid _abort_ fileId additionalContent)
@@ -3729,7 +3743,7 @@ data _null_;
     %end; 
   put +(-1) '`.;''' 
     / ' !! ''      %put The macro generated: '' !! put(dtCASLudf, E8601DT19.-L) !! ";"' 
-    / ' !! ''      %put with the SAS Packages Framework version 20260723.;''' 
+    / ' !! ''      %put with the SAS Packages Framework version 20260727.;''' 
     / ' !! ''      %put ****************************************************************************;''' 
     / ' !! ''    %GOTO theEndOfTheMacro;''' 
     / ' !! ''    %end;''' ;
@@ -3893,7 +3907,7 @@ data _null_;
             %end; 
       put +(-1) '`.; '' !!' /
           '''      %put The macro generated: ''' " !! put(dtIML, E8601DT19.-L) !! " ''';                    '' !! ' / 
-          '''      %put with the SAS Packages Framework version 20260723.;                                  '' !! ' / 
+          '''      %put with the SAS Packages Framework version 20260727.;                                  '' !! ' / 
           '''      %put ****************************************************************************;       '' !! ' / 
           '''    %GOTO theEndOfTheMacro;                                                                    '' !! ' / 
           '''    %end;                                                                                      '' !! ' / 
@@ -4765,7 +4779,7 @@ data _null_;
   %end;
 
   put 'put " " / @3 "---------------------------------------------------------------------" / " ";' 
-    /       'put @3 "*SAS package generated by SAS Package Framework, version `20260723`*";' 
+    /       'put @3 "*SAS package generated by SAS Package Framework, version `20260727`*";' 
     /       "put @3 '*under `&sysscp.`(`&sysscpl.`) operating system,*';"
     /       "put @3 '*using SAS release: `&sysvlong4.`.*';"
     / 'put " " / @3 "---------------------------------------------------------------------";';
@@ -5205,7 +5219,7 @@ options &qlenmax_fstimer_tmp.;
 
 /*+SPFint_gnPckg_tests+*/
 %macro SPFint_gnPckg_tests()/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the test part of the process. Version 20260723.';
+des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the test part of the process. Version 20260727.';
 /* macro picks up all macrovariables from external scope, so from the %generatePackage() macro */
 %if %sysmexecname(%sysmexecdepth-1) in (GENERATEPACKAGE) %then
 %do;
@@ -5887,7 +5901,7 @@ options &quotelenmax_tmp.;
 
 /*+SPFint_gnPckg_markdown+*/
 %macro SPFint_gnPckg_markdown()/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the markdown documentation part of the process. Version 20260723.';
+des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the markdown documentation part of the process. Version 20260727.';
 /* macro picks up all macrovariables from external scope, so from the %generatePackage() macro */
 %if %sysmexecname(%sysmexecdepth-1) in (GENERATEPACKAGE) %then
 %do;
@@ -5999,7 +6013,7 @@ data &filesWithCodes.markdown;
   %end;
 
   put " " / "---------------------------------------------------------------------" / " " 
-          / "*SAS package generated by SAS Package Framework, version `20260723`,*"
+          / "*SAS package generated by SAS Package Framework, version `20260727`,*"
           / "*under `&sysscp.`(`&sysscpl.`) operating system,*" 
           / "*using SAS release: `&sysvlong4.`.*" 
     / " " / "---------------------------------------------------------------------" / " ";
@@ -6140,7 +6154,7 @@ options &MarkDownOptionsTmp.;
 
 /*+SPFint_gnPckg_arch+*/
 %macro SPFint_gnPckg_arch()/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the archive version generation part of the process. Version 20260723.';
+des='SAS Packages Framework internal macro. Executable only inside the %generatePackage() macro. The macro encapsulates the archive version generation part of the process. Version 20260727.';
 /* macro picks up all macrovariables from external scope, so from the %generatePackage() macro */
 %if %sysmexecname(%sysmexecdepth-1) in (GENERATEPACKAGE) %then
 %do;
@@ -6307,7 +6321,7 @@ TODO: (in Polish)
                  */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load multiple SAS packages at one run, version 20260723. Run %loadPackages(HELP) for help info.'
+des = 'Macro to load multiple SAS packages at one run, version 20260727. Run %loadPackages(HELP) for help info.'
 parmbuff
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
@@ -6323,7 +6337,7 @@ parmbuff
     %put ###      This is short help information for the `loadPackageS` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro wrapper for the loadPackage macro, version `20260723`                   #;
+    %put # Macro wrapper for the loadPackage macro, version `20260727`                   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -6421,7 +6435,7 @@ parmbuff
                                          hashing_file() function, SAS 9.4M6 */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to verify SAS package with the hash digest, version 20260723. Run %verifyPackage(HELP) for help info.'
+des = 'Macro to verify SAS package with the hash digest, version 20260727. Run %verifyPackage(HELP) for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -6436,7 +6450,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260723. Run %
     %put ###      This is short help information for the `verifyPackage` macro           #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to verify SAS package with it hash digest, version `20260723`           #;
+    %put # Macro to verify SAS package with it hash digest, version `20260727`           #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -6652,7 +6666,7 @@ des = 'Macro to verify SAS package with the hash digest, version 20260723. Run %
                                        */
 )/secure
 /*** HELP END ***/
-des = 'Macro to preview content of a SAS package, version 20260723. Run %previewPackage(HELP) for help info.'
+des = 'Macro to preview content of a SAS package, version 20260727. Run %previewPackage(HELP) for help info.'
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
   %do;
@@ -6667,7 +6681,7 @@ des = 'Macro to preview content of a SAS package, version 20260723. Run %preview
     %put ###    This is short help information for the `previewPackage` macro            #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to get preview of a SAS packages, version `20260723`                    #;
+    %put # Macro to get preview of a SAS packages, version `20260727`                    #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -6801,7 +6815,7 @@ des = 'Macro to preview content of a SAS package, version 20260723. Run %preview
              when empty the "packages" value is used */
 )/secure
 /*** HELP END ***/
-des = 'Macro to list directories pointed by "packages" fileref, version 20260723. Run %extendPackagesFileref(HELP) for help info.'
+des = 'Macro to list directories pointed by "packages" fileref, version 20260727. Run %extendPackagesFileref(HELP) for help info.'
 ;
 
 %if %QUPCASE(&packages.) = HELP %then
@@ -6817,7 +6831,7 @@ des = 'Macro to list directories pointed by "packages" fileref, version 20260723
     %put ###       This is short help information for the `extendPackagesFileref` macro            #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to list directories pointed by 'packages' fileref, version `20260723`             #;
+    %put # Macro to list directories pointed by 'packages' fileref, version `20260727`             #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -6919,7 +6933,7 @@ filename packages list;
                                          is provided in required version */
 )/secure 
 /*** HELP END ***/
-des = 'Macro to load additional content for a SAS package, version 20260723. Run %loadPackageAddCnt(HELP) for help info.'
+des = 'Macro to load additional content for a SAS package, version 20260727. Run %loadPackageAddCnt(HELP) for help info.'
 minoperator
 ;
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -6935,7 +6949,7 @@ minoperator
     %put ###      This is short help information for the `loadPackageAddCnt` macro       #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *load* additional content for a SAS package, version `20260723`      #;
+    %put # Macro to *load* additional content for a SAS package, version `20260727`      #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -7306,7 +7320,7 @@ minoperator
 ,nobs=0            /* technical parameter  */
 )
 /*** HELP END ***/
-/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20260723. Run %splitCodeForPackage(HELP) for help info.'
+/ des = 'Utility macro to split "one big" code into multiple files for a SAS package, version 20260727. Run %splitCodeForPackage(HELP) for help info.'
 ;
 %if (%superq(codeFile) = ) OR (%qupcase(&codeFile.) = HELP) %then
   %do;
@@ -7323,7 +7337,7 @@ minoperator
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
     %put # Utility macro to *split* single file with SAS package code into multiple      #;
-    %put # files with separate snippets, version `20260723`                              #;
+    %put # files with separate snippets, version `20260727`                              #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -7699,7 +7713,7 @@ options nomprint nosymbolgen nomlogic notes source ls=MAX ps=MAX msglevel=N ;
             */
             if firstLine[j] then
               do;
-                put '/* File generated with help of SAS Packages Framework, version 20260723. */';
+                put '/* File generated with help of SAS Packages Framework, version 20260727. */';
                 firstLine[j]=0;
               end; 
             put _infile_;
@@ -7732,7 +7746,7 @@ options &options_tmp2.;
 ,psMAX=MAX     /* pageSise in case executed inside DoSubL() */
 ,ods=          /* a data set for results, e.g., work.relocatePackageReport */
 )
-/ des = 'Utility macro that locally Copies or Moves Packages, version 20260723. Run %relocatePackage(HELP) for help info.'
+/ des = 'Utility macro that locally Copies or Moves Packages, version 20260727. Run %relocatePackage(HELP) for help info.'
   secure
   minoperator
 ;
@@ -7750,7 +7764,7 @@ options &options_tmp2.;
     %put ###      This is short help information for the `relocatePackage` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260723`   #;
+    %put # Macro to *locally copy or move* (relocate) SAS packages, version `20260727`   #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -8415,7 +8429,7 @@ filename PACKAGES ("R:\testPackages2" "R:\testPackages1");
 vERRb /* indicates if macro should be verbose and report errors */
 )
 / minoperator PARMBUFF
-des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFilerefOK(HELP) for help, version 20260723.'
+des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFilerefOK(HELP) for help, version 20260727.'
 ;
 /*** HELP END ***/
 %if %QUPCASE(&SYSPBUFF.) = %str(%(HELP%)) %then
@@ -8432,7 +8446,7 @@ des = 'Macro to check if the PACKAGES fileref is "correct", type %isPackagesFile
     %put ###       This is short help information for the `isPackagesFilerefOK` macro              #;
     %put #-----------------------------------------------------------------------------------------#;;
     %put #                                                                                         #;
-    %put # Macro to check if the `packages` fileref is "correct", version `20260723`               #;
+    %put # Macro to check if the `packages` fileref is "correct", version `20260727`               #;
     %put #                                                                                         #;
     %put # A SAS package is a zip file containing a group                                          #;
     %put # of SAS codes (macros, functions, data steps generating                                  #;
@@ -8570,7 +8584,7 @@ SPFmacroName /* space separated list of names */
 /
 minoperator 
 secure
-des = 'Macro to provide help notes about SAS Packages Framework macros, version 20260723. Run %SasPackagesFrameworkNotes(HELP) for help info.'
+des = 'Macro to provide help notes about SAS Packages Framework macros, version 20260727. Run %SasPackagesFrameworkNotes(HELP) for help info.'
 ;
 %local list N i element;
 %let list=
@@ -8617,7 +8631,7 @@ SasPackagesFrameworkNotes
     %put ###   This is short help information for the `SasPackagesFrameworkNotes` macro  #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro prints help notes for SAS Packages Framework macros, version `20260723` #;
+    %put # Macro prints help notes for SAS Packages Framework macros, version `20260727` #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -8687,7 +8701,7 @@ SasPackagesFrameworkNotes
 %if %sysevalf(%superq(SPFmacroName)=,boolean) %then
   %do;
     %put =================================================================================;
-    %put %str( ) SAS Packages Framework (version 20260723) provides the following macros:;
+    %put %str( ) SAS Packages Framework (version 20260727) provides the following macros:;
     %put =================================================================================;
     %do i = 1 %to &N.;
       %let element = %scan(&list., &i.);
@@ -8698,7 +8712,7 @@ SasPackagesFrameworkNotes
     %put =================================================================================;
   %end;
 /* return version number */
-%else %if (%qupcase(&SPFmacroName.) in (VERSION VER V)) %then %do;20260723%return;%end;
+%else %if (%qupcase(&SPFmacroName.) in (VERSION VER V)) %then %do;20260727%return;%end;
 
 %else %if %str(*) IN (%superq(SPFmacroName)) %then
   %do;
@@ -8761,7 +8775,7 @@ options mlogic symbolgen;
 ,packagesRef=packages
 ,ods= /* data set for report file */
 )/
-des='Macro to create a bundle of SAS packages, version 20260723. Run %bundlePackages(HELP) for help info.'
+des='Macro to create a bundle of SAS packages, version 20260727. Run %bundlePackages(HELP) for help info.'
 secure minoperator
 ;
 
@@ -8778,7 +8792,7 @@ secure minoperator
     %put ###      This is short help information for the `bundlePackages` macro          #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *create bundles* of SAS packages, version `20260723`                 #;
+    %put # Macro to *create bundles* of SAS packages, version `20260727`                 #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -9272,7 +9286,7 @@ filename p2 "R:/dontexist";
 ,verify=0
 ,quiet=0
 )/
-des='Macro to extract a bundle of SAS packages, version 20260723. Run %unbundlePackages(HELP) for help info.'
+des='Macro to extract a bundle of SAS packages, version 20260727. Run %unbundlePackages(HELP) for help info.'
 secure
 minoperator
 ;
@@ -9290,7 +9304,7 @@ minoperator
     %put ###     This is short help information for the `unbundlePackages` macro         #;
     %put #-------------------------------------------------------------------------------#;
     %put #                                                                               #;
-    %put # Macro to *extract* SAS packages from a bundle, version `20260723`             #;
+    %put # Macro to *extract* SAS packages from a bundle, version `20260727`             #;
     %put #                                                                               #;
     %put # A SAS package is a zip file containing a group                                #;
     %put # of SAS codes (macros, functions, data steps generating                        #;
@@ -9726,7 +9740,7 @@ libname _ "R:\check5";
 %macro SPFinit_intrnl_forceV7DSname(
 mcParam /* name of a macro parameter holding user provided data set name */
 )/secure minoperator
-des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatibility for user provided data set names. Version 20260723.';
+des='SAS Packages Framework internal macro. Executable only inside selected SPF macros. Macro generates 4GL code that forces V7 compatibility for user provided data set names. Version 20260727.';
 /* The macro can be called only inside a data step. */
 /****************************************************************************
   ### Parameters:
@@ -9845,7 +9859,7 @@ des='SAS Packages Framework internal macro. Executable only inside selected SPF 
 , successDS=    /* technical */
 )
 /secure
-des = 'Macro to request SAS package installation and loading, version 20260723. Run %requestPackage(HELP) for help info.'
+des = 'Macro to request SAS package installation and loading, version 20260727. Run %requestPackage(HELP) for help info.'
 ;
 
 %if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
@@ -9861,7 +9875,7 @@ des = 'Macro to request SAS package installation and loading, version 20260723. 
     %put ###       This is short help information for the `requestPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to request (install and load) SAS packages, version `20260723`                       #;
+    %put # Macro to request (install and load) SAS packages, version `20260727`                       #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
