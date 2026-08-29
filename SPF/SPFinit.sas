@@ -856,6 +856,7 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
     %put #                                                                                            #;
     %put # - `version=`      Indicates which historical version of a package to install.              #;
     %put #                   Historical version are currently available only if `mirror=0` is set.    #;
+    %put #                   or when `github` is specified.                                           #;
     %put #                   Default value is null which means "install the latest".                  #;
     %put #                   When there are multiple packages to install the `version` variable       #;
     %put #                   is scan sequentially.                                                    #;
@@ -1173,7 +1174,7 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
       %end;
     %else
       %do;
-        %if %superq(mirror) IN (0 3 4) %then /* SASPAC or PharmaForest or an arbitrary GitHub repo */
+        %if %superq(mirror) IN (0 3) %then /* SASPAC or PharmaForest */
           %do;
             %let packageSubDir = &githubRepoLocal./raw/main/;
             
@@ -1182,6 +1183,21 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
                 /*%let packageSubDir = %sysfunc(lowcase(&packageName.))/main/hist/&version./;*/
                 %let packageSubDir = &githubRepoLocal./raw/&vers./;
               %end;
+          %end;
+        %else %if 4 = %superq(mirror) %then /* An arbitrary GitHub repo */
+          %do;
+            %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/main/;
+
+            filename _release url "&sourcePath./%sysfunc(lowcase(&packageName.))/releases/download/&vers./%sysfunc(lowcase(&packageName.)).zip" ;
+            %if %superq(vers) ne and %sysfunc(fexist(_release))=1 %then
+              %do;
+                %let packageSubDir = %sysfunc(lowcase(&packageName.))/releases/download/&vers./;
+              %end;
+            %else %if %superq(vers) ne %then
+              %do;
+                %let packageSubDir = %sysfunc(lowcase(&packageName.))/raw/&vers./;
+              %end;
+            filename _release clear ;
           %end;
         %else
           %do;
