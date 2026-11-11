@@ -43,7 +43,7 @@
    - to unload, or 
    - to generate SAS packages.
 
-  SAS Packages Framework, version 20260727.
+  SAS Packages Framework, version 20261111.
   See examples below.
 
   A SAS package is a zip file containing a group of files
@@ -63,14 +63,14 @@ Contributors:
 /*** HELP END ***/
 
 /*+installPackage+*/
-/* Macros to install SAS packages, version 20260727  */
+/* Macros to install SAS packages, version 20261111  */
 /* A SAS package is a zip file containing a group of files
    with SAS code (macros, functions, data steps generating 
    data, etc.) wrapped up together and %INCLUDEed by
    a single load.sas file (also embedded inside the zip).
 */
-/*** HELP START ***/
 
+/*** HELP START ***/
 %macro installPackage(
   packagesNames /* space separated list of packages names, without the zip extension */
 , sourcePath =  /* location of the package, e.g. "www.some.page/", mind the "/" at the end */
@@ -94,7 +94,7 @@ Contributors:
 /secure
 minoperator 
 /*** HELP END ***/
-des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP) for help info.'
+des = 'Macro to install SAS package, version 20261111. Run %installPackage(HELP) for help info.'
 ;
 %if (%superq(packagesNames) = ) OR (%qupcase(&packagesNames.) = HELP) %then
   %do;
@@ -109,7 +109,7 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
     %put ###       This is short help information for the `installPackage` macro                      #;
     %put #--------------------------------------------------------------------------------------------#;;
     %put #                                                                                            #;
-    %put # Macro to install SAS packages, version `20260727`                                          #;
+    %put # Macro to install SAS packages, version `20261111`                                          #;
     %put #                                                                                            #;
     %put # A SAS package is a zip file containing a group                                             #;
     %put # of SAS codes (macros, functions, data steps generating                                     #;
@@ -137,19 +137,19 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
     %put # - `sourcePath=`   Location of the package, e.g. "www.some.web.page/"                       #;
     %put #                   Mind the "/" at the end of the path!                                     #;
     %put #                   Current default location for packages is:                                #;
-    %put #                   `https://github.com/SASPAC/`                                             #;
+    %put #                   `https://raw.githubusercontent.com/SASPAC/`                              #;
     %put #                   Current default location for the framework is:                           #;
     %put #                   `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/`        #;
     %put #                                                                                            #;
     %put # - `mirror=`       Indicates which web location for packages installation is used.          #;
     %put #                   Value `0` or `SASPAC` indicates:                                         #;
-    %put #                    `https://github.com/SASPAC/`                                            #;
+    %put #                    `https://raw.githubusercontent.com/SASPAC/`                             #;
     %put #                   Value `1` indicates:                                                     #;
     %put #                    `https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main`            #;
     %put #                   Value `2` indicates:                                                     #;
     %put #                    `https://pages.mini.pw.edu.pl/~jablonskib/SASpublic/SAS_PACKAGES`       #;
     %put #                   Value `3` or `PharmaForest` indicates:                                   #;
-    %put #                    `https://github.com/PharmaForest/`                                      #;
+    %put #                    `https://raw.githubusercontent.com/PharmaForest/`                       #;
     %put #                   Default value is `0`.                                                    #;
     %put #                                                                                            #;
     %put # - `version=`      Indicates which historical version of a package to install.              #;
@@ -194,12 +194,12 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
     %put #                                                                                            #;
     %put #  - `github=`      *Optional.* A name of a user or an organization in GitHub.               #;
     %put #                   Allows an easy set of the search path for packages available on GitHub:  #;
-    %put #                    `https://github.com/<github>/<githubRepo>/raw/.../`                     #;
+    %put #                    `https://raw.githubusercontent.com/<github>/<githubRepo>/.../`          #;
     %put #                   All characters except `[A-z0-9_.-]` are compressed.                      #;
     %put #                                                                                            #;
     %put #  - `githubRepo=`  *Optional.* A name of a repository in GitHub.                            #;
     %put #                   Allows an easy set of the search path for packages available on GitHub:  #;
-    %put #                    `https://github.com/<github>/<githubRepo>/raw/.../`                     #;
+    %put #                    `https://raw.githubusercontent.com/<github>/<githubRepo>/.../`          #;
     %put #                   By default lowercase name of installed package is used.                  #;
     %put #                                                                                            #;
     %put #  - `githubToken=` *Optional.* A fine-grained personal access token for GitHub.             #;
@@ -325,7 +325,7 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
         %do;
           %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
           %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
-          %let sourcePath = https://github.com/SASPAC/; /*users content*/
+          %let sourcePath = https://raw.githubusercontent.com/SASPAC/; /*users content*/
           %goto mirrorEnd;
         %end;
 
@@ -350,7 +350,7 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
           %let SPFinitMirror   = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.sas;
           %let SPFinitMirrorMD = https://raw.githubusercontent.com/yabwon/SAS_PACKAGES/main/SPF/SPFinit.md;
           /* ingnore version support for pharmaForest for now */
-          %let sourcePath = https://github.com/PharmaForest/; /*users content*/
+          %let sourcePath =  https://raw.githubusercontent.com/PharmaForest/; /*users content*/
           %goto mirrorEnd;
         %end;
 
@@ -361,7 +361,7 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
           /* ingnore version support for github for now */
           %let github = %sysfunc(compress(%superq(github),%str(,.-),KAD));
           %put INFO: GitHub location used is: %superq(github).;
-          %let sourcePath = https://github.com/&github./; /*users content*/
+          %let sourcePath =  https://raw.githubusercontent.com/&github./; /*users content*/
           %goto mirrorEnd;
         %end;
 
@@ -401,8 +401,6 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
   %Local PackagesInstalledSussess PackagesInstalledFail;
   %Let PackagesInstalledSussess=;
   %let PackagesInstalledFail=;
-
-
 
 
   %do i = 1 %to %sysfunc(countw(&packagesNames., , S));
@@ -473,12 +471,12 @@ des = 'Macro to install SAS package, version 20260727. Run %installPackage(HELP)
       %do;
         %if %superq(mirror) IN (0 3 4) %then /* SASPAC or PharmaForest or an arbitrary GitHub repo */
           %do;
-            %let packageSubDir = &githubRepoLocal./raw/main/;
+            %let packageSubDir = &githubRepoLocal./main/;
             
             %if %superq(vers) ne %then
               %do;
                 /*%let packageSubDir = %sysfunc(lowcase(&packageName.))/main/hist/&version./;*/
-                %let packageSubDir = &githubRepoLocal./raw/&vers./;
+                %let packageSubDir = &githubRepoLocal./&vers./;
               %end;
           %end;
         %else
